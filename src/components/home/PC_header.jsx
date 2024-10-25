@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { DataContext } from '../../context/DataContext';
 
 
 function PC_header() {
@@ -10,6 +11,9 @@ function PC_header() {
       behavior: "auto"
     })
   };
+
+  const { handleLogout } = useContext(DataContext);
+
 
   // const handleClick = () => {
   //   window.scrollTo({
@@ -30,7 +34,7 @@ function PC_header() {
                 <Link onClick={() => {handleClick()}} to="/modifier_vehicule" className='hover:text-orange-300' >Modifier/Supprimer</Link>
                 {/* <a className='hover:text-orange-300' >Monitoring</Link> */}
                 <Link onClick={() => {handleClick()}} to="/paiement" className='hover:text-orange-300' >Payer</Link>
-               <Link onClick={() => {handleClick()}} to="/login"><FaUserCircle className="text-2xl hover:text-orange-300 cursor-pointer text-gray-200" /></Link> 
+               <div onClick={handleLogout}><FaUserCircle className="text-2xl hover:text-orange-300 cursor-pointer text-gray-200" /></div> 
                 </div>
         </div>
     </div>

@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 
 function Header({ setSearch }) {
-  const { userData } = useContext(DataContext);
+  const { userData, handleLogout } = useContext(DataContext);
   console.log("aaaaaaaaaaaaaaaa", userData);
   console.log("bbbbbbbbbbbbbbbb", userData && userData.contactName);
   return (
@@ -26,14 +26,15 @@ function Header({ setSearch }) {
 
         <div className="flex gap-3">
           <IoSearch
-            onClick={() => {
-              setSearch(true);
-            }}
+            
             className="text-2xl cursor-pointer text-gray-500"
           />
-          <Link to="/login">
+          <div 
+          onClick={handleLogout}
+          >
+            
             <FaUserCircle className="text-2xl cursor-pointer text-gray-500" />
-          </Link>
+          </div>
         </div>
       </div>
       {/* end of header */}
