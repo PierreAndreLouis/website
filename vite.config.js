@@ -3,6 +3,10 @@ import react from '@vitejs/plugin-react-swc';
 import { VitePWA } from 'vite-plugin-pwa';
 
 export default defineConfig({
+  server: {
+    host: '0.0.0.0',
+    port: process.env.PORT || 3000, // Utilise le port de Render ou 3000 par défaut
+  },
   plugins: [
     react(),
     VitePWA({
