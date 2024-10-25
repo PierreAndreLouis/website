@@ -5,15 +5,16 @@ import "./index.css";
 import "./db.js"; // Assurez-vous que le chemin d'accès est correct selon votre structure de dossier
 import "./firebaseConfig.js";
 import { BrowserRouter as Router } from "react-router-dom";
+import DataContextProvider from "./context/DataContext.jsx";
 // import DataContextProvider from "./context/DataContext.js"; // Le provider du contexte
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    {/* <DataContextProvider> */}
+    <DataContextProvider>
       <Router>
         <App />
       </Router>
-    {/* </DataContextProvider> */}
+    </DataContextProvider>
   </StrictMode>
 );
 
