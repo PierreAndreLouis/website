@@ -6,7 +6,7 @@ export const DataContext = createContext();
 const DataContextProvider = ({ children }) => {
   const navigate = useNavigate();
   
-  // Initialiser `userData` avec les données du `localStorage` s'il y en a
+  // Initialiser `userData` avec les données de `localStorage` si elles existent
   const [userData, setUserData] = useState(() => {
     const storedUserData = localStorage.getItem('userData');
     return storedUserData ? JSON.parse(storedUserData) : null;
@@ -14,7 +14,9 @@ const DataContextProvider = ({ children }) => {
   
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const isAuthenticated = userData !== null; // Détermine si l'utilisateur est connecté
+  
+  // Détermine si l'utilisateur est connecté
+  const isAuthenticated = userData !== null; 
   
   // Fonction pour gérer la connexion de l'utilisateur
   const handleLogin = async (e) => {
@@ -45,14 +47,13 @@ const DataContextProvider = ({ children }) => {
 
       const data = await response.text();
 
-      // Parser le XML
+      // Parser le XML pour extraire les données utilisateur
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(data, "application/xml");
 
       const result = xmlDoc.getElementsByTagName("GTSResponse")[0].getAttribute("result");
 
       if (result === "success") {
-        // Extraire les données utilisateur
         const fields = xmlDoc.getElementsByTagName("Field");
         let userData = {};
 
@@ -62,12 +63,12 @@ const DataContextProvider = ({ children }) => {
           userData[fieldName] = fieldValue;
         }
 
-        // Stocker les données utilisateur dans le `localStorage` et mettre à jour le state
+        // Stocke les données utilisateur dans `localStorage` et met à jour le state
         localStorage.setItem('userData', JSON.stringify(userData));
         setUserData(userData);
         setError(null);
 
-        // Rediriger vers la page d'accueil
+        // Redirige vers la page d'accueil
         navigate("/home");
       } else if (result === "error") {
         const errorMessage = xmlDoc.getElementsByTagName("Message")[0].textContent;
@@ -82,7 +83,7 @@ const DataContextProvider = ({ children }) => {
 
   // Fonction pour gérer la déconnexion de l'utilisateur
   const handleLogout = () => {
-    localStorage.removeItem('userData'); // Supprime les données du `localStorage`
+    localStorage.removeItem('userData'); // Supprime les données de `localStorage`
     setUserData(null); // Réinitialise `userData`
     navigate("/login"); // Redirige vers la page de connexion
   };
