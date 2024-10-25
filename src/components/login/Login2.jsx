@@ -8,7 +8,7 @@ function Login2({ setShowLogin }) {
   const [selectedLang, setSelectedLang] = useState("en");
   const [isOpen, setIsOpen] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
-  const { handleLogin, userData, error } = useContext(DataContext);
+  const { handleLogin, userData, error, isLoading } = useContext(DataContext);
 
 
   const languages = [
@@ -179,9 +179,10 @@ function Login2({ setShowLogin }) {
             <div>
             <button
                 type="submit"
+                disabled={isLoading}
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
-                Se connecter
+                {isLoading ? "Chargement..." : "Se connecter"}
               </button>
             </div>
           </form>

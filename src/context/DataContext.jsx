@@ -1,3 +1,4 @@
+// DataContextProvider
 import React, { createContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -6,7 +7,6 @@ export const DataContext = createContext();
 const DataContextProvider = ({ children }) => {
   const navigate = useNavigate();
   
-  // Initialiser `userData` avec les données de `localStorage` si elles existent
   const [userData, setUserData] = useState(() => {
     const storedUserData = localStorage.getItem('userData');
     return storedUserData ? JSON.parse(storedUserData) : null;
@@ -14,14 +14,14 @@ const DataContextProvider = ({ children }) => {
   
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false); // Nouvel état pour le chargement
   
-  // Détermine si l'utilisateur est connecté
   const isAuthenticated = userData !== null; 
   
-  // Fonction pour gérer la connexion de l'utilisateur
   const handleLogin = async (e) => {
     e.preventDefault();
-
+    setIsLoading(true); // Début du chargement
+    setError(null); // Réinitialise les erreurs
     const account = e.target.account.value;
     const user = e.target.username.value;
     const password = e.target.password.value;
@@ -39,18 +39,13 @@ const DataContextProvider = ({ children }) => {
     try {
       const response = await fetch("/api/track/Service", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/xml",
-        },
+        headers: { "Content-Type": "application/xml" },
         body: xmlData,
       });
 
       const data = await response.text();
-
-      // Parser le XML pour extraire les données utilisateur
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(data, "application/xml");
-
       const result = xmlDoc.getElementsByTagName("GTSResponse")[0].getAttribute("result");
 
       if (result === "success") {
@@ -63,12 +58,8 @@ const DataContextProvider = ({ children }) => {
           userData[fieldName] = fieldValue;
         }
 
-        // Stocke les données utilisateur dans `localStorage` et met à jour le state
         localStorage.setItem('userData', JSON.stringify(userData));
         setUserData(userData);
-        setError(null);
-
-        // Redirige vers la page d'accueil
         navigate("/home");
       } else if (result === "error") {
         const errorMessage = xmlDoc.getElementsByTagName("Message")[0].textContent;
@@ -78,18 +69,19 @@ const DataContextProvider = ({ children }) => {
     } catch (error) {
       setError("Erreur lors de la connexion à l'API.");
       console.error("Erreur lors de la connexion à l'API", error);
+    } finally {
+      setIsLoading(false); // Fin du chargement
     }
   };
 
-  // Fonction pour gérer la déconnexion de l'utilisateur
   const handleLogout = () => {
-    localStorage.removeItem('userData'); // Supprime les données de `localStorage`
-    setUserData(null); // Réinitialise `userData`
-    navigate("/login"); // Redirige vers la page de connexion
+    localStorage.removeItem('userData');
+    setUserData(null);
+    navigate("/login");
   };
 
   return (
-    <DataContext.Provider value={{ data, handleLogin, handleLogout, userData, error, isAuthenticated }}>
+    <DataContext.Provider value={{ data, handleLogin, handleLogout, userData, error, isAuthenticated, isLoading }}>
       {children}
     </DataContext.Provider>
   );
