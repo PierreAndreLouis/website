@@ -6,6 +6,13 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: process.env.PORT || 3000, // Utilise le port de Render ou 3000 par défaut
+    proxy: {
+      '/api': {
+        target: 'http://31.207.37.89:8080',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
   plugins: [
     react(),

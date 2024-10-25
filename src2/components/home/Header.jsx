@@ -1,14 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { IoSearch } from "react-icons/io5";
 import { FaCar } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { DataContext } from "../../context/DataContext";
 
-function Header({ setSearch }) {
-  const { userData } = useContext(DataContext);
-  console.log("aaaaaaaaaaaaaaaa", userData);
-  console.log("bbbbbbbbbbbbbbbb", userData && userData.contactName);
+function Header({setSearch}) {
+
   return (
     <div>
       {/* ------------------------------------ */}
@@ -19,18 +16,13 @@ function Header({ setSearch }) {
           <div>
             <h3 className="text-gray-500 text-sm ">Hello</h3>
             <h2 className="font-semibold text-lg text-gray-600 leading-5">
-              {userData && userData.contactName || "Nom vide"}
+              Lelevier
             </h2>
           </div>
         </div>
 
-        <div className="flex gap-3">
-          <IoSearch
-            onClick={() => {
-              setSearch(true);
-            }}
-            className="text-2xl cursor-pointer text-gray-500"
-          />
+        <div className="flex gap-5">
+          <IoSearch onClick={() => {setSearch(true)}} className="text-2xl cursor-pointer text-gray-500" />
           <Link to="/login">
             <FaUserCircle className="text-2xl cursor-pointer text-gray-500" />
           </Link>
