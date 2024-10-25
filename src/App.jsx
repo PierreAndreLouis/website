@@ -12,7 +12,7 @@ import Ajouter_vehicule from "./components/ajouter_modifier/Ajouter_vehicule";
 import Modifier_vehicule from "./components/ajouter_modifier/Modifier_vehicule";
 import Navigation_bar from "./components/home/Navigation_bar";
 import Historique_voiture from "./components/historique/Historique_voiture";
-import Paiement from "./components/paiement/paiement";
+// import Paiement from "./components/paiement/paiement";
 import DataContextProvider from "./context/DataContext.jsx";
 
 function App() {
@@ -35,7 +35,7 @@ function App() {
         <Route  path="/ajouter_vehicule" element={<Ajouter_vehicule />} />
         <Route  path="/modifier_vehicule" element={<Modifier_vehicule />} />
         <Route  path="/historique" element={<Historique_voiture />} />
-        <Route  path="/paiement" element={<Paiement />} />
+        {/* <Route  path="/paiement" element={<Paiement />} /> */}
         {/* <Route path="*" element={<NotFound />} /> Page non trouvée */}
       </Routes>
 
