@@ -14,6 +14,7 @@ import Navigation_bar from "./components/home/Navigation_bar";
 import Historique_voiture from "./components/historique/Historique_voiture";
 // import Paiement from "./components/paiement/paiement";
 import DataContextProvider from "./context/DataContext.jsx";
+import Paiement_methode from "./components/paiement/Paiement_methode.jsx";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -35,6 +36,7 @@ function App() {
         <Route  path="/ajouter_vehicule" element={<Ajouter_vehicule />} />
         <Route  path="/modifier_vehicule" element={<Modifier_vehicule />} />
         <Route  path="/historique" element={<Historique_voiture />} />
+        <Route  path="/paiement" element={<Paiement_methode />} />
         {/* <Route  path="/paiement" element={<Paiement />} /> */}
         {/* <Route path="*" element={<NotFound />} /> Page non trouvée */}
       </Routes>
