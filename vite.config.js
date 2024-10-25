@@ -6,6 +6,9 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      workbox: {
+        maximumFileSizeToCacheInBytes: 20 * 1024 * 1024, // 10 Mo
+      },
       registerType: 'prompt',
       includeAssets: ['img/dish.png',
         'img/icons/profil.png',
