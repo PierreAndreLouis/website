@@ -58,11 +58,11 @@ function Liste({ setShowListOption }) {
                 {!vehicle.isActive ?
                 
                 <h2 className="text-orange-500 font-semibold whitespace-nowrap">
-                  {parseFloat(vehicle.lastOdometerKM).toFixed(2)} KM
+                  {parseFloat(vehicle.lastOdometerKM).toFixed(0)} KM
                 </h2>
                 :
                 <h2 className="text-orange-500 font-semibold whitespace-nowrap">
-                  {parseFloat(vehicle.lastOdometerKM).toFixed(2)} KM
+                  {parseFloat(vehicle.lastOdometerKM).toFixed(0)} KM
                 </h2>
                 }
 
