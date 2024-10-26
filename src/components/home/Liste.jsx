@@ -25,7 +25,7 @@ function Liste({ setShowListOption }) {
           getAddressFromCoordinates(lat, lon).then((address) => {
             setAddresses((prevAddresses) => ({
               ...prevAddresses,
-              [vehicle.id]: address, // Utilise l'ID pour éviter les doublons
+              [vehicle.deviceID]: address, // Utilise l'ID pour éviter les doublons
             }));
           });
         }
@@ -105,7 +105,7 @@ function Liste({ setShowListOption }) {
                   </div>
                 </div>
                 <p className="text-md text-gray-500 mt-2 md:text-lg">
-                  {addresses[vehicle.id] || "Chargement de l'adresse..."}
+                  {addresses[vehicle.deviceID] || "Chargement de l'adresse..."}
                 </p>
               </div>
             </div>
