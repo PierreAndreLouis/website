@@ -31,7 +31,7 @@ function Header({ setSearch }) {
 
         <div className="flex gap-3">
           <IoSearch
-            
+            onClick={() => {setSearch(true)}}
             className="text-2xl cursor-pointer text-gray-500"
           />
           <div 
