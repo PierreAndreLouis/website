@@ -22,7 +22,7 @@ function PC_header() {
   //       // behavior: 'smooth'
   //   });
   return (
-    <div className=' bg-blue-950 hidden md:block  p-3 md:px-16 fixed left-0 top-0 right-0 shadow-md text-gray-200'>
+    <div className='z-20 bg-blue-950 hidden md:block  p-3 md:px-16 fixed left-0 top-0 right-0 shadow-md text-gray-200'>
         <div className='flex justify-between items-center'>
             <div className='flex cursor-default gap-2 items-center'>
               <img className='w-8' src="/img/cars/logo.png" alt="" />

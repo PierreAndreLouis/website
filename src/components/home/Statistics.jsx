@@ -1,6 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
+import { DataContext } from "../../context/DataContext";
 
 function Statistics() {
+  const { vehicleData, isLoading } = useContext(DataContext);
+
+  const totalVehicleCount = vehicleData ? vehicleData.length : 0;
+  const activeVehicleCount = vehicleData ? vehicleData.filter(vehicle => vehicle.isActive).length : 0;
+  const inactiveVehicleCount = vehicleData ? vehicleData.filter(vehicle => !vehicle.isActive).length : 0;
+
   return (
     <div className="mt-2">
       {/* ------------------------------- */}
@@ -9,10 +16,10 @@ function Statistics() {
         <div className="border md:p-8 bg-blue-300/50 flex justify-between items-start rounded-lg shadow-md p-3">
           <div>
             <h3 className="text-gray-700 md:font-semibold md:text-xl ">Total</h3>
-            <h2 className="text-gray-600 font-bold text-2xl md:text-3xl lg:text-4xl ">3</h2>
+            <h2 className="text-gray-900 font-bold text-2xl md:text-3xl lg:text-4xl ">{totalVehicleCount}</h2>
           </div>
           <div>
-            <img className="w-8 md:w-12 lg:w-14" src="/img/cars/cars.png" alt="" />
+            <img className="w-8 md:w-12 lg:w-14" src="/img/home_icon/total.png" alt="" />
           </div>
         </div>
 
@@ -22,10 +29,10 @@ function Statistics() {
         <div className="border md:p-8 bg-green-300/50 flex justify-between items-start rounded-lg shadow-md p-3">
           <div>
             <h3 className="text-gray-700 md:font-semibold md:text-xl ">Active</h3>
-            <h2 className="text-gray-600 font-bold text-2xl md:text-3xl lg:text-4xl ">2</h2>
+            <h2 className="text-gray-900 font-bold text-2xl md:text-3xl lg:text-4xl ">{activeVehicleCount}</h2>
           </div>
           <div>
-          <img className="w-16 md:w-20 lg:w-24" src="/img/cars/moving.png" alt="" />
+          <img className="w-14 md:w-16 lg:w-20" src="/img/home_icon/active.png" alt="" />
 
           </div>
         </div>
@@ -37,7 +44,7 @@ function Statistics() {
         <div className="border md:p-8 bg-red-300/50 flex justify-between items-start rounded-lg shadow-md p-3">
           <div>
             <h3 className="text-gray-700 md:font-semibold md:text-xl ">Parking</h3>
-            <h2 className="text-gray-600 font-bold text-2xl md:text-3xl lg:text-4xl ">1</h2>
+            <h2 className="text-gray-900 font-bold text-2xl md:text-3xl lg:text-4xl ">{inactiveVehicleCount}</h2>
           </div>
           <div>
             <img className="w-8 md:w-12 lg:w-14" src="/img/cars/parking.png" alt="" />
@@ -47,10 +54,10 @@ function Statistics() {
         <div className="border md:p-8 bg-purple-300/50 flex justify-between items-start rounded-lg shadow-md p-3">
           <div>
             <h3 className="text-gray-700 md:font-semibold md:text-xl ">Payer</h3>
-            <h2 className="text-gray-600 font-bold text-2xl md:text-3xl lg:text-4xl ">$300</h2>
+            <h2 className="text-gray-900 font-bold text-2xl md:text-3xl lg:text-4xl ">$0.00</h2>
           </div>
           <div>
-            <img className="w-8 md:w-12 lg:w-14" src="/img/cars/money.png" alt="" />
+            <img className="w-8 md:w-12 lg:w-14" src="/img/home_icon/payer.png" alt="" />
           </div>
         </div>
 

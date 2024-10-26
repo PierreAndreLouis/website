@@ -9,13 +9,13 @@ import DataContextProvider from "./context/DataContext.jsx";
 // import DataContextProvider from "./context/DataContext.js"; // Le provider du contexte
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode>
+  // <StrictMode>
     <Router>
       <DataContextProvider>
         <App />
       </DataContextProvider>
     </Router>
-  </StrictMode>
+  //  {/* </StrictMode> */}
 );
 
 if ("serviceWorker" in navigator) {
