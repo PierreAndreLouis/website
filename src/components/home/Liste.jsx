@@ -18,18 +18,21 @@ function Liste({ setShowListOption }) {
 
   // Utilise useEffect pour récupérer l'adresse pour chaque véhicule
   useEffect(() => {
-    vehicleData.forEach((vehicle) => {
-      if (vehicle.lastValidLatitude && vehicle.lastValidLongitude) {
-        const { lastValidLatitude: lat, lastValidLongitude: lon } = vehicle;
-        getAddressFromCoordinates(lat, lon).then((address) => {
-          setAddresses((prevAddresses) => ({
-            ...prevAddresses,
-            [vehicle.id]: address, // Utilise l'ID pour éviter les doublons
-          }));
-        });
-      }
-    });
+    if (vehicleData) {
+      vehicleData.forEach((vehicle) => {
+        if (vehicle.lastValidLatitude && vehicle.lastValidLongitude) {
+          const { lastValidLatitude: lat, lastValidLongitude: lon } = vehicle;
+          getAddressFromCoordinates(lat, lon).then((address) => {
+            setAddresses((prevAddresses) => ({
+              ...prevAddresses,
+              [vehicle.id]: address, // Utilise l'ID pour éviter les doublons
+            }));
+          });
+        }
+      });
+    }
   }, [vehicleData]);
+  
 
   // Fonctions pour formater le temps et la date
   function formatTimestampToTime(timestamp) {
@@ -70,7 +73,7 @@ function Liste({ setShowListOption }) {
                   />
                 </div>
                 <h2 className="text-orange-500 font-semibold whitespace-nowrap">
-                  {parseFloat(vehicle.lastOdometerKM).toFixed(0)} KM
+                  {parseFloat(vehicle.lastOdometerKM).toFixed(0)} km
                 </h2>
               </div>
               <div>

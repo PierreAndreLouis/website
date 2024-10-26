@@ -1,17 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { FaCar } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
+import Logout_pupup from "../login/logout_pupup";
 
 function Header({ setSearch }) {
   const { userData, handleLogout, fetchVehicleData } = useContext(DataContext);
+  const [logOut, setLogOut] = useState(false);
   // console.log("aaaaaaaaaaaaaaaa", userData);
   // console.log("bbbbbbbbbbbbbbbb", userData && userData.contactName);
   return (
     <div>
       {/* ------------------------------------ */}
+      {logOut && 
+        <Logout_pupup setLogOut={setLogOut} />
+      }
       {/* start of header */}
       <div className="flex justify-between px-4 mt-5 items-center ">
         <div className="flex items-center gap-4">
@@ -30,7 +35,7 @@ function Header({ setSearch }) {
             className="text-2xl cursor-pointer text-gray-500"
           />
           <div 
-          onClick={handleLogout}
+          onClick={() => {setLogOut(true)}}
           >
             
             <FaUserCircle className="text-2xl cursor-pointer text-gray-500" />

@@ -18,9 +18,7 @@ const Home = () => {
 
   const { vehicleData, isLoading } = useContext(DataContext);
 
-  // const [add_vehicule, setAddVehicule] = useState(false);
-  // const [modif_vehicule, setModifierVehicule] = useState(false);
-
+ 
   return (
     <div className="sm:px-10 md:px-14 lg:px-20">
       <Navigation_bar />
@@ -30,7 +28,7 @@ const Home = () => {
       <div className="md:hidden">
         <Header setSearch={setSearch} />
         {search && <Search_bar setSearch={setSearch} />}
-        {/* <Navigation_bar /> */}
+        <Navigation_bar />
       </div>
 
       <Statistics />
@@ -47,8 +45,6 @@ const Home = () => {
         <Liste_options setShowListOption={setShowListOption} />
       )}
 
-      {/* {add_vehicule && <Ajouter_vehicule setAddVehicule={setAddVehicule}/>}
-      {modif_vehicule && <Modifier_vehicule setModifierVehicule={setModifierVehicule}/>} */}
     </div>
   );
 };
