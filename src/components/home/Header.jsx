@@ -4,7 +4,7 @@ import { FaCar } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
-import Logout_pupup from "../login/logout_pupup";
+import Logout from "../login/Logout";
 
 function Header({ setSearch }) {
   const { userData, handleLogout, fetchVehicleData } = useContext(DataContext);
@@ -15,7 +15,7 @@ function Header({ setSearch }) {
     <div>
       {/* ------------------------------------ */}
       {logOut && 
-        <Logout_pupup setLogOut={setLogOut} />
+        <Logout setLogOut={setLogOut} />
       }
       {/* start of header */}
       <div className="flex justify-between px-4 mt-5 items-center ">
