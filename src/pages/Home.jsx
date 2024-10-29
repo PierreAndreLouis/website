@@ -21,7 +21,6 @@ const Home = () => {
 
   return (
     <div className="sm:px-10 md:px-14 lg:px-20">
-      wertwertwert
       <Navigation_bar />
       <PC_header />
       <div className="md:hidden">
