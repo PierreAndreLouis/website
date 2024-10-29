@@ -19,6 +19,7 @@ import Page_404 from "./components/page_404/Page_404";
 import { DataContext } from "./context/DataContext";
 import Vehicule_location from "./components/location/Vehicule_location";
 import Groupe_vehicule_location from "./components/location/Groupe_vehicule_location";
+import VoitureDetails from "./components/details/VoitureDetails";
 
 function App() {
   const location = useLocation();
@@ -72,6 +73,11 @@ function App() {
         <Route
           path="/Groupe_vehicule_location"
           element={<PrivateRoute element={<Groupe_vehicule_location />} />}
+        />
+
+<Route
+          path="/voiture_details"
+          element={<PrivateRoute element={<VoitureDetails />} />}
         />
 
         <Route path="*" element={<Page_404 />} />

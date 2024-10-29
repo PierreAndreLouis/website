@@ -44,30 +44,16 @@ function Liste({ setShowListOption }) {
         <p>Chargement des données...</p>
       ) : dataFusionee.length > 0 ? (
         dataFusionee.map((vehicle, index) => (
-          <div
-            key={index}
-            className={`${
-              vehicle.vehiculeDetails?.[0]?.speedKPH >= 1
-                ? "bg-green-50"
-                : "bg-orange-50/50"
-            } " shadow-md  rounded-lg p-3 "`}
-          >
+          <div key={index} className="shadow-md bg-gray-50 rounded-lg p-3 ">
             <div
               key={index}
               onClick={() => handleClick(vehicle)}
               className="flex relative gap-3  md:py-6"
             >
               <div className="flex flex-col items-center md:min-w-32">
-                {vehicle.vehiculeDetails?.[0]?.speedKPH >= 1 ? (
-                  <div className="w-12 sm:w-14 md:w-20 mb-2">
-                    <img src="img/cars/green_vitess.png" alt="" />
-                  </div>
-                ) : (
-                  <div className="w-12 sm:w-14 md:w-20 mb-2">
-                    <img src="img/cars/vitess.png" alt="" />
-                  </div>
-                )}
-
+                <div className="w-12 sm:w-14 md:w-20 mb-2">
+                  <img src="img/cars/vitess.png" alt="" />
+                </div>
                 <h2
                   className={`${
                     vehicle.vehiculeDetails?.[0]?.speedKPH >= 1

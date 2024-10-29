@@ -83,15 +83,20 @@ const MapComponent = ({ vehicles }) => {
 
   return (
     <div className="relative">
-    {/* Ajouter les composants avec z-index élevé et position absolue */}
-    <div className="absolute top-0 left-0 right-0 z-[1000]">
-      <Navigation_bar />
-      <PC_header />
-    </div>
+      {/* Ajouter les composants avec z-index élevé et position absolue */}
+      <div className="absolute top-0 left-0 right-0 z-[1000]">
+        <Navigation_bar />
+        <PC_header />
+      </div>
 
-    <div className='flex flex-col bg-white/80 p-3 absolute right-4 top-4 rounded-md z-[1000]'>
+      <div className="flex flex-col bg-white/80 p-3 absolute right-4 top-4 rounded-md z-[1000]">
         <label htmlFor="mapType">Choisir le type de vue : </label>
-        <select className='border p-1 border-gray-600 mt-2 rounded-md' id="mapType" value={mapType} onChange={handleMapTypeChange}>
+        <select
+          className="border p-1 border-gray-600 mt-2 rounded-md"
+          id="mapType"
+          value={mapType}
+          onChange={handleMapTypeChange}
+        >
           <option value="streets">Vue Normale</option>
           <option value="humanitarian">Vue Humanitaire</option>
           <option value="positron">Vue Claire</option>
@@ -102,30 +107,54 @@ const MapComponent = ({ vehicles }) => {
         </button> */}
       </div>
 
-    <MapContainer center={[vehicles[0].lastValidLatitude, vehicles[0].lastValidLongitude]} zoom={13} style={{ height: "110vh", width: "100%" }}>
-      <TileLayer url={tileLayers[mapType].url} attribution={tileLayers[mapType].attribution} />
-      <ScaleControl position="bottomright" />
-      <AttributionControl position="bottomleft" />
+      <MapContainer
+        center={[vehicles[0].lastValidLatitude, vehicles[0].lastValidLongitude]}
+        zoom={13}
+        style={{ height: "110vh", width: "100%" }}
+      >
+        <TileLayer
+          url={tileLayers[mapType].url}
+          attribution={tileLayers[mapType].attribution}
+        />
+        <ScaleControl position="bottomright" />
+        <AttributionControl position="bottomleft" />
 
-      {vehicles.map((vehicle, index) => (
-        <Marker key={index} position={[vehicle.lastValidLatitude, vehicle.lastValidLongitude]} icon={L.icon({
-          iconUrl: customMarkerIcon, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34],
-          shadowUrl: "https://unpkg.com/leaflet/dist/images/marker-shadow.png", shadowSize: [41, 41],
-        })}>
-          <Popup>{vehicle.description}</Popup>
-        </Marker>
-      ))}
+        {vehicles.map((vehicle, index) => (
+          <Marker
+            key={index}
+            position={[vehicle.lastValidLatitude, vehicle.lastValidLongitude]}
+            icon={L.icon({
+              iconUrl: customMarkerIcon,
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowUrl:
+                "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
+              shadowSize: [41, 41],
+            })}
+          >
+            <Popup>{vehicle.description}</Popup>
+          </Marker>
+        ))}
 
-      {currentLocation && (
-        <Marker position={currentLocation} icon={L.icon({
-          iconUrl: customMarkerIcon, iconSize: [25, 41], iconAnchor: [12, 41], popupAnchor: [1, -34],
-          shadowUrl: "https://unpkg.com/leaflet/dist/images/marker-shadow.png", shadowSize: [41, 41],
-        })}>
-          <Popup>Vous êtes ici</Popup>
-        </Marker>
-      )}
-    </MapContainer>
-  </div>
+        {currentLocation && (
+          <Marker
+            position={currentLocation}
+            icon={L.icon({
+              iconUrl: customMarkerIcon,
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowUrl:
+                "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
+              shadowSize: [41, 41],
+            })}
+          >
+            <Popup>Vous êtes ici</Popup>
+          </Marker>
+        )}
+      </MapContainer>
+    </div>
   );
 };
 
@@ -148,10 +177,8 @@ const Groupe_vehicule_location = () => {
     <div className="relative">
       <div className="bg-gray-200 text-gray-200">.</div>
       <div>
-      <MapComponent vehicles={vehicleData} />
-
+        <MapComponent vehicles={vehicleData} />
       </div>
-      
     </div>
   );
 };

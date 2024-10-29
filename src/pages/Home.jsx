@@ -19,35 +19,29 @@ const Home = () => {
 
   const { vehicleData, isLoading } = useContext(DataContext);
 
- 
   return (
     <div className="sm:px-10 md:px-14 lg:px-20">
+      wertwertwert
       <Navigation_bar />
-
       <PC_header />
-
       <div className="md:hidden">
         <Header setSearch={setSearch} />
         {search && <Search_bar setSearch={setSearch} />}
         <Navigation_bar />
       </div>
-
       <Statistics />
-      {isLoading || !vehicleData && 
-      <div className="fixed inset-0 bg-gray-200/50">
-        <div className="w-full h-full flex justify-center items-center">
-          <div className="border-blue-500 h-20 w-20 animate-spin rounded-full border-8 border-t-gray-100/0" />
-        </div>
-      </div>
-      }
-
-      {/* <ExamplePage /> */}
-      
+      {isLoading ||
+        (!vehicleData && (
+          <div className="fixed inset-0 bg-gray-200/50">
+            <div className="w-full h-full flex justify-center items-center">
+              <div className="border-blue-500 h-20 w-20 animate-spin rounded-full border-8 border-t-gray-100/0" />
+            </div>
+          </div>
+        ))}
       <Liste setShowListOption={setShowListOption} />
       {showListeOption && (
         <Liste_options setShowListOption={setShowListOption} />
       )}
-
     </div>
   );
 };

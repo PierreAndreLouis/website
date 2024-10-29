@@ -67,10 +67,12 @@ function Liste_options({ setShowListOption }) {
             <h3>Rapport</h3>
           </div>
 
-          <div className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
+          <Link 
+          to="/voiture_details"
+          className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
             <FaInfoCircle className="text-3xl" />
             <h3>Informations</h3>
-          </div>
+          </Link>
         </div>
       </div>
     </div>
