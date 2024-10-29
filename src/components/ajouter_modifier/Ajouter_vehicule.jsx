@@ -6,24 +6,17 @@ import { Link } from "react-router-dom";
 import Navigation_bar from "../home/Navigation_bar";
 import PC_header from "../home/PC_header";
 
-
 function Ajouter_vehicule() {
   return (
     <div>
       <Navigation_bar />
-        <PC_header />
-      
+      <PC_header />
 
-      <div
-        id=""
-        className={
-          "flex w-full justify-center h-full md:mt-20"
-        }
-      >
+      <div id="" className={"flex w-full justify-center h-full md:mt-20"}>
         <div className=" w-full flex justify-center ">
           <div className="bg-white max-w-[30rem] w-full shadow-lg overflow-auto">
             <div className="flex justify-center items-center w-full py-10">
-              <FaCar  className="text-2xl mr-2 text-orange-500" />
+              <FaCar className="text-2xl mr-2 text-orange-500" />
               <h3 className="text-center font-semibold text-gray-600 text-xl">
                 Nouvelle Appareil
               </h3>
@@ -69,7 +62,7 @@ function Ajouter_vehicule() {
                   />
                 </div>
               </div>
-{/* ------------------------------------------- */}
+              {/* ------------------------------------------- */}
               <div>
                 <label
                   htmlFor="password"
@@ -88,7 +81,7 @@ function Ajouter_vehicule() {
                   />
                 </div>
               </div>
-{/* ---------------------------------------------------- */}
+              {/* ---------------------------------------------------- */}
               <div>
                 <label
                   htmlFor="new-password"
@@ -107,7 +100,7 @@ function Ajouter_vehicule() {
                   />
                 </div>
               </div>
-{/* ------------------------------------------------------ */}
+              {/* ------------------------------------------------------ */}
               <div>
                 <label
                   htmlFor="confirm-password"
@@ -126,7 +119,6 @@ function Ajouter_vehicule() {
                   />
                 </div>
               </div>
-
 
               {/* ------------------------------------------------------ */}
               <div>
@@ -148,7 +140,6 @@ function Ajouter_vehicule() {
                 </div>
               </div>
 
-
               {/* ------------------------------------------------------ */}
               <div>
                 <label
@@ -169,7 +160,6 @@ function Ajouter_vehicule() {
                 </div>
               </div>
 
-
               {/* ------------------------------------------------------ */}
               <div>
                 <label
@@ -189,7 +179,7 @@ function Ajouter_vehicule() {
                   />
                 </div>
               </div>
-{/* ------------------------------------------------------------ */}
+              {/* ------------------------------------------------------------ */}
               <div className="grid  grid-cols-2 gap-2 pt-10 pb-20">
                 <button
                   type="submit"
@@ -198,7 +188,7 @@ function Ajouter_vehicule() {
                   Enregistrer
                 </button>
                 <Link
-                 to="/home"
+                  to="/home"
                   className="flex cursor-pointer w-full justify-center rounded-md border text-orange-500 border-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm --------focus-visible:outline --------focus-visible:outline-2 --------focus-visible:outline-offset-2 --------focus-visible:outline-orange-600"
                 >
                   Annuler

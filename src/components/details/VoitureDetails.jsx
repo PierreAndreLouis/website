@@ -9,7 +9,7 @@ function VoitureDetails() {
   console.log(currentVehicule?.description || "no data");
 
   return (
-    <div className="px-4 pb-44">
+    <div className="px-4 pb-20">
       <Navigation_bar />
       <PC_header />
       <div>

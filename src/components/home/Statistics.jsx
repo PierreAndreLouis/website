@@ -19,7 +19,7 @@ function Statistics() {
         vehicle.vehiculeDetails &&
         vehicle.vehiculeDetails[0] &&
         vehicle.vehiculeDetails[0].speedKPH > 0
-    ).length || "";
+    ).length || "0";
 
   const inactiveVehicleCount =
     vehicleArray.filter(
@@ -27,7 +27,7 @@ function Statistics() {
         vehicle.vehiculeDetails &&
         vehicle.vehiculeDetails[0] &&
         vehicle.vehiculeDetails[0].speedKPH <= 1
-    ).length || "";
+    ).length || "0";
 
   // const activeVehicleCount = 0;
   // const inactiveVehicleCount = 0;

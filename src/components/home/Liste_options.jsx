@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { BiSolidLocationPlus } from "react-icons/bi";
 import { RiShutDownLine } from "react-icons/ri";
@@ -17,6 +17,8 @@ function Liste_options({ setShowListOption }) {
     isLoading,
     fetchVehicleDetails,
   } = useContext(DataContext); // fetchVehicleDetails importée du contexte
+
+  const [showAccessCode, setAccessCode] = useState(false);
 
   const test = () => {
     console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", vehicleDetails);
@@ -52,12 +54,16 @@ function Liste_options({ setShowListOption }) {
             <h3>Groupe</h3>
           </Link>
 
-          <div className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
+          <div 
+            onClick={() => {setAccessCode(true)}}
+          className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
             <RiShutDownLine className="text-3xl" />
             <h3>Eteindre</h3>
           </div>
 
-          <div className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
+          <div 
+          onClick={() => {setAccessCode(true)}}
+          className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
             <FaMicrophone className="text-3xl" />
             <h3>Ecouter</h3>
           </div>
@@ -67,14 +73,55 @@ function Liste_options({ setShowListOption }) {
             <h3>Rapport</h3>
           </div>
 
-          <Link 
-          to="/voiture_details"
-          className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
+          <Link
+            to="/voiture_details"
+            className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
+          >
             <FaInfoCircle className="text-3xl" />
             <h3>Informations</h3>
           </Link>
         </div>
       </div>
+      {/* ---------------------------------------------------- */}
+
+
+      {showAccessCode &&
+         <div className="fixed z-10 flex justify-center items-center inset-0 bg-black/50">
+        <div className="bg-white max-w-[25rem] p-6 rounded-xl w-[80vw]">
+          <div>
+            <label
+              htmlFor="username"
+              className="block text-lg  leading-6 text-gray-500 mb-3"
+            >
+              Veuillez entrer votre code d'acces
+            </label>
+            <div className="mt-2">
+              <input
+                id="username"
+                name="username"
+                type="text"
+                placeholder="code d'acces"
+                required
+                className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-sm sm:leading-6"
+              />
+            </div>
+          </div>
+          <div className="flex gap-2 justify-end mt-5">
+            <button 
+            onClick={() => {setAccessCode(false)}}
+            className="py-1 px-5 text-orange-500 rounded-lg font-semibold border border-orange-500">
+              Annuler
+            </button>
+            <button className="py-1 px-5 bg-orange-500 rounded-lg text-white">
+              Ok
+            </button>
+          </div>
+        </div>
+      </div>
+      }
+
+
+   
     </div>
   );
 }
