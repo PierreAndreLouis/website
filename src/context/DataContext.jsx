@@ -79,12 +79,14 @@ const DataContextProvider = ({ children }) => {
         const errorMessage =
           xmlDoc.getElementsByTagName("Message")[0].textContent;
         setError(errorMessage || "Erreur lors de la connexion.");
+        setIsLoading(false);
       }
     } catch (error) {
       setError("Erreur lors de la connexion à l'API.");
       console.error("Erreur lors de la connexion à l'API", error);
+      setIsLoading(false);
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -216,6 +218,7 @@ const DataContextProvider = ({ children }) => {
       console.error(
         "Erreur lors de la récupération des détails du véhicule",
         error
+        
       );
     }
   };

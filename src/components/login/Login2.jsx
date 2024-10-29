@@ -8,7 +8,7 @@ function Login2({ setShowLogin }) {
   const [selectedLang, setSelectedLang] = useState("en");
   const [isOpen, setIsOpen] = useState(false);
   const [changePassword, setChangePassword] = useState(false);
-  const { handleLogin, userData, error, isLoading } = useContext(DataContext);
+  const { handleLogin,  error, isLoading } = useContext(DataContext);
 
 
   const languages = [
