@@ -18,7 +18,7 @@ function Navigation_bar({setAddVehicule, setModifierVehicule}) {
     });
 };
   return (
-    <div className="md:hidden z-20 grid grid-cols-5 gap-4 justify-between px-4 bg-gray-200 py-0 fixed bottom-0 left-0 right-0 ">
+    <div className="md:hidden z-[1] grid grid-cols-5 gap-4 justify-between px-4 bg-gray-200 py-0 fixed bottom-0 left-0 right-0 ">
       <Link
       to="/home"
       onClick={() => (handleClick())}

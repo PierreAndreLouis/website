@@ -11,6 +11,7 @@ import Ajouter_vehicule from "../components/ajouter_modifier/Ajouter_vehicule";
 import Modifier_vehicule from "../components/ajouter_modifier/Modifier_vehicule";
 import Search_bar from "../components/home/Search_bar";
 import { DataContext } from "../context/DataContext";
+import ExamplePage from "../components/location/ExamplePage";
 
 const Home = () => {
   const [showListeOption, setShowListOption] = useState(false);
@@ -39,6 +40,8 @@ const Home = () => {
         </div>
       </div>
       }
+
+      {/* <ExamplePage /> */}
       
       <Liste setShowListOption={setShowListOption} />
       {showListeOption && (

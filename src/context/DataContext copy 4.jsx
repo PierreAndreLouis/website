@@ -17,17 +17,11 @@ const DataContextProvider = ({ children }) => {
     return storedVehicleData ? JSON.parse(storedVehicleData) : null;
   });
 
-  const [vehicleDetails, setVehicleDetails] = useState([]);
-  const [mergedData, setMergedData] = useState(() => {
-    const storedMergedData = localStorage.getItem("mergedData");
-    return storedMergedData ? JSON.parse(storedMergedData) : null;
-  });
+  const [vehicleDetails, setVehicleDetails] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const isAuthenticated = userData !== null;
-
-
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -81,7 +75,7 @@ const DataContextProvider = ({ children }) => {
       setError("Erreur lors de la connexion à l'API.");
       console.error("Erreur lors de la connexion à l'API", error);
     } finally {
-      // setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -146,7 +140,7 @@ const DataContextProvider = ({ children }) => {
 
       localStorage.setItem("vehicleData", JSON.stringify(vehicleData));
       setVehicleData(vehicleData);
-      // console.log("******** Données des véhicules ********** ", vehicleData);
+      console.log("******** Données des véhicules ********** ", vehicleData);
     } catch (error) {
       setError("Erreur lors de la récupération des données des véhicules.");
       console.error(
@@ -206,8 +200,8 @@ const DataContextProvider = ({ children }) => {
       }
 
       localStorage.setItem("vehicleDetails", JSON.stringify(details));
-      setVehicleDetails(prevDetails => [...prevDetails, details]);
-      // console.log("******** Détails spécifiques ********** ", details);
+      setVehicleDetails(details);
+      console.log("******** Détails spécifiques ********** ", details);
     } catch (error) {
       setError("Erreur lors de la récupération des détails du véhicule.");
       console.error(
@@ -227,82 +221,54 @@ const DataContextProvider = ({ children }) => {
     navigate("/login");
   };
 
-  const mergeVehicleDataWithEvents = (eventData = vehicleDetails) => {
-    if (!Array.isArray(eventData)) {
-      eventData = [eventData];
-    }
-
-    const dataFusionne = {};
-    const seenEvents = new Set();
-
-    vehicleData.forEach(vehicle => {
-      const { deviceID } = vehicle;
-      dataFusionne[deviceID] = { ...vehicle, vehiculeDetails: [] };
-    });
-
-    eventData.forEach(event => {
-      const { deviceID, timestamp, ...eventDetails } = event;
-      const eventKey = `${deviceID}-${timestamp}`;
-      if (!seenEvents.has(eventKey)) {
-        seenEvents.add(eventKey);
-        if (dataFusionne[deviceID]) {
-          dataFusionne[deviceID].vehiculeDetails.push({ timestamp, ...eventDetails });
-        } else {
-          console.warn(`Aucun véhicule correspondant pour l'événement: ${deviceID}`);
-        }
-      } else {
-        // console.log(`Doublon détecté pour l'événement: ${deviceID}, ${timestamp}`);
+  const mergeVehicleDataWithEvents = ( eventData = vehicleDetails) => {
+  // const mergeVehicleDataWithEvents = (vehicleData = [], eventData = {}) => {
+    // const mergeVehicleDataWithEvents = (vehicleData = [], eventData = {}) => {
+      console.log("Données des véhicules : ", vehicleData);
+      console.log("Données des événements : ", eventData);
+    
+      // Si eventData est un objet unique, le transformer en tableau
+      if (!Array.isArray(eventData)) {
+        eventData = [eventData];
       }
-    });
-
-    localStorage.setItem("mergedData", JSON.stringify(dataFusionne)); // Enregistrement dans localStorage
-    setMergedData(dataFusionne);
-    console.log("merge data:", dataFusionne )
-    setIsLoading(false);
-
-    return dataFusionne;
-  };
+    
+      const mergedData = {};
+    
+      // Création de l'objet mergedData avec les véhicules
+      vehicleData.forEach(vehicle => {
+        const { deviceID, displayName, uniqueID } = vehicle;
+        console.log(`Ajout du véhicule: ${deviceID}, ${displayName}`);
+        mergedData[deviceID] = { ...vehicle, events: [] };
+      });
+    
+      // Ajout des événements dans le véhicule correspondant
+      eventData.forEach(event => {
+        const { deviceID, timestamp, ...eventDetails } = event; // Utilisation de deviceID
+        console.log(`Traitement de l'événement: ${deviceID}, ${timestamp}`);
+    
+        // Vérification de l'existence du véhicule correspondant à l'event
+        if (mergedData[deviceID]) {
+          mergedData[deviceID].events.push({ timestamp, ...eventDetails });
+        } else {
+          console.log(`Aucun véhicule correspondant pour l'événement: ${deviceID}`);
+        }
+      });
+    
+      console.log("Données fusionnées : ", mergedData);
+      return mergedData;
+    };
+    
 
   useEffect(() => {
     if (userData) {
       fetchVehicleData();
+      fetchVehicleDetails(
+        "863844052656169",
+        "2024-10-28 0:00:00",
+        "2024-10-28 8:00:59"
+      );
     }
   }, [userData]);
-
-  useEffect(() => {
-
-      // Définir TimeTo et TimeFrom en fonction de la date actuelle
-      const now = new Date();
-      const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
-        .toString()
-        .padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now
-        .getHours()
-        .toString()
-        .padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now
-        .getSeconds()
-        .toString()
-        .padStart(2, '0')}`;
-    
-      const startOfDay = new Date();
-      startOfDay.setHours(0, 0, 0, 0);
-      const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
-        .toString()
-        .padStart(2, '0')}-${startOfDay.getDate().toString().padStart(2, '0')} 00:00:00`;
-
-
-
-    if (vehicleData && vehicleData.length > 0) {
-      vehicleData.forEach(vehicle => {
-        fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
-      });
-    }
-  }, [vehicleData]);
-
-  useEffect(() => {
-    if (vehicleDetails && vehicleDetails.length > 0 && vehicleData && vehicleData.length > 0) {
-      mergeVehicleDataWithEvents();
-    }
-  }, [vehicleData, vehicleDetails]);
 
   return (
     <DataContext.Provider
@@ -310,12 +276,12 @@ const DataContextProvider = ({ children }) => {
         userData,
         vehicleData,
         vehicleDetails,
-        mergedData,
         isAuthenticated,
         error,
         isLoading,
         handleLogin,
         handleLogout,
+        mergeVehicleDataWithEvents,
       }}
     >
       {children}

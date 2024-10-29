@@ -24,7 +24,7 @@ export function ReloadPrompt() {
   }
 
   return (
-    <div className="z-[1000] ReloadPrompt-container">
+    <div className="z-50  ReloadPrompt-container">
       {(offlineReady || needRefresh) && (
         <div className="ReloadPrompt-toast">
           <div className="ReloadPrompt-message">

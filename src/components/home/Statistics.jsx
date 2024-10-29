@@ -2,11 +2,15 @@ import React, { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 
 function Statistics() {
-  const { vehicleData, isLoading } = useContext(DataContext);
+  const { vehicleData, mergedData , isLoading } = useContext(DataContext);
 
-  const totalVehicleCount = vehicleData ? vehicleData.length : 0;
-  const activeVehicleCount = vehicleData ? vehicleData.filter(vehicle => vehicle.isActive).length : 0;
-  const inactiveVehicleCount = vehicleData ? vehicleData.filter(vehicle => !vehicle.isActive).length : 0;
+ 
+
+  const vehicleArray = mergedData ? Object.values(mergedData) : [];
+  const totalVehicleCount = vehicleArray.length;
+  const activeVehicleCount = vehicleArray.filter(vehicle => vehicle.speedLimitKPH > 1).length;
+  const inactiveVehicleCount = vehicleArray.filter(vehicle => vehicle.speedLimitKPH <= 1 ).length;
+  
 
   return (
     <div className="mt-2">

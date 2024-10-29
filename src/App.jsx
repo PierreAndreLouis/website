@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import "./App.css";
 import Home from "./pages/Home";
 import { ReloadPrompt } from "./pages/Prompt";
@@ -17,13 +17,15 @@ import Paiement_methode from "./components/paiement/Paiement_methode";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Page_404 from "./components/page_404/Page_404";
 import { DataContext } from "./context/DataContext";
+import Vehicule_location from "./components/location/Vehicule_location";
+import Groupe_vehicule_location from "./components/location/Groupe_vehicule_location";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate(); // Utilisation de useNavigate
   const { isAuthenticated } = useContext(DataContext);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Redirige vers /home si l'utilisateur est authentifié et se rend sur "/login"
     if (isAuthenticated && location.pathname === "/login") {
       navigate("/home"); // Utilisation correcte de navigate
@@ -32,9 +34,10 @@ function App() {
 
   return (
     <div>
-      <div className="z-[1000000] ">
+      <div className="z-50 ">
         <ReloadPrompt />
       </div>
+      
       <Routes>
         <Route
           path="/"
@@ -60,6 +63,17 @@ function App() {
           path="/paiement"
           element={<PrivateRoute element={<Paiement_methode />} />}
         />
+
+        <Route
+          path="/Vehicule_location"
+          element={<PrivateRoute element={<Vehicule_location />} />}
+        />
+
+        <Route
+          path="/Groupe_vehicule_location"
+          element={<PrivateRoute element={<Groupe_vehicule_location />} />}
+        />
+
         <Route path="*" element={<Page_404 />} />
       </Routes>
     </div>
