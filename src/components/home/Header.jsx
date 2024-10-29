@@ -9,8 +9,7 @@ import Logout from "../login/Logout";
 function Header({ setSearch }) {
   const { userData, handleLogout, fetchVehicleData } = useContext(DataContext);
   const [logOut, setLogOut] = useState(false);
-  // console.log("aaaaaaaaaaaaaaaa", userData);
-  // console.log("bbbbbbbbbbbbbbbb", userData && userData.contactName);
+
   return (
     <div>
       {/* ------------------------------------ */}

@@ -10,18 +10,23 @@ import { DataContext } from "../../context/DataContext";
 import { Link } from "react-router-dom";
 
 function Liste_options({ setShowListOption }) {
-  const { vehicleData, vehicleDetails, isLoading, fetchVehicleDetails } =
-    useContext(DataContext); // fetchVehicleDetails importée du contexte
+  const {
+    vehicleData,
+    vehicleDetails,
+    currentVehicule,
+    isLoading,
+    fetchVehicleDetails,
+  } = useContext(DataContext); // fetchVehicleDetails importée du contexte
 
   const test = () => {
     console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", vehicleDetails);
   };
   return (
     <div className="bg-black/50 fixed inset-0 flex justify-center items-center">
-      <div className="border bg-white mx-4 rounded-xl overflow-hidden">
+      <div className="border min-w-[90vw] sm:min-w-[30rem] bg-white mx-4 rounded-xl overflow-hidden">
         <div className="p-4 py-6 pt-10 bg-orange-200/50 relative">
           <h2 className="text-xl text-center font-semibold">
-            Nissan Frontier LTE Pick UP Blanc Siege AA-54552
+            {currentVehicule?.description}
           </h2>
           <IoMdClose
             onClick={() => {
@@ -32,18 +37,20 @@ function Liste_options({ setShowListOption }) {
         </div>
         <div className="grid grid-cols-2 gap-4 gap-y-8 p-4 py-8">
           <Link
-            to="/Groupe_vehicule_location"
-            onClick={test}
+            to="/Single_Vehicule_Location"
             className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
             <FaLocationDot className="text-3xl" />
             <h3>Derniere Pos.</h3>
           </Link>
 
-          <div className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
+          <Link
+            to="/Groupe_vehicule_location"
+            className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
+          >
             <BiSolidLocationPlus className="text-4xl" />
             <h3>Groupe</h3>
-          </div>
+          </Link>
 
           <div className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
             <RiShutDownLine className="text-3xl" />

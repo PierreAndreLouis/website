@@ -1,8 +1,13 @@
-import React, { useState, useEffect } from 'react';
+
+
+import React, { useState, useEffect, useContext } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, ScaleControl, AttributionControl } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import customMarkerIcon from '/img/cars/localisation.png';
+import { DataContext } from '../../context/DataContext';
+import PC_header from '../home/PC_header';
+import Navigation_bar from '../home/Navigation_bar';
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -63,7 +68,11 @@ const MapComponent = ({ vehicles }) => {
   };
 
   return (
-    <div>
+    <div className='relative'>
+       <div className="absolute top-0 left-0 right-0 z-[1000]">
+      <Navigation_bar />
+      <PC_header />
+    </div>
       <div className='flex flex-col bg-white/80 p-3 absolute right-4 top-4 rounded-md z-[1000]'>
         <label htmlFor="mapType">Choisir le type de vue : </label>
         <select className='border p-1 border-gray-600 mt-2 rounded-md' id="mapType" value={mapType} onChange={handleMapTypeChange}>
@@ -72,9 +81,9 @@ const MapComponent = ({ vehicles }) => {
           <option value="positron">Vue Claire</option>
           <option value="dark">Vue Sombre</option>
         </select>
-        <button className='mt-2 p-2 bg-blue-500 text-white rounded-md' onClick={getCurrentLocation}>
+        {/* <button className='mt-2 p-2 bg-blue-500 text-white rounded-md' onClick={getCurrentLocation}>
           Voir ma position actuelle
-        </button>
+        </button> */}
       </div>
       <MapContainer center={[vehicles[0].lastValidLatitude, vehicles[0].lastValidLongitude]} zoom={13} style={{ height: '100vh', width: '100%' }}>
         <TileLayer
@@ -117,24 +126,36 @@ const MapComponent = ({ vehicles }) => {
 
 // Exemple de page
 const Vehicule_location = () => {
+  const { currentVehicule, isLoading, fetchVehicleDetails } = useContext(DataContext);
+  
+
+  const description = currentVehicule?.displayName;
+  const lastValidLatitude = currentVehicule?.vehiculeDetails?.[0]?.latitude || "";
+  const lastValidLongitude = currentVehicule?.vehiculeDetails?.[0]?.longitude || "";
+  
+  console.log("localisation data", description, lastValidLatitude, lastValidLongitude);
+  
   const vehicleData = [
+
     {
-      description: "Véhicule 1",
-      lastValidLatitude: "18.510621166666667",
-      lastValidLongitude: "-72.28229783333333",
+      description: description || "Véhicule 2",
+      lastValidLatitude,
+      lastValidLongitude,
     },
-    {
-      description: "Véhicule 2",
-      lastValidLatitude: "18.511123456789",
-      lastValidLongitude: "-72.283456789",
-    },
+    
+
+   
+    
   ];
 
   return (
-    <div>
+    <div className='relative'>
       <MapComponent vehicles={vehicleData} />
     </div>
   );
 };
 
 export default Vehicule_location;
+
+
+// export default Vehicule_location;

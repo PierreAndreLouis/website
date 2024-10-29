@@ -27,6 +27,9 @@ const DataContextProvider = ({ children }) => {
 
   const isAuthenticated = userData !== null;
 
+  const [currentVehicule, setCurrentVehicule] = useState(null); // 1. Déclaration de currentVehicule
+
+
 
 
   const handleLogin = async (e) => {
@@ -304,6 +307,22 @@ const DataContextProvider = ({ children }) => {
     }
   }, [vehicleData, vehicleDetails]);
 
+
+  useEffect(() => {
+    if (mergedData && Object.keys(mergedData).length > 0) {
+      // 2. Initialiser currentVehicule avec le premier véhicule
+      const firstVehicle = Object.values(mergedData)[0];
+      setCurrentVehicule(firstVehicle);
+    }
+  }, [mergedData]);
+
+
+  const updateCurrentVehicule = (vehicle) => {
+    setCurrentVehicule(vehicle); // 3. Fonction pour mettre à jour currentVehicule
+  };
+
+ 
+
   return (
     <DataContext.Provider
       value={{
@@ -316,6 +335,9 @@ const DataContextProvider = ({ children }) => {
         isLoading,
         handleLogin,
         handleLogout,
+        currentVehicule, 
+        updateCurrentVehicule, 
+        
       }}
     >
       {children}

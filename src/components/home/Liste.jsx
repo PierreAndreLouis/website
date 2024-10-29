@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { DataContext } from "../../context/DataContext";
@@ -6,12 +6,27 @@ import { MdLocationPin } from "react-icons/md";
 import { FaCar } from "react-icons/fa";
 
 function Liste({ setShowListOption }) {
-  const { mergedData, isLoading } = useContext(DataContext);
+  const { mergedData, isLoading, currentVehicule, updateCurrentVehicule } = useContext(DataContext);
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
 
+
+  
+  useEffect(() => {
+    console.log("vehicule mis à jour", currentVehicule);
+  }, [currentVehicule]); 
+
+
+
+
   const handleClick = (vehicle) => {
+    updateCurrentVehicule(vehicle); 
     setShowListOption(true);
+    console.log("vehicule en variable", currentVehicule)
+    console.log("vehicule en cliquer", vehicle)
+
   };
+
+
 
   // Fonctions pour formater le temps et la date
   function formatTimestampToTime(timestamp) {
@@ -94,7 +109,7 @@ function Liste({ setShowListOption }) {
                 </h2>
                 <div className="flex mb-2 gap-4 text-gray-400 text-md">
                   <div className="flex gap-3 items-center">
-                    <FaRegCalendarAlt className="text-gray-800/80" />
+                    <FaRegCalendarAlt className="text-gray-500/80" />
                     <h3 className="text-sm sm:text-sm md:text-md">
                       {/* {formatTimestampToDate(
                       vehicle.vehiculeDetails?.[0]?.timestamp
@@ -103,7 +118,7 @@ function Liste({ setShowListOption }) {
                     </h3>
                   </div>
                   <div className="flex items-center gap-1">
-                    <IoMdTime className="text-gray-800/80 text-xl" />
+                    <IoMdTime className="text-gray-500/80 text-xl" />
                     <h3 className="text-sm sm:text-sm md:text-md">
                       {/* {formatTimestampToTime(
                       vehicle.vehiculeDetails?.[0]?.timestamp
@@ -118,11 +133,11 @@ function Liste({ setShowListOption }) {
                     <FaCar className="text-gray-500/80" />
                   </div>
                   {vehicle.vehiculeDetails?.[0]?.speedKPH >= 1 ? (
-                    <span className="bg-green-200 ml-1 text-green-700 pb-[.2rem] px-2 py-0 text-sm rounded-md w-14">
+                    <span className="bg-green-200/60 ml-1 text-green-700 pb-[.2rem] px-2 py-0 text-sm rounded-md w-14">
                       active
                     </span>
                   ) : (
-                    <span className="bg-red-200  ml-1 text-red-700 pb-[.1rem] px-2 py-0 text-sm rounded-md ">
+                    <span className="bg-red-200/50  ml-1 text-red-700 pb-[.1rem] px-2 py-0 text-sm rounded-md ">
                       inactive
                     </span>
                   )}

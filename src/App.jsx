@@ -65,7 +65,7 @@ function App() {
         />
 
         <Route
-          path="/Vehicule_location"
+          path="/Single_Vehicule_Location"
           element={<PrivateRoute element={<Vehicule_location />} />}
         />
 

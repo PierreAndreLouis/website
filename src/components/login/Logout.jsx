@@ -34,7 +34,7 @@ function Logout({setLogOut}) {
 
             <div className="space-y-2 p-2">
                 <div className="p-4 space-y-2 text-center ---dark:text-white">
-                    <h2 className="text-xl font-bold tracking-tight" id="page-action.heading">
+                    <h2 className="text-xl font-bold text-gray-800" id="page-action.heading">
                         Se Deconnecter
                     </h2>
 
