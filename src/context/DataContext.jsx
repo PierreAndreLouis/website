@@ -226,7 +226,7 @@ const DataContextProvider = ({ children }) => {
     localStorage.removeItem("vehicleDetails");
     setUserData(null);
     setVehicleData(null);
-    setVehicleDetails(null);
+    setVehicleDetails([]);
     navigate("/login");
   };
 
