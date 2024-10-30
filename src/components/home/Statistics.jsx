@@ -94,10 +94,10 @@ function Statistics() {
         <div className="border md:p-8 bg-purple-300/50 flex justify-between items-start rounded-lg shadow-md p-3">
           <div>
             <h3 className="text-gray-700 md:font-semibold md:text-xl ">
-              Payer
+              Payer <span className="font-normal text-sm text-red-500">( Not actif )</span>
             </h3>
-            <h2 className="text-gray-900 font-bold text-2xl md:text-3xl lg:text-4xl ">
-              $0.00
+            <h2 className="text-gray-900 text-2xl md:text-3xl lg:text-4xl ">
+              -.--
             </h2>
           </div>
           <div>

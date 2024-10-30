@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import { DataContext } from "../../context/DataContext";
 
-const DateTimePicker = ({ setShowDatePeaker }) => {
+const DateTimePicker = ({ setShowDatePicker }) => {
   const { handleDateChange, setLoadingHistoriqueFilter } = useContext(DataContext);
 
   // Formatage de la date actuelle
@@ -20,7 +20,7 @@ const DateTimePicker = ({ setShowDatePeaker }) => {
     const timeFrom = `${startDate} ${startTime}:00`;
     const timeTo = `${endDate} ${endTime}:00`;
     handleDateChange(timeFrom, timeTo);
-    setShowDatePeaker(false);
+    setShowDatePicker(false);
     setLoadingHistoriqueFilter(true);
   };
 
@@ -29,7 +29,7 @@ const DateTimePicker = ({ setShowDatePeaker }) => {
       <form className="w-full flex justify-center" onSubmit={handleApply}>
         <div className="flex relative w-full md:max-w-[30rem] md:px-8 flex-col p-4 py-8 space-y-4 mx-4 bg-gray-100 rounded-lg shadow-lg">
           <IoClose
-            onClick={() => setShowDatePeaker(false)}
+            onClick={() => setShowDatePicker(false)}
             className="absolute top-5 right-5 text-red-500 text-3xl cursor-pointer"
           />
           <h2 className="text-xl text-gray-700">

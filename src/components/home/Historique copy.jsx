@@ -8,8 +8,9 @@ import Navigation_bar from "./Navigation_bar";
 import PC_header from "./PC_header";
 import DateTimePicker from "./DateTimePicker";
 
-function Historique() {
+function Historique({ setShowListOption }) {
   const [showDatePicker, setShowDatePicker] = useState(false);
+  const [selectedCar, setSelectedCar] = useState("");
 
   const {
     mergedData,
@@ -20,6 +21,12 @@ function Historique() {
   } = useContext(DataContext);
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
+
+  useEffect(() => {
+    if (selectedCar) {
+      updateCurrentVehicule(selectedCar);
+    }
+  }, [selectedCar, updateCurrentVehicule]);
 
   // Fonctions pour formater le temps et la date
   function formatTimestampToTime(timestamp) {
@@ -37,15 +44,6 @@ function Historique() {
     const year = date.getUTCFullYear();
     return `${day}-${month}-${year}`;
   }
-
-  // Fonction pour gérer la sélection de véhicule
-  const handleVehicleChange = (e) => {
-    const selectedVehicleDescription = e.target.value;
-    const selectedVehicle = dataFusionee.find(
-      (vehicule) => vehicule.description === selectedVehicleDescription
-    );
-    updateCurrentVehicule(selectedVehicle);
-  };
 
   return (
     <div className="p-4 flex flex-col gap-4 mt-4 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
@@ -66,12 +64,13 @@ function Historique() {
       <div className="mb-6 md:mt-16">
         <div className="flex justify-center items-center gap-3 w-full">
           <select
+            value={selectedCar}
+            onChange={(e) => setSelectedCar(e.target.value)}
             className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
-            onChange={handleVehicleChange}
           >
-            {/* <option value="" disabled>
+            <option value="" disabled>
               Choisissez une voiture
-            </option> */}
+            </option>
             {dataFusionee.map((vehicule, index) => (
               <option key={index} value={vehicule.description}>
                 {vehicule.description}
