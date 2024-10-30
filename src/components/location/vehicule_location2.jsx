@@ -15,7 +15,6 @@ import customMarkerIcon from "/img/cars/localisation.png";
 import { DataContext } from "../../context/DataContext";
 import PC_header from "../home/PC_header";
 import Navigation_bar from "../home/Navigation_bar";
-import { Link } from "react-router-dom";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -84,11 +83,6 @@ const MapComponent = ({ vehicles }) => {
     }
   };
 
-  const openGoogleMaps = (latitude, longitude) => {
-    const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-    window.open(googleMapsUrl, "_blank"); // Ouvrir dans un nouvel onglet
-  };
-
   return (
     <div className="relative">
       <div className="absolute top-0 left-0 right-0 z-[1000]">
@@ -124,73 +118,23 @@ const MapComponent = ({ vehicles }) => {
         <ScaleControl position="bottomright" />
         <AttributionControl position="bottomleft" />
 
-        {vehicles.map((vehicle, index) => {
-          const {
-            lastValidLatitude,
-            lastValidLongitude,
-            description,
-            imeiNumber,
-            isActive,
-            licensePlate,
-            simPhoneNumber,
-            address,
-          } = vehicle;
-          console.log(
-            `Véhicule ${index}: latitude ${lastValidLatitude}, longitude ${lastValidLongitude}`
-          );
-
-          return (
-            <Marker
-              key={index}
-              position={[lastValidLatitude || 0, lastValidLongitude || 0]}
-              icon={L.icon({
-                iconUrl: customMarkerIcon,
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowUrl:
-                  "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
-                shadowSize: [41, 41],
-              })}
-            >
-              <Popup>
-                <p>
-                  <strong>Description :</strong>{" "}
-                  {description || "Non disponible"}
-                </p>
-                <p>
-                  <strong>Address :</strong> {address || "Non disponible"}
-                </p>
-                {/* <p>
-                  <strong>Longitude :</strong>{" "}
-                  {lastValidLongitude || "Non disponible"}
-                </p> */}
-
-                <p>
-                  <strong>IMEI Number :</strong> {imeiNumber || "loading..."}
-                </p>
-                <p>
-                  <strong>Statut :</strong> {isActive ? "Actif" : "Inactif"}
-                </p>
-                <p>
-                  <strong>License Plate :</strong>{" "}
-                  {licensePlate || "loading..."}
-                </p>
-                <p>
-                  <strong>Numéro SIM :</strong> {simPhoneNumber || "loading..."}
-                </p>
-                <button
-                  onClick={() =>
-                    openGoogleMaps(lastValidLatitude, lastValidLongitude)
-                  }
-                  className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md"
-                >
-                  Voir sur Google Maps
-                </button>
-              </Popup>
-            </Marker>
-          );
-        })}
+        {vehicles.map((vehicle, index) => (
+          <Marker
+            key={index}
+            position={[vehicle.lastValidLatitude, vehicle.lastValidLongitude]}
+            icon={L.icon({
+              iconUrl: customMarkerIcon,
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowUrl:
+                "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
+              shadowSize: [41, 41],
+            })}
+          >
+            <Popup>{vehicle.description}</Popup>
+          </Marker>
+        ))}
 
         {/* Marqueur pour la position actuelle */}
         {currentLocation && (
@@ -235,22 +179,18 @@ const Vehicule_location = () => {
   const lastValidLongitude =
     currentVehicule?.vehiculeDetails?.[0]?.longitude || "";
 
-  const address = currentVehicule.vehiculeDetails?.[0]?.address || "";
-  const imeiNumber = currentVehicule?.imeiNumber || "";
-  const isActive = currentVehicule?.isActive || "";
-  const licensePlate = currentVehicule?.licensePlate || "";
-  const simPhoneNumber = currentVehicule?.simPhoneNumber || "";
+  console.log(
+    "localisation data",
+    description,
+    lastValidLatitude,
+    lastValidLongitude
+  );
 
   const vehicleData = [
     {
       description: description || "loading...",
       lastValidLatitude,
       lastValidLongitude,
-      address,
-      imeiNumber,
-      isActive,
-      licensePlate,
-      simPhoneNumber,
     },
   ];
 
@@ -264,19 +204,11 @@ const Vehicule_location = () => {
   };
 
   return (
-    <div className="relative bg-gray-100 overflow-hidden">
-      <div className="m-4  md:mt-16 md:flex justify-between gap-4 items-center w-full">
-        <div className="flex justify-between items-center">
-          <h2 className="mb-2 text-orange-500 font-semibold">
-            Choisis un vehicule
-          </h2>
-          <Link
-            to="/Groupe_vehicule_location"
-            className="mr-10 md:hidden   text-blue-600 "
-          >
-            Tous les vehicles
-          </Link>
-        </div>
+    <div className="relative bg-gray-100">
+      <div className="m-4  md:mt-16 md:flex gap-4 items-center w-full">
+        <h2 className="mb-2 text-orange-500 font-semibold">
+          Choisis un vehicule
+        </h2>
         <select
           className=" px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none"
           onChange={handleVehicleChange}
@@ -287,12 +219,6 @@ const Vehicule_location = () => {
             </option>
           ))}
         </select>
-        <Link
-            to="/Groupe_vehicule_location"
-            className="mr-10 hidden md:block text-blue-600"
-          >
-            Tous les vehicles
-          </Link>
       </div>
       <div className="bg-gray-100">
         <MapComponent vehicles={vehicleData} />

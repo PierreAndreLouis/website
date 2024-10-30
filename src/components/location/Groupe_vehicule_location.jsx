@@ -22,10 +22,9 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
 });
 
-// Composant de la carte
 const MapComponent = ({ vehicles }) => {
   const [mapType, setMapType] = useState("streets");
-  const [currentLocation, setCurrentLocation] = useState(null); // État pour la position actuelle
+  const [currentLocation, setCurrentLocation] = useState(null);
 
   const tileLayers = {
     streets: {
@@ -48,10 +47,6 @@ const MapComponent = ({ vehicles }) => {
       attribution:
         '&copy; <a href="https://www.carto.com/attributions">CARTO</a>',
     },
-    satellite: {
-      url: "https://{s}.maplibre.org/{z}/{x}/{y}.png",
-      attribution: '&copy; <a href="https://maplibre.org/">MapLibre</a>',
-    },
   };
 
   const handleMapTypeChange = (event) => {
@@ -63,17 +58,11 @@ const MapComponent = ({ vehicles }) => {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          setMapPosition([latitude, longitude]); // Mettre à jour la position de la carte
-          setMapZoom(13); // Optionnel : zoom sur la position actuelle
+          setCurrentLocation([latitude, longitude]);
         },
         (error) => {
-          console.error(
-            "Erreur lors de la récupération de la position : ",
-            error.message
-          );
-          alert(
-            "Impossible de récupérer la position actuelle. Veuillez vérifier les permissions."
-          );
+          console.error("Erreur de localisation : ", error.message);
+          alert("Impossible de récupérer la position actuelle.");
         }
       );
     } else {
@@ -81,15 +70,26 @@ const MapComponent = ({ vehicles }) => {
     }
   };
 
+  if (!vehicles || vehicles.length === 0) {
+    console.log("Aucun véhicule à afficher.");
+    return <p>Chargement des données des véhicules...</p>;
+  }
+
+  console.log("Données des véhicules :", vehicles);
+
+  const openGoogleMaps = (latitude, longitude) => {
+    const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
+    window.open(googleMapsUrl, "_blank"); // Ouvrir dans un nouvel onglet
+  };
+
   return (
     <div className="relative">
-      {/* Ajouter les composants avec z-index élevé et position absolue */}
       <div className="absolute top-0 left-0 right-0 z-[1000]">
         <Navigation_bar />
         <PC_header />
       </div>
 
-      <div className="flex flex-col bg-white/80 p-3 absolute right-4 top-4 rounded-md z-[1000]">
+      <div className="flex flex-col bg-white/80 p-3 absolute right-4 top-4 md:top-12 rounded-md z-[1000]">
         <label htmlFor="mapType">Choisir le type de vue : </label>
         <select
           className="border p-1 border-gray-600 mt-2 rounded-md"
@@ -102,9 +102,6 @@ const MapComponent = ({ vehicles }) => {
           <option value="positron">Vue Claire</option>
           <option value="dark">Vue Sombre</option>
         </select>
-        {/* <button className='mt-2 p-2 bg-blue-500 text-white rounded-md' onClick={getCurrentLocation}>
-          Voir ma position actuelle
-        </button> */}
       </div>
 
       <MapContainer
@@ -119,23 +116,70 @@ const MapComponent = ({ vehicles }) => {
         <ScaleControl position="bottomright" />
         <AttributionControl position="bottomleft" />
 
-        {vehicles.map((vehicle, index) => (
-          <Marker
-            key={index}
-            position={[vehicle.lastValidLatitude, vehicle.lastValidLongitude]}
-            icon={L.icon({
-              iconUrl: customMarkerIcon,
-              iconSize: [25, 41],
-              iconAnchor: [12, 41],
-              popupAnchor: [1, -34],
-              shadowUrl:
-                "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
-              shadowSize: [41, 41],
-            })}
-          >
-            <Popup>{vehicle.description}</Popup>
-          </Marker>
-        ))}
+        {vehicles.map((vehicle, index) => {
+          const { lastValidLatitude, lastValidLongitude, description, imeiNumber,
+            isActive,
+            licensePlate,
+            simPhoneNumber,
+            address
+           } =
+            vehicle;
+          console.log(
+            `Véhicule ${index}: latitude ${lastValidLatitude}, longitude ${lastValidLongitude}`
+          );
+
+          return (
+            <Marker
+              key={index}
+              position={[lastValidLatitude || 0, lastValidLongitude || 0]}
+              icon={L.icon({
+                iconUrl: customMarkerIcon,
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowUrl:
+                  "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
+                shadowSize: [41, 41],
+              })}
+            >
+              <Popup>
+                <p>
+                  <strong>Description :</strong>{" "}
+                  {description || "Non disponible"}
+                </p>
+                <p>
+                  <strong>Address :</strong>{" "}
+                  {address || "Non disponible"}
+                </p>
+                {/* <p>
+                  <strong>Longitude :</strong>{" "}
+                  {lastValidLongitude || "Non disponible"}
+                </p> */}
+
+                <p>
+                  <strong>IMEI Number :</strong> {imeiNumber || "loading..."}
+                </p>
+                <p>
+                  <strong>Statut :</strong> {isActive ? "Actif" : "Inactif"}
+                </p>
+                <p>
+                  <strong>License Plate :</strong>{" "}
+                  {licensePlate || "loading..."}
+                </p>
+                <p>
+                  <strong>Numéro SIM :</strong> {simPhoneNumber || "loading..."}
+                </p>
+                <button
+                  onClick={() =>
+                    openGoogleMaps(lastValidLatitude, lastValidLongitude)
+                  }
+                  className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md"
+                >
+                  Voir sur Google Maps
+                </button>              </Popup>
+            </Marker>
+          );
+        })}
 
         {currentLocation && (
           <Marker
@@ -158,19 +202,22 @@ const MapComponent = ({ vehicles }) => {
   );
 };
 
-// Exemple de page
+// Page principale
 const Groupe_vehicule_location = () => {
-  const { currentVehicule, mergedData, isLoading, fetchVehicleDetails } =
-    useContext(DataContext);
+  const { mergedData } = useContext(DataContext);
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
-  console.log("dataaaaaaaa", dataFusionee);
+  console.log("Fusion de données :", dataFusionee);
 
-  // Formatage des données de chaque véhicule pour la carte
-  const vehicleData = dataFusionee.map((vehicle) => ({
-    description: vehicle.description || "Véhicule",
-    lastValidLatitude: vehicle.vehiculeDetails?.[0]?.latitude || "",
-    lastValidLongitude: vehicle.vehiculeDetails?.[0]?.longitude || "",
+  const vehicleData = dataFusionee.map((vehicule) => ({
+    description: vehicule.description || "Véhicule",
+    lastValidLatitude: vehicule.vehiculeDetails?.[0]?.latitude || "",
+    lastValidLongitude: vehicule.vehiculeDetails?.[0]?.longitude || "",
+    address: vehicule.vehiculeDetails?.[0]?.address || "",
+    imeiNumber: vehicule?.imeiNumber  || "",
+    isActive: vehicule?.isActive  || "",
+    licensePlate: vehicule?.licensePlate || "",
+    simPhoneNumber: vehicule?.simPhoneNumber || "",
   }));
 
   return (
