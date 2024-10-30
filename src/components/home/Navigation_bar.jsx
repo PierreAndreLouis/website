@@ -5,6 +5,8 @@ import { FaRegEdit } from "react-icons/fa";
 import { MdAttachMoney } from "react-icons/md";
 import { FaListUl } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { MdDeleteOutline } from "react-icons/md";
+
 
 function Navigation_bar({ setAddVehicule, setModifierVehicule }) {
   const handleClick = () => {
@@ -43,12 +45,12 @@ function Navigation_bar({ setAddVehicule, setModifierVehicule }) {
         </Link>
       </div>
       <Link
-        to="/historique"
+        to="/delete_vehicule"
         onClick={() => handleClick()}
         className="flex flex-col cursor-pointer hover:text-orange-500 justify-center items-center text-gray-600"
       >
-        <FaListUl className="text-xl" />
-        <h3 className="text-sm">Historique</h3>
+        <MdDeleteOutline className="text-xl" />
+        <h3 className="text-sm">Delete</h3>
       </Link>
       <Link
         to="/paiement"

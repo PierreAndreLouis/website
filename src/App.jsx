@@ -21,6 +21,7 @@ import Vehicule_location from "./components/location/Vehicule_location";
 import Groupe_vehicule_location from "./components/location/Groupe_vehicule_location";
 import VoitureDetails from "./components/details/VoitureDetails";
 import Historique from "./components/home/Historique";
+import Delete_vehicule from "./components/delete_vehicule/Delete_vehicule";
 
 function App() {
   const location = useLocation();
@@ -85,6 +86,14 @@ function App() {
           path="/voiture_historique"
           element={<PrivateRoute element={<Historique />} />}
         />
+
+        
+<Route
+          path="/delete_vehicule"
+          element={<PrivateRoute element={<Delete_vehicule />} />}
+        />
+
+
 
         <Route path="*" element={<Page_404 />} />
       </Routes>
