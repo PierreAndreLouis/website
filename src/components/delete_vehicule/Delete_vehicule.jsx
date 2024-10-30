@@ -10,7 +10,7 @@ function Delete_vehicule() {
         <PC_header />
       </div>
       <div className="flex justify-center items-center">
-        <h2 className="mt-40  text-red-600">Delete_vehicule</h2>
+        <h2 className="mt-40  text-red-600">Delete vehicule</h2>
       </div>
     </div>
   );
