@@ -6,7 +6,6 @@ export const DataContext = createContext();
 
 const DataContextProvider = ({ children }) => {
   const navigate = useNavigate();
-  const [loadingHistoriqueFilter, setLoadingHistoriqueFilter] = useState(false);
 
   const [userData, setUserData] = useState(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -29,6 +28,9 @@ const DataContextProvider = ({ children }) => {
   const isAuthenticated = userData !== null;
 
   const [currentVehicule, setCurrentVehicule] = useState(null); // 1. Déclaration de currentVehicule
+
+
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -160,36 +162,34 @@ const DataContextProvider = ({ children }) => {
   };
 
   const fetchVehicleDetails = async (Device, TimeFrom, TimeTo) => {
-    // setLoadingHistoriqueFilter(true);
-
     if (!userData) return;
 
     const { accountID, userID, password } = userData;
     const xmlData = `<GTSRequest command="eventdata">
-      <Authorization account="${accountID}" user="${userID}" password="${password}" />
-      <EventData>
-        <Device>${Device}</Device>
-        <TimeFrom timezone="GMT">${TimeFrom}</TimeFrom>
-        <TimeTo timezone="GMT">${TimeTo}</TimeTo>
-        <GPSRequired>false</GPSRequired>
-        <StatusCode>false</StatusCode>
-        <Limit type="last">10000</Limit>
-        <Ascending>false</Ascending>
-        <Field name="latitude" />
-        <Field name="longitude" />
-        <Field name="address" />
-        <Field name="speedKPH" />
-        <Field name="timestamp" />
-        <Field name="heading" />
-        <Field name="city" />
-        <Field name="creationMillis" />
-        <Field name="creationTime" />
-        <Field name="odometerKM" />
-        <Field name="stateProvince" />
-        <Field name="statusCode" />
-        <Field name="streetAddress" />
-      </EventData>
-    </GTSRequest>`;
+        <Authorization account="${accountID}" user="${userID}" password="${password}" />
+        <EventData>
+          <Device>${Device}</Device>
+          <TimeFrom timezone="GMT">${TimeFrom}</TimeFrom>
+          <TimeTo timezone="GMT">${TimeTo}</TimeTo>
+          <GPSRequired>false</GPSRequired>
+          <StatusCode>false</StatusCode>
+          <Limit type="last">10000</Limit>
+          <Ascending>false</Ascending>
+          <Field name="latitude" />
+          <Field name="longitude" />
+          <Field name="address" />
+          <Field name="speedKPH" />
+          <Field name="timestamp" />
+          <Field name="heading" />
+          <Field name="city" />
+          <Field name="creationMillis" />
+          <Field name="creationTime" />
+          <Field name="odometerKM" />
+          <Field name="stateProvince" />
+          <Field name="statusCode" />
+          <Field name="streetAddress" />
+        </EventData>
+      </GTSRequest>`;
 
     try {
       const response = await fetch("/api/track/Service", {
@@ -201,42 +201,25 @@ const DataContextProvider = ({ children }) => {
       const data = await response.text();
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(data, "application/xml");
-      const records = xmlDoc.getElementsByTagName("Record");
+      const fields = xmlDoc.getElementsByTagName("Field");
 
-      const newVehicleDetails = [];
-      for (let i = 0; i < records.length; i++) {
-        const fields = records[i].getElementsByTagName("Field");
-        const details = { Device }; // Ajoute l'identifiant du véhicule pour regrouper les événements
-
-        for (let j = 0; j < fields.length; j++) {
-          const fieldName = fields[j].getAttribute("name");
-          const fieldValue = fields[j].textContent;
-          details[fieldName] = fieldValue;
-        }
-
-        newVehicleDetails.push(details);
+      let details = {};
+      for (let i = 0; i < fields.length; i++) {
+        const fieldName = fields[i].getAttribute("name");
+        const fieldValue = fields[i].textContent;
+        details[fieldName] = fieldValue;
       }
 
-      setVehicleDetails((prevDetails) => [
-        ...prevDetails.filter((detail) => detail.Device !== Device),
-        ...newVehicleDetails,
-      ]);
-
-      localStorage.setItem("vehicleDetails", JSON.stringify(vehicleDetails));
+      localStorage.setItem("vehicleDetails", JSON.stringify(details));
+      setVehicleDetails(prevDetails => [...prevDetails, details]);
+      // console.log("******** Détails spécifiques ********** ", details);
     } catch (error) {
       setError("Erreur lors de la récupération des détails du véhicule.");
       console.error(
         "Erreur lors de la récupération des détails du véhicule",
         error
+        
       );
-    }
-  };
-
-  const handleDateChange = (TimeFrom, TimeTo) => {
-    if (vehicleData && vehicleData.length > 0) {
-      vehicleData.forEach((vehicle) => {
-        fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
-      });
     }
   };
 
@@ -258,38 +241,29 @@ const DataContextProvider = ({ children }) => {
     const dataFusionne = {};
     const seenEvents = new Set();
 
-    vehicleData.forEach((vehicle) => {
+    vehicleData.forEach(vehicle => {
       const { deviceID } = vehicle;
       dataFusionne[deviceID] = { ...vehicle, vehiculeDetails: [] };
     });
 
-    eventData.forEach((event) => {
+    eventData.forEach(event => {
       const { deviceID, timestamp, ...eventDetails } = event;
       const eventKey = `${deviceID}-${timestamp}`;
       if (!seenEvents.has(eventKey)) {
         seenEvents.add(eventKey);
         if (dataFusionne[deviceID]) {
-          dataFusionne[deviceID].vehiculeDetails.push({
-            timestamp,
-            ...eventDetails,
-          });
-          setLoadingHistoriqueFilter(false);
+          dataFusionne[deviceID].vehiculeDetails.push({ timestamp, ...eventDetails });
         } else {
-          setLoadingHistoriqueFilter(false);
-
-          console.warn(
-            `Aucun véhicule correspondant pour l'événement: ${deviceID}`
-          );
+          console.warn(`Aucun véhicule correspondant pour l'événement: ${deviceID}`);
         }
       } else {
         // console.log(`Doublon détecté pour l'événement: ${deviceID}, ${timestamp}`);
-        setLoadingHistoriqueFilter(false);
       }
     });
 
     localStorage.setItem("mergedData", JSON.stringify(dataFusionne)); // Enregistrement dans localStorage
     setMergedData(dataFusionne);
-    console.log("merge data:", dataFusionne);
+    console.log("merge data:", dataFusionne )
     setIsLoading(false);
 
     return dataFusionne;
@@ -302,49 +276,42 @@ const DataContextProvider = ({ children }) => {
   }, [userData]);
 
   useEffect(() => {
-    // exemple de donneer dans la base de donnee
-    // const TimeFrom = "2011-01-07 10:29:34";
-    // const TimeTo = "2024-01-07 10:29:34";
-    // Définir TimeTo et TimeFrom en fonction de la date actuelle
 
-    const now = new Date();
-    const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")} ${now
-      .getHours()
-      .toString()
-      .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now
-      .getSeconds()
-      .toString()
-      .padStart(2, "0")}`;
+      // Définir TimeTo et TimeFrom en fonction de la date actuelle
+      const now = new Date();
+      const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now
+        .getHours()
+        .toString()
+        .padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now
+        .getSeconds()
+        .toString()
+        .padStart(2, '0')}`;
+    
+      const startOfDay = new Date();
+      startOfDay.setHours(0, 0, 0, 0);
 
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
+      
+      const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
+        .toString()
+        .padStart(2, '0')}-${startOfDay.getDate().toString().padStart(2, '0')} 00:00:00`;
 
-    const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${startOfDay
-      .getDate()
-      .toString()
-      .padStart(2, "0")} 00:00:00`;
+
 
     if (vehicleData && vehicleData.length > 0) {
-      vehicleData.forEach((vehicle) => {
+      vehicleData.forEach(vehicle => {
         fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
       });
     }
   }, [vehicleData]);
 
   useEffect(() => {
-    if (
-      vehicleDetails &&
-      vehicleDetails.length > 0 &&
-      vehicleData &&
-      vehicleData.length > 0
-    ) {
+    if (vehicleDetails && vehicleDetails.length > 0 && vehicleData && vehicleData.length > 0) {
       mergeVehicleDataWithEvents();
     }
   }, [vehicleData, vehicleDetails]);
+
 
   useEffect(() => {
     if (mergedData && Object.keys(mergedData).length > 0) {
@@ -354,9 +321,12 @@ const DataContextProvider = ({ children }) => {
     }
   }, [mergedData]);
 
+
   const updateCurrentVehicule = (vehicle) => {
     setCurrentVehicule(vehicle); // 3. Fonction pour mettre à jour currentVehicule
   };
+
+ 
 
   return (
     <DataContext.Provider
@@ -370,12 +340,9 @@ const DataContextProvider = ({ children }) => {
         isLoading,
         handleLogin,
         handleLogout,
-        currentVehicule,
-        updateCurrentVehicule,
-        handleDateChange,
-        loadingHistoriqueFilter,
-        setLoadingHistoriqueFilter
-
+        currentVehicule, 
+        updateCurrentVehicule, 
+        
       }}
     >
       {children}

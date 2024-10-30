@@ -68,10 +68,12 @@ function Liste_options({ setShowListOption }) {
             <h3>Ecouter</h3>
           </div>
 
-          <div className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
+          <Link
+          to="/voiture_historique"
+          className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
             <IoStatsChartSharp className="text-3xl" />
-            <h3>Rapport</h3>
-          </div>
+            <h3>Historique</h3>
+          </Link>
 
           <Link
             to="/voiture_details"

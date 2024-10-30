@@ -12,6 +12,7 @@ function VoitureDetails() {
     <div className="px-4 pb-20">
       <Navigation_bar />
       <PC_header />
+      
       <div>
         <div className="flex justify-center items-center">
           <img src="/img/cars/voitrue_details.png" alt="" />

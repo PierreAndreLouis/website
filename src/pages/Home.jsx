@@ -41,6 +41,7 @@ const Home = () => {
       {showListeOption && (
         <Liste_options setShowListOption={setShowListOption} />
       )}
+
     </div>
   );
 };
