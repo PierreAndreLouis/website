@@ -22,7 +22,7 @@ function ChangePassword() {
         <div className=" w-full flex justify-center  pb-3">
           <div className="bg-white max-w-[30remx] md:px-[20vw] lg:px-[28vw] w-full  --shadow-lg overflow-auto">
             <div className="flex justify-center items-center w-full py-2 pt-10 mb-10">
-              <RiLockPasswordFill className="text-2xl mr-2 text-blue-500" />
+              <RiLockPasswordFill className="text-2xl mr-2 text-orange-500" />
               <h3
                 onClick={() => {
                   console.log(userData);
@@ -48,7 +48,7 @@ function ChangePassword() {
                     value={userData?.accountID || "-----"}
                     placeholder="nom du compte"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 -----focus:ring-2 -----focus:ring-inset -----focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 -----focus:ring-2 -----focus:ring-inset -----focus:ring-orange-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -68,7 +68,7 @@ function ChangePassword() {
                     value={userData?.description || "---"}
                     placeholder="nom"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 -----focus:ring-2 -----focus:ring-inset -----focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 -----focus:ring-2 -----focus:ring-inset -----focus:ring-orange-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -88,7 +88,7 @@ function ChangePassword() {
                     type="text"
                     placeholder="password"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 -----focus:ring-2 -----focus:ring-inset -----focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 -----focus:ring-2 -----focus:ring-inset -----focus:ring-orange-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -107,7 +107,7 @@ function ChangePassword() {
                     type="password"
                     placeholder="password"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 -----focus:ring-2 -----focus:ring-inset -----focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 -----focus:ring-2 -----focus:ring-inset -----focus:ring-orange-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -126,7 +126,7 @@ function ChangePassword() {
                     type="password"
                     placeholder="password"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 -----focus:ring-2 -----focus:ring-inset -----focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 -----focus:ring-2 -----focus:ring-inset -----focus:ring-orange-600 sm:text-sm sm:leading-6"
                   />
                 </div>
               </div>
@@ -134,15 +134,15 @@ function ChangePassword() {
               <div className="grid mb-20 grid-cols-2 gap-2 pt-10">
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 -----focus-visible:outline -----focus-visible:outline-2 -----focus-visible:outline-offset-2 -----focus-visible:outline-indigo-600"
+                  className="flex w-full justify-center rounded-md bg-orange-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 -----focus-visible:outline -----focus-visible:outline-2 -----focus-visible:outline-offset-2 -----focus-visible:outline-orange-600"
                 >
                   Modifier
                 </button>
                 <div
-                  onClick={() => {
-                    setChangePassword(false);
-                  }}
-                  className="flex cursor-pointer w-full justify-center rounded-md border text-indigo-500 border-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm -----focus-visible:outline -----focus-visible:outline-2 -----focus-visible:outline-offset-2 -----focus-visible:outline-indigo-600"
+                  // onClick={() => {
+                  //   setChangePassword(false);
+                  // }}
+                  className="flex cursor-pointer w-full justify-center rounded-md border text-orange-500 border-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm -----focus-visible:outline -----focus-visible:outline-2 -----focus-visible:outline-offset-2 -----focus-visible:outline-orange-600"
                 >
                   Annuler
                 </div>

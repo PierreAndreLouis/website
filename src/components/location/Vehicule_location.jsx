@@ -303,7 +303,7 @@ const Vehicule_location = () => {
           </h2>
           <Link
             to="/Groupe_vehicule_location"
-            className="mr-10 md:hidden   text-blue-600 "
+            className="mr-10 md:hidden border mb-3 bg-orange-50/50 border-orange-500 rounded-md px-4 py-1  text-orange-600 "
           >
             Tous les vehicles
           </Link>
@@ -320,7 +320,9 @@ const Vehicule_location = () => {
         </select>
         <Link
           to="/Groupe_vehicule_location"
-          className="mr-10 hidden md:block text-blue-600"
+          // className="mr-10  text-blue-600"
+          className="mr-10 hidden md:block border mb-3 bg-orange-50/50 border-orange-500 rounded-md px-4 py-1  text-orange-600 "
+
         >
           Tous les vehicles
         </Link>

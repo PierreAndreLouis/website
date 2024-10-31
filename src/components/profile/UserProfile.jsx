@@ -27,6 +27,14 @@ function UserProfile() {
           Votre Profile
         </h1>
         <div className="mt-8 bg-gray-100 max-w-[50rem] mx-auto py-4 rounded-xl px-4 sm:px-[10vw] flex flex-col gap-2">
+        <div className="flex justify-start flex-col sm:flex-row mt-2 border-b border-gray-300 pb-2">
+            <h3 className="font-bold text-gray-600 min-w-[11.8rem] lg:min-w-[16rem] ">
+              AccountID
+            </h3>
+            <p className="pl-3 text-gray-500">
+              {userData?.accountID || "-----"}
+            </p>
+          </div>
           <div className="flex justify-start flex-col sm:flex-row mt-2 border-b border-gray-300 pb-2">
             <h3 className="font-bold text-gray-600 min-w-[11.8rem] lg:min-w-[16rem] ">
               Nom :
@@ -60,21 +68,14 @@ function UserProfile() {
               {userData?.addressCity || "-----"}
             </p>
           </div>
-          <div className="flex justify-start flex-col sm:flex-row mt-2 border-b border-gray-300 pb-2">
-            <h3 className="font-bold text-gray-600 min-w-[11.8rem] lg:min-w-[16rem] ">
-              AccountID
-            </h3>
-            <p className="pl-3 text-gray-500">
-              {userData?.accountID || "-----"}
-            </p>
-          </div>
+     
         </div>
         <div className="grid max-w-[30rem] mx-auto grid-cols-2 mt-4 gap-2 ">
           <Link
             to="/Change_Password"
             className="text-orange-500 text-center rounded-lg px-3 border border-orange-500 py-2"
           >
-            change mot de pass
+            Changer mot de passe
           </Link>
           <button
             onClick={() => {

@@ -71,7 +71,7 @@ function Header({setShowSideBar}) {
           />
           <div
             onClick={() => {
-              setShowSideBar(true);
+              setShowSideBar(false);
             }}
           >
             <HiOutlineViewList className="text-2xl cursor-pointer text-gray-500" />
