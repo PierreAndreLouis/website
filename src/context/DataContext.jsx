@@ -30,6 +30,8 @@ const DataContextProvider = ({ children }) => {
 
   const [currentVehicule, setCurrentVehicule] = useState(null); // 1. Déclaration de currentVehicule
 
+  const [searchQuery, setSearchQuery] = useState(""); // État pour stocker le terme de recherche
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -73,6 +75,7 @@ const DataContextProvider = ({ children }) => {
         localStorage.setItem("userData", JSON.stringify(userData));
         setUserData(userData);
         navigate("/home");
+        console.log("user data --------", userData);
       } else if (result === "error") {
         const errorMessage =
           xmlDoc.getElementsByTagName("Message")[0].textContent;
@@ -173,7 +176,7 @@ const DataContextProvider = ({ children }) => {
         <TimeTo timezone="GMT">${TimeTo}</TimeTo>
         <GPSRequired>false</GPSRequired>
         <StatusCode>false</StatusCode>
-        <Limit type="last">10000</Limit>
+        <Limit type="last">20000</Limit>
         <Ascending>false</Ascending>
         <Field name="latitude" />
         <Field name="longitude" />
@@ -374,8 +377,9 @@ const DataContextProvider = ({ children }) => {
         updateCurrentVehicule,
         handleDateChange,
         loadingHistoriqueFilter,
-        setLoadingHistoriqueFilter
-
+        setLoadingHistoriqueFilter,
+        searchQuery,
+        setSearchQuery,
       }}
     >
       {children}

@@ -1,31 +1,42 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import React, { useContext, useEffect } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { DataContext } from "../../context/DataContext";
 import { MdLocationPin } from "react-icons/md";
 import { FaCar } from "react-icons/fa";
+import { IoSearch } from "react-icons/io5";
+import { IoMdClose } from "react-icons/io";
 
 function Liste({ setShowListOption }) {
-  const { mergedData, isLoading, currentVehicule, updateCurrentVehicule, searchQuery } = useContext(DataContext);
+  const { mergedData, isLoading, currentVehicule, updateCurrentVehicule } =
+    useContext(DataContext);
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
 
-  // Filtrer les données selon la recherche
-  const filteredData = searchQuery
-    ? dataFusionee.filter(vehicle =>
-        vehicle.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        (vehicle.vehiculeDetails?.[0]?.address && vehicle.vehiculeDetails[0].address.toLowerCase().includes(searchQuery.toLowerCase()))
-      )
-    : dataFusionee;
-
   useEffect(() => {
-    console.log("Véhicule mis à jour", currentVehicule);
+    console.log("vehicule mis à jour", currentVehicule);
   }, [currentVehicule]);
 
   const handleClick = (vehicle) => {
     updateCurrentVehicule(vehicle);
     setShowListOption(true);
-    console.log("Véhicule en variable", currentVehicule);
-    console.log("Véhicule cliqué", vehicle);
+    console.log("vehicule en variable", currentVehicule);
+    console.log("vehicule en cliquer", vehicle);
   };
 
   // Fonctions pour formater le temps et la date
@@ -33,7 +44,8 @@ function Liste({ setShowListOption }) {
     const date = new Date(timestamp * 1000);
     const hours = date.getUTCHours().toString().padStart(2, "0");
     const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-    return `${hours}:${minutes}`;
+    const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
   }
 
   function formatTimestampToDate(timestamp) {
@@ -48,15 +60,22 @@ function Liste({ setShowListOption }) {
     <div className="p-4 flex flex-col gap-4 mt-4 mb-32">
       {isLoading ? (
         <p>Chargement des données...</p>
-      ) : filteredData.length > 0 ? (
-        filteredData.map((vehicle, index) => {
+      ) : dataFusionee.length > 0 ? (
+        dataFusionee.map((vehicle, index) => {
           const speed = vehicle.vehiculeDetails?.[0]?.speedKPH || 0;
 
-          let main_text_color, lite_bg_color, active_bg_color, imgClass, activeTextColor, statut, vitess_img;
+          // Définir les couleurs en fonction de la vitesse
+          let main_text_color,
+            lite_bg_color,
+            active_bg_color,
+            imgClass,
+            activeTextColor,
+            statut,
+            vitess_img;
           if (speed < 1) {
             main_text_color = "text-orange-500";
-            statut = "en arrêt";
-            lite_bg_color = "bg-red-50/80";
+            statut = "en arret";
+            lite_bg_color = "bg-orange-50";
             activeTextColor = "text-orange-600";
             active_bg_color = "bg-orange-200/50";
             vitess_img = "img/cars/orange_vitess.png";
@@ -65,7 +84,7 @@ function Liste({ setShowListOption }) {
             main_text_color = "text-yellow-500";
             statut = "en ralenti";
             lite_bg_color = "bg-yellow-50/50";
-            activeTextColor = "text-yellow-600";
+            activeTextColor = "text-yellow-700";
             active_bg_color = "bg-yellow-200/50";
             vitess_img = "img/cars/yellow_vitess.png";
             imgClass = "w-12 sm:w-14 md:w-20";
@@ -154,14 +173,10 @@ function Liste({ setShowListOption }) {
           );
         })
       ) : (
-        <p>Aucun véhicule trouvé.</p>
+        <p>Aucune donnée disponible</p>
       )}
     </div>
   );
 }
 
 export default Liste;
-
-
-
-

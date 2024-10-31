@@ -12,6 +12,9 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import customMarkerIcon from "/img/cars/localisation.png";
+import iconLowSpeed from "/img/cars/red_location.png"; // Remplacez par le chemin de votre icône basse vitesse
+import iconMediumSpeed from "/img/cars/yellow_location.png"; // Remplacez par le chemin de votre icône vitesse moyenne
+import iconHighSpeed from "/img/cars/green_location.png"; //
 import { DataContext } from "../../context/DataContext";
 import PC_header from "../home/PC_header";
 import Navigation_bar from "../home/Navigation_bar";
@@ -84,6 +87,16 @@ const MapComponent = ({ vehicles }) => {
     }
   };
 
+  const getMarkerIcon = (speedKPH) => {
+    if (speedKPH < 1) {
+      return iconLowSpeed; // Icône pour basse vitesse
+    } else if (speedKPH >= 1 && speedKPH <= 20) {
+      return iconMediumSpeed; // Icône pour vitesse moyenne
+    } else if (speedKPH > 20) {
+      return iconHighSpeed; // Icône pour haute vitesse
+    }
+  };
+
   const openGoogleMaps = (latitude, longitude) => {
     const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
     window.open(googleMapsUrl, "_blank"); // Ouvrir dans un nouvel onglet
@@ -134,17 +147,20 @@ const MapComponent = ({ vehicles }) => {
             licensePlate,
             simPhoneNumber,
             address,
+            speedKPH,
           } = vehicle;
           console.log(
             `Véhicule ${index}: latitude ${lastValidLatitude}, longitude ${lastValidLongitude}`
           );
+
+          const markerIcon = getMarkerIcon(speedKPH); // Récupérer l'icône en fonction de la vitesse
 
           return (
             <Marker
               key={index}
               position={[lastValidLatitude || 0, lastValidLongitude || 0]}
               icon={L.icon({
-                iconUrl: customMarkerIcon,
+                iconUrl: markerIcon,
                 iconSize: [25, 41],
                 iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
@@ -170,7 +186,10 @@ const MapComponent = ({ vehicles }) => {
                   <strong>IMEI Number :</strong> {imeiNumber || "loading..."}
                 </p>
                 <p>
-                  <strong>Statut :</strong> {isActive ? "Actif" : "Inactif"}
+                  <strong>Statut : </strong>
+                  {speedKPH < 1 && "en arret"}
+                  {speedKPH > 20 && "en deplacement"}
+                  {speedKPH >= 1 && speedKPH <= 20 && "en ralenti"}
                 </p>
                 <p>
                   <strong>License Plate :</strong>{" "}
@@ -235,11 +254,12 @@ const Vehicule_location = () => {
   const lastValidLongitude =
     currentVehicule?.vehiculeDetails?.[0]?.longitude || "";
 
-  const address = currentVehicule.vehiculeDetails?.[0]?.address || "";
+  const address = currentVehicule?.vehiculeDetails?.[0]?.address || "";
   const imeiNumber = currentVehicule?.imeiNumber || "";
   const isActive = currentVehicule?.isActive || "";
   const licensePlate = currentVehicule?.licensePlate || "";
   const simPhoneNumber = currentVehicule?.simPhoneNumber || "";
+  const speedKPH = currentVehicule?.vehiculeDetails?.[0]?.speedKPH || 0; // Ajout de la vitesse
 
   const vehicleData = [
     {
@@ -251,6 +271,7 @@ const Vehicule_location = () => {
       isActive,
       licensePlate,
       simPhoneNumber,
+      speedKPH,
     },
   ];
 
@@ -263,9 +284,19 @@ const Vehicule_location = () => {
     updateCurrentVehicule(selectedVehicle);
   };
 
+  useEffect(() => {
+    // Désactiver le défilement
+    document.body.style.overflow = "hidden";
+
+    // Rétablir le défilement lors du démontage du composant
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
+
   return (
     <div className="relative bg-gray-100 overflow-hidden">
-      <div className="m-4  md:mt-16 md:flex justify-between gap-4 items-center w-full">
+      <div className="m-4 overflow-hidden md:mt-16 md:flex justify-between gap-4 items-center w-full">
         <div className="flex justify-between items-center">
           <h2 className="mb-2 text-orange-500 font-semibold">
             Choisis un vehicule
@@ -288,11 +319,11 @@ const Vehicule_location = () => {
           ))}
         </select>
         <Link
-            to="/Groupe_vehicule_location"
-            className="mr-10 hidden md:block text-blue-600"
-          >
-            Tous les vehicles
-          </Link>
+          to="/Groupe_vehicule_location"
+          className="mr-10 hidden md:block text-blue-600"
+        >
+          Tous les vehicles
+        </Link>
       </div>
       <div className="bg-gray-100">
         <MapComponent vehicles={vehicleData} />
@@ -302,5 +333,3 @@ const Vehicule_location = () => {
 };
 
 export default Vehicule_location;
-
-// export default Vehicule_location;

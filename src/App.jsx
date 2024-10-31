@@ -22,6 +22,8 @@ import Groupe_vehicule_location from "./components/location/Groupe_vehicule_loca
 import VoitureDetails from "./components/details/VoitureDetails";
 import Historique from "./components/home/Historique";
 import Delete_vehicule from "./components/delete_vehicule/Delete_vehicule";
+import UserProfile from "./components/profile/UserProfile";
+import ChangePassword from "./components/login/ChangePassword";
 
 function App() {
   const location = useLocation();
@@ -40,7 +42,7 @@ function App() {
       <div className="z-50 ">
         <ReloadPrompt />
       </div>
-      
+
       <Routes>
         <Route
           path="/"
@@ -66,35 +68,37 @@ function App() {
           path="/paiement"
           element={<PrivateRoute element={<Paiement_methode />} />}
         />
-
         <Route
           path="/Single_Vehicule_Location"
           element={<PrivateRoute element={<Vehicule_location />} />}
         />
-
         <Route
           path="/Groupe_vehicule_location"
           element={<PrivateRoute element={<Groupe_vehicule_location />} />}
         />
-
-<Route
+        <Route
           path="/voiture_details"
           element={<PrivateRoute element={<VoitureDetails />} />}
         />
-
-<Route
+        <Route
           path="/voiture_historique"
           element={<PrivateRoute element={<Historique />} />}
         />
-
-        
-<Route
+        <Route
           path="/delete_vehicule"
           element={<PrivateRoute element={<Delete_vehicule />} />}
         />
+        <Route
+          path="/User_Profile"
+          element={<PrivateRoute element={<UserProfile />} />}
+        />
 
-
-
+   <Route
+          path="/Change_Password"
+          element={<PrivateRoute element={<ChangePassword />} />}
+        />
+        
+        {/* UserProfile */}
         <Route path="*" element={<Page_404 />} />
       </Routes>
     </div>

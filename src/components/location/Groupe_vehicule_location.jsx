@@ -10,6 +10,9 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import customMarkerIcon from "/img/cars/localisation.png";
+import iconLowSpeed from "/img/cars/red_location.png"; // Remplacez par le chemin de votre icône basse vitesse
+import iconMediumSpeed from "/img/cars/yellow_location.png"; // Remplacez par le chemin de votre icône vitesse moyenne
+import iconHighSpeed from "/img/cars/green_location.png"; // Remplacez par le chemin de votre icône haute vitesse
 import { DataContext } from "../../context/DataContext";
 import Navigation_bar from "../home/Navigation_bar";
 import PC_header from "../home/PC_header";
@@ -75,7 +78,15 @@ const MapComponent = ({ vehicles }) => {
     return <p>Chargement des données des véhicules...</p>;
   }
 
-  console.log("Données des véhicules :", vehicles);
+  const getMarkerIcon = (speedKPH) => {
+    if (speedKPH < 1) {
+      return iconLowSpeed; // Icône pour basse vitesse
+    } else if (speedKPH >= 1 && speedKPH <= 20) {
+      return iconMediumSpeed; // Icône pour vitesse moyenne
+    } else if (speedKPH > 20) {
+      return iconHighSpeed; // Icône pour haute vitesse
+    }
+  };
 
   const openGoogleMaps = (latitude, longitude) => {
     const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
@@ -117,23 +128,26 @@ const MapComponent = ({ vehicles }) => {
         <AttributionControl position="bottomleft" />
 
         {vehicles.map((vehicle, index) => {
-          const { lastValidLatitude, lastValidLongitude, description, imeiNumber,
+          const {
+            lastValidLatitude,
+            lastValidLongitude,
+            description,
+            imeiNumber,
             isActive,
             licensePlate,
             simPhoneNumber,
-            address
-           } =
-            vehicle;
-          console.log(
-            `Véhicule ${index}: latitude ${lastValidLatitude}, longitude ${lastValidLongitude}`
-          );
+            address,
+            speedKPH,
+          } = vehicle;
+
+          const markerIcon = getMarkerIcon(speedKPH); // Récupérer l'icône en fonction de la vitesse
 
           return (
             <Marker
               key={index}
               position={[lastValidLatitude || 0, lastValidLongitude || 0]}
               icon={L.icon({
-                iconUrl: customMarkerIcon,
+                iconUrl: markerIcon, // Utiliser l'icône basée sur la vitesse
                 iconSize: [25, 41],
                 iconAnchor: [12, 41],
                 popupAnchor: [1, -34],
@@ -148,19 +162,16 @@ const MapComponent = ({ vehicles }) => {
                   {description || "Non disponible"}
                 </p>
                 <p>
-                  <strong>Address :</strong>{" "}
-                  {address || "Non disponible"}
+                  <strong>Adresse :</strong> {address || "Non disponible"}
                 </p>
-                {/* <p>
-                  <strong>Longitude :</strong>{" "}
-                  {lastValidLongitude || "Non disponible"}
-                </p> */}
-
                 <p>
                   <strong>IMEI Number :</strong> {imeiNumber || "loading..."}
                 </p>
                 <p>
-                  <strong>Statut :</strong> {isActive ? "Actif" : "Inactif"}
+                  <strong>Statut : </strong>
+                  {speedKPH < 1 && "en arret"}
+                  {speedKPH > 20 && "en deplacement"}
+                  {speedKPH >= 1 && speedKPH <= 20 && "en ralenti"}
                 </p>
                 <p>
                   <strong>License Plate :</strong>{" "}
@@ -176,7 +187,8 @@ const MapComponent = ({ vehicles }) => {
                   className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md"
                 >
                   Voir sur Google Maps
-                </button>              </Popup>
+                </button>
+              </Popup>
             </Marker>
           );
         })}
@@ -207,18 +219,27 @@ const Groupe_vehicule_location = () => {
   const { mergedData } = useContext(DataContext);
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
-  console.log("Fusion de données :", dataFusionee);
-
   const vehicleData = dataFusionee.map((vehicule) => ({
     description: vehicule.description || "Véhicule",
     lastValidLatitude: vehicule.vehiculeDetails?.[0]?.latitude || "",
     lastValidLongitude: vehicule.vehiculeDetails?.[0]?.longitude || "",
     address: vehicule.vehiculeDetails?.[0]?.address || "",
-    imeiNumber: vehicule?.imeiNumber  || "",
-    isActive: vehicule?.isActive  || "",
+    imeiNumber: vehicule?.imeiNumber || "",
+    isActive: vehicule?.isActive || "",
     licensePlate: vehicule?.licensePlate || "",
     simPhoneNumber: vehicule?.simPhoneNumber || "",
+    speedKPH: vehicule.vehiculeDetails?.[0]?.speedKPH || 0, // Ajout de la vitesse
   }));
+
+  useEffect(() => {
+    // Désactiver le défilement
+    document.body.style.overflow = "hidden";
+
+    // Rétablir le défilement lors du démontage du composant
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, []);
 
   return (
     <div className="relative">
