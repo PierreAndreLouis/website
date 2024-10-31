@@ -12,10 +12,12 @@ import Modifier_vehicule from "../components/ajouter_modifier/Modifier_vehicule"
 import Search_bar from "../components/home/Search_bar";
 import { DataContext } from "../context/DataContext";
 import ExamplePage from "../components/location/ExamplePage";
+import SideBar from "../components/home/SideBar";
 
 const Home = () => {
   const [showListeOption, setShowListOption] = useState(false);
   const [search, setSearch] = useState(false);
+  const [showSideBar, setShowSideBar] = useState(false);
 
   const { vehicleData, isLoading } = useContext(DataContext);
 
@@ -23,8 +25,9 @@ const Home = () => {
     <div className="sm:px-10 md:px-14 lg:px-20">
       <Navigation_bar />
       <PC_header />
+     {/* <SideBar showSideBar={showSideBar} setShowSideBar={setShowSideBar} /> */}
       <div className="md:hidden">
-        <Header setSearch={setSearch} />
+        <Header  setSearch={setSearch} setShowSideBar={setShowSideBar} />
         {search && <Search_bar setSearch={setSearch} />}
         <Navigation_bar />
       </div>

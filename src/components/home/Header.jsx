@@ -9,7 +9,7 @@ import { IoMdClose } from "react-icons/io";
 import { HiOutlineViewList } from "react-icons/hi";
 
 
-function Header({}) {
+function Header({setShowSideBar}) {
   const { userData, handleLogout, fetchVehicleData, setSearchQuery } = useContext(DataContext);
   const [logOut, setLogOut] = useState(false);
   const [searchVehicule, setSearchVehicule] = useState(false);
@@ -70,9 +70,9 @@ function Header({}) {
             className="text-2xl cursor-pointer text-gray-500"
           />
           <div
-            // onClick={() => {
-            //   setLogOut(true);
-            // }}
+            onClick={() => {
+              setShowSideBar(true);
+            }}
           >
             <HiOutlineViewList className="text-2xl cursor-pointer text-gray-500" />
           </div>
