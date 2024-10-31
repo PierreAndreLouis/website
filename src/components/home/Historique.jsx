@@ -69,7 +69,7 @@ function Historique() {
         <div className="flex justify-center items-center gap-3 w-full">
           <Link 
           to="/Single_Vehicule_Location"
-          className="w-16 border rounded-md flex justify-center items-center py-2 bg-orange-50">
+          className="min-w-10 border rounded-md flex justify-center items-center py-2 bg-orange-50">
           <MdLocationPin className="text-xl text-orange-600 " />
 
           </Link>
