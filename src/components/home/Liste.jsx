@@ -103,7 +103,7 @@ function Liste({ setShowListOption }) {
                     {parseFloat(speed).toFixed(0)}
                   </h2>
                   <h2
-                    className={`${main_text_color} text-[.8rem] sm:text-lg md:text-xl font-semibold whitespace-nowrap`}
+                    className={`${main_text_color} text-[1rem] sm:text-lg md:text-xl font-semibold whitespace-nowrap`}
                   >
                     Km/h
                   </h2>
