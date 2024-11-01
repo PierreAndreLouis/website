@@ -70,7 +70,7 @@ function UserProfile() {
           </div>
      
         </div>
-        <div className="grid max-w-[30rem] mx-auto grid-cols-2 mt-4 gap-2 ">
+        <div className="grid max-w-[30rem] mx-auto grid-cols-1 sm:grid-cols-2 mt-4 gap-2 ">
           <Link
             to="/Change_Password"
             className="text-orange-500 text-center rounded-lg px-3 border border-orange-500 py-2"

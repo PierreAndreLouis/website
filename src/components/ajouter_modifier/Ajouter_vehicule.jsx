@@ -26,7 +26,7 @@ function Ajouter_vehicule() {
               <div>
                 <label
                   htmlFor="account"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-md font-medium leading-6 text-gray-700"
                 >
                   Imei
                 </label>
@@ -37,7 +37,7 @@ function Ajouter_vehicule() {
                     type="text"
                     placeholder="Imei"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-md sm:leading-6"
                   />
                 </div>
               </div>
@@ -47,7 +47,7 @@ function Ajouter_vehicule() {
               <div>
                 <label
                   htmlFor="username"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-md font-medium leading-6 text-gray-700"
                 >
                   Identificateur unique
                 </label>
@@ -58,7 +58,7 @@ function Ajouter_vehicule() {
                     type="text"
                     placeholder="tk + IMEI"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-md sm:leading-6"
                   />
                 </div>
               </div>
@@ -66,7 +66,7 @@ function Ajouter_vehicule() {
               <div>
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-md font-medium leading-6 text-gray-700"
                 >
                   Description du vehicule
                 </label>
@@ -77,7 +77,7 @@ function Ajouter_vehicule() {
                     type="password"
                     placeholder="description"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-md sm:leading-6"
                   />
                 </div>
               </div>
@@ -85,7 +85,7 @@ function Ajouter_vehicule() {
               <div>
                 <label
                   htmlFor="new-password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-md font-medium leading-6 text-gray-700"
                 >
                   Nom court du vehicule
                 </label>
@@ -96,7 +96,7 @@ function Ajouter_vehicule() {
                     type="password"
                     placeholder="Nom du vehicule"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-md sm:leading-6"
                   />
                 </div>
               </div>
@@ -104,7 +104,7 @@ function Ajouter_vehicule() {
               <div>
                 <label
                   htmlFor="confirm-password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-md font-medium leading-6 text-gray-700"
                 >
                   Chassis du vehicule
                 </label>
@@ -115,7 +115,7 @@ function Ajouter_vehicule() {
                     type="password"
                     placeholder="Chasis"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-md sm:leading-6"
                   />
                 </div>
               </div>
@@ -124,7 +124,7 @@ function Ajouter_vehicule() {
               <div>
                 <label
                   htmlFor="confirm-password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-md font-medium leading-6 text-gray-700"
                 >
                   Plaque du vehicule
                 </label>
@@ -135,7 +135,7 @@ function Ajouter_vehicule() {
                     type="password"
                     placeholder="Plaque"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-md sm:leading-6"
                   />
                 </div>
               </div>
@@ -144,7 +144,7 @@ function Ajouter_vehicule() {
               <div>
                 <label
                   htmlFor="confirm-password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-md font-medium leading-6 text-gray-700"
                 >
                   Type appareil
                 </label>
@@ -155,7 +155,7 @@ function Ajouter_vehicule() {
                     type="password"
                     placeholder="BO? B1? B2?"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-md sm:leading-6"
                   />
                 </div>
               </div>
@@ -164,7 +164,7 @@ function Ajouter_vehicule() {
               <div>
                 <label
                   htmlFor="confirm-password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-md font-medium leading-6 text-gray-700"
                 >
                   Numero du sim
                 </label>
@@ -175,7 +175,7 @@ function Ajouter_vehicule() {
                     type="password"
                     placeholder="Numero du sim"
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 --------focus:ring-2 --------focus:ring-inset --------focus:ring-orange-600 sm:text-md sm:leading-6"
                   />
                 </div>
               </div>
@@ -183,13 +183,13 @@ function Ajouter_vehicule() {
               <div className="grid  grid-cols-2 gap-2 pt-10 pb-20">
                 <button
                   type="submit"
-                  className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 --------focus-visible:outline --------focus-visible:outline-2 --------focus-visible:outline-offset-2 --------focus-visible:outline-orange-600"
+                  className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-md font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 --------focus-visible:outline --------focus-visible:outline-2 --------focus-visible:outline-offset-2 --------focus-visible:outline-orange-600"
                 >
                   Enregistrer
                 </button>
                 <Link
                   to="/home"
-                  className="flex cursor-pointer w-full justify-center rounded-md border text-orange-500 border-orange-600 px-3 py-1.5 text-sm font-semibold leading-6 shadow-sm --------focus-visible:outline --------focus-visible:outline-2 --------focus-visible:outline-offset-2 --------focus-visible:outline-orange-600"
+                  className="flex cursor-pointer w-full justify-center rounded-md border text-orange-500 border-orange-600 px-3 py-1.5 text-md font-semibold leading-6 shadow-sm --------focus-visible:outline --------focus-visible:outline-2 --------focus-visible:outline-offset-2 --------focus-visible:outline-orange-600"
                 >
                   Annuler
                 </Link>
