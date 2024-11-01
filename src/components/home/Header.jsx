@@ -2,15 +2,26 @@ import React, { useContext, useState } from "react";
 import { IoSearch } from "react-icons/io5";
 import { FaCar } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import Logout from "../login/Logout";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineViewList } from "react-icons/hi";
+import Search_bar from "./Search_bar";
+import Navigation_bar from "./Navigation_bar";
 
 
-function Header({setShowSideBar}) {
-  const { userData, handleLogout, fetchVehicleData, setSearchQuery } = useContext(DataContext);
+function Header({}) {
+  const {
+    userData,
+    search,
+    handleLogout,
+    setShowSideBar,
+    fetchVehicleData,
+    setSearchQuery,
+  } = useContext(DataContext);
+  const navigate = useNavigate();
+
   const [logOut, setLogOut] = useState(false);
   const [searchVehicule, setSearchVehicule] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -18,13 +29,20 @@ function Header({setShowSideBar}) {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     setSearchQuery(searchTerm); // Mettre à jour le terme de recherche dans le contexte
+    navigate("/home");
+
   };
 
   return (
-    <div>
+    <div className="fixed  md:hidden z-50 bg-white top-0 left-0 right-0 pb-2">
+      {/* {search && <Search_bar />} */}
+
       {logOut && <Logout setLogOut={setLogOut} />}
       {searchVehicule && (
-        <form className="fixed top-0 left-0 right-0 bg-white" onSubmit={handleSearchSubmit}>
+        <form
+          className="fixed top-0 left-0 right-0 bg-white"
+          onSubmit={handleSearchSubmit}
+        >
           <div className="mt-4 px-4">
             <div className="border-2 flex gap-3 justify-center items-center rounded-lg overflow-hidden">
               <input
@@ -34,13 +52,15 @@ function Header({setShowSideBar}) {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
-              <button type="submit">
-                <IoSearch className="text-2xl text-gray-500 cursor-pointer" />
-              </button>
+              {/* <Link to="/home"> */}
+                <button type="submit">
+                  <IoSearch className="text-2xl text-gray-500 cursor-pointer" />
+                </button>
+              {/* </Link> */}
               <IoMdClose
                 onClick={() => {
                   setSearchVehicule(false);
-                  setSearchTerm(""); 
+                  setSearchTerm("");
                   setSearchQuery("");
                 }}
                 className="text-3xl text-red-500 cursor-pointer mr-4"
@@ -49,7 +69,7 @@ function Header({setShowSideBar}) {
           </div>
         </form>
       )}
-      <div className="flex justify-between px-4 mt-5 items-center ">
+      <div className="flex justify-between px-4 mt-3 items-center ">
         <div className="flex items-center gap-4">
           <img src="/img/cars/logo.png" className="w-10" alt="" />
           <div>

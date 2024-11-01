@@ -1,12 +1,16 @@
 import React from 'react'
 import Navigation_bar from '../home/Navigation_bar'
 import PC_header from '../home/PC_header'
+import Header from '../home/Header'
+import SideBar from '../home/SideBar'
 
 function Paiement() {
   return (
     <div className='flex justify-center mt-10 mb-24 md:mt-24'>
               <Navigation_bar />
               <PC_header />
+              <Header  />
+              <SideBar  />
 
         <div className='max-w-[30rem]'>
             <h1 className='text-center mb-10 text-xl text-gray-600'>Selectionnez un moyer de paiement</h1>

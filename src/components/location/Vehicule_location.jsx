@@ -19,6 +19,8 @@ import { DataContext } from "../../context/DataContext";
 import PC_header from "../home/PC_header";
 import Navigation_bar from "../home/Navigation_bar";
 import { Link } from "react-router-dom";
+import Header from "../home/Header";
+import SideBar from "../home/SideBar";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -104,10 +106,9 @@ const MapComponent = ({ vehicles }) => {
 
   return (
     <div className="relative">
-      <div className="absolute top-0 left-0 right-0 z-[1000]">
-        <Navigation_bar />
-        <PC_header />
-      </div>
+      {/* <div className="absolute top-0 left-0 right-0 z-[1000]">
+   
+      </div> */}
       <div className="flex flex-col bg-white/80 p-3 absolute right-4 top-4 rounded-md z-[1000]">
         <label htmlFor="mapType">Choisir le type de vue : </label>
         <select
@@ -299,7 +300,7 @@ const Vehicule_location = () => {
 
   return (
     <div className="relative bg-gray-100 overflow-hidden">
-      <div className="m-4 overflow-hidden md:mt-16 md:flex justify-between gap-4 items-center w-full">
+      <div className="m-4 overflow-hidden mt-20 md:mt-16 md:flex justify-between gap-4 items-center w-full">
         <div className="flex justify-between items-center">
           <h2 className="mb-2 text-orange-500 font-semibold">
             Choisis un vehicule
@@ -325,11 +326,17 @@ const Vehicule_location = () => {
           to="/Groupe_vehicule_location"
           // className="mr-10  text-blue-600"
           className="mr-10 hidden md:block border mb-3 bg-orange-50/50 border-orange-500 rounded-md px-4 py-1  text-orange-600 "
-
         >
           Tous les vehicles
         </Link>
       </div>
+      <div className="absolute z-[10000]">
+      <Navigation_bar />
+      <PC_header />
+        <Header />
+        <SideBar />
+      </div>
+
       <div className="bg-gray-100">
         <MapComponent vehicles={vehicleData} />
       </div>

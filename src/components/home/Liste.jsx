@@ -56,35 +56,36 @@ function Liste({ setShowListOption }) {
 
           let main_text_color, lite_bg_color, active_bg_color, imgClass, activeTextColor, statut, vitess_img;
           if (speed < 1) {
-            main_text_color = "text-orange-500";
+            main_text_color = "text-red-900";
             statut = "en arrêt";
             lite_bg_color = "bg-red-100/40";
-            activeTextColor = "text-orange-600";
-            active_bg_color = "bg-orange-200/50";
+            activeTextColor = "text-red-900";
+            active_bg_color = "bg-red-200/50";
             vitess_img = "img/cars/orange_vitess.png";
             imgClass = "w-14 sm:w-16 md:w-24";
           } else if (speed >= 1 && speed <= 20) {
-            main_text_color = "text-yellow-500";
+            main_text_color = "text-[#555b03]";
             statut = "en ralenti";
-            lite_bg_color = "bg-yellow-100/40";
-            activeTextColor = "text-yellow-600/90";
-            active_bg_color = "bg-yellow-200/50";
+            lite_bg_color = "bg-[#ffff001b]";
+            activeTextColor = "text-[#555b03]";
+            active_bg_color = "bg-yellow-400/20";
             vitess_img = "img/cars/yellow_vitess.png";
             imgClass = "w-12 sm:w-14 md:w-20";
           } else {
-            main_text_color = "text-green-500";
+            main_text_color = "text-green-700";
             statut = "en marche";
             lite_bg_color = "bg-green-100/50";
-            activeTextColor = "text-green-700";
-            active_bg_color = "bg-green-200/50";
+            activeTextColor = "text-green-800";
+            active_bg_color = "bg-green-300/50";
             vitess_img = "img/cars/green_vitess.png";
             imgClass = "w-12 sm:w-14 md:w-20";
           }
 
           return (
+            <div className="bg-white">
             <div
               key={index}
-              // className={` costombg- shadow-md rounded-lg p-3`}
+              // className={` costombg shadow-md rounded-lg p-3`}
               className={` ${lite_bg_color} shadow-md rounded-lg p-3`}
             >
               <div
@@ -153,6 +154,7 @@ function Liste({ setShowListOption }) {
                   </div>
                 </div>
               </div>
+            </div>
             </div>
           );
         })

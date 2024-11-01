@@ -7,6 +7,8 @@ import { MdDelete } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Navigation_bar from "../home/Navigation_bar";
 import PC_header from "../home/PC_header";
+import Header from "../home/Header";
+import SideBar from "../home/SideBar";
 
 
 
@@ -33,11 +35,15 @@ function Modifier_vehicule({ setModifierVehicule }) {
     <div>
       <Navigation_bar />
       <PC_header />
+      <Header  />
+      <SideBar />
+
+
 
       <div
         id=""
         className={
-          " flex w-full justify-center md:mt-20 h-full"
+          " flex w-full justify-center mt-16 md:mt-20 h-full"
         }
       >
         <div className="h-fulle w-full flex justify-center pt-0 pb-0">

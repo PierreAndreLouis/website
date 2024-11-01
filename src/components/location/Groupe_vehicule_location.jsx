@@ -16,6 +16,8 @@ import iconHighSpeed from "/img/cars/green_location.png"; // Remplacez par le ch
 import { DataContext } from "../../context/DataContext";
 import Navigation_bar from "../home/Navigation_bar";
 import PC_header from "../home/PC_header";
+import Header from "../home/Header";
+import SideBar from "../home/SideBar";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -95,12 +97,12 @@ const MapComponent = ({ vehicles }) => {
 
   return (
     <div className="relative">
-      <div className="absolute top-0 left-0 right-0 z-[1000]">
+      {/* <div className="absolute top-0 left-0 right-0 z-[1000]">
         <Navigation_bar />
         <PC_header />
-      </div>
+      </div> */}
 
-      <div className="flex flex-col bg-white/80 p-3 absolute right-4 top-4 md:top-12 rounded-md z-[1000]">
+      <div className="flex flex-col bg-white/80 p-3 absolute right-4 top-16 rounded-md z-[1000]">
         <label htmlFor="mapType">Choisir le type de vue : </label>
         <select
           className="border p-1 border-gray-600 mt-2 rounded-md"
@@ -247,7 +249,13 @@ const Groupe_vehicule_location = () => {
 
   return (
     <div className="relative">
-      <div className="bg-gray-200 text-gray-200">.</div>
+      {/* <div className="bg-gray-200 text-gray-200">.</div> */}
+      <div className="absolute z-[10000]">
+      <Navigation_bar />
+      <PC_header />
+        <Header />
+        <SideBar />
+      </div>
       <div>
         <MapComponent vehicles={vehicleData} />
       </div>

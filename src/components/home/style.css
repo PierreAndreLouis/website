@@ -1,8 +1,8 @@
 .costombg {
-    background-color: rgba(255, 255, 0, 0.116);
-    color: yellow !important;
+    background-color: #ffff001b;
+    
 }
 
 .costombg h2 {
-    color: rgb(173, 173, 45)
+    color: #555b03
 }

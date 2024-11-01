@@ -5,14 +5,18 @@ import { FaCar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Navigation_bar from "../home/Navigation_bar";
 import PC_header from "../home/PC_header";
+import Header from "../home/Header";
+import SideBar from "../home/SideBar";
 
 function Ajouter_vehicule() {
   return (
     <div>
       <Navigation_bar />
       <PC_header />
+      <Header  />
+      <SideBar />
 
-      <div id="" className={"flex w-full justify-center h-full md:mt-20"}>
+      <div id="" className={"flex w-full justify-center h-full mt-16 md:mt-20"}>
         <div className=" w-full flex justify-center ">
           <div className="bg-white max-w-[30rem] w-full shadow-lg overflow-auto">
             <div className="flex justify-center items-center w-full py-10">

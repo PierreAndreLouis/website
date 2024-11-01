@@ -32,6 +32,11 @@ const DataContextProvider = ({ children }) => {
 
   const [searchQuery, setSearchQuery] = useState(""); // État pour stocker le terme de recherche
 
+  const [search, setSearch] = useState(false);
+  const [showSideBar, setShowSideBar] = useState(true);
+  const [logOut, setLogOut] = useState(false);
+
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -152,7 +157,7 @@ const DataContextProvider = ({ children }) => {
 
       localStorage.setItem("vehicleData", JSON.stringify(vehicleData));
       setVehicleData(vehicleData);
-      // console.log("******** Données des véhicules ********** ", vehicleData);
+      console.log("******** Données des véhicules ********** ", vehicleData);
     } catch (error) {
       setError("Erreur lors de la récupération des données des véhicules.");
       console.error(
@@ -226,6 +231,7 @@ const DataContextProvider = ({ children }) => {
       ]);
 
       localStorage.setItem("vehicleDetails", JSON.stringify(vehicleDetails));
+      console.log("vehicleDetails", vehicleDetails)
     } catch (error) {
       setError("Erreur lors de la récupération des détails du véhicule.");
       console.error(
@@ -380,6 +386,12 @@ const DataContextProvider = ({ children }) => {
         setLoadingHistoriqueFilter,
         searchQuery,
         setSearchQuery,
+        search, 
+        setSearch,
+        showSideBar, 
+        setShowSideBar,
+        logOut, 
+        setLogOut
       }}
     >
       {children}

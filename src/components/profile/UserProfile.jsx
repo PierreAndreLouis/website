@@ -5,6 +5,8 @@ import PC_header from "../home/PC_header";
 import { FaUserCircle } from "react-icons/fa";
 import Logout from "../login/Logout";
 import { Link } from "react-router-dom";
+import Header from "../home/Header";
+import SideBar from "../home/SideBar";
 
 function UserProfile() {
   const { currentVehicule, userData } = useContext(DataContext); // fetchVehicleDetails importée du contexte
@@ -16,10 +18,12 @@ function UserProfile() {
     <div className="px-4 pb-20">
       <Navigation_bar />
       <PC_header />
+      <Header  />
+      <SideBar  />
       {logOut && <Logout setLogOut={setLogOut} />}
 
       <div>
-        <div className="flex mt-12 md:mt-28 justify-center items-center">
+        <div className="flex mt-24 md:mt-28 justify-center items-center">
           <FaUserCircle className="text-gray-300 w-[25rem]  h-24" />
         </div>
 

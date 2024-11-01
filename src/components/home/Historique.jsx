@@ -8,6 +8,8 @@ import Navigation_bar from "./Navigation_bar";
 import PC_header from "./PC_header";
 import DateTimePicker from "./DateTimePicker";
 import { Link } from "react-router-dom";
+import Header from "./Header";
+import SideBar from "./SideBar";
 
 
 function Historique() {
@@ -50,9 +52,11 @@ function Historique() {
   };
 
   return (
-    <div className="p-4 flex flex-col gap-4 mt-4 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
+    <div className="p-4 flex flex-col gap-4 mt-16 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
       <Navigation_bar />
       <PC_header />
+      <Header />
+      <SideBar />
       {showDatePicker && (
         <DateTimePicker setShowDatePicker={setShowDatePicker} />
       )}
@@ -111,7 +115,7 @@ function Historique() {
       ) : dataFusionee.length > 0 ? (
        
         currentVehicule?.vehiculeDetails?.map((vehicle, index) => {
-          // const speed = 0;
+          // const speed = 10;
           const speed = vehicle.speedKPH || 0;
 
           // Définir les couleurs en fonction de la vitesse
@@ -122,31 +126,31 @@ function Historique() {
             activeTextColor,
             statut,
             vitess_img;
-          if (speed < 1) {
-            main_text_color = "text-orange-500";
-            statut = "en arret";
-            lite_bg_color = "bg-orange-50";
-            activeTextColor = "text-orange-700";
-            active_bg_color = "bg-orange-200/50";
-            vitess_img = "img/cars/orange_vitess.png";
-            imgClass = "w-14 sm:w-16 md:w-24";
-          } else if (speed >= 1 && speed <= 20) {
-            main_text_color = "text-yellow-500";
-            statut = "en ralenti";
-            lite_bg_color = "bg-yellow-50/50";
-            activeTextColor = "text-yellow-700";
-            active_bg_color = "bg-yellow-200/50";
-            vitess_img = "img/cars/yellow_vitess.png";
-            imgClass = "w-12 sm:w-14 md:w-20";
-          } else {
-            main_text_color = "text-green-500";
-            statut = "en marche";
-            lite_bg_color = "bg-green-50";
-            activeTextColor = "text-green-700";
-            active_bg_color = "bg-green-200/50";
-            vitess_img = "img/cars/green_vitess.png";
-            imgClass = "w-12 sm:w-14 md:w-20";
-          }
+            if (speed < 1) {
+              main_text_color = "text-red-900";
+              statut = "en arrêt";
+              lite_bg_color = "bg-red-100/40";
+              activeTextColor = "text-red-900";
+              active_bg_color = "bg-red-200/50";
+              vitess_img = "img/cars/orange_vitess.png";
+              imgClass = "w-14 sm:w-16 md:w-24";
+            } else if (speed >= 1 && speed <= 20) {
+              main_text_color = "text-[#555b03]";
+              statut = "en ralenti";
+              lite_bg_color = "bg-[#ffff001b]";
+              activeTextColor = "text-[#555b03]";
+              active_bg_color = "bg-yellow-400/20";
+              vitess_img = "img/cars/yellow_vitess.png";
+              imgClass = "w-12 sm:w-14 md:w-20";
+            } else {
+              main_text_color = "text-green-700";
+              statut = "en marche";
+              lite_bg_color = "bg-green-100/50";
+              activeTextColor = "text-green-800";
+              active_bg_color = "bg-green-300/50";
+              vitess_img = "img/cars/green_vitess.png";
+              imgClass = "w-12 sm:w-14 md:w-20";
+            }
 
           return (
             <div

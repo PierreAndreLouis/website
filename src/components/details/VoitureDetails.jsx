@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import Navigation_bar from "../home/Navigation_bar";
 import PC_header from "../home/PC_header";
+import Header from "../home/Header";
+import SideBar from "../home/SideBar";
 
 function VoitureDetails() {
   const { currentVehicule } = useContext(DataContext); // fetchVehicleDetails importée du contexte
@@ -9,9 +11,11 @@ function VoitureDetails() {
   console.log(currentVehicule?.description || "no data");
 
   return (
-    <div className="px-4 pb-20">
+    <div className="px-4 mt-20 pb-20">
       <Navigation_bar />
       <PC_header />
+      <Header />
+      <SideBar />
       
       <div>
         <div className="flex justify-center items-center">

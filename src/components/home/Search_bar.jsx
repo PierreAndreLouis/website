@@ -3,7 +3,9 @@ import { IoSearch } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 
 
-function Search_bar({setSearch}) {
+function Search_bar({}) {
+  const { userData, search, setSearch, handleLogout,setShowSideBar, fetchVehicleData, setSearchQuery } = useContext(DataContext);
+
   return (
     <div className="fixed top-0 left-0 right-0 bg-white">
       <div className="mt-4 px-4">
@@ -11,7 +13,7 @@ function Search_bar({setSearch}) {
           <input
             className=" p-2 focus:outline-none w-full"
             type="text"
-            placeholder="Recherche"
+            placeholder="Rechercher"
           />
           <IoSearch  className="text-3xl text-gray-500 cursor-pointer"/>
           <IoMdClose onClick={() => {setSearch(false)}}  className="text-3xl text-red-500 cursor-pointer mr-4 "/>
