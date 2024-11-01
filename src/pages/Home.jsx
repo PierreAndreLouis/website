@@ -38,11 +38,11 @@ const Home = () => {
     setLogOut
   } = useContext(DataContext);
 
-  const [showListeOption, setShowListOption] = useState(false);
+  // const [showListeOption, setShowListOption] = useState(false);
   // const [search, setSearch] = useState(false);
   // const [showSideBar, setShowSideBar] = useState(true);
 
-  const { vehicleData, isLoading } = useContext(DataContext);
+  const { vehicleData, isLoading,showListeOption, setShowListOption } = useContext(DataContext);
   // const [logOut, setLogOut] = useState(false);
 
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
@@ -96,7 +96,7 @@ const Home = () => {
       )}
       <Liste setShowListOption={setShowListOption} />
       {showListeOption && (
-        <Liste_options setShowListOption={setShowListOption} />
+        <Liste_options  />
       )}
     </div>
   );

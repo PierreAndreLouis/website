@@ -6,8 +6,8 @@ import { MdLocationPin } from "react-icons/md";
 import { FaCar } from "react-icons/fa";
 import "./style.css"
 
-function Liste({ setShowListOption }) {
-  const { mergedData, isLoading, currentVehicule, updateCurrentVehicule, searchQuery } = useContext(DataContext);
+function Liste({  }) {
+  const { mergedData, isLoading,setShowListOption, currentVehicule, updateCurrentVehicule, searchQuery } = useContext(DataContext);
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
 
   // Filtrer les données selon la recherche
@@ -112,7 +112,7 @@ function Liste({ setShowListOption }) {
                   <h2 className={`${activeTextColor} text-gray-800-- font-semibold text-md md:text-xl mb-2 `}>
                     {vehicle.description}
                   </h2>
-                  <div className="flex mb-2 gap-4 text-gray-400 text-md">
+                  <div className="flex mb-2 gap-4 text-gray-600 text-md">
                     <div className="flex gap-3 items-center">
                       <FaRegCalendarAlt className="text-gray-500/80" />
                       <h3 className="text-sm sm:text-sm md:text-md">
@@ -147,7 +147,7 @@ function Liste({ setShowListOption }) {
                       <MdLocationPin className="text-xl text-gray-500/80 -translate-x-0.5 mt-3" />
                     </div>
 
-                    <p className="text-md felx sm:flex text-gray-500 mt-2 md:text-lg">
+                    <p className="text-md felx sm:flex text-gray-600 mt-2 md:text-lg">
                       {vehicle.vehiculeDetails?.[0]?.address ||
                         "Adresse non disponible"}
                     </p>

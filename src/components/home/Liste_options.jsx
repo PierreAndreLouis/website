@@ -9,13 +9,15 @@ import { IoMdClose } from "react-icons/io";
 import { DataContext } from "../../context/DataContext";
 import { Link } from "react-router-dom";
 
-function Liste_options({ setShowListOption }) {
+function Liste_options({ }) {
   const {
     vehicleData,
     vehicleDetails,
     currentVehicule,
     isLoading,
     fetchVehicleDetails,
+    showListeOption, 
+    setShowListOption
   } = useContext(DataContext); // fetchVehicleDetails importée du contexte
 
   const [showAccessCode, setAccessCode] = useState(false);
@@ -39,6 +41,9 @@ function Liste_options({ setShowListOption }) {
         </div>
         <div className="grid grid-cols-2 gap-4 gap-y-8 p-4 py-8">
           <Link
+             onClick={() => {
+              setShowListOption(false);
+            }}
             to="/Single_Vehicule_Location"
             className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
@@ -47,6 +52,9 @@ function Liste_options({ setShowListOption }) {
           </Link>
 
           <Link
+             onClick={() => {
+              setShowListOption(false);
+            }}
             to="/Groupe_vehicule_location"
             className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
@@ -69,6 +77,9 @@ function Liste_options({ setShowListOption }) {
           </div>
 
           <Link
+             onClick={() => {
+              setShowListOption(false);
+            }}
           to="/voiture_historique"
           className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center">
             <IoStatsChartSharp className="text-3xl" />
@@ -76,6 +87,9 @@ function Liste_options({ setShowListOption }) {
           </Link>
 
           <Link
+             onClick={() => {
+              setShowListOption(false);
+            }}
             to="/voiture_details"
             className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >

@@ -35,6 +35,8 @@ const DataContextProvider = ({ children }) => {
   const [search, setSearch] = useState(false);
   const [showSideBar, setShowSideBar] = useState(true);
   const [logOut, setLogOut] = useState(false);
+  const [showListeOption, setShowListOption] = useState(false);
+
 
 
   const handleLogin = async (e) => {
@@ -391,7 +393,9 @@ const DataContextProvider = ({ children }) => {
         showSideBar, 
         setShowSideBar,
         logOut, 
-        setLogOut
+        setLogOut,
+        showListeOption, 
+        setShowListOption
       }}
     >
       {children}

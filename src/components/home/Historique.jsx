@@ -10,6 +10,7 @@ import DateTimePicker from "./DateTimePicker";
 import { Link } from "react-router-dom";
 import Header from "./Header";
 import SideBar from "./SideBar";
+import Liste_options from "./Liste_options";
 
 
 function Historique() {
@@ -21,7 +22,10 @@ function Historique() {
     currentVehicule,
     updateCurrentVehicule,
     loadingHistoriqueFilter,
+    setShowListOption,
+    showListeOption
   } = useContext(DataContext);
+  
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
 
@@ -57,6 +61,12 @@ function Historique() {
       <PC_header />
       <Header />
       <SideBar />
+      {showListeOption && (
+        <div className="absolute z-20">
+          <Liste_options  />
+
+        </div>
+      )}
       {showDatePicker && (
         <DateTimePicker setShowDatePicker={setShowDatePicker} />
       )}
@@ -154,11 +164,13 @@ function Historique() {
 
           return (
             <div
+            onClick={() => {setShowListOption(true)}}
               key={index}
               className={` ${lite_bg_color} shadow-md rounded-lg p-3`}
             >
+    
               <div
-                onClick={() => handleClick(vehicle)}
+                // onClick={() => handleClick(vehicle)}
                 className="flex relative gap-3 md:py-6"
               >
                 <div className="flex flex-col items-center md:min-w-32">
@@ -181,7 +193,7 @@ function Historique() {
                   {/* <h2 className="text-gray-800 font-semibold text-md md:text-xl mb-2">
                     {vehicle.description}
                   </h2> */}
-                  <div className="flex mb-2 gap-4 text-gray-400 text-md">
+                  <div className="flex mb-2 gap-4 text-gray-600 text-md">
                     <div className="flex gap-3 items-center">
                       <FaRegCalendarAlt className="text-gray-500/80" />
                       <h3 className="text-sm sm:text-sm md:text-md">
@@ -212,7 +224,7 @@ function Historique() {
                       <MdLocationPin className="text-xl text-gray-500/80 -translate-x-0.5 mt-3" />
                     </div>
 
-                    <p className="text-md felx sm:flex text-gray-500 mt-2 md:text-lg">
+                    <p className="text-md felx sm:flex text-gray-600 mt-2 md:text-lg">
                       {vehicle.address ||
                         "Adresse non disponible"}
                     </p>
