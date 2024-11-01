@@ -21,9 +21,12 @@ export default defineConfig({
         maximumFileSizeToCacheInBytes: 20 * 1024 * 1024, // 10 Mo
       },
       registerType: 'autoUpdate',
-      includeAssets: ['img/dish.png',
-        'img/icons/profil.png',
-        'profil.png',
+      includeAssets: [
+        'img/*.png',
+        'img/cars/*.png',
+        'img/carte/*.png',
+        'img/icons/*.png',
+        'img/logo/*.png',
         'favicon.svg',
         'favicon.png',
         'favicon.ico',

@@ -17,6 +17,19 @@ const assets = [
 
   './public/profil.png',  // Ajoute l'icône ici
   './manifest.json',
+
+  
+  'img/*.png',
+  'img/cars/*.png',
+  'img/carte/*.png',
+  'img/icons/*.png',
+  'img/logo/*.png',
+
+  '/puclic/img/*.png',
+  '/puclic/img/cars/*.png',
+  '/puclic/img/carte/*.png',
+  '/puclic/img/icons/*.png',
+  '/puclic/img/logo/*.png',
 ];
 
 // cache size limit function

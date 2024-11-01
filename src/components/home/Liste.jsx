@@ -4,6 +4,7 @@ import { IoMdTime } from "react-icons/io";
 import { DataContext } from "../../context/DataContext";
 import { MdLocationPin } from "react-icons/md";
 import { FaCar } from "react-icons/fa";
+import "./style.css"
 
 function Liste({ setShowListOption }) {
   const { mergedData, isLoading, currentVehicule, updateCurrentVehicule, searchQuery } = useContext(DataContext);
@@ -50,13 +51,14 @@ function Liste({ setShowListOption }) {
         <p>Chargement des données...</p>
       ) : filteredData.length > 0 ? (
         filteredData.map((vehicle, index) => {
+          // const speed = 10;
           const speed = vehicle.vehiculeDetails?.[0]?.speedKPH || 0;
 
           let main_text_color, lite_bg_color, active_bg_color, imgClass, activeTextColor, statut, vitess_img;
           if (speed < 1) {
             main_text_color = "text-orange-500";
             statut = "en arrêt";
-            lite_bg_color = "bg-red-50/80";
+            lite_bg_color = "bg-red-100/40";
             activeTextColor = "text-orange-600";
             active_bg_color = "bg-orange-200/50";
             vitess_img = "img/cars/orange_vitess.png";
@@ -64,15 +66,15 @@ function Liste({ setShowListOption }) {
           } else if (speed >= 1 && speed <= 20) {
             main_text_color = "text-yellow-500";
             statut = "en ralenti";
-            lite_bg_color = "bg-yellow-50/50";
-            activeTextColor = "text-yellow-600";
+            lite_bg_color = "bg-yellow-100/40";
+            activeTextColor = "text-yellow-600/90";
             active_bg_color = "bg-yellow-200/50";
             vitess_img = "img/cars/yellow_vitess.png";
             imgClass = "w-12 sm:w-14 md:w-20";
           } else {
             main_text_color = "text-green-500";
             statut = "en marche";
-            lite_bg_color = "bg-green-50";
+            lite_bg_color = "bg-green-100/50";
             activeTextColor = "text-green-700";
             active_bg_color = "bg-green-200/50";
             vitess_img = "img/cars/green_vitess.png";
@@ -82,6 +84,7 @@ function Liste({ setShowListOption }) {
           return (
             <div
               key={index}
+              // className={` costombg- shadow-md rounded-lg p-3`}
               className={` ${lite_bg_color} shadow-md rounded-lg p-3`}
             >
               <div
@@ -105,7 +108,7 @@ function Liste({ setShowListOption }) {
                   </h2>
                 </div>
                 <div>
-                  <h2 className="text-gray-800 font-semibold text-md md:text-xl mb-2">
+                  <h2 className={`${activeTextColor} text-gray-800-- font-semibold text-md md:text-xl mb-2 `}>
                     {vehicle.description}
                   </h2>
                   <div className="flex mb-2 gap-4 text-gray-400 text-md">

@@ -186,6 +186,9 @@ const MapComponent = ({ vehicles }) => {
                   <strong>IMEI Number :</strong> {imeiNumber || "loading..."}
                 </p>
                 <p>
+                  <strong>Vitesse :</strong> {speedKPH || "Non disponible"} Km/h
+                </p>
+                <p>
                   <strong>Statut : </strong>
                   {speedKPH < 1 && "en arret"}
                   {speedKPH > 20 && "en deplacement"}

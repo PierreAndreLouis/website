@@ -163,10 +163,14 @@ const MapComponent = ({ vehicles }) => {
                 </p>
                 <p>
                   <strong>Adresse :</strong> {address || "Non disponible"}
-                </p>
-                <p>
+                </p>  
+                 <p>
                   <strong>IMEI Number :</strong> {imeiNumber || "loading..."}
                 </p>
+                <p>
+                  <strong>Vitesse :</strong> {speedKPH || "Non disponible"} Km/h
+                </p>
+             
                 <p>
                   <strong>Statut : </strong>
                   {speedKPH < 1 && "en arret"}

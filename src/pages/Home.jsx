@@ -22,6 +22,7 @@ import { FaRegMoneyBillAlt } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
 import { Link } from "react-router-dom";
 import Logout from "../components/login/Logout";
+import { RiWifiOffLine } from "react-icons/ri";
 
 const Home = () => {
   const [showListeOption, setShowListOption] = useState(false);
@@ -31,12 +32,29 @@ const Home = () => {
   const { vehicleData, isLoading } = useContext(DataContext);
   const [logOut, setLogOut] = useState(false);
 
+  const [isOffline, setIsOffline] = useState(!navigator.onLine);
+
+  useEffect(() => {
+    // Détecter la perte de connexion
+    const handleOffline = () => setIsOffline(true);
+    // Détecter le retour de la connexion
+    const handleOnline = () => setIsOffline(false);
+
+    // Ajouter les écouteurs d'événements
+    window.addEventListener("offline", handleOffline);
+    window.addEventListener("online", handleOnline);
+
+    // Nettoyage des écouteurs d'événements
+    return () => {
+      window.removeEventListener("offline", handleOffline);
+      window.removeEventListener("online", handleOnline);
+    };
+  }, []);
+
   return (
     <div className="sm:px-10 md:px-14 lg:px-20">
       <Navigation_bar />
       <PC_header />
-
-    
 
       <div
         className={`${
@@ -48,14 +66,12 @@ const Home = () => {
           showSideBar && "-translate-x-[100%]"
         } md:hidden transition-all fixed z-10 inset-0`}
       >
-        
         <div className="transition-all relative px-8 pt-10 max-w-[25rem] h-screen  z-20 bg-white">
-        
-        {logOut && (
-        <div className="z-40">
-          <Logout setLogOut={setLogOut} />
-        </div>
-      )}
+          {logOut && (
+            <div className="z-40">
+              <Logout setLogOut={setLogOut} />
+            </div>
+          )}
           {/* <div className={`${showSideBar && " -translate-x-[100%]"} transition-all relative px-8 pt-10 max-w-[25rem] h-screen  z-20 bg-white`}> */}
           <IoCloseSharp
             onClick={() => setShowSideBar(true)}
@@ -131,6 +147,15 @@ const Home = () => {
             </div>
           </div>
         ))}
+      {isOffline && (
+        <div className="shadow-md flex gap-2 justify-center md:gap-6 rounded-lg mx-5 p-3 text-center bg-red-100">
+   
+            <RiWifiOffLine className="translate-y-0 text-red-700 text-4xl"/>
+          <h3 className="text-red-700">
+            Vous êtes hors ligne. Veuillez vérifier votre connexion internet.
+          </h3>
+        </div>
+      )}
       <Liste setShowListOption={setShowListOption} />
       {showListeOption && (
         <Liste_options setShowListOption={setShowListOption} />

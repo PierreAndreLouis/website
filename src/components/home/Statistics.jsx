@@ -94,7 +94,7 @@ function Statistics() {
         <div className="border md:p-8 bg-purple-300/50 flex justify-between items-start rounded-lg shadow-md p-3">
           <div>
             <h3 className="text-gray-700 md:font-semibold md:text-xl ">
-              Payer <span className="font-normal text-sm text-red-500">( Not actif )</span>
+              Not active 
             </h3>
             <h2 className="text-gray-900 text-2xl md:text-3xl lg:text-4xl ">
               -.--
