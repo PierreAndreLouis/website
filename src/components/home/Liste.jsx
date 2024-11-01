@@ -118,6 +118,7 @@ function Liste({  }) {
                       <h3 className="text-sm sm:text-sm md:text-md">
                         {formatTimestampToDate(
                           vehicle.vehiculeDetails?.[0]?.timestamp
+                          // vehicle?.lastUpdateTime
                         )}
                       </h3>
                     </div>
@@ -126,6 +127,7 @@ function Liste({  }) {
                       <h3 className="text-sm sm:text-sm md:text-md">
                         {formatTimestampToTime(
                           vehicle.vehiculeDetails?.[0]?.timestamp
+                          // vehicle?.lastUpdateTime
                         )}
                       </h3>
                     </div>

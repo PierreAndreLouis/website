@@ -198,12 +198,16 @@ function Historique() {
                       <FaRegCalendarAlt className="text-gray-500/80" />
                       <h3 className="text-sm sm:text-sm md:text-md">
                         {formatTimestampToDate(vehicle.timestamp)}
+                        {/* {formatTimestampToDate(currentVehicule?.lastUpdateTime)} */}
+                        
                       </h3>
                     </div>
                     <div className="flex items-center gap-1">
                       <IoMdTime className="text-gray-500/80 text-xl" />
                       <h3 className="text-sm sm:text-sm md:text-md">
+                        {/* {formatTimestampToTime(currentVehicule?.lastUpdateTime)} */}
                         {formatTimestampToTime(vehicle.timestamp)}
+
                       </h3>
                     </div>
                   </div>
