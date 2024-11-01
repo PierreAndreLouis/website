@@ -18,7 +18,7 @@ const assets = [
   './public/profil.png',  // Ajoute l'icône ici
   './manifest.json',
 
-  
+
   'img/*.png',
   'img/cars/*.png',
   'img/carte/*.png',
@@ -33,7 +33,7 @@ const assets = [
 ];
 
 // cache size limit function
-const limitCacheSize = (name, size) => {
+const limitCacheSize = (name, size = 50) => {
   caches.open(name).then(cache => {
     cache.keys().then(keys => {
       if (keys.length > size) {
