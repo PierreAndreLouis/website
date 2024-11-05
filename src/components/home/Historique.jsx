@@ -16,7 +16,6 @@ import { FaCarRear } from "react-icons/fa6";
 import { FiRefreshCw } from "react-icons/fi";
 import { IoMdClose } from "react-icons/io";
 
-
 function Historique() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showFilter, setshowFilter] = useState(false);
@@ -127,7 +126,6 @@ function Historique() {
               }}
               className="relative w-full"
             >
-             
               <div
                 className="cursor-pointer border rounded-md
                  px-3 py-2 bg-orange-50 text-center"
@@ -135,30 +133,31 @@ function Historique() {
                 <p>{currentVehicule?.description || "Choisir un vehicule"}</p>
               </div>
 
-
               {showVehiculeListe && (
+                <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-20 shadow-xl border border-gray-100 rounded-md p-3">
+                  <div className="relative w-full max-w-[30rem] rounded-xl p-4 max-h-[70vh] overflow-y-auto overflow-hidden bg-white">
+                    <IoMdClose
+                      onClick={() => {
+                        setshowFilter(false);
+                      }}
+                      className="absolute top-3 cursor-pointer right-1  min-w-14 py-2 text-[2.3rem] text-red-600"
+                    />
+
+                    <h2 className="font-semibold text-gray-700 mb-2 text-lg pl-3 border-b-2 pb-2 border-gray-600/20">Choisir un vehicule</h2>
+
+                    {dataFusionee.map((vehicule) => (
+                      <div
+                        key={vehicule.deviseID}
+                        onClick={() => handleVehicleClick(vehicule)}
+                        className="cursor-pointer px-3 py-2 hover:bg-orange-50 rounded-md"
+                      >
+                        <p>{vehicule.description}</p>
+                      </div>
+                    ))}
                 
-                <div className="w-full absolute bg-white z-20 shadow-xl border border-gray-100 rounded-md p-3">
-                <div className="relative">
-                <IoMdClose
-                onClick={() => {setshowFilter(false)}}
-                className="absolute -top-2 cursor-pointer -right-4  min-w-14 py-2 text-[2.3rem] text-red-600"/>
-
-               
-                  {dataFusionee.map((vehicule) => (
-                    <div
-                      key={vehicule.deviseID}
-                      onClick={() => handleVehicleClick(vehicule)}
-                      className="cursor-pointer px-3 py-2 hover:bg-orange-50 rounded-md"
-                    >
-                      <p>{vehicule.description}</p>
-                    </div>
-                  ))}
+                  </div>
                 </div>
-                 </div>
               )}
-
-
             </div>
 
             <div
@@ -169,11 +168,14 @@ function Historique() {
             </div>
 
             {showFilter && (
-              <div className="absolute  z-20 w-full max-w-80 p-2 flex flex-col  bg-white top-11 rounded-md right-4 shadow-xl border">
-                <div className="relative">
-                <IoMdClose
-                onClick={() => {setshowFilter(false)}}
-                className="absolute top-0 cursor-pointer -right-2  min-w-14 py-2 text-[2.3rem] text-red-600"/>
+              <div className="fixed inset-0  z-20 w-full flex justify-center items-center p-2   bg-black/50">
+                <div className="relative max-w-[30rem] bg-white w-[90vw] rounded-md p-4">
+                  <IoMdClose
+                    onClick={() => {
+                      setshowFilter(false);
+                    }}
+                    className="absolute top-0 cursor-pointer -right-1  min-w-14 py-2 text-[2.53rem] text-red-600"
+                  />
 
                   <div
                     onClick={() => {
@@ -183,13 +185,13 @@ function Historique() {
                     className="flex my-3 p-2 rounded-md hover:bg-orange-100/50 cursor-pointer items-center gap-3"
                   >
                     <MdDateRange className="text-xl text-orange-600" />
-                    <h3>Filter par Date</h3>
+                    <h3>Filtrer par Date</h3>
                   </div>
                   <hr />
                   <form action="" className="p-2">
                     <div className="flex mb-4 items-center gap-3">
                       <FaCarRear className="text-xl text-orange-600/90" />
-                      <h3>Filter par Status</h3>
+                      <h3>Filtrer par Status</h3>
                     </div>
                     <div>
                       <div className="flex flex-row mb-1.5 gap-4 ml-0.5">
@@ -367,7 +369,8 @@ function Historique() {
             })
           ) : (
             <p className="text-center">
-              Pas de donnée disponible <span className=" text-orange-600">pour le filtre</span> 
+              Pas de donnée disponible{" "}
+              <span className=" text-orange-600">pour le filtre</span>
             </p>
           );
         })()
