@@ -19,6 +19,7 @@ const DataContextProvider = ({ children }) => {
   });
 
   const [vehicleDetails, setVehicleDetails] = useState([]);
+  const [vehiclueHistoriqueDetails, setVehiclueHistoriqueDetails] = useState([]);
   const [mergedData, setMergedData] = useState(() => {
     const storedMergedData = localStorage.getItem("mergedData");
     return storedMergedData ? JSON.parse(storedMergedData) : null;
@@ -36,6 +37,14 @@ const DataContextProvider = ({ children }) => {
   const [showSideBar, setShowSideBar] = useState(true);
   const [logOut, setLogOut] = useState(false);
   const [showListeOption, setShowListOption] = useState(false);
+
+  const [account, setAccount] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
+  const [showChangePasswordPupup, setShowChangePasswordPupup] = useState(false);
+
+
 
 
 
@@ -82,6 +91,17 @@ const DataContextProvider = ({ children }) => {
         localStorage.setItem("userData", JSON.stringify(userData));
         setUserData(userData);
         navigate("/home");
+
+
+      // Stocker les informations de connexion en local
+      localStorage.setItem("account", account);
+      localStorage.setItem("username", user);
+      localStorage.setItem("password", password);
+
+
+        setAccount(localStorage.getItem("account") || '');
+        setUsername(localStorage.getItem("username") || '');
+        setPassword(localStorage.getItem("password") || '');
         console.log("user data --------", userData);
       } else if (result === "error") {
         const errorMessage =
@@ -160,6 +180,37 @@ const DataContextProvider = ({ children }) => {
       localStorage.setItem("vehicleData", JSON.stringify(vehicleData));
       setVehicleData(vehicleData);
       console.log("******** Données des véhicules ********** ", vehicleData);
+      // ---------------------------------------------------------------------
+
+
+
+      
+    const now = new Date();
+    const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")} ${now
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now
+      .getSeconds()
+      .toString()
+      .padStart(2, "0")}`;
+
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${startOfDay
+      .getDate()
+      .toString()
+      .padStart(2, "0")} 00:00:00`;
+
+    if (vehicleData && vehicleData.length > 0) {
+      vehicleData.forEach((vehicle) => {
+        fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
+      });
+    }
     } catch (error) {
       setError("Erreur lors de la récupération des données des véhicules.");
       console.error(
@@ -171,6 +222,83 @@ const DataContextProvider = ({ children }) => {
 
   const fetchVehicleDetails = async (Device, TimeFrom, TimeTo) => {
     // setLoadingHistoriqueFilter(true);
+
+    if (!userData) return;
+
+    const { accountID, userID, password } = userData;
+    const xmlData = `<GTSRequest command="eventdata">
+      <Authorization account="${accountID}" user="${userID}" password="${password}" />
+      <EventData>
+        <Device>${Device}</Device>
+        <TimeFrom timezone="GMT">${TimeFrom}</TimeFrom>
+        <TimeTo timezone="GMT">${TimeTo}</TimeTo>
+        <GPSRequired>false</GPSRequired>
+        <StatusCode>false</StatusCode>
+        <Limit type="last">4</Limit>
+        <Ascending>false</Ascending>
+        <Field name="latitude" />
+        <Field name="longitude" />
+        <Field name="address" />
+        <Field name="speedKPH" />
+        <Field name="timestamp" />
+        <Field name="heading" />
+        <Field name="city" />
+        <Field name="creationMillis" />
+        <Field name="creationTime" />
+        <Field name="odometerKM" />
+        <Field name="stateProvince" />
+        <Field name="statusCode" />
+        <Field name="streetAddress" />
+      </EventData>
+    </GTSRequest>`;
+
+    try {
+      const response = await fetch("/api/track/Service", {
+        method: "POST",
+        headers: { "Content-Type": "application/xml" },
+        body: xmlData,
+      });
+
+      const data = await response.text();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(data, "application/xml");
+      const records = xmlDoc.getElementsByTagName("Record");
+
+      const newVehicleDetails = [];
+      for (let i = 0; i < records.length; i++) {
+        const fields = records[i].getElementsByTagName("Field");
+        const details = { Device }; // Ajoute l'identifiant du véhicule pour regrouper les événements
+
+        for (let j = 0; j < fields.length; j++) {
+          const fieldName = fields[j].getAttribute("name");
+          const fieldValue = fields[j].textContent;
+          details[fieldName] = fieldValue;
+        }
+
+        newVehicleDetails.push(details);
+      }
+
+      setVehicleDetails((prevDetails) => [
+        ...prevDetails.filter((detail) => detail.Device !== Device),
+        ...newVehicleDetails,
+      ]);
+
+      localStorage.setItem("vehicleDetails", JSON.stringify(vehicleDetails));
+      console.log("vehicleDetails.......>>>", vehicleDetails)
+      console.log("newVehicleDetails.......>>>", newVehicleDetails)
+    } catch (error) {
+      setError("Erreur lors de la récupération des détails du véhicule.");
+      console.error(
+        "Erreur lors de la récupération des détails du véhicule",
+        error
+      );
+    }
+  };
+
+
+  const fetchHistoriqueVehicleDetails = async (Device, TimeFrom, TimeTo) => {
+    console.log("Start fetching.........")
+    setLoadingHistoriqueFilter(true);
 
     if (!userData) return;
 
@@ -227,13 +355,17 @@ const DataContextProvider = ({ children }) => {
         newVehicleDetails.push(details);
       }
 
-      setVehicleDetails((prevDetails) => [
-        ...prevDetails.filter((detail) => detail.Device !== Device),
-        ...newVehicleDetails,
-      ]);
+      setVehiclueHistoriqueDetails(newVehicleDetails);
 
-      localStorage.setItem("vehicleDetails", JSON.stringify(vehicleDetails));
-      console.log("vehicleDetails", vehicleDetails)
+
+      localStorage.setItem("vehiclueHistoriqueDetails", JSON.stringify(vehiclueHistoriqueDetails));
+
+      console.log("newVehicleDetails.......>>>", newVehicleDetails);
+      console.log("newVehicleDetails.lenght.......>>>", newVehicleDetails.length);
+    console.log("End fetching.........")
+    setLoadingHistoriqueFilter(false);
+
+
     } catch (error) {
       setError("Erreur lors de la récupération des détails du véhicule.");
       console.error(
@@ -241,6 +373,37 @@ const DataContextProvider = ({ children }) => {
         error
       );
     }
+  };
+
+
+  const firstCallHistoriqueData = () => {
+    setShowListOption(false);
+
+    const now = new Date();
+    const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")} ${now
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now
+      .getSeconds()
+      .toString()
+      .padStart(2, "0")}`;
+
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${startOfDay
+      .getDate()
+      .toString()
+      .padStart(2, "0")} 00:00:00`;
+
+
+      
+      fetchHistoriqueVehicleDetails(currentVehicule.deviceID, TimeFrom, TimeTo);
+ 
   };
 
   const handleDateChange = (TimeFrom, TimeTo) => {
@@ -284,9 +447,9 @@ const DataContextProvider = ({ children }) => {
             timestamp,
             ...eventDetails,
           });
-          setLoadingHistoriqueFilter(false);
+          // setLoadingHistoriqueFilter(false);
         } else {
-          setLoadingHistoriqueFilter(false);
+          // setLoadingHistoriqueFilter(false);
 
           console.warn(
             `Aucun véhicule correspondant pour l'événement: ${deviceID}`
@@ -294,7 +457,7 @@ const DataContextProvider = ({ children }) => {
         }
       } else {
         // console.log(`Doublon détecté pour l'événement: ${deviceID}, ${timestamp}`);
-        setLoadingHistoriqueFilter(false);
+        // setLoadingHistoriqueFilter(false);
       }
     });
 
@@ -313,38 +476,45 @@ const DataContextProvider = ({ children }) => {
   }, [userData]);
 
   useEffect(() => {
-    // exemple de donneer dans la base de donnee
-    // const TimeFrom = "2011-01-07 10:29:34";
-    // const TimeTo = "2024-01-07 10:29:34";
-    // Définir TimeTo et TimeFrom en fonction de la date actuelle
+    // Récupérer les informations de localStorage
+    setAccount(localStorage.getItem("account") || '');
+    setUsername(localStorage.getItem("username") || '');
+    setPassword(localStorage.getItem("password") || '');
+  }, []);
 
-    const now = new Date();
-    const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")} ${now
-      .getHours()
-      .toString()
-      .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now
-      .getSeconds()
-      .toString()
-      .padStart(2, "0")}`;
+  // useEffect(() => {
+  //   // exemple de donneer dans la base de donnee
+  //   // const TimeFrom = "2011-01-07 10:29:34";
+  //   // const TimeTo = "2024-01-07 10:29:34";
+  //   // Définir TimeTo et TimeFrom en fonction de la date actuelle
 
-    const startOfDay = new Date();
-    startOfDay.setHours(0, 0, 0, 0);
+  //   // const now = new Date();
+  //   // const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
+  //   //   .toString()
+  //   //   .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")} ${now
+  //   //   .getHours()
+  //   //   .toString()
+  //   //   .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now
+  //   //   .getSeconds()
+  //   //   .toString()
+  //   //   .padStart(2, "0")}`;
 
-    const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}-${startOfDay
-      .getDate()
-      .toString()
-      .padStart(2, "0")} 00:00:00`;
+  //   // const startOfDay = new Date();
+  //   // startOfDay.setHours(0, 0, 0, 0);
 
-    if (vehicleData && vehicleData.length > 0) {
-      vehicleData.forEach((vehicle) => {
-        fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
-      });
-    }
-  }, [vehicleData]);
+  //   // const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
+  //   //   .toString()
+  //   //   .padStart(2, "0")}-${startOfDay
+  //   //   .getDate()
+  //   //   .toString()
+  //   //   .padStart(2, "0")} 00:00:00`;
+
+  //   // if (vehicleData && vehicleData.length > 0) {
+  //   //   vehicleData.forEach((vehicle) => {
+  //   //     fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
+  //   //   });
+  //   // }
+  // }, [vehicleData]);
 
   useEffect(() => {
     if (
@@ -357,16 +527,18 @@ const DataContextProvider = ({ children }) => {
     }
   }, [vehicleData, vehicleDetails]);
 
-  useEffect(() => {
-    if (mergedData && Object.keys(mergedData).length > 0) {
-      // 2. Initialiser currentVehicule avec le premier véhicule
-      const firstVehicle = Object.values(mergedData)[0];
-      setCurrentVehicule(firstVehicle);
-    }
-  }, [mergedData]);
+  // useEffect(() => {
+  //   if (mergedData && Object.keys(mergedData).length > 0) {
+  //     // 2. Initialiser currentVehicule avec le premier véhicule
+  //     const firstVehicle = Object.values(mergedData)[0];
+  //     setCurrentVehicule(firstVehicle);
+  //   }
+  // }, [mergedData]);
 
   const updateCurrentVehicule = (vehicle) => {
     setCurrentVehicule(vehicle); // 3. Fonction pour mettre à jour currentVehicule
+    firstCallHistoriqueData();
+
   };
 
   return (
@@ -395,9 +567,24 @@ const DataContextProvider = ({ children }) => {
         logOut, 
         setLogOut,
         showListeOption, 
-        setShowListOption
+        setShowListOption,
+        fetchVehicleDetails,
+        vehicleDetails,
+        fetchHistoriqueVehicleDetails,
+        vehiclueHistoriqueDetails,
+        firstCallHistoriqueData,
+        setCurrentVehicule,
+        account,
+        username,
+        password,
+        isPasswordConfirmed, 
+        setIsPasswordConfirmed,
+        showChangePasswordPupup, 
+        setShowChangePasswordPupup
+        
       }}
     >
+
       {children}
     </DataContext.Provider>
   );

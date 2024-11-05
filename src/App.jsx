@@ -24,11 +24,17 @@ import Historique from "./components/home/Historique";
 import Delete_vehicule from "./components/delete_vehicule/Delete_vehicule";
 import UserProfile from "./components/profile/UserProfile";
 import ChangePassword from "./components/login/ChangePassword";
+import ProtectedChangePassword from "./pages/ProtectedChangePassword";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate(); // Utilisation de useNavigate
-  const { isAuthenticated } = useContext(DataContext);
+  const {
+    isAuthenticated,
+    isPasswordConfirmed,
+    setIsPasswordConfirmed,
+    setShowChangePasswordPupup,
+  } = useContext(DataContext);
 
   React.useEffect(() => {
     // Redirige vers /home si l'utilisateur est authentifié et se rend sur "/login"
@@ -36,6 +42,11 @@ function App() {
       navigate("/home"); // Utilisation correcte de navigate
     }
   }, [isAuthenticated, location.pathname, navigate]);
+
+  // const handleChangePasswordAccess = () => {
+  //   navigate("/User_Profile");
+  //   setShowChangePasswordPupup(true);
+  // };
 
   return (
     <div>
@@ -93,11 +104,22 @@ function App() {
           element={<PrivateRoute element={<UserProfile />} />}
         />
 
-   <Route
+     
+
+        {/* <Route
           path="/Change_Password"
-          element={<PrivateRoute element={<ChangePassword />} />}
-        />
-        
+          element={
+            isPasswordConfirmed ? (
+              <ChangePassword />
+            ) : (
+              handleChangePasswordAccess()
+            )
+          }
+        /> */}
+
+<Route path="/Change_Password" element={<ProtectedChangePassword />} />
+
+
         {/* UserProfile */}
         <Route path="*" element={<Page_404 />} />
       </Routes>

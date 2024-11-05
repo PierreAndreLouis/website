@@ -7,7 +7,7 @@ import { FaCar } from "react-icons/fa";
 import "./style.css"
 
 function Liste({  }) {
-  const { mergedData, isLoading,setShowListOption, currentVehicule, updateCurrentVehicule, searchQuery } = useContext(DataContext);
+  const { mergedData, setCurrentVehicule, isLoading,setShowListOption, currentVehicule, updateCurrentVehicule, searchQuery } = useContext(DataContext);
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
 
   // Filtrer les données selon la recherche
@@ -23,27 +23,33 @@ function Liste({  }) {
   }, [currentVehicule]);
 
   const handleClick = (vehicle) => {
-    updateCurrentVehicule(vehicle);
+    setCurrentVehicule(vehicle)
+    // updateCurrentVehicule(vehicle);
     setShowListOption(true);
     console.log("Véhicule en variable", currentVehicule);
     console.log("Véhicule cliqué", vehicle);
   };
 
-  // Fonctions pour formater le temps et la date
-  function formatTimestampToTime(timestamp) {
-    const date = new Date(timestamp * 1000);
-    const hours = date.getUTCHours().toString().padStart(2, "0");
-    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-    return `${hours}:${minutes}`;
-  }
 
-  function formatTimestampToDate(timestamp) {
-    const date = new Date(timestamp * 1000);
-    const day = date.getUTCDate().toString().padStart(2, "0");
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
-    const year = date.getUTCFullYear();
-    return `${day}-${month}-${year}`;
-  }
+
+  
+// Fonctions pour formater le temps et la date
+function formatTimestampToTime(timestamp) {
+  const date = new Date(timestamp * 1000);
+  const hours = date.getUTCHours().toString().padStart(2, "0");
+  const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+  const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+  return `${hours}:${minutes}:${seconds}`;
+}
+
+function formatTimestampToDate(timestamp) {
+  const date = new Date(timestamp * 1000);
+  const day = date.getUTCDate().toString().padStart(2, "0");
+  const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+  const year = date.getUTCFullYear();
+  return `${day}-${month}-${year}`;
+}
+
 
   return (
     <div className="p-4 flex flex-col gap-4 mt-4 mb-32">
@@ -84,7 +90,7 @@ function Liste({  }) {
           return (
             <div className="bg-white">
             <div
-              key={index}
+              key={vehicle.deviceID}
               // className={` costombg shadow-md rounded-lg p-3`}
               className={` ${lite_bg_color} shadow-md rounded-lg p-3`}
             >

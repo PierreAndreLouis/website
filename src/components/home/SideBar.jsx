@@ -47,7 +47,7 @@ function SideBar() {
           className="flex text-gray-600 border-b border-gray-300 py-4 gap-4 text-lg hover:text-orange-500 cursor-pointer items-center"
         >
           <IoHomeOutline />
-          <h3>Home</h3>
+          <h3>Accueil</h3>
         </Link>
         {/* ---------- */}
         <Link
@@ -56,7 +56,7 @@ function SideBar() {
           className="flex text-gray-600 border-b border-gray-300 py-4 gap-4 text-lg hover:text-orange-500 cursor-pointer items-center"
         >
           <FaRegUser />
-          <h3>Profile</h3>
+          <h3>Mon Profil</h3>
         </Link>
         {/* ---------- */}
         <Link
@@ -65,7 +65,7 @@ function SideBar() {
           className="flex text-gray-600 border-b border-gray-300 py-4 gap-4 text-lg hover:text-orange-500 cursor-pointer items-center"
         >
           <IoMdAddCircleOutline />
-          <h3>Ajouter</h3>
+          <h3>Ajouter un Véhicule</h3>
         </Link>
         {/* ---------- */}
         <Link
@@ -74,7 +74,7 @@ function SideBar() {
           className="flex text-gray-600 border-b border-gray-300 py-4 gap-4 text-lg hover:text-orange-500 cursor-pointer items-center"
         >
           <FaRegEdit />
-          <h3>Modifier/Supprimer</h3>
+          <h3>Modifier/Supprimer un Véhicule</h3>
         </Link>
         {/* ---------- */}
         <Link
@@ -83,7 +83,7 @@ function SideBar() {
           className="flex text-gray-600 border-b border-gray-300 py-4 gap-4 text-lg hover:text-orange-500 cursor-pointer items-center"
         >
           <LuMapPin />
-          <h3>Tout les vehicules</h3>
+          <h3>Localisation des véhicules</h3>
         </Link>
         {/* ---------- */}
         <Link
@@ -92,7 +92,7 @@ function SideBar() {
           className="flex text-gray-600 border-b border-gray-300 py-4 gap-4 text-lg hover:text-orange-500 cursor-pointer items-center"
         >
           <FaRegMoneyBillAlt />
-          <h3>Paiement</h3>
+          <h3>Mon abonnement</h3>
         </Link>
         {/* ---------- */}
 
@@ -104,7 +104,7 @@ function SideBar() {
           className="flex text-red-600 font-semibold border-b border-gray-300 py-4 gap-4 text-lg hover:text-orange-500 cursor-pointer items-center"
         >
           <MdLogout />
-          <h3>Se Deconnecter</h3>
+          <h3>Déconnexion</h3>
         </div>
         {/* ---------- */}
       </div>

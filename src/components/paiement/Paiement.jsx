@@ -13,25 +13,25 @@ function Paiement() {
               <SideBar  />
 
         <div className='max-w-[30rem]'>
-            <h1 className='text-center mb-10 text-xl text-gray-600'>Selectionnez un moyer de paiement</h1>
-            <h1 className='text-center mb-10 text-xl text-red-600'>Pas encore actif</h1>
+            <h1 className='text-center mb-10 text-xl text-gray-600'>Choisissez votre mode de paiement</h1>
+            <h1 className='text-center mb-10 text-xl text-red-600'>Non disponible pour le moment</h1>
             <div className='flex flex-col gap-4'>
-                <div className='flex border-2 rounded-xl hover:bg-orange-100 border-orange-400/20 justify-between items-center p-3'>
+                <div className='flex border-2 rounded-xl hover:bg-orange-50/50 border-orange-400/20 justify-between items-center p-3'>
                     <img className='w-12' src="/img/carte/paypal.png" alt="" />
                     <h3 className='text-md text-gray-600 font-semibold'>Paypal</h3>
                 </div>
 
-                <div className='flex border-2 rounded-xl hover:bg-orange-100 border-orange-400/20 justify-between items-center p-3'>
+                <div className='flex border-2 rounded-xl hover:bg-orange-50/50 border-orange-400/20 justify-between items-center p-3'>
                     <img className='w-8' src="/img/carte/mastercard.png" alt="" />
                     <h3 className='text-md text-gray-600 font-semibold'>Master Card</h3>
                 </div>
 
-                <div className='flex border-2 rounded-xl hover:bg-orange-100 border-orange-400/20 justify-between items-center p-3'>
+                <div className='flex border-2 rounded-xl hover:bg-orange-50/50 border-orange-400/20 justify-between items-center p-3'>
                     <img className='w-8' src="/img/carte/moncash.png" alt="" />
                     <h3 className='text-md text-gray-600 font-semibold'>Mon Cash</h3>
                 </div>
 
-                <div className='flex border-2 rounded-xl hover:bg-orange-100 border-orange-400/20 justify-between items-center p-3'>
+                <div className='flex border-2 rounded-xl hover:bg-orange-50/50 border-orange-400/20 justify-between items-center p-3'>
                     <img className='w-8' src="/img/carte/visa.png" alt="" />
                     <h3 className='text-md text-gray-600 font-semibold'>Visa</h3>
                 </div>

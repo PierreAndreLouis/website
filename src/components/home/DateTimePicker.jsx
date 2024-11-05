@@ -3,7 +3,7 @@ import { IoClose } from "react-icons/io5";
 import { DataContext } from "../../context/DataContext";
 
 const DateTimePicker = ({ setShowDatePicker }) => {
-  const { handleDateChange, setLoadingHistoriqueFilter } = useContext(DataContext);
+  const { handleDateChange, fetchVehicleDetails,fetchHistoriqueVehicleDetails, currentVehicule, setLoadingHistoriqueFilter } = useContext(DataContext);
 
   // Formatage de la date actuelle
   const getCurrentDate = () => new Date().toISOString().split("T")[0];
@@ -19,9 +19,11 @@ const DateTimePicker = ({ setShowDatePicker }) => {
     e.preventDefault();
     const timeFrom = `${startDate} ${startTime}:00`;
     const timeTo = `${endDate} ${endTime}:00`;
-    handleDateChange(timeFrom, timeTo);
+    // handleDateChange(timeFrom, timeTo);
+    fetchHistoriqueVehicleDetails(currentVehicule.deviceID, timeFrom, timeTo);
+
     setShowDatePicker(false);
-    setLoadingHistoriqueFilter(true);
+    // setLoadingHistoriqueFilter(true);
   };
 
   return (
