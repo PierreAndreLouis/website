@@ -108,7 +108,7 @@ const MapComponent = ({ vehicles }) => {
 
   return (
     <div className="relative">
-      <div className="flex flex-col bg-white/80 shadow-2xl p-3 absolute right-4 top-[8.5rem] w-full max-w-[13rem] rounded-md z-[1000]">
+      <div className="flex flex-col bg-white/80 shadow-2xl p-3 absolute right-4 top-[10rem] w-full max-w-[13rem] rounded-md z-[1000]">
         <label htmlFor="mapType">Choisir le type de vue : </label>
         <select
           className="border p-1 border-gray-600 mt-2 rounded-md"
@@ -251,8 +251,8 @@ const Groupe_vehicule_location = () => {
             <span><FaChevronDown />
             </span>
         </h2>
-        { showVehiculeListe && <div className=" fixed z-[111111] bg-black/50 -inset-0  flex justify-center items-centerr flex-col">
-          <div className="relative bg-white max-w-[40rem] mx-auto max-h-[70vh] overflow-y-auto overflow-x-hidden p-5 flex flex-col gap-1 rounded-md">
+        { showVehiculeListe && <div className="px-4 fixed z-[111111] bg-black/50 -inset-0  flex justify-center items-centerr flex-col">
+          <div className="relative  bg-white max-w-[40rem] mx-auto max-h-[70vh] overflow-y-auto overflow-x-hidden p-5 flex flex-col gap-1 rounded-md">
       <IoClose onClick={() => {setShowVehiculeListe(false)}} className="absolute right-6 top-5 text-2xl text-red-500 cursor-pointer"/>
            
             <h2 className="font-semibold border-b-2 pb-2 mb-4 text-gray-600 text-lg">Choisissez un vehicule</h2>
