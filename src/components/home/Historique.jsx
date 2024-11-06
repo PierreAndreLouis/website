@@ -115,7 +115,7 @@ function Historique() {
         <div className="fixed flex justify-center z-20 top-[3.75rem] bg-white py-2 pt-3 left-0 right-0">
           <div className="flex  relative justify-between px-4 max-w-[35rem] items-center-- gap-3 w-full">
             <Link
-              to="/Single_Vehicule_Location"
+              to="/Groupe_vehicule_location"
               className="min-w-10 border rounded-md flex justify-center items-center py-2 bg-orange-50"
             >
               <MdLocationPin className="text-xl text-orange-600 " />
