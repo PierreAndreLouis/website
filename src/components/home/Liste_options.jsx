@@ -77,34 +77,25 @@ function Liste_options({}) {
             className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500"
           />
         </div>
-        <div className="grid grid-cols-2 gap-4 gap-y-8 p-4 py-8">
-          <Link
-            onClick={() => {
-              setShowListOption(false);
-            }}
-            to="/Single_Vehicule_Location"
-            className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
-          >
-            <FaLocationDot className="text-3xl" />
-            <h3>Derniere Pos.</h3>
-          </Link>
-
+        <div className="grid gap-4  p-4 py-8">
+        
           <Link
             onClick={() => {
               setShowListOption(false);
             }}
             to="/Groupe_vehicule_location"
-            className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
+            className=" col-span-2 rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
-            <BiSolidLocationPlus className="text-4xl" />
-            <h3>Groupe</h3>
+            <FaLocationDot className="text-4xl" />
+            {/* <BiSolidLocationPlus className="text-4xl" /> */}
+            <h3>Localisation du vehicule</h3>
           </Link>
 
           <div
             onClick={() => {
               setAccessCode(true);
             }}
-            className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
+            className=" row-start-2 rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
             <RiShutDownLine className="text-3xl" />
             <h3>Eteindre</h3>
@@ -114,7 +105,7 @@ function Liste_options({}) {
             onClick={() => {
               setAccessCode(true);
             }}
-            className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
+            className=" row-start-2 rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
             <FaMicrophone className="text-3xl" />
             <h3>Ecouter</h3>
@@ -127,7 +118,7 @@ function Liste_options({}) {
               }
             }}
             to="/voiture_historique"
-            className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
+            className=" row-start-3 rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
             <IoStatsChartSharp className="text-3xl" />
             <h3>Historique</h3>
@@ -138,7 +129,7 @@ function Liste_options({}) {
               setShowListOption(false);
             }}
             to="/voiture_details"
-            className="rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
+            className=" row-start-3 rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
             <FaInfoCircle className="text-3xl" />
             <h3>Informations</h3>

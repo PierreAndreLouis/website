@@ -43,6 +43,7 @@ const DataContextProvider = ({ children }) => {
   const [password, setPassword] = useState('');
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const [showChangePasswordPupup, setShowChangePasswordPupup] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState(null);
 
 
 
@@ -376,6 +377,7 @@ const DataContextProvider = ({ children }) => {
   };
 
 
+
   const firstCallHistoriqueData = () => {
     setShowListOption(false);
 
@@ -405,6 +407,9 @@ const DataContextProvider = ({ children }) => {
       fetchHistoriqueVehicleDetails(currentVehicule.deviceID, TimeFrom, TimeTo);
  
   };
+
+
+
 
   const handleDateChange = (TimeFrom, TimeTo) => {
     if (vehicleData && vehicleData.length > 0) {
@@ -580,7 +585,9 @@ const DataContextProvider = ({ children }) => {
         isPasswordConfirmed, 
         setIsPasswordConfirmed,
         showChangePasswordPupup, 
-        setShowChangePasswordPupup
+        setShowChangePasswordPupup,
+        selectedVehicle, 
+        setSelectedVehicle
         
       }}
     >

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { FaCar } from "react-icons/fa";
@@ -7,8 +7,12 @@ import Navigation_bar from "../home/Navigation_bar";
 import PC_header from "../home/PC_header";
 import Header from "../home/Header";
 import SideBar from "../home/SideBar";
+import { DataContext } from "../../context/DataContext";
 
 function Ajouter_vehicule() {
+  const { currentVehicule, userData, account, username, password, setIsPasswordConfirmed, showChangePasswordPupup, setShowChangePasswordPupup } = useContext(DataContext);
+
+  // 
   return (
     <div>
       <Navigation_bar />
@@ -25,6 +29,7 @@ function Ajouter_vehicule() {
                 Nouvelle Appareil
               </h3>
             </div>
+           
             <form action="#" method="POST" className="space-y-4 px-4 pb-4">
               {/* -------------------------------------------- */}
               <div>

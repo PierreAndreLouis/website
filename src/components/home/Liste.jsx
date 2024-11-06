@@ -7,7 +7,7 @@ import { FaCar } from "react-icons/fa";
 import "./style.css"
 
 function Liste({  }) {
-  const { mergedData, setCurrentVehicule, isLoading,setShowListOption, currentVehicule, updateCurrentVehicule, searchQuery } = useContext(DataContext);
+  const { mergedData, setCurrentVehicule, setSelectedVehicle, isLoading,setShowListOption, currentVehicule, updateCurrentVehicule, searchQuery } = useContext(DataContext);
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
 
   // Filtrer les données selon la recherche
@@ -23,12 +23,14 @@ function Liste({  }) {
   }, [currentVehicule]);
 
   const handleClick = (vehicle) => {
-    setCurrentVehicule(vehicle)
-    // updateCurrentVehicule(vehicle);
+    setCurrentVehicule(vehicle);
+    setSelectedVehicle(vehicle.deviceID)
+    // setSelectedVehicle(vehicle);  // Ajouter cette ligne
     setShowListOption(true);
     console.log("Véhicule en variable", currentVehicule);
     console.log("Véhicule cliqué", vehicle);
   };
+  
 
 
 
@@ -95,7 +97,8 @@ function formatTimestampToDate(timestamp) {
               className={` ${lite_bg_color} shadow-md rounded-lg p-3`}
             >
               <div
-                onClick={() => handleClick(vehicle)}
+                onClick={() => {handleClick(vehicle);  ;
+                }}
                 className="flex relative gap-3 md:py-6"
               >
                 <div className="flex flex-col items-center md:min-w-32">
@@ -167,7 +170,7 @@ function formatTimestampToDate(timestamp) {
           );
         })
       ) : (
-        <p>Aucun véhicule trouvé.</p>
+        <p className="text-center">Aucun véhicule trouvé.</p>
       )}
     </div>
   );
