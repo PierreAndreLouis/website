@@ -478,7 +478,13 @@ const DataContextProvider = ({ children }) => {
     if (!userData) return;
 
     console.log("Start creating..............");
-    console.log("Device ID:......", deviceID)
+    console.log("Device ID:......", deviceID);
+    console.log("imei:......", imeiNumber);
+    console.log("descrition ID:......", description);
+    console.log("name ID:......", displayName);
+    console.log("phone ID:......", simPhoneNumber);
+    console.log("Device ID:......", deviceID);
+    console.log("Device ID:......", deviceID);
 
     // <Authorization account="${accountID}" user="${userID}" password="${password}" />
     const xmlData = `<GTSRequest command="dbcreate">

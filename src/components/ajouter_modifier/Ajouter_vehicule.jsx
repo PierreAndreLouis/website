@@ -21,7 +21,7 @@ function Ajouter_vehicule() {
     equipmentType: "",
     simPhoneNumber: "",
     chassis: "",
-    vehicleID: ""
+    vehicleID: "",
   });
 
   const [error, setError] = useState(""); // État pour le message d'erreur
@@ -31,7 +31,7 @@ function Ajouter_vehicule() {
     const { name, value } = e.target;
     setAddVehicleData((prevData) => ({
       ...prevData,
-      [name]: value
+      [name]: value,
     }));
     setError(""); // Réinitialise l'erreur lorsque l'utilisateur modifie l'entrée
   };
@@ -46,13 +46,37 @@ function Ajouter_vehicule() {
     );
 
     if (deviceExists) {
-      setError("Cet identifiant (deviceID) est déjà utilisé, veuillez en choisir un autre.");
+      setError(
+        "Cet identifiant (deviceID) est déjà utilisé, veuillez en choisir un autre."
+      );
       return;
     }
 
     // Si deviceID est unique, créer le véhicule
-    createVehicle(addvehicleData);
-    console.log(addvehicleData)
+    const deviceID = addvehicleData.deviceID;
+    const imeiNumber = addvehicleData.imeiNumber;
+    const uniqueIdentifier = addvehicleData.uniqueIdentifier;
+    const description = addvehicleData.description;
+    const displayName = addvehicleData.displayName;
+    const licensePlate = addvehicleData.licensePlate;
+    const equipmentType = addvehicleData.equipmentType;
+    const simPhoneNumber = addvehicleData.simPhoneNumber;
+    const chassis = addvehicleData.chassis;
+    const vehicleID = addvehicleData.vehicleID;
+
+    createVehicle(
+      deviceID,
+      imeiNumber,
+      uniqueIdentifier,
+      description,
+      displayName,
+      licensePlate,
+      equipmentType,
+      simPhoneNumber,
+      chassis,
+      vehicleID
+    );
+    console.log(addvehicleData);
   };
 
   return (
@@ -71,25 +95,68 @@ function Ajouter_vehicule() {
                 Nouvelle Appareil
               </h3>
             </div>
-            <button onClick={() => createVehicle(addvehicleData)}>test add vehicle</button>
-            <button onClick={() => console.log("vehicleData", vehicleData)}>see vehicleData</button>
+            <button onClick={() => createVehicle(addvehicleData)}>
+              test add vehicle
+            </button>
+            <button onClick={() => console.log("vehicleData", vehicleData)}>
+              see vehicleData
+            </button>
 
             <form onSubmit={handleSubmit} className="space-y-4 px-4 pb-4">
               {/* Champs du formulaire */}
               {[
                 { id: "deviceID", label: "ID", placeholder: "ID" },
-                { id: "imeiNumber", label: "imeiNumber", placeholder: "imeiNumber" },
-                { id: "uniqueIdentifier", label: "Identificateur unique", placeholder: "tk + IMEI" },
-                { id: "vehicleID", label: "vehicleID", placeholder: "vehicleID" },
-                { id: "description", label: "Description du véhicule", placeholder: "Description" },
-                { id: "displayName", label: "Nom court du véhicule", placeholder: "Nom du véhicule" },
-                { id: "chassis", label: "Châssis du véhicule", placeholder: "Châssis" },
-                { id: "licensePlate", label: "Plaque du véhicule", placeholder: "Plaque" },
-                { id: "equipmentType", label: "Type d'appareil", placeholder: "BO? B1? B2?" },
-                { id: "simPhoneNumber", label: "Numéro du SIM", placeholder: "Numéro du SIM" }
+                {
+                  id: "imeiNumber",
+                  label: "imeiNumber",
+                  placeholder: "imeiNumber",
+                },
+                {
+                  id: "uniqueIdentifier",
+                  label: "Identificateur unique",
+                  placeholder: "tk + IMEI",
+                },
+                {
+                  id: "vehicleID",
+                  label: "vehicleID",
+                  placeholder: "vehicleID",
+                },
+                {
+                  id: "description",
+                  label: "Description du véhicule",
+                  placeholder: "Description",
+                },
+                {
+                  id: "displayName",
+                  label: "Nom court du véhicule",
+                  placeholder: "Nom du véhicule",
+                },
+                {
+                  id: "chassis",
+                  label: "Châssis du véhicule",
+                  placeholder: "Châssis",
+                },
+                {
+                  id: "licensePlate",
+                  label: "Plaque du véhicule",
+                  placeholder: "Plaque",
+                },
+                {
+                  id: "equipmentType",
+                  label: "Type d'appareil",
+                  placeholder: "BO? B1? B2?",
+                },
+                {
+                  id: "simPhoneNumber",
+                  label: "Numéro du SIM",
+                  placeholder: "Numéro du SIM",
+                },
               ].map((field) => (
                 <div key={field.id}>
-                  <label htmlFor={field.id} className="block text-md font-medium leading-6 text-gray-700">
+                  <label
+                    htmlFor={field.id}
+                    className="block text-md font-medium leading-6 text-gray-700"
+                  >
                     {field.label}
                   </label>
                   <input
