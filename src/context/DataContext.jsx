@@ -119,6 +119,7 @@ const DataContextProvider = ({ children }) => {
     }
   };
 
+
   const fetchVehicleData = async () => {
     if (!userData) return;
 
@@ -221,8 +222,8 @@ const DataContextProvider = ({ children }) => {
     }
   };
 
+
   const fetchVehicleDetails = async (Device, TimeFrom, TimeTo) => {
-    // setLoadingHistoriqueFilter(true);
 
     if (!userData) return;
 
@@ -377,7 +378,6 @@ const DataContextProvider = ({ children }) => {
   };
 
 
-
   const firstCallHistoriqueData = () => {
     setShowListOption(false);
 
@@ -409,8 +409,6 @@ const DataContextProvider = ({ children }) => {
   };
 
 
-
-
   const handleDateChange = (TimeFrom, TimeTo) => {
     if (vehicleData && vehicleData.length > 0) {
       vehicleData.forEach((vehicle) => {
@@ -419,7 +417,10 @@ const DataContextProvider = ({ children }) => {
     }
   };
 
+
   const handleLogout = () => {
+    setShowSideBar(true); 
+    setLogOut(false); 
     localStorage.removeItem("userData");
     localStorage.removeItem("vehicleData");
     localStorage.removeItem("vehicleDetails");
@@ -428,6 +429,7 @@ const DataContextProvider = ({ children }) => {
     setVehicleDetails([]);
     navigate("/login");
   };
+
 
   const mergeVehicleDataWithEvents = (eventData = vehicleDetails) => {
     if (!Array.isArray(eventData)) {
@@ -474,6 +476,8 @@ const DataContextProvider = ({ children }) => {
     return dataFusionne;
   };
 
+
+  
   useEffect(() => {
     if (userData) {
       fetchVehicleData();
@@ -487,39 +491,8 @@ const DataContextProvider = ({ children }) => {
     setPassword(localStorage.getItem("password") || '');
   }, []);
 
-  // useEffect(() => {
-  //   // exemple de donneer dans la base de donnee
-  //   // const TimeFrom = "2011-01-07 10:29:34";
-  //   // const TimeTo = "2024-01-07 10:29:34";
-  //   // Définir TimeTo et TimeFrom en fonction de la date actuelle
 
-  //   // const now = new Date();
-  //   // const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
-  //   //   .toString()
-  //   //   .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")} ${now
-  //   //   .getHours()
-  //   //   .toString()
-  //   //   .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now
-  //   //   .getSeconds()
-  //   //   .toString()
-  //   //   .padStart(2, "0")}`;
 
-  //   // const startOfDay = new Date();
-  //   // startOfDay.setHours(0, 0, 0, 0);
-
-  //   // const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
-  //   //   .toString()
-  //   //   .padStart(2, "0")}-${startOfDay
-  //   //   .getDate()
-  //   //   .toString()
-  //   //   .padStart(2, "0")} 00:00:00`;
-
-  //   // if (vehicleData && vehicleData.length > 0) {
-  //   //   vehicleData.forEach((vehicle) => {
-  //   //     fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
-  //   //   });
-  //   // }
-  // }, [vehicleData]);
 
   useEffect(() => {
     if (
@@ -532,16 +505,10 @@ const DataContextProvider = ({ children }) => {
     }
   }, [vehicleData, vehicleDetails]);
 
-  // useEffect(() => {
-  //   if (mergedData && Object.keys(mergedData).length > 0) {
-  //     // 2. Initialiser currentVehicule avec le premier véhicule
-  //     const firstVehicle = Object.values(mergedData)[0];
-  //     setCurrentVehicule(firstVehicle);
-  //   }
-  // }, [mergedData]);
+
 
   const updateCurrentVehicule = (vehicle) => {
-    setCurrentVehicule(vehicle); // 3. Fonction pour mettre à jour currentVehicule
+    setCurrentVehicule(vehicle); 
     firstCallHistoriqueData();
 
   };
