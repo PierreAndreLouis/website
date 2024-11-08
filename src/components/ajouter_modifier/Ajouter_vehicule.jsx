@@ -95,12 +95,7 @@ function Ajouter_vehicule() {
                 Nouvelle Appareil
               </h3>
             </div>
-            <button onClick={() => createVehicle(addvehicleData)}>
-              test add vehicle
-            </button>
-            <button onClick={() => console.log("vehicleData", vehicleData)}>
-              see vehicleData
-            </button>
+    
 
             <form onSubmit={handleSubmit} className="space-y-4 px-4 pb-4">
               {/* Champs du formulaire */}
