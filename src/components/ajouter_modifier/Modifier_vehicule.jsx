@@ -155,9 +155,7 @@ function Modifier_vehicule() {
     // firstCallHistoriqueData();
   };
 
-  // useEffect(() => {
-  //   console.log("Véhicule mis à jour", currentVehicule);
-  // }, [currentVehicule]);
+
 
   useEffect(() => {
     if (currentVehicule) {
@@ -239,12 +237,12 @@ function Modifier_vehicule() {
             className="bg-white max-w-[25rem] p-6 rounded-xl w-[80vw]"
           >
             <div>
-              <h2 className="text-center text-red-500 font-semibold">
-                Es tu sur de supprimer le vehicule:{" "}
+              <h2 className="text-center text-xl mb-3 text-red-500 font-semibold">
+                Supprimer ?
               </h2>
-              <h2 className="text-center text-red-500 font-semibold">
+              {/* <h2 className="text-center text-gray-700 font-semibold">
                 {currentVehicule.description} ?
-              </h2>
+              </h2> */}
               <label
                 htmlFor="password"
                 className="block text-lg text-center leading-6 text-gray-500 mb-3"
@@ -304,49 +302,7 @@ function Modifier_vehicule() {
                 {addvehicleData.description}
               </h4>
             </div>
-            {/* <div
-              onClick={() => {
-                setShowVehiculeListe(!showVehiculeListe);
-              }}
-              className="relative w-full"
-            >
-              <div
-                className="flex justify-between  cursor-pointer border rounded-md
-                 px-3 py-2 bg-orange-50 text-center"
-              >
-                <p className="text-start">
-                  {currentVehicule?.description || "Choisir un vehicule"}
-                </p>
-                <FaChevronDown className="mt-1" />
-              </div>
-
-              {showVehiculeListe && (
-                <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-20 shadow-xl border border-gray-100 rounded-md p-3">
-                  <div className="relative w-full max-w-[30rem] rounded-xl p-4 max-h-[70vh] overflow-y-auto overflow-hidden bg-white">
-                    <IoMdClose
-                      onClick={() => {
-                        setshowFilter(false);
-                      }}
-                      className="absolute top-3 cursor-pointer right-1  min-w-14 py-2 text-[2.3rem] text-red-600"
-                    />
-
-                    <h2 className="font-semibold text-gray-700 mb-2 text-lg pl-3 border-b-2 pb-2 border-gray-600/20">
-                      Choisir un vehicule
-                    </h2>
-
-                    {dataFusionee?.map((vehicule) => (
-                      <div
-                        key={vehicule.deviseID}
-                        onClick={() => handleVehicleClick(vehicule)}
-                        className="cursor-pointer px-3 py-2 hover:bg-orange-50 rounded-md"
-                      >
-                        <p>{vehicule.description}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div> */}
+       
             <div className="flex justify-center gap-2 mt-5">
               <Link
                 onClick={() => {
@@ -379,7 +335,10 @@ function Modifier_vehicule() {
             <div className="flex justify-center gap-2 mt-5">
               <Link
                 onClick={() => {
-                  setsuccessDeletevehiculePupup(false);
+                  {setsuccessDeletevehiculePupup(false);
+                    setCurrentVehicule(null);
+                    
+                  }
                 }}
                 to="/home"
                 className="cursor-pointer py-1 text-center px-10 bg-green-500 rounded-lg text-white"
@@ -584,7 +543,7 @@ function Modifier_vehicule() {
                   onClick={() => {
                     delVehicule();
                   }}
-                  className="flex w-full justify-center items-center gap-2 rounded-md border text-orange-500 border-orange-600 px-3 py-1.5 text-md font-semibold"
+                  className="flex cursor-pointer w-full justify-center items-center gap-2 rounded-md border text-orange-500 border-orange-600 px-3 py-1.5 text-md font-semibold"
                 >
                   <FaTrashAlt />
                   <p>Supprimer</p>
