@@ -613,7 +613,7 @@ function Historique() {
                   vehicles[0]?.lastValidLatitude || "",
                   vehicles[0]?.lastValidLongitude || "",
                 ]}
-                zoom={19}
+                zoom={15}
                 style={{ height: "110vh", width: "100%" }}
               >
                 <TileLayer
