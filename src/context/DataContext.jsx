@@ -7,6 +7,7 @@ export const DataContext = createContext();
 const DataContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [loadingHistoriqueFilter, setLoadingHistoriqueFilter] = useState(false);
+  const [crud_loading, setCrud_loading] = useState(false);
 
   const [userData, setUserData] = useState(() => {
     const storedUserData = localStorage.getItem("userData");
@@ -494,6 +495,8 @@ const DataContextProvider = ({ children }) => {
     if (!userData) return;
 
     setError("");
+    setCrud_loading(true);
+
 
     // <Authorization account="${accountID}" user="${userID}" password="${password}" />
     const xmlData = `<GTSRequest command="dbcreate">
@@ -536,12 +539,16 @@ const DataContextProvider = ({ children }) => {
         setsuccessAddvehiculePupup(true);
         setError("");
         fetchVehicleData();
+        setCrud_loading(false);
+
       } else {
         const errorMessage =
           xmlDoc.getElementsByTagName("Message")[0].textContent;
         setError(errorMessage || "Erreur lors de la création du véhicule.");
         console.log("errorrrrrrrrr");
         seterrorAddvehiculePupup(true);
+    setCrud_loading(false);
+
       }
 
       console.log("End creating..............");
@@ -549,11 +556,15 @@ const DataContextProvider = ({ children }) => {
       setError("Erreur lors de la création du véhicule.");
       console.error("Erreur lors de la création du véhicule", error);
       seterrorAddvehiculePupup(true);
+    setCrud_loading(false);
+
     }
   };
 
   const deleteVehicle = async (deviceID) => {
     console.log("Start Deleting.........");
+    setCrud_loading(true);
+
     const requestBody =
       `<GTSRequest command="dbdel">` +
       `<Authorization account="${account}" user="${username}" password="${password}"/>` +
@@ -583,12 +594,16 @@ const DataContextProvider = ({ children }) => {
         console.log("Véhicule supprimé avec succès.");
         fetchVehicleData();
         setsuccessDeletevehiculePupup(true);
+    setCrud_loading(false);
+
       } else {
         console.error(
           "Erreur lors de la suppression du véhicule:",
           response.statusText
         );
         seterrorDeletevehiculePupup(true);
+    setCrud_loading(false);
+
       }
 
       console.log("finish Deleting.........");
@@ -598,6 +613,7 @@ const DataContextProvider = ({ children }) => {
         error
       );
       seterrorDeletevehiculePupup(true);
+      setCrud_loading(false);
 
     }
   };
@@ -613,6 +629,7 @@ const DataContextProvider = ({ children }) => {
     simPhoneNumber
   ) => {
     console.log("Start updating.....");
+    setCrud_loading(true);
     const requestBody =
       `<GTSRequest command="dbput">` +
       `<Authorization account="${account}" user="${username}" password="${password}"/>` +
@@ -662,17 +679,23 @@ const DataContextProvider = ({ children }) => {
         console.log("Véhicule modifié avec succès.");
         setsuccessModifiervehiculePupup(true);
         fetchVehicleData();
+    setCrud_loading(false);
+
       } else {
         console.error(
           "Erreur lors de la modification du véhicule:",
           response.statusText
         );
         seterrorModifiervehiculePupup(true);
+    setCrud_loading(false);
+
       }
 
       console.log("finish updating.....");
     } catch (error) {
       seterrorModifiervehiculePupup(true);
+    setCrud_loading(false);
+
 
       console.error(
         "Erreur de connexion lors de la modification du véhicule:",
@@ -757,6 +780,8 @@ const DataContextProvider = ({ children }) => {
         updateVehicle,
         error,
         setError,
+        crud_loading, 
+        setCrud_loading,
 
 
 

@@ -25,6 +25,8 @@ function Modifier_vehicule() {
     setCurrentVehicule,
     firstCallHistoriqueData,
     setSelectedVehicle,
+    crud_loading,
+
 
     successDeletevehiculePupup,
     setsuccessDeletevehiculePupup,
@@ -44,6 +46,9 @@ function Modifier_vehicule() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showVehiculeListe, setShowVehiculeListe] = useState(false);
   const [showFilter, setshowFilter] = useState(false);
+
+
+
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
 
   // error
@@ -178,6 +183,17 @@ function Modifier_vehicule() {
       <PC_header />
       <Header />
       <SideBar />
+
+
+      {crud_loading && (
+        <div className="fixed z-30 inset-0 bg-gray-200/50">
+          <div className="w-full h-full flex justify-center items-center">
+            <div className="border-blue-500 h-20 w-20 animate-spin rounded-full border-8 border-t-gray-100/0" />
+          </div>
+        </div>
+      )}
+
+
       {showConfirmAddVehiculePupup && (
         <div className="fixed z-10 flex justify-center items-center inset-0 bg-black/50">
           <form
