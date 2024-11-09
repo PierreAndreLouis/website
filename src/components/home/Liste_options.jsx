@@ -63,7 +63,7 @@ function Liste_options({}) {
     console.log("qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq", vehicleDetails);
   };
   return (
-    <div className="bg-black/50 fixed inset-0 flex justify-center items-center">
+    <div className="bg-black/50 fixed z-[111111] inset-0 flex justify-center items-center">
       <div className="border min-w-[90vw] sm:min-w-[30rem] bg-white mx-4 rounded-xl overflow-hidden">
         <div className="p-4 py-6 pt-10 bg-orange-200/50 relative">
           <h2 className="text-xl text-center font-semibold">

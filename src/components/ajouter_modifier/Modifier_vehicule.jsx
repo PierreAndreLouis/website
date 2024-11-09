@@ -10,6 +10,8 @@ import { CiEdit } from "react-icons/ci";
 import { FaTrashAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa6";
+// import { FaCar } from "react-icons/fa";
+
 
 function Modifier_vehicule() {
   const {
@@ -468,9 +470,10 @@ function Modifier_vehicule() {
                         <div
                           key={vehicule.deviseID}
                           onClick={() => handleVehicleClick(vehicule)}
-                          className="cursor-pointer px-3 py-2 hover:bg-orange-50 rounded-md"
+                          className="cursor-pointer flex gap-4 py-4 items-center border-b border-gray-300 px-3 hover:bg-orange-50"
                         >
-                          <p>{vehicule.description}</p>
+                          <FaCar className="text-orange-600/80 text-lg" />
+                          <p className=" ">{vehicule.description}</p>
                         </div>
                       ))}
                     </div>

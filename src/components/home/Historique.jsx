@@ -288,13 +288,14 @@ function Historique() {
 
                     <div className="overflow-y-auto overflow-x-hidden h-[80vh] max-h-[58vh] pb-20">
                       {dataFusionee?.map((vehicule) => (
-                        <div
-                          key={vehicule.deviseID}
-                          onClick={() => handleVehicleClick(vehicule)}
-                          className="cursor-pointer px-3 py-2 hover:bg-orange-50 rounded-md"
-                        >
-                          <p>{vehicule.description}</p>
-                        </div>
+                      <div
+                      key={vehicule.deviseID}
+                      onClick={() => handleVehicleClick(vehicule)}
+                      className="cursor-pointer flex gap-4 py-4 items-center border-b border-gray-300 px-3 hover:bg-orange-50"
+                    >
+                      <FaCar className="text-orange-600/80 text-lg" />
+                      <p className=" ">{vehicule.description}</p>
+                    </div>
                       ))}
                     </div>
                   </div>
