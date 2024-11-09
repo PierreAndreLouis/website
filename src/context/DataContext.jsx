@@ -46,6 +46,23 @@ const DataContextProvider = ({ children }) => {
   const [isPasswordConfirmed, setIsPasswordConfirmed] = useState(false);
   const [showChangePasswordPupup, setShowChangePasswordPupup] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
+  //
+  const [successAddvehiculePupup, setsuccessAddvehiculePupup] = useState(false);
+  const [errorAddvehiculePupup, seterrorAddvehiculePupup] = useState(false);
+  //
+  const [successModifiervehiculePupup, setsuccessModifiervehiculePupup] =
+    useState(false);
+  const [errorModifiervehiculePupup, seterrorModifiervehiculePupup] =
+    useState(false);
+  //
+  const [successDeletevehiculePupup, setsuccessDeletevehiculePupup] =
+    useState(false);
+  const [errorDeletevehiculePupup, seterrorDeletevehiculePupup] =
+    useState(false);
+
+
+
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -472,19 +489,11 @@ const DataContextProvider = ({ children }) => {
     licensePlate,
     equipmentType,
     simPhoneNumber,
-    chassis,
     vehicleID
   ) => {
     if (!userData) return;
 
-    console.log("Start creating..............");
-    console.log("Device ID:......", deviceID);
-    console.log("imei:......", imeiNumber);
-    console.log("descrition ID:......", description);
-    console.log("name ID:......", displayName);
-    console.log("phone ID:......", simPhoneNumber);
-    console.log("Device ID:......", deviceID);
-    console.log("Device ID:......", deviceID);
+    setError("");
 
     // <Authorization account="${accountID}" user="${userID}" password="${password}" />
     const xmlData = `<GTSRequest command="dbcreate">
@@ -501,7 +510,6 @@ const DataContextProvider = ({ children }) => {
         <Field name="licensePlate">${licensePlate}</Field>
         <Field name="simPhoneNumber">${"509" + simPhoneNumber}</Field>
         <Field name="displayName">${displayName}</Field>
-        <Field name="displayName">${chassis}</Field>
         <Field name="isActive">1</Field>
       </Record>
     </GTSRequest>`;
@@ -521,21 +529,155 @@ const DataContextProvider = ({ children }) => {
         .getElementsByTagName("GTSResponse")[0]
         .getAttribute("result");
       console.log("Almost thereeee..............");
+      setError("");
 
       if (result === "success") {
         console.log("Véhicule créé avec succès :");
+        setsuccessAddvehiculePupup(true);
+        setError("");
         fetchVehicleData();
       } else {
         const errorMessage =
           xmlDoc.getElementsByTagName("Message")[0].textContent;
         setError(errorMessage || "Erreur lors de la création du véhicule.");
         console.log("errorrrrrrrrr");
+        seterrorAddvehiculePupup(true);
       }
 
       console.log("End creating..............");
     } catch (error) {
       setError("Erreur lors de la création du véhicule.");
       console.error("Erreur lors de la création du véhicule", error);
+      seterrorAddvehiculePupup(true);
+    }
+  };
+
+  const deleteVehicle = async (deviceID) => {
+    console.log("Start Deleting.........");
+    const requestBody =
+      `<GTSRequest command="dbdel">` +
+      `<Authorization account="${account}" user="${username}" password="${password}"/>` +
+      `<RecordKey table="Device" partial="true">` +
+      `<Field name="accountID">${account}</Field>` +
+      `<Field name="deviceID">${deviceID}</Field>` +
+      `</RecordKey>` +
+      `</GTSRequest>`;
+
+    console.log("almost Delete.........");
+
+    try {
+      const response = await fetch("/api/track/Service", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/xml",
+        },
+        body: requestBody,
+      });
+
+      console.log("wait a little more.........");
+
+      if (response.ok) {
+        setVehicleData((prevVehicles) =>
+          prevVehicles.filter((vehicle) => vehicle.deviceID !== deviceID)
+        );
+        console.log("Véhicule supprimé avec succès.");
+        fetchVehicleData();
+        setsuccessDeletevehiculePupup(true);
+      } else {
+        console.error(
+          "Erreur lors de la suppression du véhicule:",
+          response.statusText
+        );
+        seterrorDeletevehiculePupup(true);
+      }
+
+      console.log("finish Deleting.........");
+    } catch (error) {
+      console.error(
+        "Erreur de connexion lors de la suppression du véhicule:",
+        error
+      );
+      seterrorDeletevehiculePupup(true);
+
+    }
+  };
+
+  const updateVehicle = async (
+    deviceID,
+    imeiNumber,
+    uniqueID,
+    description,
+    displayName,
+    licensePlate,
+    equipmentType,
+    simPhoneNumber
+  ) => {
+    console.log("Start updating.....");
+    const requestBody =
+      `<GTSRequest command="dbput">` +
+      `<Authorization account="${account}" user="${username}" password="${password}"/>` +
+      `<Record table="Device" partial="true">` +
+      `<Field name="accountID">${account}</Field>` +
+      `<Field name="deviceID">${deviceID}</Field>` +
+      `<Field name="description">${description}</Field>` +
+      `<Field name="equipmentType">${equipmentType}</Field>` +
+      `<Field name="uniqueID">${uniqueID}</Field>` +
+      `<Field name="imeiNumber">${imeiNumber}</Field>` +
+      `<Field name="licensePlate">${licensePlate}</Field>` +
+      `<Field name="simPhoneNumber">${simPhoneNumber}</Field>` +
+      `<Field name="displayName">${displayName}</Field>` +
+      `<Field name="isActive">1</Field>` +
+      `</Record>` +
+      `</GTSRequest>`;
+    console.log("almost there.....");
+
+    try {
+      const response = await fetch("/api/track/Service", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/xml",
+        },
+        body: requestBody,
+      });
+
+      console.log("wait updating.....");
+
+      if (response.ok) {
+        setVehicleData((prevVehicles) =>
+          prevVehicles.map((vehicle) =>
+            vehicle.deviceID === deviceID
+              ? {
+                  ...vehicle,
+                  description,
+                  equipmentType,
+                  uniqueID,
+                  imeiNumber,
+                  licensePlate,
+                  simPhoneNumber,
+                  displayName,
+                }
+              : vehicle
+          )
+        );
+        console.log("Véhicule modifié avec succès.");
+        setsuccessModifiervehiculePupup(true);
+        fetchVehicleData();
+      } else {
+        console.error(
+          "Erreur lors de la modification du véhicule:",
+          response.statusText
+        );
+        seterrorModifiervehiculePupup(true);
+      }
+
+      console.log("finish updating.....");
+    } catch (error) {
+      seterrorModifiervehiculePupup(true);
+
+      console.error(
+        "Erreur de connexion lors de la modification du véhicule:",
+        error
+      );
     }
   };
 
@@ -611,6 +753,28 @@ const DataContextProvider = ({ children }) => {
         selectedVehicle,
         setSelectedVehicle,
         createVehicle,
+        deleteVehicle,
+        updateVehicle,
+        error,
+        setError,
+
+
+
+        successAddvehiculePupup,
+        setsuccessAddvehiculePupup,
+        errorAddvehiculePupup,
+        seterrorAddvehiculePupup,
+
+
+        successModifiervehiculePupup,
+        setsuccessModifiervehiculePupup,
+        errorModifiervehiculePupup,
+        seterrorModifiervehiculePupup,
+
+        successDeletevehiculePupup,
+        setsuccessDeletevehiculePupup,
+        errorDeletevehiculePupup,
+        seterrorDeletevehiculePupup,
       }}
     >
       {children}
@@ -619,3 +783,4 @@ const DataContextProvider = ({ children }) => {
 };
 
 export default DataContextProvider;
+

@@ -274,7 +274,7 @@ function Historique() {
 
               {showVehiculeListe && (
                 <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-20 shadow-xl border border-gray-100 rounded-md p-3">
-                  <div className="relative w-full max-w-[30rem] rounded-xl p-4 max-h-[70vh] overflow-y-auto overflow-hidden bg-white">
+                  <div className="pt-16 relative w-full max-w-[30rem] rounded-xl p-4 max-h-[70vh] overflow-y-auto---- overflow----- hidden--- bg-white">
                     <IoMdClose
                       onClick={() => {
                         setshowFilter(false);
@@ -282,19 +282,21 @@ function Historique() {
                       className="absolute top-3 cursor-pointer right-1  min-w-14 py-2 text-[2.3rem] text-red-600"
                     />
 
-                    <h2 className="font-semibold text-gray-700 mb-2 text-lg pl-3 border-b-2 pb-2 border-gray-600/20">
+                    <h2 className="absolute left-0 top-4 right-0 font-semibold text-gray-700 mb-2 text-lg pl-7 border-b-2 pb-2 border-gray-600/20">
                       Choisir un vehicule
                     </h2>
 
-                    {dataFusionee.map((vehicule) => (
-                      <div
-                        key={vehicule.deviseID}
-                        onClick={() => handleVehicleClick(vehicule)}
-                        className="cursor-pointer px-3 py-2 hover:bg-orange-50 rounded-md"
-                      >
-                        <p>{vehicule.description}</p>
-                      </div>
-                    ))}
+                    <div className="overflow-y-auto overflow-x-hidden h-[80vh] max-h-[58vh] pb-20">
+                      {dataFusionee?.map((vehicule) => (
+                        <div
+                          key={vehicule.deviseID}
+                          onClick={() => handleVehicleClick(vehicule)}
+                          className="cursor-pointer px-3 py-2 hover:bg-orange-50 rounded-md"
+                        >
+                          <p>{vehicule.description}</p>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               )}
