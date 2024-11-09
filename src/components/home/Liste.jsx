@@ -126,7 +126,7 @@ function formatTimestampToDate(timestamp) {
                       <FaRegCalendarAlt className="text-gray-500/80" />
                       <h3 className="text-sm sm:text-sm md:text-md">
                         {formatTimestampToDate(
-                          vehicle.vehiculeDetails?.[0]?.timestamp
+                          vehicle.vehiculeDetails?.[0]?.timestamp 
                           // vehicle?.lastUpdateTime
                         )}
                       </h3>
@@ -135,7 +135,7 @@ function formatTimestampToDate(timestamp) {
                       <IoMdTime className="text-gray-500/80 text-xl" />
                       <h3 className="text-sm sm:text-sm md:text-md">
                         {formatTimestampToTime(
-                          vehicle.vehiculeDetails?.[0]?.timestamp
+                          vehicle.vehiculeDetails?.[0]?.timestamp || 0
                           // vehicle?.lastUpdateTime
                         )}
                       </h3>
