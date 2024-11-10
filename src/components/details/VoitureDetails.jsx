@@ -77,7 +77,7 @@ function VoitureDetails() {
                        onClick={() => handleVehicleClick(vehicule)}
                        className="cursor-pointer flex gap-4 py-4 items-center border-b border-gray-300 px-3 hover:bg-orange-50"
                      >
-                       <FaCar className="text-orange-600/80 text-lg" />
+                       <FaCar className="text-orange-600/80 min-w-8 text-lg" />
                        <p className=" ">{vehicule.description}</p>
                      </div>
                       ))}

@@ -7,6 +7,8 @@ import { FaListUl } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { FaCar } from "react-icons/fa";
+
 
 
 function Navigation_bar({ setAddVehicule, setModifierVehicule }) {
@@ -45,14 +47,14 @@ function Navigation_bar({ setAddVehicule, setModifierVehicule }) {
           <FaPlus className="text-white text-xl" />
         </Link>
       </div>
-
-      <Link
-        to="/paiement"
+      
+    <Link
+        to="/rapport_vehicule"
         onClick={() => handleClick()}
         className="flex flex-col cursor-pointer hover:text-orange-500 justify-center items-center text-gray-600"
       >
-        <MdAttachMoney className="text-xl" />
-        <h3 className="text-sm">Paiement</h3>
+        <FaCar className="text-xl" />
+        <h3 className="text-sm">Rapport</h3>
       </Link>
       <Link
         to="/User_Profile"

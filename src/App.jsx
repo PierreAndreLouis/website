@@ -25,6 +25,7 @@ import Delete_vehicule from "./components/delete_vehicule/Delete_vehicule";
 import UserProfile from "./components/profile/UserProfile";
 import ChangePassword from "./components/login/ChangePassword";
 import ProtectedChangePassword from "./pages/ProtectedChangePassword";
+import RapportVehicule from "./components/home/RapportVehicule";
 
 function App() {
   const location = useLocation();
@@ -104,7 +105,10 @@ function App() {
           element={<PrivateRoute element={<UserProfile />} />}
         />
 
-     
+       <Route
+          path="/rapport_vehicule"
+          element={<PrivateRoute element={<RapportVehicule />} />}
+        />
 
         {/* <Route
           path="/Change_Password"

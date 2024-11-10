@@ -76,7 +76,7 @@ function Liste_options({}) {
             className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500"
           />
         </div>
-        <div className="grid grid-cols-2 gap-4  p-4 py-8">
+        <div className="grid text-gray-600 grid-cols-2 gap-4  p-4 py-8">
           <Link
             onClick={() => {
               setShowListOption(false);
