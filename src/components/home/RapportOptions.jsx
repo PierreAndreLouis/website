@@ -65,7 +65,7 @@ function RapportOptions({setshowRapportPupup}) {
         //   onClick={() => {setshowRapportPupup(false)}}
           className="p-4  flex flex-col gap-4 py-6 pb-10">
             <div className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4">
-              <IoStatsChartSharp className="text-[1.92rem] text-orange-400 " />
+              <IoStatsChartSharp className="text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold text-orange-900">
                 Historique du vehicule
               </h2>
