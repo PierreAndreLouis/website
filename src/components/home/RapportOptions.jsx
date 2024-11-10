@@ -59,7 +59,7 @@ function RapportOptions({setshowRapportPupup}) {
             className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500"
           />
           <div className="h-16 bg-orange-100 shadow-md text-gray-800 text-xl font-semibold text-center flex justify-center items-center p-2">
-            <h1>Toyota Land Cruser Prada</h1>
+            <h1 className="px-3">Toyota Land Cruser Prada</h1>
           </div>
           <div 
         //   onClick={() => {setshowRapportPupup(false)}}

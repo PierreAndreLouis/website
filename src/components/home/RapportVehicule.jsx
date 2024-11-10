@@ -35,7 +35,7 @@ function RapportVehicule() {
         {/* ----------------------------------- */}
         <div className="transition-all ">
           <div
-            className="flex justify-between items-center px-4 cursor-pointer bg-green-100 text-green-700 p-2 mb-3 font-semibold rounded-md"
+            className="flex justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
             onClick={() => {
               setshowActiveVehicule(!showActiveVehicule);
             }}
@@ -58,7 +58,7 @@ function RapportVehicule() {
             } flex   overflow-hidden flex-col gap-4 transition-all `}
           >
             <div className="bg-white">
-              <div className={` bg-green-100/30 shadow-md rounded-lg p-3`}>
+              <div className={` bg-green-100/20 shadow-md rounded-lg p-3`}>
                 <div className="flex items-stretch relative gap-3 md:py-6--">
                   <div className="flex justify-center border-2 md:pt-6 md:pb-8 bg-green-100 border-white shadow-md shadow-green-200 rounded-md p-2 flex-col items-center md:min-w-32">
                     <div className="">
@@ -116,7 +116,7 @@ function RapportVehicule() {
                 </div>
                 <div className="flex gap-1 sm:hidden">
                   <p className="text-md felx sm:flex text-gray-600 mt-2 md:text-lg">
-                    <span className="font-bold text-gray-700">Adresse : </span>
+                    <span className="text-green-700 font-bold ">Adresse : </span>
                     Delmas 33 en face de l'institution de saint louis de
                     gonzague, rue Lamar, Port-au-prince Haiti
                   </p>
@@ -125,7 +125,7 @@ function RapportVehicule() {
             </div>
 
             <div className="bg-white">
-              <div className={` bg-green-100/30 shadow-md rounded-lg p-3`}>
+              <div className={` bg-green-100/20 shadow-md rounded-lg p-3`}>
                 <div className="flex items-stretch relative gap-3 md:py-6--">
                   <div className="flex justify-center border-2 md:pt-6 md:pb-8 bg-green-100 border-white shadow-md shadow-green-200 rounded-md p-2 flex-col items-center md:min-w-32">
                     <div className="">
@@ -183,7 +183,7 @@ function RapportVehicule() {
                 </div>
                 <div className="flex gap-1 sm:hidden">
                   <p className="text-md felx sm:flex text-gray-600 mt-2 md:text-lg">
-                    <span className="font-bold text-gray-700">Adresse : </span>
+                    <span className="text-green-700 font-bold ">Adresse : </span>
                     Delmas 33 en face de l'institution de saint louis de
                     gonzague, rue Lamar, Port-au-prince Haiti
                   </p>
@@ -202,7 +202,7 @@ function RapportVehicule() {
             onClick={() => {
               setshowParkingVehicule(!showParkingVehicule);
             }}
-            className="flex justify-between items-center px-4 cursor-pointer bg-red-50 text-red-700 p-2 mb-3 font-semibold rounded-md"
+            className="flex justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
           >
             <h2>Vehicules en Stationnement :</h2>
             <FaChevronDown
@@ -223,7 +223,7 @@ function RapportVehicule() {
             } flex   overflow-hidden flex-col gap-4 transition-all `}
           >
             <div className="bg-white">
-              <div className={` bg-red-100/30 shadow-md rounded-lg p-3`}>
+              <div className={` bg-red-100/20 shadow-md rounded-lg p-3`}>
                 <div className="flex items-stretch relative gap-3 md:py-6--">
                   <div className="flex justify-center border-2 md:pt-6 md:pb-8 bg-red-200/40 border-white shadow-md shadow-red-200 rounded-md p-2 flex-col items-center md:min-w-32">
                     <div className="">
@@ -281,7 +281,7 @@ function RapportVehicule() {
                 </div>
                 <div className="flex gap-1 sm:hidden">
                   <p className="text-md felx sm:flex text-gray-600 mt-2 md:text-lg">
-                    <span className="font-bold text-gray-700">Adresse : </span>
+                    <span className="text-red-700 font-bold ">Adresse : </span>
                     Delmas 33 en face de l'institution de saint louis de
                     gonzague, rue Lamar, Port-au-prince Haiti
                   </p>
@@ -290,7 +290,7 @@ function RapportVehicule() {
             </div>
 
             <div className="bg-white">
-              <div className={` bg-red-100/30 shadow-md rounded-lg p-3`}>
+              <div className={` bg-red-100/20 shadow-md rounded-lg p-3`}>
                 <div className="flex items-stretch relative gap-3 md:py-6--">
                   <div className="flex justify-center border-2 md:pt-6 md:pb-8 bg-red-200/40 border-white shadow-md shadow-red-200 rounded-md p-2 flex-col items-center md:min-w-32">
                     <div className="">
@@ -348,7 +348,7 @@ function RapportVehicule() {
                 </div>
                 <div className="flex gap-1 sm:hidden">
                   <p className="text-md felx sm:flex text-gray-600 mt-2 md:text-lg">
-                    <span className="font-bold text-gray-700">Adresse : </span>
+                    <span className="text-red-700 font-bold ">Adresse : </span>
                     Delmas 33 en face de l'institution de saint louis de
                     gonzague, rue Lamar, Port-au-prince Haiti
                   </p>
@@ -366,7 +366,7 @@ function RapportVehicule() {
             onClick={() => {
               setshowInactiveVehicule(!showInactiveVehicule);
             }}
-            className="flex justify-between items-center px-4 cursor-pointer bg-purple-100 text-purple-800 p-2 mb-3 font-semibold rounded-md"
+            className="flex justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
           >
             <h2>Vehicules inactive :</h2>
             <FaChevronDown
@@ -387,7 +387,7 @@ function RapportVehicule() {
             } flex   overflow-hidden flex-col gap-4 transition-all `}
           >
             <div className="bg-white">
-              <div className={` bg-purple-100/50 shadow-md rounded-lg p-3`}>
+              <div className={` bg-purple-100/30 shadow-md rounded-lg p-3`}>
                 <div className="flex items-stretch relative gap-3 md:py-6--">
                   <div className="flex justify-center border-2 md:pt-6 md:pb-8 bg-purple-200 border-white shadow-md shadow-purple-200 rounded-md p-2 flex-col items-center md:min-w-32">
                     <div className="">
@@ -401,7 +401,7 @@ function RapportVehicule() {
 
                   <div>
                     <h2
-                      className={`text-purple-800 text-gray-800-- font-semibold text-md md:text-xl mb-2 `}
+                      className={`text-purple-900 text-gray-800-- font-semibold text-md md:text-xl mb-2 `}
                     >
                       Toyota Land Cruser Prada
                     </h2>
@@ -445,7 +445,7 @@ function RapportVehicule() {
                 </div>
                 <div className="flex gap-1 sm:hidden">
                   <p className="text-md felx sm:flex text-gray-600 mt-2 md:text-lg">
-                    <span className="font-bold text-gray-700">Adresse : </span>
+                    <span className="text-purple-800 font-bold ">Adresse : </span>
                     Delmas 33 en face de l'institution de saint louis de
                     gonzague, rue Lamar, Port-au-prince Haiti
                   </p>
@@ -454,7 +454,7 @@ function RapportVehicule() {
             </div>
 
             <div className="bg-white">
-              <div className={` bg-purple-100/50 shadow-md rounded-lg p-3`}>
+              <div className={` bg-purple-100/30 shadow-md rounded-lg p-3`}>
                 <div className="flex items-stretch relative gap-3 md:py-6--">
                   <div className="flex justify-center border-2 md:pt-6 md:pb-8 bg-purple-200 border-white shadow-md shadow-purple-200 rounded-md p-2 flex-col items-center md:min-w-32">
                     <div className="">
@@ -468,7 +468,7 @@ function RapportVehicule() {
 
                   <div>
                     <h2
-                      className={`text-purple-800 text-gray-800-- font-semibold text-md md:text-xl mb-2 `}
+                      className={`text-purple-900 text-gray-800-- font-semibold text-md md:text-xl mb-2 `}
                     >
                       Toyota Land Cruser Prada
                     </h2>
@@ -512,7 +512,7 @@ function RapportVehicule() {
                 </div>
                 <div className="flex gap-1 sm:hidden">
                   <p className="text-md felx sm:flex text-gray-600 mt-2 md:text-lg">
-                    <span className="font-bold text-gray-700">Adresse : </span>
+                    <span className="text-purple-800 font-bold ">Adresse : </span>
                     Delmas 33 en face de l'institution de saint louis de
                     gonzague, rue Lamar, Port-au-prince Haiti
                   </p>
