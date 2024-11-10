@@ -51,7 +51,7 @@ function RapportOptions({setshowRapportPupup}) {
 
 
       <div className="fixed flex justify-center items-center z-[1] inset-0 bg-black/50">
-        <div className="relative w-[80vw] max-w-[40rem] bg-white overflow-hidden rounded-lg">
+        <div className="relative w-[90vw] max-w-[40rem] bg-white overflow-hidden rounded-lg">
         <IoMdClose
             onClick={() => {
               setshowRapportPupup(false);
