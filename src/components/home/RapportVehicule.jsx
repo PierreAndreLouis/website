@@ -80,7 +80,7 @@ function RapportVehicule() {
                       <div className="flex gap-3 items-center">
                         <FaRegCalendarAlt className="text-gray-500/80" />
                         <h3 className="text-sm sm:text-sm md:text-md">
-                          28:03:2000
+                          28-03-2000
                         </h3>
                       </div>
                       <div className="flex items-center gap-1">
@@ -147,7 +147,7 @@ function RapportVehicule() {
                       <div className="flex gap-3 items-center">
                         <FaRegCalendarAlt className="text-gray-500/80" />
                         <h3 className="text-sm sm:text-sm md:text-md">
-                          28:03:2000
+                          28-03-2000
                         </h3>
                       </div>
                       <div className="flex items-center gap-1">
@@ -245,7 +245,7 @@ function RapportVehicule() {
                       <div className="flex gap-3 items-center">
                         <FaRegCalendarAlt className="text-gray-500/80" />
                         <h3 className="text-sm sm:text-sm md:text-md">
-                          28:03:2000
+                          28-03-2000
                         </h3>
                       </div>
                       <div className="flex items-center gap-1">
@@ -312,7 +312,7 @@ function RapportVehicule() {
                       <div className="flex gap-3 items-center">
                         <FaRegCalendarAlt className="text-gray-500/80" />
                         <h3 className="text-sm sm:text-sm md:text-md">
-                          28:03:2000
+                          28-03-2000
                         </h3>
                       </div>
                       <div className="flex items-center gap-1">
@@ -409,7 +409,7 @@ function RapportVehicule() {
                       <div className="flex gap-3 items-center">
                         <FaRegCalendarAlt className="text-gray-500/80" />
                         <h3 className="text-sm sm:text-sm md:text-md">
-                          28:03:2000
+                          28-03-2000
                         </h3>
                       </div>
                       <div className="flex items-center gap-1">
@@ -476,7 +476,7 @@ function RapportVehicule() {
                       <div className="flex gap-3 items-center">
                         <FaRegCalendarAlt className="text-gray-500/80" />
                         <h3 className="text-sm sm:text-sm md:text-md">
-                          28:03:2000
+                          28-03-2000
                         </h3>
                       </div>
                       <div className="flex items-center gap-1">
