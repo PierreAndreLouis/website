@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navigation_bar from "./Navigation_bar";
 import PC_header from "./PC_header";
 import Header from "./Header";
@@ -38,8 +38,40 @@ function RapportVehicule() {
   const [showActiveVehicule, setshowActiveVehicule] = useState(true);
   const [showParkingVehicule, setshowParkingVehicule] = useState(true);
   const [showInactiveVehicule, setshowInactiveVehicule] = useState(true);
+  //
   const [showRapportPupup, setshowRapportPupup] = useState(false);
   const [slidePage, setSLidePage] = useState("-translate-x-[0vw]");
+
+  useEffect(() => {
+    if (vehiculeActiveAjourdhui.length === 0) {
+      setshowActiveVehicule(false);
+    } else {
+      setshowActiveVehicule(true);
+    }
+
+    if (vehiculeActiveMaintenant.length === 0) {
+      setshowActiveVehiculeNow(false);
+    } else {
+      setshowActiveVehiculeNow(true);
+    }
+
+    if (vehiculeNotActiveAjourdhui.length === 0) {
+      setshowParkingVehicule(false);
+    } else {
+      setshowParkingVehicule(true);
+    }
+
+    if (vehiculeNotActif.length === 0) {
+      setshowInactiveVehicule(false);
+    } else {
+      setshowInactiveVehicule(true);
+    }
+  }, [
+    vehiculeActiveAjourdhui,
+    vehiculeNotActiveAjourdhui,
+    vehiculeActiveMaintenant,
+    vehiculeNotActif,
+  ]);
 
   // Fonction pour formater la date (jj/mm/aa)
   const formatDate = (timestamp) => {
@@ -64,11 +96,10 @@ function RapportVehicule() {
   return (
     <div className="mb-56 mt-[8rem]">
       <div className="absolute z-[12333323230]">
-
-      <Navigation_bar />
-      <PC_header />
-      <Header />
-      <SideBar />
+        <Navigation_bar />
+        <PC_header />
+        <Header />
+        <SideBar />
       </div>
       {showRapportPupup && (
         <RapportOptions setshowRapportPupup={setshowRapportPupup} />
@@ -115,8 +146,13 @@ function RapportVehicule() {
                 Rapport sur les vehicules <br /> Aujourd'hui
                 <br />
                 <br />
-                <span onClick={()=> {firstCallRapportData()}} className="flex justify-between items-center w-[8rem] mx-auto font-normal text-[1rem] shadow-lg px-4 py-0.5 cursor-pointer bg-orange-100 rounded-md">
-                  Rafraichir <IoReload className=" text-md"/>
+                <span
+                  onClick={() => {
+                    firstCallRapportData();
+                  }}
+                  className="flex justify-between items-center w-[8rem] mx-auto font-normal text-[1rem] shadow-lg px-4 py-0.5 cursor-pointer bg-orange-100 rounded-md"
+                >
+                  Rafraichir <IoReload className=" text-md" />
                 </span>
               </h1>
 
