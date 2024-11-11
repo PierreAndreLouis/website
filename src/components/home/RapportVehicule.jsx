@@ -115,7 +115,7 @@ function RapportVehicule() {
                 Rapport sur les vehicules <br /> Aujourd'hui
                 <br />
                 <br />
-                <span onClick={()=> {firstCallRapportData()}} className="flex justify-between items-center w-[8rem] mx-auto font-normal text-[1rem] border px-4 py-0.5 cursor-pointer bg-orange-100 rounded-md">
+                <span onClick={()=> {firstCallRapportData()}} className="flex justify-between items-center w-[8rem] mx-auto font-normal text-[1rem] shadow-lg px-4 py-0.5 cursor-pointer bg-orange-100 rounded-md">
                   Rafraichir <IoReload className=" text-md"/>
                 </span>
               </h1>
