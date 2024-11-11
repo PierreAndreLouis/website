@@ -250,7 +250,7 @@ function Historique() {
       )}
 
       <div className="mb-6 mt-8 md:mt-16">
-        <div className="fixed flex justify-center z-20 top-[3.75rem] bg-white py-2 pt-3 left-0 right-0">
+        <div className="fixed flex justify-center z-20 top-[3.75rem] bg-white md:bg-white/0 py-2 pt-3 left-0 right-0">
           <div className="flex  relative justify-between px-4 max-w-[35rem] items-center-- gap-3 w-full">
             <div
               onClick={() => {
@@ -595,7 +595,7 @@ function Historique() {
         </div>
       ) : (
         // carte section
-        <div className="  fixed right-0 top-[5rem] bottom-0 overflow-hidden left-0">
+        <div className="  fixed right-0 top-[5rem] md:top-[3.8rem] bottom-0 overflow-hidden left-0">
           <div>
             <div className="relative">
               {typeDeVue && (

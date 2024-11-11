@@ -423,8 +423,8 @@ function Modifier_vehicule() {
 
       <div className="flex w-full justify-center h-full mt-16 md:mt-20">
         <div className="w-full flex justify-center">
-          <div className="bg-white max-w-[30rem] w-full shadow-lg overflow-auto">
-            <div className="flex justify-center items-center w-full py-10 pb-8">
+          <div className="bg-white max-w-[40rem] md:px-6 mb-20 w-full mt-10 rounded-xl shadow-lg overflow-auto">
+            <div className="flex justify-center mb-10 items-center w-full py-6 pb-8">
               <CiEdit className="text-2xl mr-2 text-orange-500" />
               <h3 className="text-center font-semibold text-gray-600 text-xl">
                 Modifier Appareil
@@ -579,7 +579,7 @@ function Modifier_vehicule() {
                     </p>
                   )}
 
-                  <div className="relative grid grid-cols-2 gap-2 pt-5 pb-20">
+                  <div className="relative grid grid-cols-2 gap-2 pt-5 pb-8">
                     {currentVehicule?.description ? (
                       <p className="absolute"></p>
                     ) : (

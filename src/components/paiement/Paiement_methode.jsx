@@ -12,7 +12,7 @@ function Paiement_methode() {
               <Header  />
               <SideBar  />
 
-        <div className='max-w-[30rem]'>
+        <div className='max-w-[40rem] px-4 w-full'>
             <h1 className='text-center mb-2 text-xl text-gray-600'>Choisissez votre mode de paiement</h1>
             <h4 className='text-center mb-10 text-xl text-red-600'>Non disponible pour le moment</h4>
             <div className='flex flex-col gap-4'>

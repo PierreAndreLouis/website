@@ -73,10 +73,9 @@ const Home = () => {
      <SideBar />
 
       {/* <SideBar showSideBar={showSideBar} setShowSideBar={setShowSideBar} /> */}
-      <div className="md:hidden">
         <Header  />
      
-      </div>
+  
       <Statistics />
       {isLoading ||
         (!vehicleData && (

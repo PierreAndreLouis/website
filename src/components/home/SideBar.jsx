@@ -10,7 +10,7 @@ import { DataContext } from "../../context/DataContext";
 import { Link } from "react-router-dom";
 import Logout from "../login/Logout";
 import { IoHomeOutline } from "react-icons/io5";
-
+import { FaCar } from "react-icons/fa";
 
 function SideBar() {
   const {
@@ -29,9 +29,9 @@ function SideBar() {
     <div
       className={` ${
         showSideBar && "-translate-x-[100%] "
-      } md:hidden transition-all bg-black/50--  fixed z-10 inset-0`}
+      } md:hidden--- transition-all bg-black/50--  fixed z-10 inset-0`}
     >
-      <div className="transition-all pt-28 relative px-8 max-w-[25rem] h-screen  z-20 bg-white shadow-2xl">
+      <div className=" overflow-auto transition-all pt-28 relative px-8 max-w-[25rem] h-screen  z-20 bg-white shadow-2xl">
         {logOut && (
           <div className="z-40">
             <Logout setLogOut={setLogOut} />
@@ -86,13 +86,23 @@ function SideBar() {
           <h3>Localisation des véhicules</h3>
         </Link>
         {/* ---------- */}
-        <Link
+        {/* <Link
           onClick={() => setShowSideBar(true)}
           to="/paiement"
           className="flex text-gray-600 border-b border-gray-300 py-4 gap-4 text-lg hover:text-orange-500 cursor-pointer items-center"
         >
           <FaRegMoneyBillAlt />
           <h3>Mon abonnement</h3>
+        </Link> */}
+        {/* ---------- */}
+
+        <Link
+          onClick={() => setShowSideBar(true)}
+          to="/rapport_vehicule"
+          className="flex text-gray-600 border-b border-gray-300 py-4 gap-4 text-lg hover:text-orange-500 cursor-pointer items-center"
+        >
+          <FaCar  />
+          <h3>Rapport des vehicules</h3>
         </Link>
         {/* ---------- */}
 

@@ -241,8 +241,8 @@ function Ajouter_vehicule() {
 
       <div className="flex w-full justify-center h-full mt-16 md:mt-20">
         <div className="w-full flex justify-center">
-          <div className="bg-white max-w-[30rem] w-full shadow-lg overflow-auto">
-            <div className="flex justify-center items-center w-full py-10">
+          <div className="bg-white max-w-[40rem] rounded-xl w-full md:px-6 mt-6 mb-20 border-- shadow-lg overflow-auto">
+            <div className="flex justify-center items-center w-full mb-10 pt-10 ">
               <FaCar className="text-2xl mr-2 text-orange-500" />
               <h3 className="text-center font-semibold text-gray-600 text-xl">
                 Nouveau Appareil
@@ -318,7 +318,7 @@ function Ajouter_vehicule() {
               {/* Boutons Enregistrer et Annuler */}
 
               {username === "admin" ? (
-                <div className="grid grid-cols-2 gap-2 pt-10 pb-20">
+                <div className="grid grid-cols-2 gap-2 pt-10 pb-6">
                   <button
                     onClick={() => {
                       setError("");
