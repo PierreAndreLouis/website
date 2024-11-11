@@ -24,12 +24,16 @@ const assets = [
   'img/carte/*.png',
   'img/icons/*.png',
   'img/logo/*.png',
+  'img/home_icon/*.png',
+
 
   '/puclic/img/*.png',
   '/puclic/img/cars/*.png',
   '/puclic/img/carte/*.png',
   '/puclic/img/icons/*.png',
   '/puclic/img/logo/*.png',
+  '/public/img/home_icon/*.png',
+
 ];
 
 // cache size limit function

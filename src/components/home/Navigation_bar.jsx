@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { IoMdHome } from "react-icons/io";
 import { FaPlus } from "react-icons/fa6";
 import { FaRegEdit } from "react-icons/fa";
@@ -8,10 +8,15 @@ import { Link } from "react-router-dom";
 import { MdDeleteOutline } from "react-icons/md";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { FaCar } from "react-icons/fa";
+import { DataContext } from "../../context/DataContext";
 
 
 
 function Navigation_bar({ setAddVehicule, setModifierVehicule }) {
+  const {firstCallRapportData, vehicleData, mergedData, isLoading } = useContext(DataContext);
+
+
+  // 
   const handleClick = () => {
     window.scrollTo({
       top: 0,
@@ -50,7 +55,7 @@ function Navigation_bar({ setAddVehicule, setModifierVehicule }) {
       
     <Link
         to="/rapport_vehicule"
-        onClick={() => handleClick()}
+        onClick={() => {handleClick(); }}
         className="flex flex-col cursor-pointer hover:text-orange-500 justify-center items-center text-gray-600"
       >
         <FaCar className="text-xl" />

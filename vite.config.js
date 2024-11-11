@@ -27,6 +27,7 @@ export default defineConfig({
         'img/carte/*.png',
         'img/icons/*.png',
         'img/logo/*.png',
+        'img/home_icon/*.png',
         'favicon.svg',
         'favicon.png',
         'favicon.ico',

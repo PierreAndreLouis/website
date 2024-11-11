@@ -20,6 +20,7 @@ const DataContextProvider = ({ children }) => {
   });
 
   const [vehicleDetails, setVehicleDetails] = useState([]);
+  const [rapportvehicleDetails, setrapportVehicleDetails] = useState([]);
   const [vehiclueHistoriqueDetails, setVehiclueHistoriqueDetails] = useState(
     []
   );
@@ -61,9 +62,37 @@ const DataContextProvider = ({ children }) => {
   const [errorDeletevehiculePupup, seterrorDeletevehiculePupup] =
     useState(false);
 
+  const [rapportDataLoading, setRapportDataLoading] = useState(false);
 
+  const [donneeFusionneeForRapport, setdonneeFusionneeForRapport] = useState(
+    []
+  );
+  // Initialisation des états depuis localStorage
+  const [vehiculeActiveAjourdhui, setVehiculeActiveAjourdhui] = useState(() => {
+    const storedVehiculeActiveAjourdhui = localStorage.getItem(
+      "vehiculeActiveAjourdhui"
+    );
+    return storedVehiculeActiveAjourdhui
+      ? JSON.parse(storedVehiculeActiveAjourdhui)
+      : [];
+  });
 
+  const [vehiculeNotActiveAjourdhui, setVehiculeNotActiveAjourdhui] = useState(
+    () => {
+      const storedVehiculeNotActiveAjourdhui = localStorage.getItem(
+        "vehiculeNotActiveAjourdhui"
+      );
+      return storedVehiculeNotActiveAjourdhui
+        ? JSON.parse(storedVehiculeNotActiveAjourdhui)
+        : [];
+    }
+  );
 
+  const [vehiculeNotActif, setVehiculeNotActif] = useState(() => {
+    const storedVehiculeNotActif = localStorage.getItem("vehiculeNotActif");
+    return storedVehiculeNotActif ? JSON.parse(storedVehiculeNotActif) : [];
+  });
+  const [vehiculeActiveMaintenant, setVehiculeActiveMaintenant] = useState([]);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -307,6 +336,91 @@ const DataContextProvider = ({ children }) => {
     }
   };
 
+  const fetRapportchVehicleDetails = async (Device, TimeFrom, TimeTo) => {
+    if (!userData) return;
+    setRapportDataLoading(true);
+
+    const { accountID, userID, password } = userData;
+    const xmlData = `<GTSRequest command="eventdata">
+      <Authorization account="${accountID}" user="${userID}" password="${password}" />
+      <EventData>
+        <Device>${Device}</Device>
+        <TimeFrom timezone="GMT">${TimeFrom}</TimeFrom>
+        <TimeTo timezone="GMT">${TimeTo}</TimeTo>
+        <GPSRequired>false</GPSRequired>
+        <StatusCode>false</StatusCode>
+        <Limit type="last">20000</Limit>
+        <Ascending>false</Ascending>
+        <Field name="latitude" />
+        <Field name="longitude" />
+        <Field name="address" />
+        <Field name="speedKPH" />
+        <Field name="timestamp" />
+        <Field name="heading" />
+        <Field name="city" />
+        <Field name="creationMillis" />
+        <Field name="creationTime" />
+        <Field name="odometerKM" />
+        <Field name="stateProvince" />
+        <Field name="statusCode" />
+        <Field name="streetAddress" />
+      </EventData>
+    </GTSRequest>`;
+
+    try {
+      const response = await fetch("/api/track/Service", {
+        method: "POST",
+        headers: { "Content-Type": "application/xml" },
+        body: xmlData,
+      });
+
+      const data = await response.text();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(data, "application/xml");
+      const records = xmlDoc.getElementsByTagName("Record");
+
+      const newVehicleDetails = [];
+      for (let i = 0; i < records.length; i++) {
+        const fields = records[i].getElementsByTagName("Field");
+        const details = { Device }; // Ajoute l'identifiant du véhicule pour regrouper les événements
+
+        for (let j = 0; j < fields.length; j++) {
+          const fieldName = fields[j].getAttribute("name");
+          const fieldValue = fields[j].textContent;
+          details[fieldName] = fieldValue;
+        }
+
+        newVehicleDetails.push(details);
+      }
+
+      setrapportVehicleDetails((prevDetails) => [
+        ...prevDetails.filter((detail) => detail.Device !== Device),
+        ...newVehicleDetails,
+      ]);
+
+      // localStorage.setItem("vehicleDetails", JSON.stringify(vehicleDetails));
+      console.log("vehicleDetails.......>>>", vehicleDetails);
+      console.log("newVehicleDetails.......>>>", newVehicleDetails);
+
+      if (
+        rapportvehicleDetails &&
+        rapportvehicleDetails.length > 0 &&
+        vehicleData &&
+        vehicleData.length > 0
+      ) {
+        rapportfusionnerDonnees();
+      }
+      setRapportDataLoading(false);
+    } catch (error) {
+      setRapportDataLoading(false);
+      setError("Erreur lors de la récupération des détails du véhicule.");
+      console.error(
+        "Erreur lors de la récupération des détails du véhicule",
+        error
+      );
+    }
+  };
+
   const fetchHistoriqueVehicleDetails = async (Device, TimeFrom, TimeTo) => {
     console.log("Start fetching.........");
     setLoadingHistoriqueFilter(true);
@@ -368,11 +482,6 @@ const DataContextProvider = ({ children }) => {
 
       setVehiclueHistoriqueDetails(newVehicleDetails);
 
-      localStorage.setItem(
-        "vehiclueHistoriqueDetails",
-        JSON.stringify(vehiclueHistoriqueDetails)
-      );
-
       console.log("newVehicleDetails.......>>>", newVehicleDetails);
       console.log(
         "newVehicleDetails.lenght.......>>>",
@@ -416,6 +525,37 @@ const DataContextProvider = ({ children }) => {
     fetchHistoriqueVehicleDetails(currentVehicule.deviceID, TimeFrom, TimeTo);
   };
 
+  const firstCallRapportData = () => {
+    setShowListOption(false);
+
+    const now = new Date();
+    const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")} ${now
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now
+      .getSeconds()
+      .toString()
+      .padStart(2, "0")}`;
+
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${startOfDay
+      .getDate()
+      .toString()
+      .padStart(2, "0")} 00:00:00`;
+
+    if (vehicleData && vehicleData.length > 0) {
+      vehicleData.forEach((vehicle) => {
+        fetRapportchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
+      });
+    }
+  };
+
   const handleDateChange = (TimeFrom, TimeTo) => {
     if (vehicleData && vehicleData.length > 0) {
       vehicleData.forEach((vehicle) => {
@@ -433,6 +573,7 @@ const DataContextProvider = ({ children }) => {
     setUserData(null);
     setVehicleData(null);
     setVehicleDetails([]);
+    setrapportVehicleDetails([]);
     navigate("/login");
   };
 
@@ -497,7 +638,6 @@ const DataContextProvider = ({ children }) => {
     setError("");
     setCrud_loading(true);
 
-
     // <Authorization account="${accountID}" user="${userID}" password="${password}" />
     const xmlData = `<GTSRequest command="dbcreate">
       <Authorization account="${account}" user="${username}" password="${password}" />
@@ -540,15 +680,13 @@ const DataContextProvider = ({ children }) => {
         setError("");
         fetchVehicleData();
         setCrud_loading(false);
-
       } else {
         const errorMessage =
           xmlDoc.getElementsByTagName("Message")[0].textContent;
         setError(errorMessage || "Erreur lors de la création du véhicule.");
         console.log("errorrrrrrrrr");
         seterrorAddvehiculePupup(true);
-    setCrud_loading(false);
-
+        setCrud_loading(false);
       }
 
       console.log("End creating..............");
@@ -556,8 +694,7 @@ const DataContextProvider = ({ children }) => {
       setError("Erreur lors de la création du véhicule.");
       console.error("Erreur lors de la création du véhicule", error);
       seterrorAddvehiculePupup(true);
-    setCrud_loading(false);
-
+      setCrud_loading(false);
     }
   };
 
@@ -594,16 +731,14 @@ const DataContextProvider = ({ children }) => {
         console.log("Véhicule supprimé avec succès.");
         fetchVehicleData();
         setsuccessDeletevehiculePupup(true);
-    setCrud_loading(false);
-
+        setCrud_loading(false);
       } else {
         console.error(
           "Erreur lors de la suppression du véhicule:",
           response.statusText
         );
         seterrorDeletevehiculePupup(true);
-    setCrud_loading(false);
-
+        setCrud_loading(false);
       }
 
       console.log("finish Deleting.........");
@@ -614,7 +749,6 @@ const DataContextProvider = ({ children }) => {
       );
       seterrorDeletevehiculePupup(true);
       setCrud_loading(false);
-
     }
   };
 
@@ -679,29 +813,105 @@ const DataContextProvider = ({ children }) => {
         console.log("Véhicule modifié avec succès.");
         setsuccessModifiervehiculePupup(true);
         fetchVehicleData();
-    setCrud_loading(false);
-
+        setCrud_loading(false);
       } else {
         console.error(
           "Erreur lors de la modification du véhicule:",
           response.statusText
         );
         seterrorModifiervehiculePupup(true);
-    setCrud_loading(false);
-
+        setCrud_loading(false);
       }
 
       console.log("finish updating.....");
     } catch (error) {
       seterrorModifiervehiculePupup(true);
-    setCrud_loading(false);
-
+      setCrud_loading(false);
 
       console.error(
         "Erreur de connexion lors de la modification du véhicule:",
         error
       );
     }
+  };
+
+  // // Fonction pour fusionner les données après les requêtes
+  // const rapportfusionnerDonnees = () => {
+  //   if (!vehicleData || !rapportvehicleDetails) return [];
+
+  //   const dataFusionnee = vehicleData.map((vehicle) => {
+  //     const events = rapportvehicleDetails?.filter(
+  //       (detail) => detail.Device === vehicle.deviceID
+  //     );
+  //     return {
+  //       ...vehicle,
+  //       vehiculeDetails: events,
+  //     };
+  //   });
+
+  //   // 1. Met à jour l'état avec tous les données fusionnées
+  //   setdonneeFusionneeForRapport(dataFusionnee);
+
+  //   // 2. Met à jour l'état avec tous les données des vehicules qui ont au moin un objet du liste vehiculeDetails dont vehiculeDetails.speedKPH >= 1
+  //   setVehiculeActiveAjourdhui(dataFusionnee);
+
+  //   // 3. Met à jour l'état avec tous les données des vehicules qui n'ont pas au moin un objet du liste vehiculeDetails dont vehiculeDetails.speedKPH >= 1
+  //   setVehiculeNotActiveAjourdhui(dataFusionnee);
+
+  //   // 4. Met à jour l'état avec tous les données des vehicules dont vehiculeDetails[0].speedKPH >= 1
+  //   setVehiculeActiveMaintenant(dataFusionnee);
+
+  //   // 5. Met à jour l'état avec tous les données des vehicule dont la difference de temps entre dataFusionnee.lastUpdateTime et l'heure actuelle est supperieur a 24h.
+  //   setVehiculeNotActif(dataFusionnee);
+
+  //   return dataFusionnee;
+  // };
+
+  // Fonction pour fusionner les données après les requêtes
+  const rapportfusionnerDonnees = () => {
+    if (!vehicleData || !rapportvehicleDetails) return [];
+
+    const dataFusionnee = vehicleData.map((vehicle) => {
+      const events = rapportvehicleDetails?.filter(
+        (detail) => detail.Device === vehicle.deviceID
+      );
+      return {
+        ...vehicle,
+        vehiculeDetails: events,
+      };
+    });
+
+    // 1. Met à jour l'état avec toutes les données fusionnées
+    setdonneeFusionneeForRapport(dataFusionnee);
+
+    // 2. Met à jour l'état avec tous les véhicules ayant au moins un événement avec `speedKPH >= 1`
+    const vehiculeActiveAjourdhui = dataFusionnee.filter((vehicle) =>
+      vehicle.vehiculeDetails.some((detail) => detail.speedKPH >= 1)
+    );
+    setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
+
+    // 3. Met à jour l'état avec tous les véhicules n'ayant aucun événement avec `speedKPH >= 1`
+    const vehiculeNotActiveAjourdhui = dataFusionnee.filter((vehicle) =>
+      vehicle.vehiculeDetails.every((detail) => detail.speedKPH < 1)
+    );
+    setVehiculeNotActiveAjourdhui(vehiculeNotActiveAjourdhui);
+
+    // 4. Met à jour l'état avec tous les véhicules dont `vehiculeDetails[0].speedKPH >= 1`
+    const vehiculeActiveMaintenant = dataFusionnee.filter(
+      (vehicle) => vehicle.vehiculeDetails[0]?.speedKPH >= 1
+    );
+    setVehiculeActiveMaintenant(vehiculeActiveMaintenant);
+
+    // 5. Met à jour l'état avec tous les véhicules dont `lastUpdateTime` est supérieur à 24h par rapport à l'heure actuelle
+    const vehiculeNotActif = dataFusionnee.filter((vehicle) => {
+      const lastUpdate = new Date(vehicle.lastUpdateTime);
+      const now = new Date();
+      const diffHeures = (now - lastUpdate) / (1000 * 60 * 60);
+      return diffHeures > 24;
+    });
+    setVehiculeNotActif(vehiculeNotActif);
+
+    return dataFusionnee;
   };
 
   useEffect(() => {
@@ -728,10 +938,45 @@ const DataContextProvider = ({ children }) => {
     }
   }, [vehicleData, vehicleDetails]);
 
+  useEffect(() => {
+    if (
+      rapportvehicleDetails &&
+      rapportvehicleDetails.length > 0 &&
+      vehicleData &&
+      vehicleData.length > 0
+    ) {
+      rapportfusionnerDonnees();
+    }
+  }, [vehicleData, rapportvehicleDetails]);
+
+  // Sauvegarde des données dans localStorage à chaque mise à jour des états
+  useEffect(() => {
+    localStorage.setItem(
+      "vehiculeActiveAjourdhui",
+      JSON.stringify(vehiculeActiveAjourdhui)
+    );
+    localStorage.setItem(
+      "vehiculeNotActiveAjourdhui",
+      JSON.stringify(vehiculeNotActiveAjourdhui)
+    );
+    localStorage.setItem("vehiculeNotActif", JSON.stringify(vehiculeNotActif));
+  }, [vehiculeActiveAjourdhui, vehiculeNotActiveAjourdhui, vehiculeNotActif]);
+
   const updateCurrentVehicule = (vehicle) => {
     setCurrentVehicule(vehicle);
     firstCallHistoriqueData();
   };
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
 
   return (
     <DataContext.Provider
@@ -762,6 +1007,7 @@ const DataContextProvider = ({ children }) => {
         setShowListOption,
         fetchVehicleDetails,
         vehicleDetails,
+
         fetchHistoriqueVehicleDetails,
         vehiclueHistoriqueDetails,
         firstCallHistoriqueData,
@@ -780,16 +1026,13 @@ const DataContextProvider = ({ children }) => {
         updateVehicle,
         error,
         setError,
-        crud_loading, 
+        crud_loading,
         setCrud_loading,
-
-
 
         successAddvehiculePupup,
         setsuccessAddvehiculePupup,
         errorAddvehiculePupup,
         seterrorAddvehiculePupup,
-
 
         successModifiervehiculePupup,
         setsuccessModifiervehiculePupup,
@@ -800,6 +1043,22 @@ const DataContextProvider = ({ children }) => {
         setsuccessDeletevehiculePupup,
         errorDeletevehiculePupup,
         seterrorDeletevehiculePupup,
+        //
+        rapportvehicleDetails,
+        fetRapportchVehicleDetails,
+        firstCallRapportData,
+        setRapportDataLoading,
+        rapportDataLoading,
+        donneeFusionneeForRapport,
+        setdonneeFusionneeForRapport,
+        vehiculeActiveAjourdhui,
+        setVehiculeActiveAjourdhui,
+        vehiculeNotActiveAjourdhui,
+        setVehiculeNotActiveAjourdhui,
+        vehiculeActiveMaintenant,
+        setVehiculeActiveMaintenant,
+        vehiculeNotActif,
+        setVehiculeNotActif,
       }}
     >
       {children}
@@ -808,4 +1067,3 @@ const DataContextProvider = ({ children }) => {
 };
 
 export default DataContextProvider;
-
