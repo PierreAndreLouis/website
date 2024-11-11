@@ -127,7 +127,7 @@ function RapportVehicule() {
                     setshowActiveVehiculeNow(!showActiveVehiculeNow);
                   }}
                 >
-                  <h2>Vehicules en mouvement actuellement :</h2>
+                  <h2>Vehicules en mouvement actuellement:</h2>
                   <FaChevronDown
                     className={`${
                       showActiveVehiculeNow ? "rotate-180" : "rotate-0"
@@ -189,7 +189,7 @@ function RapportVehicule() {
                                   </div>
                                 </div>
 
-                                <div className="flex gap-2 items-center">
+                                {/* <div className="flex gap-2 items-center">
                                   <div>
                                     <MdOutlineSpeed className="text-gray-500/80 text-lg mb-1.5" />
                                   </div>
@@ -198,7 +198,7 @@ function RapportVehicule() {
                                   >
                                     {vehicule.vehiculeDetails[0]?.speedKPH} km/h
                                   </span>
-                                </div>
+                                </div> */}
 
                                 <div className="flex gap-2 items-center">
                                   <div>
@@ -317,7 +317,7 @@ function RapportVehicule() {
                                   </div>
                                 </div>
 
-                                <div className="flex gap-2 items-center">
+                                {/* <div className="flex gap-2 items-center">
                                   <div>
                                     <MdOutlineSpeed className="text-gray-500/80 text-lg mb-1.5" />
                                   </div>
@@ -326,7 +326,7 @@ function RapportVehicule() {
                                   >
                                     {vehicule.vehiculeDetails[0]?.speedKPH} km/h
                                   </span>
-                                </div>
+                                </div> */}
 
                                 <div className="flex gap-2">
                                   <div>
@@ -444,7 +444,7 @@ function RapportVehicule() {
                                   </div>
                                 </div>
 
-                                <div className="flex gap-2 items-center">
+                                {/* <div className="flex gap-2 items-center">
                                   <div>
                                     <MdOutlineSpeed className="text-gray-500/80 text-lg mb-1.5" />
                                   </div>
@@ -453,7 +453,7 @@ function RapportVehicule() {
                                   >
                                     {vehicule.vehiculeDetails[0]?.speedKPH} km/h
                                   </span>
-                                </div>
+                                </div> */}
 
                                 <div className="flex gap-2 items-center">
                                   <div>
@@ -572,7 +572,7 @@ function RapportVehicule() {
                                   </div>
                                 </div>
 
-                                <div className="flex gap-2 items-center">
+                                {/* <div className="flex gap-2 items-center">
                                   <div>
                                     <MdOutlineSpeed className="text-gray-500/80 text-lg mb-1.5" />
                                   </div>
@@ -581,7 +581,7 @@ function RapportVehicule() {
                                   >
                                     {vehicule.vehiculeDetails[0]?.speedKPH} km/h
                                   </span>
-                                </div>
+                                </div> */}
 
                                 <div className="flex gap-2">
                                   <div>
