@@ -154,15 +154,15 @@ function UserProfile() {
             <p className="pl-3 text-gray-500">{userData?.addressCity || "-----"}</p>
           </div>
         </div>
-        <div className="grid max-w-[30rem] mx-auto grid-cols-1 sm:grid-cols-2 mt-4 gap-2 ">
-          <div
+        <div className="grid max-w-[30rem] mx-auto grid-cols-1 sm:grid-cols-2 mt-10 gap-2 ">
+         {username === "admin" && <div
             onClick={() => {
               setShowChangePasswordPupup(true);
             }}
             className="text-orange-500 cursor-pointer text-center rounded-lg px-3 border border-orange-500 py-2"
           >
             Changer le mot de passe
-          </div>
+          </div>}
           <button
             onClick={() => {
               setLogOut(true);

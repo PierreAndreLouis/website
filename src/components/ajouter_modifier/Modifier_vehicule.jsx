@@ -10,8 +10,9 @@ import { CiEdit } from "react-icons/ci";
 import { FaTrashAlt } from "react-icons/fa";
 import { IoMdClose } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa6";
-// import { FaCar } from "react-icons/fa";
+import { MdErrorOutline } from "react-icons/md";
 
+// import { FaCar } from "react-icons/fa";
 
 function Modifier_vehicule() {
   const {
@@ -28,7 +29,7 @@ function Modifier_vehicule() {
     firstCallHistoriqueData,
     setSelectedVehicle,
     crud_loading,
-
+    username,
 
     successDeletevehiculePupup,
     setsuccessDeletevehiculePupup,
@@ -48,8 +49,6 @@ function Modifier_vehicule() {
   const [errorMessage, setErrorMessage] = useState("");
   const [showVehiculeListe, setShowVehiculeListe] = useState(false);
   const [showFilter, setshowFilter] = useState(false);
-
-
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
 
@@ -83,20 +82,11 @@ function Modifier_vehicule() {
     e.preventDefault();
     setError("");
 
-    // Si deviceID est unique, créer le véhicule
-    // const deviceID = addvehicleData.deviceID;
-
-    // Vérification si deviceID existe déjà
-    // const deviceExists = vehicleData.some(
-    //   (vehicle) => vehicle.deviceID === deviceID
-    // );
-
-    // if (deviceExists) {
-    //   setErrorID(
-    //     "Cet identifiant (ID) est déjà utilisé, veuillez en choisir un autre."
-    //   );
-    //   return;
-    // }
+    // Validation du numéro SIM
+    if (isNaN(addvehicleData.simPhoneNumber)) {
+      setErrorID("Le numéro SIM doit être un nombre.");
+      return; // Empêche la soumission si le numéro SIM n'est pas valide
+    }
 
     setshowConfirmAddVehiculePupup(true);
   };
@@ -156,13 +146,12 @@ function Modifier_vehicule() {
 
   const handleVehicleClick = (vehicule) => {
     setCurrentVehicule(vehicule);
+    setShowVehiculeListe(!showVehiculeListe);
 
     console.log("Véhicule en variable", currentVehicule);
     console.log("Véhicule cliqué", vehicule);
     // firstCallHistoriqueData();
   };
-
-
 
   useEffect(() => {
     if (currentVehicule) {
@@ -179,13 +168,22 @@ function Modifier_vehicule() {
     }
   }, [currentVehicule]);
 
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredVehicles = dataFusionee?.filter((vehicule) =>
+    vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div>
       <Navigation_bar />
       <PC_header />
       <Header />
       <SideBar />
-
 
       {crud_loading && (
         <div className="fixed z-30 inset-0 bg-gray-200/50">
@@ -194,7 +192,6 @@ function Modifier_vehicule() {
           </div>
         </div>
       )}
-
 
       {showConfirmAddVehiculePupup && (
         <div className="fixed z-10 flex justify-center items-center inset-0 bg-black/50">
@@ -314,13 +311,13 @@ function Modifier_vehicule() {
           >
             <div>
               <h3 className="block text-lg  text-center leading-6 text-green-600 mb-3">
-                Vous avez modifié le vehicule avec success.
+                Vous avez modifié le véhicule avec success.
               </h3>
               <h4 className="text-center text-lg text-gray-600">
                 {addvehicleData.description}
               </h4>
             </div>
-       
+
             <div className="flex justify-center gap-2 mt-5">
               <Link
                 onClick={() => {
@@ -344,7 +341,7 @@ function Modifier_vehicule() {
           >
             <div>
               <h3 className="block text-lg  text-center leading-6 text-green-600 mb-3">
-                Vous avez supprimer le vehicule avec success.
+                Vous avez supprimé le véhicule avec success.
               </h3>
               <h4 className="text-center text-lg text-gray-600">
                 {addvehicleData.description}
@@ -353,9 +350,9 @@ function Modifier_vehicule() {
             <div className="flex justify-center gap-2 mt-5">
               <Link
                 onClick={() => {
-                  {setsuccessDeletevehiculePupup(false);
+                  {
+                    setsuccessDeletevehiculePupup(false);
                     setCurrentVehicule(null);
-                    
                   }
                 }}
                 to="/home"
@@ -437,7 +434,7 @@ function Modifier_vehicule() {
             {/* <h2 className="text-orange-600 ml-4 mb-2">Chosis un appareil</h2> */}
             <div
               onClick={() => {
-                setShowVehiculeListe(!showVehiculeListe);
+                setShowVehiculeListe(true);
               }}
               className="relative  mx-4 mb-6"
             >
@@ -450,37 +447,50 @@ function Modifier_vehicule() {
                 </p>
                 <FaChevronDown className="mt-1" />
               </div>
+            </div>
+            {showVehiculeListe && (
+              <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-20 shadow-xl border border-gray-100 rounded-md p-3">
+                <div className="pt-28 relative w-full max-w-[30rem] rounded-xl p-4 max-h-[70vh] overflow-y-auto---- overflow-hidden bg-white">
+                  <IoMdClose
+                    onClick={() => {
+                      setShowVehiculeListe(!showVehiculeListe);
+                    }}
+                    className="absolute  top-3 cursor-pointer right-1  min-w-14 py-2 text-[2.3rem] text-red-600"
+                  />
 
-              {showVehiculeListe && (
-                <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-20 shadow-xl border border-gray-100 rounded-md p-3">
-                  <div className="pt-16 relative w-full max-w-[30rem] rounded-xl p-4 max-h-[70vh] overflow-y-auto---- overflow----- hidden--- bg-white">
-                    <IoMdClose
-                      onClick={() => {
-                        setshowFilter(false);
-                      }}
-                      className="absolute top-3 cursor-pointer right-1  min-w-14 py-2 text-[2.3rem] text-red-600"
+                  <h2
+                    onClick={() => {
+                      setShowVehiculeListe(!showVehiculeListe);
+                    }}
+                    className="absolute left-0 top-4 right-0 font-semibold text-gray-700 mb-2 text-lg pl-7 border-b-2 pb-2 border-gray-600/20"
+                  >
+                    Choisir un vehicule
+                  </h2>
+                  <div className="absolute top-[3.5rem] left-4 right-4 p-2 ">
+                    <input
+                      className="w-full border p-4 py-1.5 rounded-lg"
+                      type="text"
+                      placeholder="Recherche"
+                      value={searchQuery}
+                      onChange={handleSearchChange}
                     />
+                  </div>
 
-                    <h2 className="absolute left-0 top-4 right-0 font-semibold text-gray-700 mb-2 text-lg pl-7 border-b-2 pb-2 border-gray-600/20">
-                      Choisir un vehicule
-                    </h2>
-
-                    <div className="overflow-y-auto overflow-x-hidden h-[80vh] max-h-[58vh] pb-20">
-                      {dataFusionee?.map((vehicule) => (
-                        <div
-                          key={vehicule.deviseID}
-                          onClick={() => handleVehicleClick(vehicule)}
-                          className="cursor-pointer flex gap-4 py-4 items-center border-b border-gray-300 px-3 hover:bg-orange-50"
-                        >
-                          <FaCar className="text-orange-600/80 min-w-8 text-lg" />
-                          <p className=" ">{vehicule.description}</p>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="overflow-y-auto overflow-x-hidden h-[80vh] max-h-[58vh] pb-20">
+                    {filteredVehicles?.map((vehicule) => (
+                      <div
+                        key={vehicule.deviseID}
+                        onClick={() => handleVehicleClick(vehicule)}
+                        className="cursor-pointer flex gap-4 py-4 items-center border-b border-gray-300 px-3 hover:bg-orange-50"
+                      >
+                        <FaCar className="text-orange-600/80 min-w-8 text-lg" />
+                        <p className=" ">{vehicule.description}</p>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
 
             <form onSubmit={handleSubmit} className="space-y-4 px-4 pb-4">
               {/* Champs du formulaire */}
@@ -537,37 +547,74 @@ function Modifier_vehicule() {
                     value={addvehicleData[field.id]}
                     onChange={handleChange}
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm"
+                    className="block px-3 outline-none w-full border-b border-gray-200 pb-3 py-1.5 text-gray-700 shadow-sm"
                   />
                 </div>
               ))}
 
-              {errorID && (
+              {/* {errorID && (
                 <p className="text-red-500 text-sm mt-1">{errorID} </p>
-              )}
+              )} */}
               {error && <p className="text-red-500 text-sm mt-1">{error} </p>}
-
+              {errorID && (
+                <p className="flex items-start gap-3 bg-red-100 text-red-700 text-md translate-y-4 px-4 py-1 rounded-md text-center ">
+                  <span>
+                    <MdErrorOutline className="text-2xl mt-0.5" />
+                  </span>
+                  {errorID}
+                </p>
+              )}
               {/* Boutons Enregistrer et Annuler */}
-              <div className="grid grid-cols-2 gap-2 pt-10 pb-20">
-                <button
-                  onClick={() => {
-                    setError("");
-                  }}
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-md font-semibold text-white"
-                >
-                  Enregistrer
-                </button>
-                <div
-                  onClick={() => {
-                    delVehicule();
-                  }}
-                  className="flex cursor-pointer w-full justify-center items-center gap-2 rounded-md border text-orange-500 border-orange-600 px-3 py-1.5 text-md font-semibold"
-                >
-                  <FaTrashAlt />
-                  <p>Supprimer</p>
+
+              {username === "admin" ? (
+                <div className=" pt-10">
+                  {currentVehicule?.description ? (
+                    ""
+                  ) : (
+                    <p className="flex items-start gap-3 bg-red-100 text-red-700 text-lg px-4 py-1 rounded-md text-center ">
+                      <span>
+                        <MdErrorOutline className="text-2xl mt-0.5" />
+                      </span>
+                      Veuillez choisir un vehicule
+                    </p>
+                  )}
+
+                  <div className="relative grid grid-cols-2 gap-2 pt-5 pb-20">
+                    {currentVehicule?.description ? (
+                      <p className="absolute"></p>
+                    ) : (
+                      <div className="absolute inset-0"></div>
+                    )}
+                    <button
+                      onClick={() => {
+                        setError("");
+                      }}
+                      type="submit"
+                      className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-md font-semibold text-white"
+                    >
+                      Enregistrer
+                    </button>
+                    <div
+                      onClick={() => {
+                        delVehicule();
+                      }}
+                      className="flex cursor-pointer w-full justify-center items-center gap-2 rounded-md border text-orange-500 border-orange-600 px-3 py-1.5 text-md font-semibold"
+                    >
+                      <FaTrashAlt />
+                      <p>Supprimer</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="flex justify-center items-center pt-10 pb-20 px-4 mx-4">
+                  <p className="flex items-start gap-3 bg-red-100 text-red-700 text-lg px-4 py-1 rounded-md text-center ">
+                    <span>
+                      <MdErrorOutline className="text-2xl mt-0.5" />
+                    </span>
+                    Tu n'as pas les autorisations necessaires
+                  </p>
+                </div>
+              )}
             </form>
           </div>
         </div>

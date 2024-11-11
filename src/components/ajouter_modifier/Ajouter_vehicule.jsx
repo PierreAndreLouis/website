@@ -5,6 +5,8 @@ import Navigation_bar from "../home/Navigation_bar";
 import PC_header from "../home/PC_header";
 import Header from "../home/Header";
 import SideBar from "../home/SideBar";
+import { MdErrorOutline } from "react-icons/md";
+
 import { DataContext } from "../../context/DataContext";
 
 function Ajouter_vehicule() {
@@ -18,10 +20,8 @@ function Ajouter_vehicule() {
     errorAddvehiculePupup,
     seterrorAddvehiculePupup,
     setsuccessAddvehiculePupup,
-    crud_loading
-
-
-    
+    crud_loading,
+    username,
   } = useContext(DataContext);
   const [showConfirmAddVehiculePupup, setshowConfirmAddVehiculePupup] =
     useState(false);
@@ -73,6 +73,12 @@ function Ajouter_vehicule() {
       return;
     }
 
+    // Validation du numéro SIM
+    if (isNaN(addvehicleData.simPhoneNumber)) {
+      setErrorID("Le numéro SIM doit être un nombre.");
+      return; // Empêche la soumission si le numéro SIM n'est pas valide
+    }
+
     setshowConfirmAddVehiculePupup(true);
   };
 
@@ -115,7 +121,7 @@ function Ajouter_vehicule() {
       <PC_header />
       <Header />
       <SideBar />
-      
+
       {crud_loading && (
         <div className="fixed z-30 inset-0 bg-gray-200/50">
           <div className="w-full h-full flex justify-center items-center">
@@ -124,7 +130,6 @@ function Ajouter_vehicule() {
         </div>
       )}
 
-      
       {showConfirmAddVehiculePupup && (
         <div className="fixed z-10 flex justify-center items-center inset-0 bg-black/50">
           <form
@@ -185,7 +190,7 @@ function Ajouter_vehicule() {
           >
             <div>
               <h3 className="block text-lg  text-center leading-6 text-green-600 mb-3">
-                Vous avez ajouter le vehicule avec success.
+                Vous avez ajouté le véhicule avec success.
               </h3>
               <h4 className="text-center text-lg text-gray-600">
                 {addvehicleData.description}
@@ -240,7 +245,7 @@ function Ajouter_vehicule() {
             <div className="flex justify-center items-center w-full py-10">
               <FaCar className="text-2xl mr-2 text-orange-500" />
               <h3 className="text-center font-semibold text-gray-600 text-xl">
-                Nouvelle Appareil
+                Nouveau Appareil
               </h3>
             </div>
 
@@ -300,7 +305,7 @@ function Ajouter_vehicule() {
                     value={addvehicleData[field.id]}
                     onChange={handleChange}
                     required
-                    className="block px-3 w-full rounded-md border-0 py-1.5 text-gray-700 shadow-sm"
+                    className="block px-3 w-full border-b pb-4 py-1.5 outline-none text-gray-700 shadow-sm"
                   />
                 </div>
               ))}
@@ -311,23 +316,35 @@ function Ajouter_vehicule() {
               {error && <p className="text-red-500 text-sm mt-1">{error} </p>}
 
               {/* Boutons Enregistrer et Annuler */}
-              <div className="grid grid-cols-2 gap-2 pt-10 pb-20">
-                <button
-                  onClick={() => {
-                    setError("");
-                  }}
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-md font-semibold text-white"
-                >
-                  Enregistrer
-                </button>
-                <Link
-                  to="/home"
-                  className="flex w-full justify-center rounded-md border text-orange-500 border-orange-600 px-3 py-1.5 text-md font-semibold"
-                >
-                  Annuler
-                </Link>
-              </div>
+
+              {username === "admin" ? (
+                <div className="grid grid-cols-2 gap-2 pt-10 pb-20">
+                  <button
+                    onClick={() => {
+                      setError("");
+                    }}
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-orange-600 px-3 py-1.5 text-md font-semibold text-white"
+                  >
+                    Enregistrer
+                  </button>
+                  <Link
+                    to="/home"
+                    className="flex w-full justify-center rounded-md border text-orange-500 border-orange-600 px-3 py-1.5 text-md font-semibold"
+                  >
+                    Annuler
+                  </Link>
+                </div>
+              ) : (
+                <div className="flex justify-center items-center pt-10 pb-20 px-4 mx-4">
+                  <p className="flex items-start gap-3 bg-red-100 text-red-700 text-lg px-4 py-1 rounded-md text-center ">
+                    <span>
+                      <MdErrorOutline className="text-2xl mt-0.5" />
+                    </span>
+                    Tu n'as pas les autorisations necessaires
+                  </p>
+                </div>
+              )}
             </form>
           </div>
         </div>
