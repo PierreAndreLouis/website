@@ -122,7 +122,7 @@ function RapportVehicule() {
 
               <div className="transition-all">
                 <div
-                  className="flex justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
+                  className="flex gap-4 justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
                   onClick={() => {
                     setshowActiveVehiculeNow(!showActiveVehiculeNow);
                   }}
@@ -250,7 +250,7 @@ function RapportVehicule() {
 
               <div className="transition-all">
                 <div
-                  className="flex justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
+                  className="flex gap-4 justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
                   onClick={() => {
                     setshowActiveVehicule(!showActiveVehicule);
                   }}
@@ -381,7 +381,7 @@ function RapportVehicule() {
                   onClick={() => {
                     setshowParkingVehicule(!showParkingVehicule);
                   }}
-                  className="flex justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
+                  className="flex gap-4  justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
                 >
                   <h2>Vehicules en Stationnement aujourd'hui:</h2>
                   <FaChevronDown
@@ -507,7 +507,7 @@ function RapportVehicule() {
                   onClick={() => {
                     setshowInactiveVehicule(!showInactiveVehicule);
                   }}
-                  className="flex justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
+                  className="flex gap-4 justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
                 >
                   <h2>Vehicules hors service :</h2>
                   <FaChevronDown
