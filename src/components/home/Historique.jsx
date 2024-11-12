@@ -273,7 +273,7 @@ function Historique() {
               onClick={() => {
                 setShowHistoriqueInMap(!showHistoriqueInMap);
               }}
-              className="cursor-pointer shadow-xl md:border border-orange-200 min-w-10 border rounded-md flex justify-center items-center py-2 bg-orange-50"
+              className="cursor-pointer shadow-xl border md:border-orange-200 min-w-10 rounded-md flex justify-center items-center py-2 bg-orange-50"
             >
               {showHistoriqueInMap ? (
                 <IoStatsChart className="text-xl text-orange-600 " />
@@ -292,7 +292,7 @@ function Historique() {
               className="relative w-full"
             >
               <div
-                className="flex justify-between  cursor-pointer border border-orange-200 rounded-md
+                className="flex justify-between  cursor-pointer border md:border-orange-200 rounded-md
                  px-3 py-2 bg-orange-50 shadow-xl text-center"
               >
                 <p className="text-start">
@@ -377,7 +377,7 @@ function Historique() {
 
             <div
               onClick={() => setshowFilter(!showFilter)}
-              className="min-w-10 cursor-pointer border rounded-md shadow-xl border-orange-200 flex justify-center items-center py-2 bg-orange-50"
+              className="min-w-10 cursor-pointer border rounded-md shadow-xl md:border-orange-200 flex justify-center items-center py-2 bg-orange-50"
             >
               <BsFilterRight className="text-2xl text-orange-600 " />
             </div>
