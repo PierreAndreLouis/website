@@ -13,6 +13,7 @@ import RapportOptions from "./RapportOptions";
 import Historique from "./Historique";
 import { MdOutlineSpeed } from "react-icons/md";
 import { IoReload } from "react-icons/io5";
+import Liste_options from "./Liste_options";
 
 function RapportVehicule() {
   const {
@@ -32,12 +33,17 @@ function RapportVehicule() {
     setVehiculeActiveMaintenant,
     vehiculeNotActif,
     setVehiculeNotActif,
+    setCurrentVehicule,
+    setSelectedVehicle,
+    setShowListOption,
+    currentVehicule,
+    showListeOption,
   } = useContext(DataContext);
 
-  const [showActiveVehiculeNow, setshowActiveVehiculeNow] = useState(true);
-  const [showActiveVehicule, setshowActiveVehicule] = useState(true);
-  const [showParkingVehicule, setshowParkingVehicule] = useState(true);
-  const [showInactiveVehicule, setshowInactiveVehicule] = useState(true);
+  const [showActiveVehiculeNow, setshowActiveVehiculeNow] = useState(false);
+  const [showActiveVehicule, setshowActiveVehicule] = useState(false);
+  const [showParkingVehicule, setshowParkingVehicule] = useState(false);
+  const [showInactiveVehicule, setshowInactiveVehicule] = useState(false);
   //
   const [showRapportPupup, setshowRapportPupup] = useState(false);
   const [slidePage, setSLidePage] = useState("-translate-x-[0vw]");
@@ -93,6 +99,15 @@ function RapportVehicule() {
     return `${heures}:${minutes}:${secondes}`;
   };
 
+  const handleClick = (vehicle) => {
+    setCurrentVehicule(vehicle);
+    setSelectedVehicle(vehicle.deviceID);
+    // setSelectedVehicle(vehicle);  // Ajouter cette ligne
+    setShowListOption(true);
+    console.log("Véhicule en variable", currentVehicule);
+    console.log("Véhicule cliqué", vehicle);
+  };
+
   return (
     <div className="mb-56 mt-[8rem]">
       <div className="absolute z-[12333323230]">
@@ -101,6 +116,7 @@ function RapportVehicule() {
         <Header />
         <SideBar />
       </div>
+      {showListeOption && <Liste_options />}
       {showRapportPupup && (
         <RapportOptions setshowRapportPupup={setshowRapportPupup} />
       )}
@@ -440,7 +456,13 @@ function RapportVehicule() {
                   {vehiculeNotActiveAjourdhui?.length > 0 ? (
                     vehiculeNotActiveAjourdhui?.map((vehicule, index) => {
                       return (
-                        <div className="bg-white">
+                        <div
+                          onClick={() => {
+                            handleClick(vehicule);
+                          }}
+                          key={index}
+                          className="bg-white"
+                        >
                           <div
                             className={` bg-red-100/20 shadow-md rounded-lg p-3`}
                           >

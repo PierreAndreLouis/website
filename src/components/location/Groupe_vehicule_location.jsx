@@ -166,7 +166,7 @@ const Groupe_vehicule_location = () => {
             setShowVehiculeListe(true);
           }}
           id="vehicule_actuel"
-          className="flex justify-between items-center border py-2 px-5 rounded-md w-full max-w-[40rem] mx-auto cursor-pointer bg-orange-50 md:bg-white"
+          className="flex justify-between items-center border py-2 px-5 rounded-md w-full max-w-[40rem] mx-auto cursor-pointer bg-orange-50 md:bg-orange-100 md:shadow-xl"
         >
           {selectedVehicle
             ? vehicleData?.find(
@@ -183,7 +183,7 @@ const Groupe_vehicule_location = () => {
             onClick={() => {
               setTypeDeVue(true);
             }}
-            className="flex items-center justify-between gap-1 border px-2 py-1 cursor-pointer bg-orange-50 md:bg-white rounded-md"
+            className="flex items-center md:shadow-xl justify-between gap-1 border px-2 py-1 cursor-pointer bg-orange-50 md:bg-orange-100 rounded-md"
           >
             <label htmlFor="mapType">Type de vue </label>
             <FaChevronDown />
@@ -194,7 +194,7 @@ const Groupe_vehicule_location = () => {
               showAllVehicles();
               setShowVehiculeListe(false);
             }}
-            className="text-end md:bg-white md:py-1 md:px-4 rounded-lg text-orange-600 font-semibold cursor-pointer underline"
+            className="text-end md:bg-orange-100 md:shadow-xl md:py-1 md:px-4 rounded-lg text-orange-600 font-semibold cursor-pointer underline"
           >
             Tous les vehicules
           </h3>

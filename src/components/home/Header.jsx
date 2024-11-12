@@ -52,9 +52,9 @@ function Header({}) {
     <div className="fixed md:hidden--- md:shadow-md md:py-1 md:px-20 z-50 bg-white top-0 left-0 right-0 pb-2">
       {logOut && <Logout setLogOut={setLogOut} />}
       {searchVehicule && (
-        <form className="fixed flex justify-center items-center top-0 left-0 right-0 bg-white">
-          <div className="mt-4 px-4 max-w-[40rem] w-full">
-            <div className="border-2 flex gap-3 justify-center items-center rounded-lg overflow-hidden">
+        <form className="fixed flex justify-center items-center -top-2 left-0 lg:left-[15rem] lg:right-[15rem] right-0 bg-white lg:bg-white/0"> 
+          <div className="mt-4 px-4 max-w-[34rem]  w-full">
+            <div className="border-2 bg-white flex gap-3 justify-center items-center rounded-lg overflow-hidden">
               <input
                 className="p-2 focus:outline-none w-full"
                 type="text"
@@ -122,9 +122,9 @@ function Header({}) {
           >
             Rapport
           </Link>
-          <Link to="/User_Profile">
+          {/* <Link to="/User_Profile">
             <FaUserCircle className="hover:text-orange-500 cursor-pointer text-gray-500 text-2xl" />
-          </Link>
+          </Link> */}
         </div>
         <div className="flex gap-3 ">
           <IoSearch
@@ -133,6 +133,9 @@ function Header({}) {
             }}
             className="text-2xl cursor-pointer text-gray-500"
           />
+          <Link to="/User_Profile">
+            <FaUserCircle className="hidden lg:block hover:text-orange-500 cursor-pointer text-gray-500 text-2xl" />
+          </Link>
           <div onClick={() => setShowSideBar(!showSideBar)}>
             <HiOutlineViewList className="text-2xl cursor-pointer text-gray-500" />
           </div>

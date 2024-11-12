@@ -31,7 +31,7 @@ function SideBar() {
         showSideBar && "-translate-x-[100%] "
       } md:hidden--- transition-all bg-black/50--  fixed z-10 inset-0`}
     >
-      <div className=" overflow-auto transition-all pt-28 relative px-8 max-w-[25rem] h-screen  z-20 bg-white shadow-2xl">
+      <div className=" overflow-auto transition-all pt-20 relative px-8 max-w-[25rem] h-screen  z-20 bg-white shadow-2xl">
         {logOut && (
           <div className="z-40">
             <Logout setLogOut={setLogOut} />
