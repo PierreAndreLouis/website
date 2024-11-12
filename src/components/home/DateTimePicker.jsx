@@ -49,7 +49,7 @@ const DateTimePicker = ({ setShowDatePicker }) => {
             <span className="inline-block translate-y-1 mr-2">
               <MdErrorOutline className="text-2xl mt-0.5" />
             </span>
-            Une recherche sur plus de 3 jours, va commencer a ralentir la carte.
+            Une recherche sur plus de 3 jours, va un peu ralentir la carte.
           </p>
 
           {/* Date et heure de début */}
