@@ -38,6 +38,7 @@ function RapportVehicule() {
     setShowListOption,
     currentVehicule,
     showListeOption,
+    setRapportDataLoading
   } = useContext(DataContext);
 
   const [showActiveVehiculeNow, setshowActiveVehiculeNow] = useState(false);
@@ -108,6 +109,13 @@ function RapportVehicule() {
     console.log("Véhicule cliqué", vehicle);
   };
 
+
+  // update rapport page tous les 5 minutes.
+  setInterval(() => {
+    firstCallRapportData();
+}, 5 * 60 * 1000); // 5 minutes en millisecondes
+
+
   return (
     <div className="mb-56 mt-[8rem]">
       <div className="absolute z-[12333323230]">
@@ -164,7 +172,7 @@ function RapportVehicule() {
                 <br />
                 <span
                   onClick={() => {
-                    firstCallRapportData();
+                   {setRapportDataLoading(true); firstCallRapportData();}
                   }}
                   className="flex justify-between items-center w-[8rem] mx-auto font-normal text-[1rem] shadow-lg px-4 py-0.5 cursor-pointer bg-orange-100 rounded-md"
                 >

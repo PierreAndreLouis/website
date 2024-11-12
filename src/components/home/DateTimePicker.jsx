@@ -39,7 +39,7 @@ const DateTimePicker = ({ setShowDatePicker }) => {
         <div className="flex relative w-full md:max-w-[30rem] md:px-8 flex-col p-4 py-8 space-y-4 mx-4 bg-gray-100 rounded-lg shadow-lg">
           <IoClose
             onClick={() => setShowDatePicker(false)}
-            className="absolute top-5 right-5 text-yellow-500 text-3xl cursor-pointer"
+            className="absolute top-5 right-5 text-red-500 text-3xl cursor-pointer"
           />
           <h2 className="text-xl text-gray-700">
             Choisissez une date et une heure

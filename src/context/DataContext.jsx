@@ -338,7 +338,7 @@ const DataContextProvider = ({ children }) => {
 
   const fetRapportchVehicleDetails = async (Device, TimeFrom, TimeTo) => {
     if (!userData) return;
-    setRapportDataLoading(true);
+    // setRapportDataLoading(true);
 
     const { accountID, userID, password } = userData;
     const xmlData = `<GTSRequest command="eventdata">
