@@ -25,14 +25,18 @@ const assets = [
   'img/icons/*.png',
   'img/logo/*.png',
   'img/home_icon/*.png',
+  'pin/*.png',
 
 
-  '/puclic/img/*.png',
-  '/puclic/img/cars/*.png',
-  '/puclic/img/carte/*.png',
-  '/puclic/img/icons/*.png',
-  '/puclic/img/logo/*.png',
-  '/public/img/home_icon/*.png',
+
+  // '/public/img/*.png',
+  // '/public/img/cars/*.png',
+  // '/public/img/carte/*.png',
+  // '/public/img/icons/*.png',
+  // '/public/img/logo/*.png',
+  // '/public/img/home_icon/*.png',
+  // '/public/pin/*.png',
+
 
 ];
 

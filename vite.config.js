@@ -28,6 +28,7 @@ export default defineConfig({
         'img/icons/*.png',
         'img/logo/*.png',
         'img/home_icon/*.png',
+        'pin/*.png',
         'favicon.svg',
         'favicon.png',
         'favicon.ico',
