@@ -393,34 +393,29 @@ const DataContextProvider = ({ children }) => {
         newVehicleDetails.push(details);
       }
 
+      // Filtrer les doublons et respecter un intervalle de 10 minutes
+      const filteredVehicleDetails = [];
+      let lastTimestamp = null;
+
+      newVehicleDetails.forEach((details) => {
+        const currentTimestamp = parseInt(details.timestamp, 10);
+
+        if (!lastTimestamp || currentTimestamp - lastTimestamp >= 600) {
+          filteredVehicleDetails.push(details);
+          lastTimestamp = currentTimestamp;
+        }
+      });
+
+      // Mettre à jour les détails filtrés
+      setrapportVehicleDetails((prevDetails) => [
+        ...prevDetails.filter((detail) => detail.Device !== Device),
+        ...filteredVehicleDetails,
+      ]);
+
       // setrapportVehicleDetails((prevDetails) => [
       //   ...prevDetails.filter((detail) => detail.Device !== Device),
       //   ...newVehicleDetails,
       // ]);
-
-
-    // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
-    const filteredVehicleDetails = [];
-    const seenTimestamps = new Set();
-
-    newVehicleDetails
-      .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)) // Tri décroissant par timestamp
-      .forEach((details) => {
-        const timestamp = parseInt(details.timestamp);
-        if (
-          !seenTimestamps.has(timestamp) && 
-          (filteredVehicleDetails.length === 0 || 
-           parseInt(filteredVehicleDetails[filteredVehicleDetails.length - 1].timestamp) - timestamp >= 600)
-        ) {
-          seenTimestamps.add(timestamp);
-          filteredVehicleDetails.push(details);
-        }
-      });
-
-    setrapportVehicleDetails((prevDetails) => [
-      ...prevDetails.filter((detail) => detail.Device !== Device),
-      ...filteredVehicleDetails,
-    ]);
 
       // localStorage.setItem("vehicleDetails", JSON.stringify(vehicleDetails));
       console.log("vehicleDetails.......>>>", vehicleDetails);
@@ -504,26 +499,24 @@ const DataContextProvider = ({ children }) => {
         newVehicleDetails.push(details);
       }
 
-   // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
-   const filteredVehicleDetails = [];
-   const seenTimestamps = new Set();
+      setVehiclueHistoriqueDetails(newVehicleDetails);
+      // ----------------------------------------------------------------
+    //   Filtrer les doublons et respecter un intervalle de 10 minutes
+      const filteredVehicleDetails = [];
+      let lastTimestamp = null;
 
-   newVehicleDetails
-     .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)) // Tri décroissant par timestamp
-     .forEach((details) => {
-       const timestamp = parseInt(details.timestamp);
-       if (
-         !seenTimestamps.has(timestamp) && 
-         (filteredVehicleDetails.length === 0 || 
-          parseInt(filteredVehicleDetails[filteredVehicleDetails.length - 1].timestamp) - timestamp >= 600)
-       ) {
-         seenTimestamps.add(timestamp);
-         filteredVehicleDetails.push(details);
-       }
-     });
+      newVehicleDetails.forEach((details) => {
+        const currentTimestamp = parseInt(details.timestamp, 10);
 
-   setVehiclueHistoriqueDetails(filteredVehicleDetails);
-  
+        // Vérifie les doublons basés sur timestamp et un intervalle de 10 minutes
+        if (!lastTimestamp || currentTimestamp - lastTimestamp >= 600) {
+          filteredVehicleDetails.push(details);
+          lastTimestamp = currentTimestamp;
+        }
+      });
+
+      // Utilisez la liste filtrée
+      setVehiclueHistoriqueDetails(filteredVehicleDetails);
 
       console.log("newVehicleDetails.......>>>", newVehicleDetails);
       console.log(

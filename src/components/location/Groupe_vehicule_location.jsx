@@ -200,43 +200,8 @@ const Groupe_vehicule_location = () => {
           </h3>
         </div>
       </div>
-      {/* {showVehiculeListe && (
-          <div className="px-4 fixed z-[118199000111] bg-black/50 -inset-0  flex justify-center items-centerr flex-col">
-            <div className="relative  bg-white max-w-[40rem] mx-auto max-h-[70vh] overflow-y-auto overflow-x-hidden p-5 flex flex-col gap-1 rounded-md">
-              <IoClose
-                onClick={() => {
-                  setShowVehiculeListe(false);
-                }}
-                className="absolute right-6 top-5 text-2xl text-red-500 cursor-pointer"
-              />
-
-              <h2 className="font-semibold border-b-2 pb-2 mb-4 text-gray-600 text-lg">
-                Choisissez un vehicule
-              </h2>
-              <div
-                onClick={() => {
-                  showAllVehicles();
-                  setShowVehiculeListe(false);
-                }}
-                className=" cursor-pointer text-orange-600 hover:bg-orange-50 font-semibold py-2 rounded-md"
-              >
-                Tous les véhicules
-              </div>
-              {vehicleData.map((vehicle, index) => (
-                <div
-                  key={index}
-                  onClick={() => {
-                    handleVehicleClick(vehicle);
-                    setShowVehiculeListe(false);
-                  }}
-                  className=" cursor-pointer text-gray-700 hover:bg-orange-50  py-2 rounded-md"
-                >
-                  {vehicle.description}
-                </div>
-              ))}
-            </div>
-          </div>
-        )} */}
+   
+          
 
       {showVehiculeListe && (
         <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-[14124124124124] shadow-xl border border-gray-100 rounded-md p-3">

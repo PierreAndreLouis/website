@@ -1,6 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Polyline } from "react-leaflet"; // 1. Import Polyline
-
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { DataContext } from "../../context/DataContext";
@@ -98,7 +96,6 @@ function Historique() {
     licensePlate: currentVehicule?.licensePlate || "",
     simPhoneNumber: currentVehicule?.simPhoneNumber || "",
     speedKPH: vehicule?.speedKPH || 0, // Ajout de la vitesse
-    heading: vehicule?.heading || "",
   }));
 
   const vehicles = vehicleData;
@@ -155,24 +152,14 @@ function Historique() {
   //   return <p>Chargement des données des véhicules...</p>;
   // }
 
-  const getMarkerIcon = (vehicule) => {
-    // const speedKPH = vehicule.speedKPH;
-
-    const speed = parseFloat(vehicule.speedKPH);
-    const direction = Math.round(vehicule.heading / 45.0) % 8;
-
-    if (speed <= 0) return "/pin/ping_red.png";
-    else if (speed > 0 && speed <= 20)
-      return `/pin/ping_yellow_h${direction}.png`;
-    else return `/pin/ping_green_h${direction}.png`;
-
-    // if (speedKPH < 1) {
-    //   return iconLowSpeed; // Icône pour basse vitesse
-    // } else if (speedKPH >= 1 && speedKPH <= 20) {
-    //   return iconMediumSpeed; // Icône pour vitesse moyenne
-    // } else if (speedKPH > 20) {
-    //   return iconHighSpeed; // Icône pour haute vitesse
-    // }
+  const getMarkerIcon = (speedKPH) => {
+    if (speedKPH < 1) {
+      return iconLowSpeed; // Icône pour basse vitesse
+    } else if (speedKPH >= 1 && speedKPH <= 20) {
+      return iconMediumSpeed; // Icône pour vitesse moyenne
+    } else if (speedKPH > 20) {
+      return iconHighSpeed; // Icône pour haute vitesse
+    }
   };
 
   const openGoogleMaps = (latitude, longitude) => {
@@ -224,6 +211,7 @@ function Historique() {
     setTypeDeVue(false);
   };
 
+
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (e) => {
@@ -234,11 +222,6 @@ function Historique() {
     vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Récupérer les positions successives pour les lignes rouges
-  const positions = vehicles.map((vehicle) => [
-    vehicle.lastValidLatitude,
-    vehicle.lastValidLongitude,
-  ]);
   return (
     <div className="p-4 flex flex-col gap-4 mt-16 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
       <div className="z-50">
@@ -273,7 +256,7 @@ function Historique() {
               onClick={() => {
                 setShowHistoriqueInMap(!showHistoriqueInMap);
               }}
-              className="cursor-pointer shadow-xl md:border border-orange-200 min-w-10 border rounded-md flex justify-center items-center py-2 bg-orange-50"
+              className="cursor-pointer min-w-10 border rounded-md flex justify-center items-center py-2 bg-orange-50"
             >
               {showHistoriqueInMap ? (
                 <IoStatsChart className="text-xl text-orange-600 " />
@@ -292,8 +275,8 @@ function Historique() {
               className="relative w-full"
             >
               <div
-                className="flex justify-between  cursor-pointer border border-orange-200 rounded-md
-                 px-3 py-2 bg-orange-50 shadow-xl text-center"
+                className="flex justify-between  cursor-pointer border rounded-md
+                 px-3 py-2 bg-orange-50 text-center"
               >
                 <p className="text-start">
                   {currentVehicule?.description || "Choisir un vehicule"}
@@ -329,9 +312,9 @@ function Historique() {
                     </div>
                   </div>
                 </div>
-              )} */}
-            </div>
-            {showVehiculeListe && (
+              )} */} 
+                </div>
+              {showVehiculeListe && (
               <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-20 shadow-xl border border-gray-100 rounded-md p-3">
                 <div className="pt-28 relative w-full max-w-[30rem] rounded-xl p-4 max-h-[70vh] overflow-y-auto---- overflow-hidden bg-white">
                   <IoMdClose
@@ -374,10 +357,11 @@ function Historique() {
                 </div>
               </div>
             )}
+         
 
             <div
               onClick={() => setshowFilter(!showFilter)}
-              className="min-w-10 cursor-pointer border rounded-md shadow-xl border-orange-200 flex justify-center items-center py-2 bg-orange-50"
+              className="min-w-10 cursor-pointer border rounded-md flex justify-center items-center py-2 bg-orange-50"
             >
               <BsFilterRight className="text-2xl text-orange-600 " />
             </div>
@@ -696,7 +680,7 @@ function Historique() {
                 <ScaleControl position="bottomright" />
                 <AttributionControl position="bottomleft" />
 
-                {vehicles?.map((vehicule, index) => {
+                {vehicles?.map((vehicle, index) => {
                   const {
                     lastValidLatitude,
                     lastValidLongitude,
@@ -707,10 +691,9 @@ function Historique() {
                     simPhoneNumber,
                     address,
                     speedKPH,
-                    heading,
-                  } = vehicule;
+                  } = vehicle;
 
-                  const markerIcon = getMarkerIcon(vehicule); // Récupérer l'icône en fonction de la vitesse
+                  const markerIcon = getMarkerIcon(speedKPH); // Récupérer l'icône en fonction de la vitesse
 
                   return (
                     <Marker
@@ -721,13 +704,12 @@ function Historique() {
                       ]}
                       icon={L.icon({
                         iconUrl: markerIcon, // Utiliser l'icône basée sur la vitesse
-                        iconSize: [22, 35],
-                        // iconSize: [25, 41],
-                        iconAnchor: [12, 35],
-                        popupAnchor: [-1, -30],
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
                         shadowUrl:
                           "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
-                        shadowSize: [5, 5],
+                        shadowSize: [11, 11],
                       })}
                     >
                       <Popup className="">
@@ -796,9 +778,6 @@ function Historique() {
                     <Popup>Vous êtes ici</Popup>
                   </Marker>
                 )}
-
-                {/* 2. Ajoute la ligne rouge entre les positions consécutives */}
-                <Polyline positions={positions} color="red" weight={1} />
               </MapContainer>
             </div>
           </div>

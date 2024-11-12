@@ -152,7 +152,7 @@ function RapportVehicule() {
             {/* ------------------- */}
 
             {/* Rapport des vehicule */}
-            <div className="min-w-[100vw w-full sm:px-12 md:px-32 px-4">
+            <div className="min-w-[100vw w-full sm:px-6 md:px-20 px-4">
               <h1
                 onClick={() => {
                   console.log(donneeFusionneeForRapport);
