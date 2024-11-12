@@ -1,9 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
 import { IoClose } from "react-icons/io5";
 import { DataContext } from "../../context/DataContext";
+import { MdErrorOutline } from "react-icons/md";
 
 const DateTimePicker = ({ setShowDatePicker }) => {
-  const { handleDateChange, fetchVehicleDetails,fetchHistoriqueVehicleDetails, currentVehicule, setLoadingHistoriqueFilter } = useContext(DataContext);
+  const {
+    handleDateChange,
+    fetchVehicleDetails,
+    fetchHistoriqueVehicleDetails,
+    currentVehicule,
+    setLoadingHistoriqueFilter,
+  } = useContext(DataContext);
 
   // Formatage de la date actuelle
   const getCurrentDate = () => new Date().toISOString().split("T")[0];
@@ -32,11 +39,18 @@ const DateTimePicker = ({ setShowDatePicker }) => {
         <div className="flex relative w-full md:max-w-[30rem] md:px-8 flex-col p-4 py-8 space-y-4 mx-4 bg-gray-100 rounded-lg shadow-lg">
           <IoClose
             onClick={() => setShowDatePicker(false)}
-            className="absolute top-5 right-5 text-red-500 text-3xl cursor-pointer"
+            className="absolute top-5 right-5 text-yellow-500 text-3xl cursor-pointer"
           />
           <h2 className="text-xl text-gray-700">
             Choisissez une date et une heure
           </h2>
+
+          <p className="flex- items-start border border-yellow-600 gap-3 bg-yellow-100 text-yellow-700 text-lg px-4 py-1 rounded-md text-center ">
+            <span className="inline-block translate-y-1 mr-2">
+              <MdErrorOutline className="text-2xl mt-0.5" />
+            </span>
+            Une recherche sur plus de 3 jours, va commencer a ralentir la carte.
+          </p>
 
           {/* Date et heure de début */}
           <div className="flex gap-4 justify-center items-center">
