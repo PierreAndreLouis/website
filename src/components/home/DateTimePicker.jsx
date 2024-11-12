@@ -45,7 +45,7 @@ const DateTimePicker = ({ setShowDatePicker }) => {
             Choisissez une date et une heure
           </h2>
 
-          <p className="flex- items-start border border-yellow-600 gap-3 bg-yellow-100 text-yellow-700 text-lg px-4 py-1 rounded-md text-center ">
+          <p className="flex- items-start border text-md pb-2 border-yellow-600 gap-3 bg-yellow-100 text-yellow-700 md:text-lg px-4 py-1  rounded-md text-center ">
             <span className="inline-block translate-y-1 mr-2">
               <MdErrorOutline className="text-2xl mt-0.5" />
             </span>
