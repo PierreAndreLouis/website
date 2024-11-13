@@ -38,7 +38,7 @@ function RapportVehicule() {
     setShowListOption,
     currentVehicule,
     showListeOption,
-    setRapportDataLoading
+    setRapportDataLoading,
   } = useContext(DataContext);
 
   const [showActiveVehiculeNow, setshowActiveVehiculeNow] = useState(false);
@@ -80,25 +80,22 @@ function RapportVehicule() {
     vehiculeNotActif,
   ]);
 
-  // Fonction pour formater la date (jj/mm/aa)
-  const formatDate = (timestamp) => {
-    const dateObj = new Date(timestamp * 1000);
-    const jour = dateObj.getDate().toString().padStart(2, "0");
-    const mois = (dateObj.getMonth() + 1).toString().padStart(2, "0");
-    const annee = dateObj.getFullYear().toString().slice(-2);
+  // Fonctions pour formater le temps et la date
+  function formatTimestampToTime(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const hours = date.getUTCHours().toString().padStart(2, "0");
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
 
-    return `${jour}/${mois}/${annee}`;
-  };
-
-  // Fonction pour formater l'heure (hh:mm:ss)
-  const formatHeure = (timestamp) => {
-    const dateObj = new Date(timestamp * 1000);
-    const heures = dateObj.getHours().toString().padStart(2, "0");
-    const minutes = dateObj.getMinutes().toString().padStart(2, "0");
-    const secondes = dateObj.getSeconds().toString().padStart(2, "0");
-
-    return `${heures}:${minutes}:${secondes}`;
-  };
+  function formatTimestampToDate(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const year = date.getUTCFullYear();
+    return `${day}-${month}-${year}`;
+  }
 
   const handleClick = (vehicle) => {
     setCurrentVehicule(vehicle);
@@ -109,20 +106,27 @@ function RapportVehicule() {
     console.log("Véhicule cliqué", vehicle);
   };
 
+  
+// update rapport page tous les 5 minutes.
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      firstCallRapportData();
+    }, 5 * 60 * 1000);
 
-  // update rapport page tous les 5 minutes.
-  setInterval(() => {
-    firstCallRapportData();
-}, 5 * 60 * 1000); // 5 minutes en millisecondes
+    return () => clearInterval(intervalId);
+  }, []);
+
+
+
 
 
   return (
     <div className="mb-56 mt-[8rem]">
       <div className="absolute z-[12333323230]">
-        <Navigation_bar />
+        {/* <Navigation_bar />
         <PC_header />
         <Header />
-        <SideBar />
+        <SideBar /> */}
       </div>
       {showListeOption && <Liste_options />}
       {showRapportPupup && (
@@ -172,7 +176,10 @@ function RapportVehicule() {
                 <br />
                 <span
                   onClick={() => {
-                   {setRapportDataLoading(true); firstCallRapportData();}
+                    {
+                      setRapportDataLoading(true);
+                      firstCallRapportData();
+                    }
                   }}
                   className="flex justify-between items-center w-[8rem] mx-auto font-normal text-[1rem] shadow-lg px-4 py-0.5 cursor-pointer bg-orange-100 rounded-md"
                 >
@@ -234,15 +241,15 @@ function RapportVehicule() {
                                   <div className="flex gap-3 items-center">
                                     <FaRegCalendarAlt className="text-gray-500/80" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
-                                      {formatDate(
-                                        vehicule.vehiculeDetails[0]?.timestamp
+                                      {formatTimestampToDate(
+                                        vehicule?.vehiculeDetails[0]?.timestamp
                                       )}
                                     </h3>
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <IoMdTime className="text-gray-500/80 text-xl" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
-                                      {formatHeure(
+                                      {formatTimestampToTime(
                                         vehicule.vehiculeDetails[0]?.timestamp
                                       )}
                                     </h3>
@@ -362,15 +369,15 @@ function RapportVehicule() {
                                   <div className="flex gap-3 items-center">
                                     <FaRegCalendarAlt className="text-gray-500/80" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
-                                      {formatDate(
-                                        vehicule.vehiculeDetails[0]?.timestamp
+                                      {formatTimestampToDate(
+                                        vehicule?.vehiculeDetails[0]?.timestamp
                                       )}
                                     </h3>
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <IoMdTime className="text-gray-500/80 text-xl" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
-                                      {formatHeure(
+                                      {formatTimestampToTime(
                                         vehicule.vehiculeDetails[0]?.timestamp
                                       )}
                                     </h3>
@@ -495,15 +502,15 @@ function RapportVehicule() {
                                   <div className="flex gap-3 items-center">
                                     <FaRegCalendarAlt className="text-gray-500/80" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
-                                      {formatDate(
-                                        vehicule.vehiculeDetails[0]?.timestamp
+                                      {formatTimestampToDate(
+                                        vehicule?.vehiculeDetails[0]?.timestamp
                                       )}
                                     </h3>
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <IoMdTime className="text-gray-500/80 text-xl" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
-                                      {formatHeure(
+                                      {formatTimestampToTime(
                                         vehicule.vehiculeDetails[0]?.timestamp
                                       )}
                                     </h3>
@@ -623,15 +630,15 @@ function RapportVehicule() {
                                   <div className="flex gap-3 items-center">
                                     <FaRegCalendarAlt className="text-gray-500/80" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
-                                      {formatDate(
-                                        vehicule.vehiculeDetails[0]?.timestamp
+                                      {formatTimestampToDate(
+                                        vehicule?.vehiculeDetails[0]?.timestamp
                                       )}
                                     </h3>
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <IoMdTime className="text-gray-500/80 text-xl" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
-                                      {formatHeure(
+                                      {formatTimestampToTime(
                                         vehicule.vehiculeDetails[0]?.timestamp
                                       )}
                                     </h3>

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import "./App.css";
-import Home from "./pages/Home";
+import HomePage from "./pages/HomePage";
 import { ReloadPrompt } from "./pages/Prompt";
 import Login2 from "./components/login/Login2";
 import {
@@ -23,18 +23,18 @@ import VoitureDetails from "./components/details/VoitureDetails";
 import Historique from "./components/home/Historique";
 import Delete_vehicule from "./components/delete_vehicule/Delete_vehicule";
 import UserProfile from "./components/profile/UserProfile";
-import ChangePassword from "./components/login/ChangePassword";
 import ProtectedChangePassword from "./pages/ProtectedChangePassword";
 import RapportVehicule from "./components/home/RapportVehicule";
+import Header from "./components/home/Header";
+import Navigation_bar from "./components/home/Navigation_bar";
+import SideBar from "./components/home/SideBar";
+import ScrollToTop from "./components/scrollToTop/ScrollToTop";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate(); // Utilisation de useNavigate
   const {
     isAuthenticated,
-    isPasswordConfirmed,
-    setIsPasswordConfirmed,
-    setShowChangePasswordPupup,
   } = useContext(DataContext);
 
   React.useEffect(() => {
@@ -44,15 +44,27 @@ function App() {
     }
   }, [isAuthenticated, location.pathname, navigate]);
 
-  // const handleChangePasswordAccess = () => {
-  //   navigate("/User_Profile");
-  //   setShowChangePasswordPupup(true);
-  // };
+  // Liste des chemins où le footer ne doit pas apparaître
+  const hideComponentRoutes = ["/login"];
+
+  // Vérification si le chemin actuel correspond à l'un des chemins dans hideComponentRoutes
+  const shouldHideComponent = hideComponentRoutes.some((route) =>
+    location.pathname.startsWith(route)
+  );
 
   return (
     <div>
-      <div className="z-50 ">
-        <ReloadPrompt />
+      {/* Pupup qui Permet a l'utilisateur de refraich la page quand il y a mise a jour */}
+      <div className="z-50 ">{/* <ReloadPrompt /> */}</div>
+
+      {/* Composant pour faire défiler vers le haut */}
+      <ScrollToTop />
+
+      {/* Ces composant vont pouvoir apparaitre dans tous les page, sauf dans /login */}
+      <div className="absolute z-[100000000000000000000000000]">
+        {!shouldHideComponent && <Header />}
+        {!shouldHideComponent && <Navigation_bar />}
+        {!shouldHideComponent && <SideBar />}
       </div>
 
       <Routes>
@@ -63,7 +75,7 @@ function App() {
           }
         />
         <Route path="/login" element={<Login2 />} />
-        <Route path="/home" element={<PrivateRoute element={<Home />} />} />
+        <Route path="/home" element={<PrivateRoute element={<HomePage />} />} />
         <Route
           path="/ajouter_vehicule"
           element={<PrivateRoute element={<Ajouter_vehicule />} />}
@@ -105,26 +117,13 @@ function App() {
           element={<PrivateRoute element={<UserProfile />} />}
         />
 
-       <Route
+        <Route
           path="/rapport_vehicule"
           element={<PrivateRoute element={<RapportVehicule />} />}
         />
 
-        {/* <Route
-          path="/Change_Password"
-          element={
-            isPasswordConfirmed ? (
-              <ChangePassword />
-            ) : (
-              handleChangePasswordAccess()
-            )
-          }
-        /> */}
+        <Route path="/Change_Password" element={<ProtectedChangePassword />} />
 
-<Route path="/Change_Password" element={<ProtectedChangePassword />} />
-
-
-        {/* UserProfile */}
         <Route path="*" element={<Page_404 />} />
       </Routes>
     </div>

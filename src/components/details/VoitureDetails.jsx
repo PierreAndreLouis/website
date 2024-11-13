@@ -47,10 +47,10 @@ function VoitureDetails() {
 
   return (
     <div className="px-4 mt-20 pb-20">
-      <Navigation_bar />
+      {/* <Navigation_bar />
       <PC_header />
       <Header />
-      <SideBar />
+      <SideBar /> */}
       
       <div>
       <div

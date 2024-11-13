@@ -54,10 +54,10 @@ function UserProfile() {
 
   return (
     <div className="px-4 pb-20">
-      <Navigation_bar />
+      {/* <Navigation_bar />
       <PC_header />
       <Header />
-      <SideBar />
+      <SideBar /> */}
       {logOut && <Logout setLogOut={setLogOut} />}
       {showChangePasswordPupup && (
         <div className="fixed z-10 flex justify-center items-center inset-0 bg-black/50">

@@ -117,10 +117,10 @@ function Ajouter_vehicule() {
 
   return (
     <div>
-      <Navigation_bar />
+      {/* <Navigation_bar />
       <PC_header />
       <Header />
-      <SideBar />
+      <SideBar /> */}
 
       {crud_loading && (
         <div className="fixed z-30 inset-0 bg-gray-200/50">

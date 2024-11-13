@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 
 function Statistics() {
-  const { vehicleData, mergedData, isLoading } = useContext(DataContext);
+  const { mergedData} = useContext(DataContext);
 
   const vehicleArray = mergedData ? Object.values(mergedData) : [];
   const totalVehicleCount = vehicleArray.length;

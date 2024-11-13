@@ -242,10 +242,10 @@ function Historique() {
   return (
     <div className="p-4 flex flex-col gap-4 mt-16 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
       <div className="z-50">
-        <Navigation_bar />
+        {/* <Navigation_bar />
         <PC_header />
         <Header />
-        <SideBar />
+        <SideBar /> */}
       </div>
       {showListeOption && (
         <div className="absolute z-30">

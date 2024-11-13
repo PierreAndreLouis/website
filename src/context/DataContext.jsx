@@ -1,6 +1,6 @@
 // DataContextProvider.js
 import React, { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export const DataContext = createContext();
 
@@ -398,29 +398,33 @@ const DataContextProvider = ({ children }) => {
       //   ...newVehicleDetails,
       // ]);
 
+      // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
+      const filteredVehicleDetails = [];
+      const seenTimestamps = new Set();
 
-    // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
-    const filteredVehicleDetails = [];
-    const seenTimestamps = new Set();
+      newVehicleDetails
+        .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)) // Tri décroissant par timestamp
+        .forEach((details) => {
+          const timestamp = parseInt(details.timestamp);
+          if (
+            !seenTimestamps.has(timestamp) &&
+            (filteredVehicleDetails.length === 0 ||
+              parseInt(
+                filteredVehicleDetails[filteredVehicleDetails.length - 1]
+                  .timestamp
+              ) -
+                timestamp >=
+                600)
+          ) {
+            seenTimestamps.add(timestamp);
+            filteredVehicleDetails.push(details);
+          }
+        });
 
-    newVehicleDetails
-      .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)) // Tri décroissant par timestamp
-      .forEach((details) => {
-        const timestamp = parseInt(details.timestamp);
-        if (
-          !seenTimestamps.has(timestamp) && 
-          (filteredVehicleDetails.length === 0 || 
-           parseInt(filteredVehicleDetails[filteredVehicleDetails.length - 1].timestamp) - timestamp >= 600)
-        ) {
-          seenTimestamps.add(timestamp);
-          filteredVehicleDetails.push(details);
-        }
-      });
-
-    setrapportVehicleDetails((prevDetails) => [
-      ...prevDetails.filter((detail) => detail.Device !== Device),
-      ...filteredVehicleDetails,
-    ]);
+      setrapportVehicleDetails((prevDetails) => [
+        ...prevDetails.filter((detail) => detail.Device !== Device),
+        ...filteredVehicleDetails,
+      ]);
 
       // localStorage.setItem("vehicleDetails", JSON.stringify(vehicleDetails));
       console.log("vehicleDetails.......>>>", vehicleDetails);
@@ -504,26 +508,30 @@ const DataContextProvider = ({ children }) => {
         newVehicleDetails.push(details);
       }
 
-   // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
-   const filteredVehicleDetails = [];
-   const seenTimestamps = new Set();
+      // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
+      const filteredVehicleDetails = [];
+      const seenTimestamps = new Set();
 
-   newVehicleDetails
-     .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)) // Tri décroissant par timestamp
-     .forEach((details) => {
-       const timestamp = parseInt(details.timestamp);
-       if (
-         !seenTimestamps.has(timestamp) && 
-         (filteredVehicleDetails.length === 0 || 
-          parseInt(filteredVehicleDetails[filteredVehicleDetails.length - 1].timestamp) - timestamp >= 600)
-       ) {
-         seenTimestamps.add(timestamp);
-         filteredVehicleDetails.push(details);
-       }
-     });
+      newVehicleDetails
+        .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)) // Tri décroissant par timestamp
+        .forEach((details) => {
+          const timestamp = parseInt(details.timestamp);
+          if (
+            !seenTimestamps.has(timestamp) &&
+            (filteredVehicleDetails.length === 0 ||
+              parseInt(
+                filteredVehicleDetails[filteredVehicleDetails.length - 1]
+                  .timestamp
+              ) -
+                timestamp >=
+                600)
+          ) {
+            seenTimestamps.add(timestamp);
+            filteredVehicleDetails.push(details);
+          }
+        });
 
-   setVehiclueHistoriqueDetails(filteredVehicleDetails);
-  
+      setVehiclueHistoriqueDetails(filteredVehicleDetails);
 
       console.log("newVehicleDetails.......>>>", newVehicleDetails);
       console.log(
@@ -1010,6 +1018,23 @@ const DataContextProvider = ({ children }) => {
     firstCallHistoriqueData();
   };
 
+  const location = useLocation();
+  const [tab, setTab] = useState("");
+
+  // Synchronisation de l'état `tab` avec l'URL lors du montage du composant ou des changements d'URL
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const tabFromUrl = params.get("tab");
+    if (tabFromUrl) {
+      setTab(tabFromUrl);
+    }
+  }, [location]); // Réagit aux changements d'URL
+
+  const handleTabClick = (tabName) => {
+    setTab(tabName);
+    navigate(`/home?tab=${tabName}`);
+  };
+
   //
   //
   //
@@ -1102,6 +1127,8 @@ const DataContextProvider = ({ children }) => {
         setVehiculeActiveMaintenant,
         vehiculeNotActif,
         setVehiculeNotActif,
+        handleTabClick,
+        tab,
       }}
     >
       {children}

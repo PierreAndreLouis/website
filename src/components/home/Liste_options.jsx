@@ -9,6 +9,7 @@ import { IoMdClose } from "react-icons/io";
 import { DataContext } from "../../context/DataContext";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
+import { MdLocationPin } from "react-icons/md";
 
 function Liste_options({}) {
   const {
@@ -25,6 +26,8 @@ function Liste_options({}) {
   } = useContext(DataContext); // fetchVehicleDetails importée du contexte
 
   const [showAccessCode, setAccessCode] = useState(false);
+  <h1 className="px-3">Toyota Land Cruser Prada</h1>;
+  const [showControlePupup, setshowControlePupup] = useState(false);
 
   //   // exemple de donneer dans la base de donnee
   //   // const TimeFrom = "2011-01-07 10:29:34";
@@ -64,6 +67,61 @@ function Liste_options({}) {
   };
   return (
     <div className="bg-black/50 fixed z-[111111] inset-0 flex justify-center items-center">
+      {/*  */}
+      {showControlePupup && (
+        <div className="fixed flex justify-center items-center z-[1] inset-0 bg-black/50">
+          <div className="relative w-[80vw] max-w-[40rem] bg-white overflow-hidden rounded-lg">
+            <IoMdClose
+              onClick={() => {
+                setshowControlePupup(false);
+              }}
+              className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500"
+            />
+            <div className="h-20 bg-orange-100 shadow-md text-gray-800 text-xl font-semibold text-center flex flex-col justify-center items-center px-2">
+              <h2 className="px-3">Rapport</h2>
+              <h1 className="px-3">Toyota Land Cruser Prada</h1>
+            </div>
+            <div
+              //   onClick={() => {setshowControlePupup(false)}}
+              className="p-4  flex flex-col gap-4 py-6 pb-10"
+            >
+              <div className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+                <IoStatsChartSharp className="text-[1.82rem] text-orange-400 " />
+                <h2 className="font-semibold text-orange-900">
+                  Bloquer le vehicule
+                </h2>
+              </div>
+              {/* <div className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+              <img
+                className="w-[1.92rem]"
+                src="/img/cars/parcoure.png"
+                alt=""
+              />{" "}
+              <h2 className="font-semibold text-orange-900">
+                Trajet du vehicule
+              </h2>
+            </div> */}
+              <div className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+                <MdLocationPin className="text-[2rem] min-w-8 text-orange-400 " />
+                <h2 className="font-semibold text-orange-900">
+                  Debloquer le vehicule
+                </h2>
+              </div>
+              {/* <div className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+              <img
+                className="w-[1.92rem]"
+                src="/img/cars/orange_group_position.png"
+                alt=""
+              />{" "}
+              <h2 className="font-semibold text-orange-900">
+                Tous les vehicules en deplacement
+              </h2>
+            </div> */}
+            </div>
+          </div>
+        </div>
+      )}
+      {/*  */}
       <div className="border min-w-[90vw] sm:min-w-[30rem] bg-white mx-4 rounded-xl overflow-hidden">
         <div className="p-4 py-6 pt-10 bg-orange-200/50 relative">
           <h2 className="text-xl text-center font-semibold">
@@ -89,22 +147,20 @@ function Liste_options({}) {
             <h3>Localisation</h3>
           </Link>
 
-
           <Link
-           to="/modifier_vehicule"
-           onClick={() => {
-            setShowListOption(false);
-          }}
+            to="/modifier_vehicule"
+            onClick={() => {
+              setShowListOption(false);
+            }}
             className=" row-start-2--- rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
             <FaEdit className="text-3xl" />
             <h3>Modifier</h3>
           </Link>
 
-
           <div
             onClick={() => {
-              setAccessCode(true);
+              setshowControlePupup(true);
             }}
             className=" row-start-2---- rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
@@ -145,9 +201,6 @@ function Liste_options({}) {
             <FaInfoCircle className="text-3xl" />
             <h3>Informations</h3>
           </Link>
-
-
-
         </div>
       </div>
       {/* ---------------------------------------------------- */}

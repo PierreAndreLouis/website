@@ -6,16 +6,27 @@ import "./db.js"; // Assurez-vous que le chemin d'accès est correct selon votre
 import "./firebaseConfig.js";
 import { BrowserRouter as Router } from "react-router-dom";
 import DataContextProvider from "./context/DataContext.jsx";
+import ThemeProvider from "./theme/ThemeProvider.jsx";
+import { Provider } from "react-redux";
+import { store, persistor } from "./theme/store.js";
+import { PersistGate } from "redux-persist/integration/react";
+
 // import DataContextProvider from "./context/DataContext.js"; // Le provider du contexte
 
 createRoot(document.getElementById("root")).render(
-  // <StrictMode>
+  <StrictMode>
     <Router>
       <DataContextProvider>
-        <App />
+        <PersistGate persistor={persistor}>
+          <Provider store={store}>
+            <ThemeProvider>
+              <App />
+            </ThemeProvider>
+          </Provider>
+        </PersistGate>
       </DataContextProvider>
     </Router>
-  //  {/* </StrictMode> */}
+  </StrictMode>
 );
 
 if ("serviceWorker" in navigator) {
