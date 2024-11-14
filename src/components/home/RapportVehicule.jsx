@@ -116,7 +116,7 @@ function RapportVehicule() {
     const intervalId = setInterval(() => {
       firstCallRapportData();
       console.log("okkkkkkkkkk");
-    }, 120000);
+    }, 60000);
 
     return () => clearInterval(intervalId);
   }, []);

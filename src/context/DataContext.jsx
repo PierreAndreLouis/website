@@ -581,7 +581,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
   const firstCallRapportData = () => {
     setShowListOption(false);
-
+    console.log("Start.........");
     const now = new Date();
     const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
       .toString()
@@ -606,6 +606,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     if (vehicleData && vehicleData.length > 0) {
       vehicleData.forEach((vehicle) => {
         fetRapportchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
+        console.log("call the fonction.........");
       });
     }
   };
@@ -1181,7 +1182,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         setSmsError,
         showHistoriqueInMap,
         setShowHistoriqueInMap,
-        setVehiclueHistoriqueDetails
+        setVehiclueHistoriqueDetails,
       }}
     >
       {children}
