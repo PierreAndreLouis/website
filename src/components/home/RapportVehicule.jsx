@@ -39,6 +39,10 @@ function RapportVehicule() {
     currentVehicule,
     showListeOption,
     setRapportDataLoading,
+    envoyerSMS,
+    smsError,
+    firstCallHistoriqueData,
+    setShowHistoriqueInMap,
   } = useContext(DataContext);
 
   const [showActiveVehiculeNow, setshowActiveVehiculeNow] = useState(false);
@@ -101,7 +105,7 @@ function RapportVehicule() {
     setCurrentVehicule(vehicle);
     setSelectedVehicle(vehicle.deviceID);
     // setSelectedVehicle(vehicle);  // Ajouter cette ligne
-    setShowListOption(true);
+    // setShowListOption(true);
     console.log("Véhicule en variable", currentVehicule);
     console.log("Véhicule cliqué", vehicle);
   };
@@ -126,7 +130,15 @@ function RapportVehicule() {
       </div>
       {showListeOption && <Liste_options />}
       {showRapportPupup && (
-        <RapportOptions setshowRapportPupup={setshowRapportPupup} />
+        <RapportOptions
+          setshowRapportPupup={setshowRapportPupup}
+          currentVehicule={currentVehicule}
+          formatTimestampToTime={formatTimestampToTime}
+          envoyerSMS={envoyerSMS}
+          smsError={smsError}
+          firstCallHistoriqueData={firstCallHistoriqueData}
+          setShowHistoriqueInMap={setShowHistoriqueInMap}
+        />
       )}
       {rapportDataLoading && (
         <div className="fixed z-30 inset-0 bg-gray-200/50">
@@ -161,12 +173,7 @@ function RapportVehicule() {
 
             {/* Rapport des vehicule */}
             <div className="min-w-[100vw w-full sm:px-6 md:px-20 px-4">
-              <h1
-                onClick={() => {
-                  console.log(donneeFusionneeForRapport);
-                }}
-                className="font-semibold text-center mx-4 mb-16 text-xl"
-              >
+              <h1 className="font-semibold text-center mx-4 mb-16 text-xl">
                 Rapport sur les vehicules <br /> Aujourd'hui
                 <br />
                 <br />
@@ -212,7 +219,13 @@ function RapportVehicule() {
                   {vehiculeActiveMaintenant?.length > 0 ? (
                     vehiculeActiveMaintenant?.map((vehicule, index) => {
                       return (
-                        <div className="bg-white">
+                        <div
+                          onClick={() => {
+                            handleClick(vehicule);
+                            setshowRapportPupup(true);
+                          }}
+                          className="bg-white"
+                        >
                           <div
                             className={` bg-green-100/20 shadow-md rounded-lg p-3`}
                           >
@@ -341,7 +354,13 @@ function RapportVehicule() {
                   {vehiculeActiveAjourdhui?.length > 0 ? (
                     vehiculeActiveAjourdhui?.map((vehicule, index) => {
                       return (
-                        <div className="bg-white">
+                        <div
+                          onClick={() => {
+                            handleClick(vehicule);
+                            setshowRapportPupup(true);
+                          }}
+                          className="bg-white"
+                        >
                           <div
                             className={` bg-green-100/20 shadow-md rounded-lg p-3`}
                           >
@@ -472,6 +491,7 @@ function RapportVehicule() {
                         <div
                           onClick={() => {
                             handleClick(vehicule);
+                            setshowRapportPupup(true);
                           }}
                           key={index}
                           className="bg-white"
@@ -604,7 +624,13 @@ function RapportVehicule() {
                   {vehiculeNotActif?.length > 0 ? (
                     vehiculeNotActif?.map((vehicule, index) => {
                       return (
-                        <div className="bg-white">
+                        <div
+                          onClick={() => {
+                            handleClick(vehicule);
+                            setshowRapportPupup(true);
+                          }}
+                          className="bg-white"
+                        >
                           <div
                             className={` bg-purple-100/30 shadow-md rounded-lg p-3`}
                           >

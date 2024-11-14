@@ -6,12 +6,9 @@ import { IoMdTime } from "react-icons/io";
 import { DataContext } from "../../context/DataContext";
 import { MdLocationPin, MdDateRange } from "react-icons/md";
 import { FaCar } from "react-icons/fa";
-import Navigation_bar from "./Navigation_bar";
-import PC_header from "./PC_header";
+
 import DateTimePicker from "./DateTimePicker";
-import { Link } from "react-router-dom";
-import Header from "./Header";
-import SideBar from "./SideBar";
+
 import Liste_options from "./Liste_options";
 import { BsFilterRight } from "react-icons/bs";
 import { FaCarRear } from "react-icons/fa6";
@@ -32,13 +29,6 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import customMarkerIcon from "/img/cars/localisation.png";
-import iconLowSpeed from "/img/cars/red_location.png"; // Remplacez par le chemin de votre icône basse vitesse
-import iconMediumSpeed from "/img/cars/yellow_location.png"; // Remplacez par le chemin de votre icône vitesse moyenne
-import iconHighSpeed from "/img/cars/green_location.png"; // Remplacez par le chemin de votre icône haute vitesse
-// import Navigation_bar from "../home/Navigation_bar";
-// import PC_header from "../home/PC_header";
-// import Header from "../home/Header";
-// import SideBar from "../home/SideBar";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -51,7 +41,6 @@ L.Icon.Default.mergeOptions({
 function Historique() {
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showFilter, setshowFilter] = useState(false);
-  const [showHistoriqueInMap, setShowHistoriqueInMap] = useState(false);
   const [typeDeVue, setTypeDeVue] = useState(false);
 
   const {
@@ -66,6 +55,8 @@ function Historique() {
     vehiclueHistoriqueDetails,
     setCurrentVehicule,
     firstCallHistoriqueData,
+    showHistoriqueInMap,
+    setShowHistoriqueInMap,
   } = useContext(DataContext);
 
   const [checkboxes, setCheckboxes] = useState({
@@ -129,32 +120,6 @@ function Historique() {
     },
   };
 
-  // const handleMapTypeChange = (event) => {
-  //   setMapType(event.target.value);
-  // };
-
-  const getCurrentLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const { latitude, longitude } = position.coords;
-          setCurrentLocation([latitude, longitude]);
-        },
-        (error) => {
-          console.error("Erreur de localisation : ", error.message);
-          alert("Impossible de récupérer la position actuelle.");
-        }
-      );
-    } else {
-      alert("La géolocalisation n'est pas supportée par ce navigateur.");
-    }
-  };
-
-  // if (!vehicles || vehicles.length === 0) {
-  //   console.log("Aucun véhicule à afficher.");
-  //   return <p>Chargement des données des véhicules...</p>;
-  // }
-
   const getMarkerIcon = (vehicule) => {
     // const speedKPH = vehicule.speedKPH;
 
@@ -165,14 +130,6 @@ function Historique() {
     else if (speed > 0 && speed <= 20)
       return `/pin/ping_yellow_h${direction}.png`;
     else return `/pin/ping_green_h${direction}.png`;
-
-    // if (speedKPH < 1) {
-    //   return iconLowSpeed; // Icône pour basse vitesse
-    // } else if (speedKPH >= 1 && speedKPH <= 20) {
-    //   return iconMediumSpeed; // Icône pour vitesse moyenne
-    // } else if (speedKPH > 20) {
-    //   return iconHighSpeed; // Icône pour haute vitesse
-    // }
   };
 
   const openGoogleMaps = (latitude, longitude) => {
@@ -239,11 +196,21 @@ function Historique() {
     vehicle.lastValidLatitude,
     vehicle.lastValidLongitude,
   ]);
+
+  // Fonction pour centrer la carte sur les véhicules
+  const handleClick = () => {
+    if (historiqueInMap.length > 0) {
+      const firstVehicle = historiqueInMap[0]; // Prendre le premier véhicule
+      const latitude = firstVehicle.latitude;
+      const longitude = firstVehicle.longitude;
+
+      // Centrer la carte sur les coordonnées du véhicule
+      map.flyTo([latitude, longitude], 13, { animate: true }); // 13 est le niveau de zoom
+    }
+  };
   return (
     <div className="p-4 flex flex-col gap-4 mt-16 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
-      <div className="z-50">
-   
-      </div>
+      <div className="z-50"></div>
       {showListeOption && (
         <div className="absolute z-30">
           <Liste_options />
@@ -266,9 +233,6 @@ function Historique() {
       <div className="mb-6 mt-8 md:mt-16">
         <div className="fixed flex justify-center z-20 top-[3.5rem] bg-white md:bg-white/0 py-2 pt-3 left-0 right-0">
           <div className="flex  relative justify-between px-4 max-w-[35rem] items-center-- gap-3 w-full">
-          
-          
-          
             <div
               onClick={() => {
                 setShowHistoriqueInMap(!showHistoriqueInMap);
@@ -285,8 +249,8 @@ function Historique() {
                 />
               )}
             </div>
+       
 
-            
             <div
               onClick={() => {
                 setShowVehiculeListe(!showVehiculeListe);
@@ -302,8 +266,6 @@ function Historique() {
                 </p>
                 <FaChevronDown className="mt-1" />
               </div>
-
-           
             </div>
             {showVehiculeListe && (
               <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-20 shadow-xl border border-gray-100 rounded-md p-3">
@@ -441,9 +403,6 @@ function Historique() {
                 <hr />
               </div>
             )}
-
-
-
           </div>
         </div>
       </div>
@@ -643,7 +602,6 @@ function Historique() {
                   </div>
                 </div>
               )}
-         
 
               <MapContainer
                 center={[
@@ -738,6 +696,7 @@ function Historique() {
                           >
                             Voir sur Google Maps
                           </button>
+                          
                         </div>
                       </Popup>
                     </Marker>

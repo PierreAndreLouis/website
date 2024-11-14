@@ -64,6 +64,8 @@ const DataContextProvider = ({ children }) => {
 
   const [rapportDataLoading, setRapportDataLoading] = useState(false);
 
+  const [showHistoriqueInMap, setShowHistoriqueInMap] = useState(false);
+
   const [donneeFusionneeForRapport, setdonneeFusionneeForRapport] = useState(
     []
   );
@@ -400,23 +402,23 @@ const DataContextProvider = ({ children }) => {
 
       // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
       const filteredVehicleDetails = [];
-      const seenTimestamps = new Set();
+      let lastZeroSpeedTimestamp = null;
 
       newVehicleDetails
-        .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)) // Tri décroissant par timestamp
+        .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp))
         .forEach((details) => {
           const timestamp = parseInt(details.timestamp);
-          if (
-            !seenTimestamps.has(timestamp) &&
-            (filteredVehicleDetails.length === 0 ||
-              parseInt(
-                filteredVehicleDetails[filteredVehicleDetails.length - 1]
-                  .timestamp
-              ) -
-                timestamp >=
-                200)  //4 minutes 60 * 4 = 200 secondes
-          ) {
-            seenTimestamps.add(timestamp);
+          const speedKPH = parseFloat(details.speedKPH);
+
+          if (speedKPH <= 0) {
+            if (
+              lastZeroSpeedTimestamp === null ||
+              lastZeroSpeedTimestamp - timestamp >= 600
+            ) {
+              filteredVehicleDetails.push(details);
+              lastZeroSpeedTimestamp = timestamp;
+            }
+          } else {
             filteredVehicleDetails.push(details);
           }
         });
@@ -510,23 +512,23 @@ const DataContextProvider = ({ children }) => {
 
       // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
       const filteredVehicleDetails = [];
-      const seenTimestamps = new Set();
+      let lastZeroSpeedTimestamp = null;
 
       newVehicleDetails
-        .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp)) // Tri décroissant par timestamp
+        .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp))
         .forEach((details) => {
           const timestamp = parseInt(details.timestamp);
-          if (
-            !seenTimestamps.has(timestamp) &&
-            (filteredVehicleDetails.length === 0 ||
-              parseInt(
-                filteredVehicleDetails[filteredVehicleDetails.length - 1]
-                  .timestamp
-              ) -
-                timestamp >=
-                200)
-          ) {
-            seenTimestamps.add(timestamp);
+          const speedKPH = parseFloat(details.speedKPH);
+
+          if (speedKPH <= 0) {
+            if (
+              lastZeroSpeedTimestamp === null ||
+              lastZeroSpeedTimestamp - timestamp >= 600
+            ) {
+              filteredVehicleDetails.push(details);
+              lastZeroSpeedTimestamp = timestamp;
+            }
+          } else {
             filteredVehicleDetails.push(details);
           }
         });
@@ -539,6 +541,7 @@ const DataContextProvider = ({ children }) => {
         newVehicleDetails.length
       );
       console.log("End fetching.........");
+      
       setLoadingHistoriqueFilter(false);
     } catch (error) {
       setError("Erreur lors de la récupération des détails du véhicule.");
@@ -965,6 +968,52 @@ const DataContextProvider = ({ children }) => {
     return dataFusionnee;
   };
 
+  // function envoyerSMS(numero, message) {
+  //   window.location.href = `sms:${numero}?body=${encodeURIComponent(message)}`;
+  // }
+
+  const [smsError, setSmsError] = useState(""); // Utilisation du useState pour l'erreur
+
+  const envoyerSMS = (numero, message) => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); // Vérification de la plateforme
+
+    if (!isMobile) {
+      setSmsError(
+        "L'envoi de SMS n'est pas pris en charge sur cette plateforme."
+      );
+      return;
+    }
+
+    try {
+      const smsLink = `sms:${numero}?body=${encodeURIComponent(message)}`;
+
+      // Essayer de rediriger vers le lien sms:
+      window.location.href = smsLink;
+
+      // Vérifier après un délai si l'action a échoué
+      setTimeout(() => {
+        if (window.location.href === smsLink) {
+          // Si l'URL n'a pas changé, il y a probablement un problème
+          setSmsError(
+            "Impossible d'ouvrir l'application de messagerie. Veuillez vérifier que votre appareil supporte les SMS."
+          );
+        }
+      }, 1000); // Délai d'attente de 1 seconde (ajuster si nécessaire)
+    } catch (error) {
+      setSmsError("Une erreur est survenue lors de l'envoi du SMS.");
+    }
+  };
+
+  // function afficherErreur(message) {
+  //   // Afficher un message d'erreur à l'utilisateur
+  //   alert(message);
+  //   // Tu peux aussi afficher l'erreur dans l'interface utilisateur si tu préfères
+  //   const erreurElement = document.getElementById('messageErreur');
+  //   if (erreurElement) {
+  //     erreurElement.textContent = message;
+  //   }
+  // }
+
   useEffect(() => {
     if (userData) {
       fetchVehicleData();
@@ -1127,6 +1176,11 @@ const DataContextProvider = ({ children }) => {
         setVehiculeNotActif,
         handleTabClick,
         tab,
+        envoyerSMS,
+        smsError,
+        setSmsError,
+        showHistoriqueInMap,
+        setShowHistoriqueInMap,
       }}
     >
       {children}

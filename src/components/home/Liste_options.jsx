@@ -10,6 +10,7 @@ import { DataContext } from "../../context/DataContext";
 import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
+import { MdErrorOutline } from "react-icons/md";
 
 function Liste_options({}) {
   const {
@@ -23,6 +24,9 @@ function Liste_options({}) {
     setLoadingHistoriqueFilter,
     fetchHistoriqueVehicleDetails,
     firstCallHistoriqueData,
+    envoyerSMS,
+    smsError,
+    setSmsError,
   } = useContext(DataContext); // fetchVehicleDetails importée du contexte
 
   const [showAccessCode, setAccessCode] = useState(false);
@@ -85,7 +89,21 @@ function Liste_options({}) {
               //   onClick={() => {setshowControlePupup(false)}}
               className="p-4  flex flex-col gap-4 py-6 pb-10"
             >
-              <div className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+              {smsError && (
+                <p className="flex items-start gap-3 bg-red-100 text-red-700 text-lg px-4 py-1 rounded-md text-center ">
+                  <span>
+                    <MdErrorOutline className="text-2xl mt-0.5" />
+                  </span>
+                  {smsError}
+                </p>
+              )}
+
+              <div
+                onClick={() => {
+                  envoyerSMS("1234567890", "Bonjour, ceci est un test");
+                }}
+                className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+              >
                 <IoStatsChartSharp className="text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Bloquer le vehicule
@@ -101,12 +119,21 @@ function Liste_options({}) {
                 Trajet du vehicule
               </h2>
             </div> */}
-              <div className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+              <div
+                onClick={() => {
+                  envoyerSMS(
+                    currentVehicule.simPhoneNumber,
+                    "Bonjour, ceci est un test"
+                  );
+                }}
+                className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+              >
                 <MdLocationPin className="text-[2rem] min-w-8 text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Debloquer le vehicule
                 </h2>
               </div>
+
               {/* <div className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4">
               <img
                 className="w-[1.92rem]"
@@ -134,6 +161,8 @@ function Liste_options({}) {
             className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500"
           />
         </div>
+
+        
         <div className="grid text-gray-600 grid-cols-2 gap-4  p-4 py-8">
           <Link
             onClick={() => {
