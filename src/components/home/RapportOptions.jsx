@@ -12,6 +12,7 @@ function RapportOptions({
   smsError,
   firstCallHistoriqueData,
   setShowHistoriqueInMap,
+  setVehiclueHistoriqueDetails,
 }) {
   const [showStatisticOption, setshowStatisticOption] = useState(true);
   const [showSmsError, setshowSmsError] = useState(false);
@@ -285,19 +286,19 @@ function RapportOptions({
                     <p>
                       Vitesse minimale:
                       <span className="font-bold text-gray-700 pl-3">
-                        {minSpeed} Km/h
+                        {minSpeed.toFixed(2)} Km/h
                       </span>
                     </p>
                     <p>
                       Vitess moyenne:
                       <span className="font-bold text-gray-700 pl-3">
-                        {averageSpeed} Km/h
+                        {averageSpeed.toFixed(2)} Km/h
                       </span>
                     </p>
                     <p>
                       Vitess maximale:
                       <span className="font-bold text-gray-700 pl-3">
-                        {maxSpeed} Km/h
+                        {maxSpeed.toFixed(2)} Km/h
                       </span>
                     </p>
                   </div>
@@ -372,7 +373,10 @@ function RapportOptions({
               <Link
                 to="/voiture_historique"
                 onClick={() => {
-                  firstCallHistoriqueData();
+                  setVehiclueHistoriqueDetails(
+                    currentVehicule?.vehiculeDetails
+                  );
+               
                 }}
                 className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
@@ -385,8 +389,11 @@ function RapportOptions({
               <Link
                 to="/voiture_historique"
                 onClick={() => {
-                  firstCallHistoriqueData();
                   setShowHistoriqueInMap(true);
+                  setVehiclueHistoriqueDetails(
+                    currentVehicule?.vehiculeDetails
+                  );
+             
                 }}
                 className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >

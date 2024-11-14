@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export const DataContext = createContext();
 
-const DataContextProvider = ({ children }) => {
+const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   const navigate = useNavigate();
   const [loadingHistoriqueFilter, setLoadingHistoriqueFilter] = useState(false);
   const [crud_loading, setCrud_loading] = useState(false);
@@ -541,7 +541,7 @@ const DataContextProvider = ({ children }) => {
         newVehicleDetails.length
       );
       console.log("End fetching.........");
-      
+
       setLoadingHistoriqueFilter(false);
     } catch (error) {
       setError("Erreur lors de la récupération des détails du véhicule.");
@@ -1181,6 +1181,7 @@ const DataContextProvider = ({ children }) => {
         setSmsError,
         showHistoriqueInMap,
         setShowHistoriqueInMap,
+        setVehiclueHistoriqueDetails
       }}
     >
       {children}

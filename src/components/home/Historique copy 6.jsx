@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Polyline } from "react-leaflet"; // 1. Import Polyline
 
 import { FaRegCalendarAlt } from "react-icons/fa";
@@ -17,7 +17,6 @@ import { IoMdClose } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa6";
 import { IoStatsChart } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
-import { MdCenterFocusStrong } from "react-icons/md";
 
 import {
   MapContainer,
@@ -31,6 +30,8 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import customMarkerIcon from "/img/cars/localisation.png";
 
+
+
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -38,9 +39,6 @@ L.Icon.Default.mergeOptions({
   iconUrl: customMarkerIcon,
   shadowUrl: "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
 });
-
-
-
 
 function Historique() {
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -68,8 +66,6 @@ function Historique() {
     en_ralenti: true,
     en_arret: true,
   });
-
-  const mapRef = useRef(); // Référence de la carte
 
   const [appliedCheckboxes, setAppliedCheckboxes] = useState(checkboxes);
 
@@ -126,6 +122,8 @@ function Historique() {
     },
   };
 
+
+
   const getMarkerIcon = (vehicule) => {
     // const speedKPH = vehicule.speedKPH;
 
@@ -136,6 +134,8 @@ function Historique() {
     else if (speed > 0 && speed <= 20)
       return `/pin/ping_yellow_h${direction}.png`;
     else return `/pin/ping_green_h${direction}.png`;
+
+
   };
 
   const openGoogleMaps = (latitude, longitude) => {
@@ -202,18 +202,6 @@ function Historique() {
     vehicle.lastValidLatitude,
     vehicle.lastValidLongitude,
   ]);
-
-  // Fonction pour centrer la carte sur le premier marqueur
-   const centerOnFirstMarker = () => {
-    if (mapRef.current && vehicles.length > 0) {
-      const { lastValidLatitude, lastValidLongitude } = vehicles[0];
-      mapRef.current.setView([lastValidLatitude, lastValidLongitude], 15);
-    }
-  };
-
-
-
-
   return (
     <div className="p-4 flex flex-col gap-4 mt-16 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
       <div className="z-50"></div>
@@ -255,17 +243,7 @@ function Historique() {
                 />
               )}
             </div>
-            <button
-              className="fixed z-[9999999999999] top-[12rem] right-[2rem]"
-              onClick={centerOnFirstMarker}
-            >
-              {/* centrer la carte */}
-              {showHistoriqueInMap && (
-                <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
-                  <MdCenterFocusStrong className="text-orange-500 text-[1.52rem]" />
-                </div>
-              )}
-            </button>
+            {/* <button onClick={() => {}}>test</button> */}
 
             <div
               onClick={() => {
@@ -626,7 +604,6 @@ function Historique() {
                 ]}
                 zoom={15}
                 style={{ height: "110vh", width: "100%" }}
-                ref={mapRef} // Utiliser la référence ici
               >
                 <TileLayer
                   url={tileLayers[mapType].url}

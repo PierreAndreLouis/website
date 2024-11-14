@@ -43,6 +43,7 @@ function RapportVehicule() {
     smsError,
     firstCallHistoriqueData,
     setShowHistoriqueInMap,
+    setVehiclueHistoriqueDetails,
   } = useContext(DataContext);
 
   const [showActiveVehiculeNow, setshowActiveVehiculeNow] = useState(false);
@@ -138,6 +139,7 @@ function RapportVehicule() {
           smsError={smsError}
           firstCallHistoriqueData={firstCallHistoriqueData}
           setShowHistoriqueInMap={setShowHistoriqueInMap}
+          setVehiclueHistoriqueDetails={setVehiclueHistoriqueDetails}
         />
       )}
       {rapportDataLoading && (
