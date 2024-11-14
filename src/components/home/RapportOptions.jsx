@@ -3,6 +3,26 @@ import { MdLocationPin } from "react-icons/md";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
+import { IoTimeOutline } from "react-icons/io5";
+import { RiPinDistanceLine } from "react-icons/ri";
+import { SlSpeedometer } from "react-icons/sl";
+import { TfiMapAlt } from "react-icons/tfi";
+import { PiMapPinAreaBold } from "react-icons/pi";
+import { LuParkingCircle } from "react-icons/lu";
+import { FaCar } from "react-icons/fa";
+import { GiPathDistance } from "react-icons/gi";
+import { FiMapPin } from "react-icons/fi";
+import { TbLock } from "react-icons/tb";
+import { TbLockOpen } from "react-icons/tb";
+import { FaHeadphonesAlt } from "react-icons/fa";
+import { IoInformationCircleOutline } from "react-icons/io5";
+import { FaEdit } from "react-icons/fa";
+import { CiEdit } from "react-icons/ci";
+
+
+
+
+
 
 function RapportOptions({
   setshowRapportPupup,
@@ -188,7 +208,7 @@ function RapportOptions({
       </div> 
       */}
 
-      <div className="fixed flex justify-center items-center z-[1] inset-0 bg-black/50">
+      <div className="fixed flex justify-center items-center z-[9999999999999999999999999999999999999999999999999991] inset-0 bg-black/50">
         <div className="relative w-[95vw] border-b-[.8rem] border-b-white  max-w-[40rem] bg-white overflow-hidden rounded-lg">
           <IoMdClose
             onClick={() => {
@@ -208,7 +228,7 @@ function RapportOptions({
               // onClick={() => {
               //   console.log(uniqueAddresses);
               // }}
-              onClick={() => setshowStatisticOption(!showStatisticOption)}
+              onClick={() => setshowStatisticOption(true)}
               className={`${
                 showStatisticOption && "bg-orange-100/80"
               } py-1 px-2 bg-gray-100 shadow-md rounded-md"`}
@@ -216,7 +236,7 @@ function RapportOptions({
               Statistics
             </button>
             <button
-              onClick={() => setshowStatisticOption(!showStatisticOption)}
+              onClick={() => setshowStatisticOption(false)}
               className={`${
                 !showStatisticOption && "bg-orange-100/80"
               } py-1 px-2 bg-gray-100 shadow-md rounded-md"`}
@@ -231,7 +251,7 @@ function RapportOptions({
             // Statistics Section
             <div className="p-4 min-h-[60vh] max-h-[60vh] md:min-h-[55vh] md:max-h-[55vh] overflow-y-auto flex flex-col gap-4 py-6 pb-10">
               <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
                   <h2 className="font-semibold text-orange-900">Heure</h2>
                   <div className="text-gray-600">
@@ -259,7 +279,7 @@ function RapportOptions({
               </div>
 
               <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
                   <h2 className="font-semibold text-orange-900">
                     Distance Parcourue
@@ -279,7 +299,7 @@ function RapportOptions({
               </div>
 
               <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
                   <h2 className="font-semibold text-orange-900">Vitesse</h2>
                   <div className="text-gray-600">
@@ -306,7 +326,7 @@ function RapportOptions({
               </div>
 
               <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <PiMapPinAreaBold className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
                   <h2 className="font-semibold text-orange-900">Adresse</h2>
                   <div className="text-gray-600 flex flex-col gap-3">
@@ -330,7 +350,7 @@ function RapportOptions({
               </div>
 
               <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
                   <h2 className="font-semibold text-orange-900">
                     Tous les lieux frequente
@@ -349,7 +369,7 @@ function RapportOptions({
               </div>
 
               <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
                   <h2 className="font-semibold text-orange-900">
                     Tous les lieux Stationnees
@@ -376,7 +396,6 @@ function RapportOptions({
                   setVehiclueHistoriqueDetails(
                     currentVehicule?.vehiculeDetails
                   );
-               
                 }}
                 className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
@@ -393,11 +412,10 @@ function RapportOptions({
                   setVehiclueHistoriqueDetails(
                     currentVehicule?.vehiculeDetails
                   );
-             
                 }}
                 className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Trajet du vehicule
                 </h2>
@@ -407,7 +425,7 @@ function RapportOptions({
                 to="/Groupe_vehicule_location"
                 className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <FiMapPin className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Position du vehicule
                 </h2>
@@ -424,7 +442,7 @@ function RapportOptions({
                 }}
                 className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <TbLock className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Bloquer le vehicule
                 </h2>
@@ -443,7 +461,7 @@ function RapportOptions({
                 }}
                 className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <TbLockOpen className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Debloquer vehicule
                 </h2>
@@ -475,7 +493,7 @@ function RapportOptions({
               {/* --------------------------------- */}
 
               <div className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <FaHeadphonesAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Ecouter discussion dans le vehicule
                 </h2>
@@ -485,7 +503,7 @@ function RapportOptions({
                 to="/voiture_details"
                 className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <IoInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Informations sur le vehicule
                 </h2>
@@ -495,7 +513,7 @@ function RapportOptions({
                 to="/modifier_vehicule"
                 className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
-                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <CiEdit className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Modifier le vehicule
                 </h2>

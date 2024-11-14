@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import { MdLocationPin } from "react-icons/md";
 import { MdErrorOutline } from "react-icons/md";
+import { TbLock } from "react-icons/tb";
+import { TbLockOpen } from "react-icons/tb";
 
 function Liste_options({}) {
   const {
@@ -104,7 +106,7 @@ function Liste_options({}) {
                 }}
                 className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
-                <IoStatsChartSharp className="text-[1.82rem] text-orange-400 " />
+                <TbLock className="text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Bloquer le vehicule
                 </h2>
@@ -128,7 +130,7 @@ function Liste_options({}) {
                 }}
                 className="shadow-md cursor-pointer hover:bg-orange-100 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
-                <MdLocationPin className="text-[2rem] min-w-8 text-orange-400 " />
+                <TbLockOpen className="text-[2rem] min-w-8 text-orange-400 " />
                 <h2 className="font-semibold text-orange-900">
                   Debloquer le vehicule
                 </h2>
@@ -162,7 +164,7 @@ function Liste_options({}) {
           />
         </div>
 
-        
+
         <div className="grid text-gray-600 grid-cols-2 gap-4  p-4 py-8">
           <Link
             onClick={() => {
@@ -194,7 +196,7 @@ function Liste_options({}) {
             className=" row-start-2---- rounded-md shadow-md hover:text-orange-600 cursor-pointer p-3 flex flex-col items-center"
           >
             <RiShutDownLine className="text-3xl" />
-            <h3>Eteindre</h3>
+            <h3>Controle</h3>
           </div>
 
           <div
