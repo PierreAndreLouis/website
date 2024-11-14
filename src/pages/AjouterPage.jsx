@@ -3,10 +3,12 @@ import { FaCar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { MdErrorOutline } from "react-icons/md";
 import { DataContext } from "../context/DataContext";
-import SuccessAddvehiculePupupComponent from "../components/ajouter_vehicule/successAddvehiculePupupComponent";
+// import SuccessAddvehiculePupupComponent from "../components/ajouter_vehicule/successAddvehiculePupupComponent";
 import ShowConfirmAddVehiculePupupComponent from "../components/ajouter_vehicule/ShowConfirmAddVehiculePupupComponent";
 import ErrorAddvehiculePupupComponent from "../components/ajouter_vehicule/ErrorAddvehiculePupupComponent";
 import FormAjouterVehicule from "../components/ajouter_vehicule/FormAjouterVehicule";
+import SuccessAjoutervehiculePupupComponent from "../components/ajouter_vehicule/SuccessAjoutervehiculePupupComponent";
+// import SuccessAddvehiculePupupComponent from "../components/ajouter_vehicule/SuccessAddvehiculePupupComponent";
 
 function AjouterPage() {
   const {
@@ -133,7 +135,7 @@ function AjouterPage() {
         setshowConfirmAddVehiculePupup={setshowConfirmAddVehiculePupup}
         inputPassword={inputPassword}
       />
-      <SuccessAddvehiculePupupComponent
+      <SuccessAjoutervehiculePupupComponent
         successAddvehiculePupup={successAddvehiculePupup}
         addvehicleData={addvehicleData}
         setsuccessAddvehiculePupup={setsuccessAddvehiculePupup}

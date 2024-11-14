@@ -1074,7 +1074,6 @@ const DataContextProvider = ({ children }) => {
         showListeOption,
         setShowListOption,
         fetchVehicleDetails,
-        vehicleDetails,
 
         fetchHistoriqueVehicleDetails,
         vehiclueHistoriqueDetails,
@@ -1092,7 +1091,6 @@ const DataContextProvider = ({ children }) => {
         createVehicle,
         deleteVehicle,
         updateVehicle,
-        error,
         setError,
         crud_loading,
         setCrud_loading,

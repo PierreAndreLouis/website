@@ -119,6 +119,7 @@ function SideBar() {
         </Link>
 
         <Link
+          to="/Groupe_vehicule_location?tab=localisation"
           onClick={() => {
             setShowSideBar(true);
             handleTabClick("localisation");

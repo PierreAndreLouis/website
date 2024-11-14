@@ -7,9 +7,10 @@ import ShowConfirmDeletePupupComponent from "../components/modifier_vehicule/Sho
 import SuccessModifiervehiculePupupComponent from "../components/modifier_vehicule/SuccessModifiervehiculePupupComponent";
 import SuccessDeletevehiculePupupComponent from "../components/modifier_vehicule/SuccessDeletevehiculePupupComponent";
 import ErrorModifiervehiculePupupComponent from "../components/modifier_vehicule/ErrorModifiervehiculePupupComponent";
-import ErrorDeletevehiculePupupComponent from "../components/modifier_vehicule/errorDeletevehiculePupupComponent";
+// import ErrorDeletevehiculePupupComponent from "../components/modifier_vehicule/errorDeletevehiculePupupComponent";
 import VehiculeListeComponent from "../components/modifier_vehicule/VehiculeListeComponent";
 import FormModifierVehicule from "../components/modifier_vehicule/FormModifierVehicule";
+import ErreurDeleteVehiculePupupComponent from "../components/modifier_vehicule/ErreurDeleteVehiculePupupComponent";
 
 // import { FaCar } from "react-icons/fa";
 
@@ -222,7 +223,7 @@ function Modifier() {
         addvehicleData={addvehicleData}
       />
 
-      <ErrorDeletevehiculePupupComponent
+      <ErreurDeleteVehiculePupupComponent
         errorDeletevehiculePupup={errorDeletevehiculePupup}
         addvehicleData={addvehicleData}
         seterrorDeletevehiculePupup={seterrorDeletevehiculePupup}
