@@ -10,8 +10,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import Ajouter_vehicule from "./components/ajouter_modifier/Ajouter_vehicule";
-import Modifier_vehicule from "./components/ajouter_modifier/Modifier_vehicule";
+// import Ajouter_vehicule from "./components/ajouter_modifier/Ajouter_vehicule";
 import Historique_voiture from "./components/historique/Historique_voiture";
 import Paiement_methode from "./components/paiement/Paiement_methode";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
@@ -19,16 +18,19 @@ import Page_404 from "./components/page_404/Page_404";
 import { DataContext } from "./context/DataContext";
 import Vehicule_location from "./components/location/Vehicule_location";
 import Groupe_vehicule_location from "./components/location/Groupe_vehicule_location";
-import VoitureDetails from "./components/details/VoitureDetails";
+// import VoitureDetails from "./components/details/VoitureDetails";
 import Historique from "./components/home/Historique";
 import Delete_vehicule from "./components/delete_vehicule/Delete_vehicule";
-import UserProfile from "./components/profile/UserProfile";
 import ProtectedChangePassword from "./pages/ProtectedChangePassword";
 import RapportVehicule from "./components/home/RapportVehicule";
 import Header from "./components/home/Header";
 import Navigation_bar from "./components/home/Navigation_bar";
 import SideBar from "./components/home/SideBar";
 import ScrollToTop from "./components/scrollToTop/ScrollToTop";
+import ModifierPage from "./pages/ModifierPage";
+import AjouterPage from "./pages/AjouterPage";
+import ProfilUserPage from "./pages/ProfilUserPage";
+import DetailsVehiculePage from "./pages/DetailsVehiculePage";
 
 function App() {
   const location = useLocation();
@@ -53,7 +55,7 @@ function App() {
   );
 
   return (
-    <div>
+    <div className="dark:bg-slate-800 dark:border dark:border-slate-800">
       {/* Pupup qui Permet a l'utilisateur de refraich la page quand il y a mise a jour */}
       <div className="z-50 ">{/* <ReloadPrompt /> */}</div>
 
@@ -78,11 +80,11 @@ function App() {
         <Route path="/home" element={<PrivateRoute element={<HomePage />} />} />
         <Route
           path="/ajouter_vehicule"
-          element={<PrivateRoute element={<Ajouter_vehicule />} />}
+          element={<PrivateRoute element={<AjouterPage />} />}
         />
         <Route
           path="/modifier_vehicule"
-          element={<PrivateRoute element={<Modifier_vehicule />} />}
+          element={<PrivateRoute element={<ModifierPage />} />}
         />
         <Route
           path="/historique"
@@ -102,7 +104,7 @@ function App() {
         />
         <Route
           path="/voiture_details"
-          element={<PrivateRoute element={<VoitureDetails />} />}
+          element={<PrivateRoute element={<DetailsVehiculePage />} />}
         />
         <Route
           path="/voiture_historique"
@@ -114,7 +116,7 @@ function App() {
         />
         <Route
           path="/User_Profile"
-          element={<PrivateRoute element={<UserProfile />} />}
+          element={<PrivateRoute element={<ProfilUserPage />} />}
         />
 
         <Route

@@ -106,19 +106,15 @@ function RapportVehicule() {
     console.log("Véhicule cliqué", vehicle);
   };
 
-  
-// update rapport page tous les 5 minutes.
+  // update rapport page tous les 5 minutes.
   useEffect(() => {
     const intervalId = setInterval(() => {
       firstCallRapportData();
-    }, 5 * 60 * 1000);
+      console.log("okkkkkkkkkk");
+    }, 120000);
 
     return () => clearInterval(intervalId);
   }, []);
-
-
-
-
 
   return (
     <div className="mb-56 mt-[8rem]">
@@ -250,7 +246,8 @@ function RapportVehicule() {
                                     <IoMdTime className="text-gray-500/80 text-xl" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
                                       {formatTimestampToTime(
-                                        vehicule.vehiculeDetails[0]?.timestamp
+                                        vehicule.vehiculeDetails?.[0]
+                                          ?.timestamp || 0
                                       )}
                                     </h3>
                                   </div>
@@ -378,7 +375,8 @@ function RapportVehicule() {
                                     <IoMdTime className="text-gray-500/80 text-xl" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
                                       {formatTimestampToTime(
-                                        vehicule.vehiculeDetails[0]?.timestamp
+                                        vehicule.vehiculeDetails?.[0]
+                                          ?.timestamp || 0
                                       )}
                                     </h3>
                                   </div>
@@ -511,7 +509,8 @@ function RapportVehicule() {
                                     <IoMdTime className="text-gray-500/80 text-xl" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
                                       {formatTimestampToTime(
-                                        vehicule.vehiculeDetails[0]?.timestamp
+                                        vehicule.vehiculeDetails?.[0]
+                                          ?.timestamp || 0
                                       )}
                                     </h3>
                                   </div>
@@ -639,7 +638,8 @@ function RapportVehicule() {
                                     <IoMdTime className="text-gray-500/80 text-xl" />
                                     <h3 className="text-sm sm:text-sm md:text-md">
                                       {formatTimestampToTime(
-                                        vehicule.vehiculeDetails[0]?.timestamp
+                                        vehicule.vehiculeDetails?.[0]
+                                          ?.timestamp || 0
                                       )}
                                     </h3>
                                   </div>

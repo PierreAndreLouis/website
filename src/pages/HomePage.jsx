@@ -11,6 +11,12 @@ import { RiWifiOffLine } from "react-icons/ri";
 // ok
 // ok
 // ok
+// dark
+// dark
+// dark
+// dark
+// dark
+// dark
 
 const Home = () => {
   const { vehicleData, isLoading, showListeOption, setShowListOption } =
@@ -37,7 +43,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="sm:px-10 mt-16 md:px-14 lg:px-20">
+    <div className="sm:px-10 pt-16 md:px-14 lg:px-20 ">
       {/* Statistic component */}
       <Statistics />
 

@@ -414,7 +414,7 @@ const DataContextProvider = ({ children }) => {
                   .timestamp
               ) -
                 timestamp >=
-                600)
+                200)  //4 minutes 60 * 4 = 200 secondes
           ) {
             seenTimestamps.add(timestamp);
             filteredVehicleDetails.push(details);
@@ -524,7 +524,7 @@ const DataContextProvider = ({ children }) => {
                   .timestamp
               ) -
                 timestamp >=
-                600)
+                200)
           ) {
             seenTimestamps.add(timestamp);
             filteredVehicleDetails.push(details);

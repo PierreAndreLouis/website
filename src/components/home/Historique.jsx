@@ -242,10 +242,7 @@ function Historique() {
   return (
     <div className="p-4 flex flex-col gap-4 mt-16 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
       <div className="z-50">
-        {/* <Navigation_bar />
-        <PC_header />
-        <Header />
-        <SideBar /> */}
+   
       </div>
       {showListeOption && (
         <div className="absolute z-30">
@@ -269,6 +266,9 @@ function Historique() {
       <div className="mb-6 mt-8 md:mt-16">
         <div className="fixed flex justify-center z-20 top-[3.5rem] bg-white md:bg-white/0 py-2 pt-3 left-0 right-0">
           <div className="flex  relative justify-between px-4 max-w-[35rem] items-center-- gap-3 w-full">
+          
+          
+          
             <div
               onClick={() => {
                 setShowHistoriqueInMap(!showHistoriqueInMap);
@@ -285,6 +285,8 @@ function Historique() {
                 />
               )}
             </div>
+
+            
             <div
               onClick={() => {
                 setShowVehiculeListe(!showVehiculeListe);
@@ -301,35 +303,7 @@ function Historique() {
                 <FaChevronDown className="mt-1" />
               </div>
 
-              {/* {showVehiculeListe && (
-                <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-20 shadow-xl border border-gray-100 rounded-md p-3">
-                  <div className="pt-16 relative w-full max-w-[30rem] rounded-xl p-4 max-h-[70vh] overflow-y-auto---- overflow----- hidden--- bg-white">
-                    <IoMdClose
-                      onClick={() => {
-                        setshowFilter(false);
-                      }}
-                      className="absolute top-3 cursor-pointer right-1  min-w-14 py-2 text-[2.3rem] text-red-600"
-                    />
-
-                    <h2 className="absolute left-0 top-4 right-0 font-semibold text-gray-700 mb-2 text-lg pl-7 border-b-2 pb-2 border-gray-600/20">
-                      Choisir un vehicule
-                    </h2>
-
-                    <div className="overflow-y-auto overflow-x-hidden h-[80vh] max-h-[58vh] pb-20">
-                      {dataFusionee?.map((vehicule) => (
-                      <div
-                      key={vehicule.deviseID}
-                      onClick={() => handleVehicleClick(vehicule)}
-                      className="cursor-pointer flex gap-4 py-4 items-center border-b border-gray-300 px-3 hover:bg-orange-50"
-                    >
-                      <FaCar className="text-orange-600/80 min-w-8 text-lg" />
-                      <p className=" ">{vehicule.description}</p>
-                    </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )} */}
+           
             </div>
             {showVehiculeListe && (
               <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-20 shadow-xl border border-gray-100 rounded-md p-3">
@@ -467,6 +441,9 @@ function Historique() {
                 <hr />
               </div>
             )}
+
+
+
           </div>
         </div>
       </div>
@@ -666,20 +643,7 @@ function Historique() {
                   </div>
                 </div>
               )}
-              {/* <div className="flex flex-col bg-white/80 p-3 absolute right-4 top-16 rounded-md z-[1000]">
-                <label htmlFor="mapType">Choisir le type de vue : </label>
-                <select
-                  className="border p-1 border-gray-600 mt-2 rounded-md"
-                  id="mapType"
-                  value={mapType}
-                  onChange={handleMapTypeChange}
-                >
-                  <option value="streets">Vue Normale</option>
-                  <option value="humanitarian">Vue Humanitaire</option>
-                  <option value="positron">Vue Claire</option>
-                  <option value="dark">Vue Sombre</option>
-                </select>
-              </div> */}
+         
 
               <MapContainer
                 center={[

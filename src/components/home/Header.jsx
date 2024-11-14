@@ -1,23 +1,34 @@
 import React, { useContext, useState, useEffect } from "react";
 import { IoSearch } from "react-icons/io5";
-import { FaCar } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DataContext } from "../../context/DataContext";
 import Logout from "../login/Logout";
 import { IoMdClose } from "react-icons/io";
 import { HiOutlineViewList } from "react-icons/hi";
-import Search_bar from "./Search_bar";
-import Navigation_bar from "./Navigation_bar";
 import { toggleTheme } from "../../theme/themeSlice";
 import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 
+// ok
+// ok
+// ok
+// ok
+// ok
+// ok
+// ok
+// ok
+// dark
+// dark
+// dark
+// dark
+// dark
+// dark
+
 function Header() {
+  // Récupère des données utilisateur et des fonctions utiles via le contexte DataContext
   const {
     userData,
-    search,
-    handleLogout,
     setShowSideBar,
     showSideBar,
     fetchVehicleData,
@@ -25,40 +36,40 @@ function Header() {
     tab,
     handleTabClick,
   } = useContext(DataContext);
+
   const navigate = useNavigate();
-
-  const { theme } = useSelector((state) => state.theme);
-  const dispatch = useDispatch();
-  const path = useLocation().pathname;
-  const location = useLocation();
-
-  const { currentUser } = useSelector((state) => state.user);
-
-  const [logOut, setLogOut] = useState(false);
+  const { theme } = useSelector((state) => state.theme); // Récupère l'état du thème (clair/sombre) depuis Redux
+  const dispatch = useDispatch(); // Permet de déclencher des actions Redux
+  const [logOut, setLogOut] = useState(false); // État pour afficher le composant de déconnexion
   const [searchVehicule, setSearchVehicule] = useState(() => {
     const savedValue = localStorage.getItem("searchVehicule");
-    return savedValue ? JSON.parse(savedValue) : false;
+    return savedValue ? JSON.parse(savedValue) : false; // Charge la valeur de recherche enregistrée
   });
 
   useEffect(() => {
+    // Sauvegarde la recherche du véhicule dans le localStorage à chaque modification
     localStorage.setItem("searchVehicule", JSON.stringify(searchVehicule));
   }, [searchVehicule]);
 
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState(""); // Gère le terme de recherche de véhicule
 
   const handleSearchSubmit = () => {
+    // Définit la requête de recherche
     setSearchQuery(searchTerm);
   };
 
   useEffect(() => {
     if (searchTerm) {
+      // Déclenche la recherche lorsque le terme change
       handleSearchSubmit();
     }
   }, [searchTerm]);
 
   return (
+    // En-tête fixe avec barre de recherche conditionnelle et navigation utilisateur
     <div className="fixed md:shadow-md md:py-1 md:px-20 z-50 bg-white dark:bg-gray-800 top-0 left-0 right-0 pb-2">
-      {logOut && <Logout setLogOut={setLogOut} />}
+      {logOut && <Logout setLogOut={setLogOut} />}{" "}
+      {/* Affiche le composant de déconnexion si logOut est vrai */}
       {searchVehicule && (
         <form className="fixed flex justify-center items-center -top-2 left-0 lg:left-[15rem] lg:right-[15rem] right-0 bg-white lg:bg-white/0 dark:bg-gray-800 dark:text-white">
           <div className="mt-4 px-4 max-w-[34rem] w-full">
@@ -68,18 +79,18 @@ function Header() {
                 type="text"
                 placeholder="Recherche"
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => setSearchTerm(e.target.value)} // Met à jour le terme de recherche
               />
               <IoSearch
                 onClick={() => {
-                  navigate("/home");
+                  navigate("/home?tab=acceuil"); // Redirige vers la page d'accueil lors de la recherche
                 }}
                 className="text-2xl text-gray-500 dark:text-gray-200 cursor-pointer"
               />
               <IoMdClose
                 onClick={() => {
-                  setSearchVehicule(false);
-                  setSearchTerm("");
+                  setSearchVehicule(false); // Ferme la barre de recherche
+                  setSearchTerm(""); // Réinitialise le terme de recherche
                   setSearchQuery("");
                 }}
                 className="text-3xl text-red-500 dark:text-red-400 cursor-pointer mr-4"
@@ -90,11 +101,17 @@ function Header() {
       )}
       <div className="flex justify-between px-4 py-1 items-center dark:text-white">
         <div className="flex items-center gap-4">
-          <Link onClick={() => handleTabClick("acceuil")} to="/home?tab=acceuil">
+          <Link
+            onClick={() => handleTabClick("acceuil")} // Définit l'onglet courant sur "acceuil"
+            to="/home?tab=acceuil"
+          >
             <img src="/img/cars/logo.png" className="w-10" alt="Logo" />
           </Link>
           <div>
-            <h3 onClick={fetchVehicleData} className="text-gray-500 dark:text-gray-300 text-sm">
+            <h3
+              onClick={fetchVehicleData} // Récupère les données des véhicules
+              className="text-gray-500 dark:text-gray-300 text-sm"
+            >
               Hello...
             </h3>
             <h2 className="font-semibold text-lg text-gray-600 dark:text-gray-200 leading-5">
@@ -152,11 +169,14 @@ function Header() {
         <div className="flex gap-4 items-center">
           <IoSearch
             onClick={() => {
-              setSearchVehicule(true);
+              setSearchVehicule(true); // Affiche la barre de recherche
             }}
             className="text-2xl cursor-pointer text-gray-500 dark:text-gray-200"
           />
-          {/* <button className="text-gray-500 dark:text-gray-200" onClick={() => dispatch(toggleTheme())}>
+          {/* <button
+            className="text-gray-500 dark:text-gray-200"
+            onClick={() => dispatch(toggleTheme())} // Permet de basculer entre les thèmes
+          >
             {theme === "light" ? <FaSun /> : <FaMoon />}
           </button> */}
           <Link

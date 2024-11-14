@@ -1,10 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { FaCar } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Navigation_bar from "../home/Navigation_bar";
-import PC_header from "../home/PC_header";
-import Header from "../home/Header";
-import SideBar from "../home/SideBar";
+
 import { DataContext } from "../../context/DataContext";
 import { CiEdit } from "react-icons/ci";
 import { FaTrashAlt } from "react-icons/fa";
@@ -16,18 +13,14 @@ import { MdErrorOutline } from "react-icons/md";
 
 function Modifier_vehicule() {
   const {
-    createVehicle,
     updateVehicle,
     currentVehicule,
     error,
     setError,
-    vehicleData,
     deleteVehicle,
     password,
     mergedData,
     setCurrentVehicule,
-    firstCallHistoriqueData,
-    setSelectedVehicle,
     crud_loading,
     username,
 
@@ -48,7 +41,6 @@ function Modifier_vehicule() {
   const [inputPassword, setInputPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showVehiculeListe, setShowVehiculeListe] = useState(false);
-  const [showFilter, setshowFilter] = useState(false);
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
 
@@ -180,10 +172,7 @@ function Modifier_vehicule() {
 
   return (
     <div>
-      {/* <Navigation_bar />
-      <PC_header />
-      <Header />
-      <SideBar /> */}
+
 
       {crud_loading && (
         <div className="fixed z-30 inset-0 bg-gray-200/50">
