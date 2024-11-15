@@ -235,9 +235,9 @@ function Modifier() {
         seterrorDeletevehiculePupup={seterrorDeletevehiculePupup}
       />
 
-      <div className="flex w-full justify-center h-full mt-16 md:mt-20">
+      <div className="flex w-full justify-center h-full mt-16 pb-2 md:mt-20">
         <div className="w-full flex justify-center">
-          <div className="bg-white max-w-[40rem] md:px-6 mb-10-- md:mb-20-- w-full mt-4 rounded-xl shadow-lg overflow-auto">
+          <div className="bg-white max-w-[40rem] md:px-6 mb-20 w-full mt-4 rounded-xl shadow-lg overflow-auto">
             <div className="flex justify-center mb-6 items-center w-full py-6 pb-8">
               {/* <CiEdit className="text-2xl mr-2 text-orange-500" /> */}
               <h3 className="text-center font-semibold text-gray-600 text-xl">

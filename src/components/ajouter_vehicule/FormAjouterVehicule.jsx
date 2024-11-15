@@ -14,7 +14,7 @@ function FormAjouterVehicule({
 }) {
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-4 px-4 pb-4">
+      <form onSubmit={handleSubmit} className="space-y-4 px-4 ">
         {/* Champs du formulaire */}
         {[
           { id: "deviceID", label: "ID", placeholder: "ID" },
