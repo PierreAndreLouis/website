@@ -213,14 +213,14 @@ function RapportPage() {
                       className="font-semibold text-orange-500"
                       type="submit"
                     >
-                      Appliquer
+                      Recherche
                     </button>
                   ) : (
                     <div
                       className="cursor-default font-semibold text-orange-500"
                       type="submit"
                     >
-                      Appliquer
+                      Recherche
                     </div>
                   )}
                 </div>
