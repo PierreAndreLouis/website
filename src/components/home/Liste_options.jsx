@@ -29,11 +29,38 @@ function Liste_options({}) {
     envoyerSMS,
     smsError,
     setSmsError,
+    setCurrentVehicule,
+    donneeFusionneeForRapport,
+    setSelectedVehicle,
+    setVehiclueHistoriqueDetails
   } = useContext(DataContext); // fetchVehicleDetails importée du contexte
 
   const [showAccessCode, setAccessCode] = useState(false);
   <h1 className="px-3">Toyota Land Cruser Prada</h1>;
   const [showControlePupup, setshowControlePupup] = useState(false);
+
+  const handleClick = () => {
+    const deviceID = currentVehicule.deviceID;
+
+    // Recherche du véhicule correspondant dans la liste
+    const foundVehicle = donneeFusionneeForRapport.find(
+      (v) => v.deviceID === deviceID
+    );
+
+    if (foundVehicle) {
+      setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
+      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",foundVehicle.vehiculeDetails)
+      setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
+      setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
+      setShowListOption(false); // Affiche la liste d'options si nécessaire
+      console.log("Véhicule sélectionné", foundVehicle);
+    } else {
+      console.error("Véhicule introuvable avec le deviceID :", deviceID);
+    }
+
+    // console.log("CurrentVehicule", currentVehicule);
+    // console.log("donneeFusionneeForRapport", donneeFusionneeForRapport);
+  };
 
   //   // exemple de donneer dans la base de donnee
   //   // const TimeFrom = "2011-01-07 10:29:34";
@@ -84,8 +111,7 @@ function Liste_options({}) {
               className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500"
             />
             <div className="h-20 bg-orange-100 shadow-md text-gray-800 text-xl font-semibold text-center flex flex-col justify-center items-center px-2">
-              <h2 className="px-3">Rapport</h2>
-              <h1 className="px-3">Toyota Land Cruser Prada</h1>
+              <h1 className="px-3">{currentVehicule?.description}</h1>
             </div>
             <div
               //   onClick={() => {setshowControlePupup(false)}}
@@ -164,7 +190,6 @@ function Liste_options({}) {
           />
         </div>
 
-
         <div className="grid text-gray-600 grid-cols-2 gap-4  p-4 py-8">
           <Link
             onClick={() => {
@@ -212,7 +237,7 @@ function Liste_options({}) {
           <Link
             onClick={() => {
               {
-                firstCallHistoriqueData();
+                handleClick();
               }
             }}
             to="/voiture_historique"

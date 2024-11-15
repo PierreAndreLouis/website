@@ -8,10 +8,11 @@ function FormModifierVehicule({
   handleChange,
   error,
   errorID,
+  errorImei,
   currentVehicule,
   setError,
   delVehicule,
-  username
+  username,
 }) {
   return (
     <>
@@ -80,6 +81,14 @@ function FormModifierVehicule({
               <MdErrorOutline className="text-2xl mt-0.5" />
             </span>
             {errorID}
+          </p>
+        )}
+        {errorImei && (
+          <p className="flex items-start gap-3 bg-red-100 text-red-700 text-md translate-y-4 px-4 py-1 rounded-md text-center ">
+            <span>
+              <MdErrorOutline className="text-2xl mt-0.5" />
+            </span>
+            {errorImei}
           </p>
         )}
 

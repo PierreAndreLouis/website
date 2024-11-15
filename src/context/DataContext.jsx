@@ -21,6 +21,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
   const [vehicleDetails, setVehicleDetails] = useState([]);
   const [rapportvehicleDetails, setrapportVehicleDetails] = useState([]);
+  const [searchrapportvehicleDetails, setSearchrapportVehicleDetails] =
+    useState([]);
   const [vehiclueHistoriqueDetails, setVehiclueHistoriqueDetails] = useState(
     []
   );
@@ -66,10 +68,22 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
   const [showHistoriqueInMap, setShowHistoriqueInMap] = useState(false);
 
-  const [donneeFusionneeForRapport, setdonneeFusionneeForRapport] = useState(
-    []
-  );
+  // const [donneeFusionneeForRapport, setdonneeFusionneeForRapport] = useState(
+  //   []
+  // );
   // Initialisation des états depuis localStorage
+
+  const [donneeFusionneeForRapport, setdonneeFusionneeForRapport] = useState(
+    () => {
+      const storeddonneeFusionneeForRapport = localStorage.getItem(
+        "donneeFusionneeForRapport"
+      );
+      return storeddonneeFusionneeForRapport
+        ? JSON.parse(storeddonneeFusionneeForRapport)
+        : [];
+    }
+  );
+
   const [vehiculeActiveAjourdhui, setVehiculeActiveAjourdhui] = useState(() => {
     const storedVehiculeActiveAjourdhui = localStorage.getItem(
       "vehiculeActiveAjourdhui"
@@ -148,7 +162,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         setAccount(localStorage.getItem("account") || "");
         setUsername(localStorage.getItem("username") || "");
         setPassword(localStorage.getItem("password") || "");
-        console.log("user data --------", userData);
+        // console.log("user data --------", userData);
       } else if (result === "error") {
         const errorMessage =
           xmlDoc.getElementsByTagName("Message")[0].textContent;
@@ -225,7 +239,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
       localStorage.setItem("vehicleData", JSON.stringify(vehicleData));
       setVehicleData(vehicleData);
-      console.log("******** Données des véhicules ********** ", vehicleData);
+      // console.log("******** Données des véhicules ********** ", vehicleData);
       // ---------------------------------------------------------------------
 
       const now = new Date();
@@ -255,6 +269,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         vehicleData.forEach((vehicle) => {
           fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
         });
+        firstCallRapportData();
       }
     } catch (error) {
       setError("Erreur lors de la récupération des données des véhicules.");
@@ -432,17 +447,17 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       console.log("vehicleDetails.......>>>", vehicleDetails);
       console.log("newVehicleDetails.......>>>", newVehicleDetails);
 
-      if (
-        rapportvehicleDetails &&
-        rapportvehicleDetails.length > 0 &&
-        vehicleData &&
-        vehicleData.length > 0
-      ) {
-        rapportfusionnerDonnees();
-      }
-      setRapportDataLoading(false);
+      // if (
+      //   rapportvehicleDetails &&
+      //   rapportvehicleDetails.length > 0 &&
+      //   vehicleData &&
+      //   vehicleData.length > 0
+      // ) {
+      //   rapportfusionnerDonnees();
+      // }
+      // setRapportDataLoading(false);
     } catch (error) {
-      setRapportDataLoading(false);
+      // setRapportDataLoading(false);
       setError("Erreur lors de la récupération des détails du véhicule.");
       console.error(
         "Erreur lors de la récupération des détails du véhicule",
@@ -451,8 +466,20 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     }
   };
 
+
+  
+  useEffect(() => {
+    if (rapportvehicleDetails.length > 0 && vehicleData?.length > 0) {
+      rapportfusionnerDonnees();
+    }
+  }, [rapportvehicleDetails, vehicleData]);
+
+
+
+  // ayy
+
   const fetchHistoriqueVehicleDetails = async (Device, TimeFrom, TimeTo) => {
-    console.log("Start fetching.........");
+    // console.log("Start fetching.........");
     setLoadingHistoriqueFilter(true);
 
     if (!userData) return;
@@ -535,12 +562,12 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
       setVehiclueHistoriqueDetails(filteredVehicleDetails);
 
-      console.log("newVehicleDetails.......>>>", newVehicleDetails);
-      console.log(
-        "newVehicleDetails.lenght.......>>>",
-        newVehicleDetails.length
-      );
-      console.log("End fetching.........");
+      // console.log("newVehicleDetails.......>>>", newVehicleDetails);
+      // console.log(
+      //   "newVehicleDetails.lenght.......>>>",
+      //   newVehicleDetails.length
+      // );
+      // console.log("End fetching.........");
 
       setLoadingHistoriqueFilter(false);
     } catch (error) {
@@ -581,7 +608,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
   const firstCallRapportData = () => {
     setShowListOption(false);
-    console.log("Start.........");
+    // console.log("Start.........");
     const now = new Date();
     const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
       .toString()
@@ -606,7 +633,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     if (vehicleData && vehicleData.length > 0) {
       vehicleData.forEach((vehicle) => {
         fetRapportchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
-        console.log("call the fonction.........");
+        // console.log("call the fonction.........");
       });
     }
   };
@@ -671,7 +698,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
     localStorage.setItem("mergedData", JSON.stringify(dataFusionne)); // Enregistrement dans localStorage
     setMergedData(dataFusionne);
-    console.log("merge data:", dataFusionne);
+    // console.log("merge data:", dataFusionne);
     setIsLoading(false);
 
     return dataFusionne;
@@ -720,17 +747,17 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       });
 
       const data = await response.text();
-      console.log("data from add vehicule", data);
+      // console.log("data from add vehicule", data);
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(data, "application/xml");
       const result = xmlDoc
         .getElementsByTagName("GTSResponse")[0]
         .getAttribute("result");
-      console.log("Almost thereeee..............");
+      // console.log("Almost thereeee..............");
       setError("");
 
       if (result === "success") {
-        console.log("Véhicule créé avec succès :");
+        // console.log("Véhicule créé avec succès :");
         setsuccessAddvehiculePupup(true);
         setError("");
         fetchVehicleData();
@@ -739,12 +766,12 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         const errorMessage =
           xmlDoc.getElementsByTagName("Message")[0].textContent;
         setError(errorMessage || "Erreur lors de la création du véhicule.");
-        console.log("errorrrrrrrrr");
+        // console.log("errorrrrrrrrr");
         seterrorAddvehiculePupup(true);
         setCrud_loading(false);
       }
 
-      console.log("End creating..............");
+      // console.log("End creating..............");
     } catch (error) {
       setError("Erreur lors de la création du véhicule.");
       console.error("Erreur lors de la création du véhicule", error);
@@ -754,7 +781,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   };
 
   const deleteVehicle = async (deviceID) => {
-    console.log("Start Deleting.........");
+    // console.log("Start Deleting.........");
     setCrud_loading(true);
 
     const requestBody =
@@ -766,7 +793,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       `</RecordKey>` +
       `</GTSRequest>`;
 
-    console.log("almost Delete.........");
+    // console.log("almost Delete.........");
 
     try {
       const response = await fetch("/api/track/Service", {
@@ -777,13 +804,13 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         body: requestBody,
       });
 
-      console.log("wait a little more.........");
+      // console.log("wait a little more.........");
 
       if (response.ok) {
         setVehicleData((prevVehicles) =>
           prevVehicles.filter((vehicle) => vehicle.deviceID !== deviceID)
         );
-        console.log("Véhicule supprimé avec succès.");
+        // console.log("Véhicule supprimé avec succès.");
         fetchVehicleData();
         setsuccessDeletevehiculePupup(true);
         setCrud_loading(false);
@@ -796,7 +823,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         setCrud_loading(false);
       }
 
-      console.log("finish Deleting.........");
+      // console.log("finish Deleting.........");
     } catch (error) {
       console.error(
         "Erreur de connexion lors de la suppression du véhicule:",
@@ -817,7 +844,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     equipmentType,
     simPhoneNumber
   ) => {
-    console.log("Start updating.....");
+    // console.log("Start updating.....");
     setCrud_loading(true);
     const requestBody =
       `<GTSRequest command="dbput">` +
@@ -835,7 +862,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       `<Field name="isActive">1</Field>` +
       `</Record>` +
       `</GTSRequest>`;
-    console.log("almost there.....");
+    // console.log("almost there.....");
 
     try {
       const response = await fetch("/api/track/Service", {
@@ -846,7 +873,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         body: requestBody,
       });
 
-      console.log("wait updating.....");
+      // console.log("wait updating.....");
 
       if (response.ok) {
         setVehicleData((prevVehicles) =>
@@ -865,7 +892,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
               : vehicle
           )
         );
-        console.log("Véhicule modifié avec succès.");
+        // console.log("Véhicule modifié avec succès.");
         setsuccessModifiervehiculePupup(true);
         fetchVehicleData();
         setCrud_loading(false);
@@ -878,7 +905,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         setCrud_loading(false);
       }
 
-      console.log("finish updating.....");
+      // console.log("finish updating.....");
     } catch (error) {
       seterrorModifiervehiculePupup(true);
       setCrud_loading(false);
@@ -890,12 +917,150 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     }
   };
 
-  // // Fonction pour fusionner les données après les requêtes
-  // const rapportfusionnerDonnees = () => {
-  //   if (!vehicleData || !rapportvehicleDetails) return [];
+  const fetSearchRapportchVehicleDetails = async (Device, TimeFrom, TimeTo) => {
+    if (!userData) return;
+    // setRapportDataLoading(true);
+    console.log("starttttttttttttt..............");
+
+    const { accountID, userID, password } = userData;
+    const xmlData = `<GTSRequest command="eventdata">
+      <Authorization account="${accountID}" user="${userID}" password="${password}" />
+      <EventData>
+        <Device>${Device}</Device>
+        <TimeFrom timezone="GMT">${TimeFrom}</TimeFrom>
+        <TimeTo timezone="GMT">${TimeTo}</TimeTo>
+        <GPSRequired>false</GPSRequired>
+        <StatusCode>false</StatusCode>
+        <Limit type="last">20000</Limit>
+        <Ascending>false</Ascending>
+        <Field name="latitude" />
+        <Field name="longitude" />
+        <Field name="address" />
+        <Field name="speedKPH" />
+        <Field name="timestamp" />
+        <Field name="heading" />
+        <Field name="city" />
+        <Field name="creationMillis" />
+        <Field name="creationTime" />
+        <Field name="odometerKM" />
+        <Field name="stateProvince" />
+        <Field name="statusCode" />
+        <Field name="streetAddress" />
+      </EventData>
+    </GTSRequest>`;
+
+    try {
+      const response = await fetch("/api/track/Service", {
+        method: "POST",
+        headers: { "Content-Type": "application/xml" },
+        body: xmlData,
+      });
+
+      const data = await response.text();
+      const parser = new DOMParser();
+      const xmlDoc = parser.parseFromString(data, "application/xml");
+      const records = xmlDoc.getElementsByTagName("Record");
+
+      const newVehicleDetails = [];
+      for (let i = 0; i < records.length; i++) {
+        const fields = records[i].getElementsByTagName("Field");
+        const details = { Device }; // Ajoute l'identifiant du véhicule pour regrouper les événements
+
+        for (let j = 0; j < fields.length; j++) {
+          const fieldName = fields[j].getAttribute("name");
+          const fieldValue = fields[j].textContent;
+          details[fieldName] = fieldValue;
+        }
+
+        newVehicleDetails.push(details);
+      }
+
+      const filteredVehicleDetails = [];
+      let lastZeroSpeedTimestamp = null;
+
+      newVehicleDetails
+        .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp))
+        .forEach((details) => {
+          const timestamp = parseInt(details.timestamp);
+          const speedKPH = parseFloat(details.speedKPH);
+
+          if (speedKPH <= 0) {
+            if (
+              lastZeroSpeedTimestamp === null ||
+              lastZeroSpeedTimestamp - timestamp >= 600
+            ) {
+              filteredVehicleDetails.push(details);
+              lastZeroSpeedTimestamp = timestamp;
+            }
+          } else {
+            filteredVehicleDetails.push(details);
+          }
+        });
+
+      setSearchrapportVehicleDetails((prevDetails) => [
+        ...prevDetails.filter((detail) => detail.Device !== Device),
+        ...filteredVehicleDetails,
+      ]);
+
+
+      console.log("end fetching.................");
+      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.");
+      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.");
+      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.");
+      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.");
+      // setRapportDataLoading(false);
+    } catch (error) {
+      setRapportDataLoading(false);
+      setError("Erreur lors de la récupération des détails du véhicule.");
+      console.error(
+        "Erreur lors de la récupération des détails du véhicule",
+        error
+      );
+    }
+  };
+
+  const [searchdonneeFusionneeForRapport, setSearchdonneeFusionneeForRapport] =
+    useState([]);
+
+  const rapportSearchfusionnerDonnees = () => {
+    if (!vehicleData || !searchrapportvehicleDetails) return [];
+
+    const dataFusionnee = vehicleData.map((vehicle) => {
+      const events = searchrapportvehicleDetails?.filter(
+        (detail) => detail.Device === vehicle.deviceID
+      );
+      return {
+        ...vehicle,
+        vehiculeDetails: events,
+      };
+    });
+
+    // Vérifiez si chaque véhicule a ses détails ajoutés
+    const allVehiclesProcessed = dataFusionnee.every(
+      (vehicle) => vehicle.vehiculeDetails && vehicle.vehiculeDetails.length > 0
+    );
+
+    // 1. Met à jour l'état avec toutes les données fusionnées
+    setSearchdonneeFusionneeForRapport(dataFusionnee);
+    
+    // 2. Met à jour le chargement uniquement lorsque toutes les données sont traitées
+    if (allVehiclesProcessed) {
+      console.log("Tous les véhicules ont leurs détails!");
+      setSearchdonneeFusionneeForRapport(dataFusionnee);
+      setRapportDataLoading(false);
+    } else {
+      console.log("Certains véhicules n'ont pas encore leurs détails.");
+    }
+
+    return dataFusionnee;
+  };
+
+  // Fonction pour fusionner les données après les requêtes
+  // const rapportSearchfusionnerDonnees = () => {
+  //   if (!vehicleData || !searchrapportvehicleDetails) return [];
 
   //   const dataFusionnee = vehicleData.map((vehicle) => {
-  //     const events = rapportvehicleDetails?.filter(
+  //     const events = searchrapportvehicleDetails?.filter(
   //       (detail) => detail.Device === vehicle.deviceID
   //     );
   //     return {
@@ -904,23 +1069,26 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   //     };
   //   });
 
-  //   // 1. Met à jour l'état avec tous les données fusionnées
-  //   setdonneeFusionneeForRapport(dataFusionnee);
-
-  //   // 2. Met à jour l'état avec tous les données des vehicules qui ont au moin un objet du liste vehiculeDetails dont vehiculeDetails.speedKPH >= 1
-  //   setVehiculeActiveAjourdhui(dataFusionnee);
-
-  //   // 3. Met à jour l'état avec tous les données des vehicules qui n'ont pas au moin un objet du liste vehiculeDetails dont vehiculeDetails.speedKPH >= 1
-  //   setVehiculeNotActiveAjourdhui(dataFusionnee);
-
-  //   // 4. Met à jour l'état avec tous les données des vehicules dont vehiculeDetails[0].speedKPH >= 1
-  //   setVehiculeActiveMaintenant(dataFusionnee);
-
-  //   // 5. Met à jour l'état avec tous les données des vehicule dont la difference de temps entre dataFusionnee.lastUpdateTime et l'heure actuelle est supperieur a 24h.
-  //   setVehiculeNotActif(dataFusionnee);
+  //   // 1. Met à jour l'état avec toutes les données fusionnées
+  //   setSearchdonneeFusionneeForRapport(dataFusionnee);
+  //   console.log("enddddddddddddddddddddddddd...............");
+  //   setRapportDataLoading(false);
 
   //   return dataFusionnee;
   // };
+
+  useEffect(() => {
+    console.log(
+      "Mise à jour de searchdonneeFusionneeForRapport:",
+      searchdonneeFusionneeForRapport
+    );
+  }, [searchdonneeFusionneeForRapport]);
+
+  useEffect(() => {
+    if (searchrapportvehicleDetails.length > 0 && vehicleData?.length > 0) {
+      rapportSearchfusionnerDonnees();
+    }
+  }, [searchrapportvehicleDetails, vehicleData]);
 
   // Fonction pour fusionner les données après les requêtes
   const rapportfusionnerDonnees = () => {
@@ -938,33 +1106,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
     // 1. Met à jour l'état avec toutes les données fusionnées
     setdonneeFusionneeForRapport(dataFusionnee);
-
-    // 2. Met à jour l'état avec tous les véhicules ayant au moins un événement avec `speedKPH >= 1`
-    const vehiculeActiveAjourdhui = dataFusionnee.filter((vehicle) =>
-      vehicle.vehiculeDetails.some((detail) => detail.speedKPH >= 1)
-    );
-    setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
-
-    // 3. Met à jour l'état avec tous les véhicules n'ayant aucun événement avec `speedKPH >= 1`
-    const vehiculeNotActiveAjourdhui = dataFusionnee.filter((vehicle) =>
-      vehicle.vehiculeDetails.every((detail) => detail.speedKPH < 1)
-    );
-    setVehiculeNotActiveAjourdhui(vehiculeNotActiveAjourdhui);
-
-    // 4. Met à jour l'état avec tous les véhicules dont `vehiculeDetails[0].speedKPH >= 1`
-    const vehiculeActiveMaintenant = dataFusionnee.filter(
-      (vehicle) => vehicle.vehiculeDetails[0]?.speedKPH >= 1
-    );
-    setVehiculeActiveMaintenant(vehiculeActiveMaintenant);
-
-    // 5. Met à jour l'état avec tous les véhicules dont `lastUpdateTime` est supérieur à 24h par rapport à l'heure actuelle
-    const vehiculeNotActif = dataFusionnee.filter((vehicle) => {
-      const lastUpdate = new Date(vehicle.lastUpdateTime);
-      const now = new Date();
-      const diffHeures = (now - lastUpdate) / (1000 * 60 * 60);
-      return diffHeures > 24;
-    });
-    setVehiculeNotActif(vehiculeNotActif);
 
     return dataFusionnee;
   };
@@ -1005,6 +1146,61 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     }
   };
 
+  // update rapport page tous les 5 minutes.
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      firstCallRapportData();
+      console.log("okkkkkkkkkk");
+    }, 60000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const liste1 = [];
+
+  // let currentdataFusionnee = donneeFusionneeForRapport.length > 0 ? liste1 : donneeFusionneeForRapport;
+  // let currentdataFusionnee =
+  //   searchdonneeFusionneeForRapport.length > 0
+  //     ? searchdonneeFusionneeForRapport
+  //     : donneeFusionneeForRapport;
+
+  let currentdataFusionnee =
+    searchdonneeFusionneeForRapport.length > 0
+      ? searchdonneeFusionneeForRapport
+      : donneeFusionneeForRapport;
+
+  useEffect(() => {
+    // 2. Met à jour l'état avec tous les véhicules ayant au moins un événement avec `speedKPH >= 1`
+    const vehiculeActiveAjourdhui = currentdataFusionnee.filter((vehicle) =>
+      vehicle.vehiculeDetails.some((detail) => detail.speedKPH >= 1)
+    );
+    setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
+
+    // 3. Met à jour l'état avec tous les véhicules n'ayant aucun événement avec `speedKPH >= 1`
+    const vehiculeNotActiveAjourdhui = currentdataFusionnee.filter((vehicle) =>
+      vehicle.vehiculeDetails.every((detail) => detail.speedKPH < 1)
+    );
+    setVehiculeNotActiveAjourdhui(vehiculeNotActiveAjourdhui);
+
+    // 4. Met à jour l'état avec tous les véhicules dont `vehiculeDetails[0].speedKPH >= 1`
+    const vehiculeActiveMaintenant = currentdataFusionnee.filter(
+      (vehicle) => vehicle.vehiculeDetails[0]?.speedKPH >= 1
+    );
+    setVehiculeActiveMaintenant(vehiculeActiveMaintenant);
+
+    // 5. Met à jour l'état avec tous les véhicules dont `lastUpdateTime` est supérieur à 24h par rapport à l'heure actuelle
+    const vehiculeNotActif = currentdataFusionnee.filter((vehicle) => {
+      const lastUpdate = new Date(vehicle.lastUpdateTime);
+      const now = new Date();
+      const diffHeures = (now - lastUpdate) / (1000 * 60 * 60);
+      return diffHeures > 24;
+    });
+    setVehiculeNotActif(vehiculeNotActif);
+  }, [
+    currentdataFusionnee,
+    searchdonneeFusionneeForRapport,
+    donneeFusionneeForRapport,
+  ]);
   // function afficherErreur(message) {
   //   // Afficher un message d'erreur à l'utilisateur
   //   alert(message);
@@ -1052,6 +1248,10 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
   // Sauvegarde des données dans localStorage à chaque mise à jour des états
   useEffect(() => {
+    localStorage.setItem(
+      "donneeFusionneeForRapport",
+      JSON.stringify(donneeFusionneeForRapport)
+    );
     localStorage.setItem(
       "vehiculeActiveAjourdhui",
       JSON.stringify(vehiculeActiveAjourdhui)
@@ -1183,6 +1383,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         showHistoriqueInMap,
         setShowHistoriqueInMap,
         setVehiclueHistoriqueDetails,
+        fetSearchRapportchVehicleDetails,
+        searchdonneeFusionneeForRapport,
       }}
     >
       {children}

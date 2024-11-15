@@ -9,7 +9,7 @@ function NavigationBar() {
   const { handleTabClick, tab } = useContext(DataContext);
 
   return (
-    <div className="bg-red fixed bottom-0 left-0 right-0 dark:bg-slate-800 md:hidden z-[1] ">
+    <div className="bg-red fixed bottom-0 left-0 right-0 dark:bg-slate-800 lg:hidden z-[1] ">
       <div className="grid grid-cols-5 gap-4 justify-between px-4 bg-gray-200 dark:bg-gray-900/50 py-0 ">
         <Link
           to="/home?tab=acceuil"

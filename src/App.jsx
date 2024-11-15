@@ -22,7 +22,6 @@ import Groupe_vehicule_location from "./components/location/Groupe_vehicule_loca
 import Historique from "./components/home/Historique";
 import Delete_vehicule from "./components/delete_vehicule/Delete_vehicule";
 import ProtectedChangePassword from "./pages/ProtectedChangePassword";
-import RapportVehicule from "./components/home/RapportVehicule";
 import Header from "./components/home/Header";
 import Navigation_bar from "./components/home/Navigation_bar";
 import SideBar from "./components/home/SideBar";
@@ -31,6 +30,7 @@ import ModifierPage from "./pages/ModifierPage";
 import AjouterPage from "./pages/AjouterPage";
 import ProfilUserPage from "./pages/ProfilUserPage";
 import DetailsVehiculePage from "./pages/DetailsVehiculePage";
+import RapportPage from "./pages/RapportPage";
 
 function App() {
   const location = useLocation();
@@ -121,7 +121,7 @@ function App() {
 
         <Route
           path="/rapport_vehicule"
-          element={<PrivateRoute element={<RapportVehicule />} />}
+          element={<PrivateRoute element={<RapportPage />} />}
         />
 
         <Route path="/Change_Password" element={<ProtectedChangePassword />} />

@@ -61,6 +61,8 @@ function Historique() {
     firstCallHistoriqueData,
     showHistoriqueInMap,
     setShowHistoriqueInMap,
+    donneeFusionneeForRapport,
+    setVehiclueHistoriqueDetails
   } = useContext(DataContext);
 
   const [checkboxes, setCheckboxes] = useState({
@@ -72,6 +74,9 @@ function Historique() {
   const mapRef = useRef(); // Référence de la carte
 
   const [appliedCheckboxes, setAppliedCheckboxes] = useState(checkboxes);
+
+
+  
 
   const filteredVehicles = vehiclueHistoriqueDetails?.filter(
     (vehicle) =>
@@ -143,7 +148,7 @@ function Historique() {
     window.open(googleMapsUrl, "_blank"); // Ouvrir dans un nouvel onglet
   };
 
-  const dataFusionee = mergedData ? Object.values(mergedData) : [];
+  const dataFusionee = donneeFusionneeForRapport ? Object.values(donneeFusionneeForRapport) : [];
   const [showVehiculeListe, setShowVehiculeListe] = useState(false);
 
   // Fonctions pour formater le temps et la date
@@ -166,7 +171,9 @@ function Historique() {
   // Fonction pour gérer la sélection de véhicule
   const handleVehicleClick = (vehicule) => {
     setCurrentVehicule(vehicule);
-    firstCallHistoriqueData();
+    setVehiclueHistoriqueDetails(vehicule.vehiculeDetails);
+
+    // firstCallHistoriqueData();
     setShowVehiculeListe(!showVehiculeListe);
   };
 
@@ -255,17 +262,20 @@ function Historique() {
                 />
               )}
             </div>
+            {/* <button onClick={() => {console.log(currentVehicule)}}>Test</button> */}
+            {/* centrer la carte */}
             <button
-              className="fixed z-[9999999999999] top-[12rem] right-[2rem]"
+              className="fixed z-[1] top-[12rem] right-[2rem]"
               onClick={centerOnFirstMarker}
             >
-              {/* centrer la carte */}
               {showHistoriqueInMap && (
                 <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
                   <MdCenterFocusStrong className="text-orange-500 text-[1.52rem]" />
                 </div>
               )}
+              
             </button>
+
 
             <div
               onClick={() => {

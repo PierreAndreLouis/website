@@ -19,11 +19,6 @@ import { IoInformationCircleOutline } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
 
-
-
-
-
-
 function RapportOptions({
   setshowRapportPupup,
   currentVehicule,
@@ -216,7 +211,7 @@ function RapportOptions({
             }}
             className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500"
           />
-          <div className="h-16 bg-orange-100 shadow-md text-gray-800 text-xl font-semibold text-center flex justify-center items-center p-2">
+          <div className="h-16-- py-5 bg-orange-100 shadow-md text-gray-800 text-xl font-semibold text-center flex justify-center items-center p-2">
             <h1 className="px-3">{currentVehicule?.description}</h1>
           </div>
 
@@ -334,7 +329,7 @@ function RapportOptions({
                       <span className="font-semibold text-gray-800 pr-3">
                         Adresse Debut:
                       </span>
-                      {currentVehicule?.vehiculeDetails[0].address ||
+                      {currentVehicule?.vehiculeDetails[0]?.address ||
                         "pas de resultat"}
                     </p>
                     <p>
@@ -343,7 +338,7 @@ function RapportOptions({
                       </span>
                       {currentVehicule?.vehiculeDetails[
                         currentVehicule?.vehiculeDetails.length - 1
-                      ].address || "pas de resultat"}
+                      ]?.address || "pas de resultat"}
                     </p>
                   </div>
                 </div>
@@ -393,6 +388,8 @@ function RapportOptions({
               <Link
                 to="/voiture_historique"
                 onClick={() => {
+                  setShowHistoriqueInMap(false);
+
                   setVehiclueHistoriqueDetails(
                     currentVehicule?.vehiculeDetails
                   );

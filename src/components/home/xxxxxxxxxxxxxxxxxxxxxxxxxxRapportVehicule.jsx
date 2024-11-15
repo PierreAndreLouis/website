@@ -1,17 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import Navigation_bar from "./Navigation_bar";
-import PC_header from "./PC_header";
-import Header from "./Header";
-import SideBar from "./SideBar";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { DataContext } from "../../context/DataContext";
 import { MdLocationPin } from "react-icons/md";
 import { FaCar } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
-import RapportOptions from "./RapportOptions";
-import Historique from "./Historique";
-import { MdOutlineSpeed } from "react-icons/md";
+import RapportOptions from "../rapport_vehicule/RapportOptions";
 import { IoReload } from "react-icons/io5";
 import Liste_options from "./Liste_options";
 
@@ -52,7 +46,6 @@ function RapportVehicule() {
   const [showInactiveVehicule, setshowInactiveVehicule] = useState(false);
   //
   const [showRapportPupup, setshowRapportPupup] = useState(false);
-  const [slidePage, setSLidePage] = useState("-translate-x-[0vw]");
 
   useEffect(() => {
     if (vehiculeActiveAjourdhui.length === 0) {
@@ -111,24 +104,11 @@ function RapportVehicule() {
     console.log("Véhicule cliqué", vehicle);
   };
 
-  // update rapport page tous les 5 minutes.
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      firstCallRapportData();
-      console.log("okkkkkkkkkk");
-    }, 60000);
 
-    return () => clearInterval(intervalId);
-  }, []);
 
   return (
     <div className="mb-56 mt-[8rem]">
-      <div className="absolute z-[12333323230]">
-        {/* <Navigation_bar />
-        <PC_header />
-        <Header />
-        <SideBar /> */}
-      </div>
+   
       {showListeOption && <Liste_options />}
       {showRapportPupup && (
         <RapportOptions
@@ -151,26 +131,9 @@ function RapportVehicule() {
       )}
 
       <div className="mt-[4.5rem]">
-        {/* <div className="fixed px-4 z-10 py-2 top-[3.7rem] bg-white left-0 right-0 flex justify-between items-center gap-2">
-          <button
-          onClick={() => {setSLidePage("-translate-x-[0vw]")}}
-          className={`${slidePage === "-translate-x-[0vw]" && "bg-orange-50 shadow-lg"} w-full border bg-gray-50 text-center rounded-md py-1`}>
-            Rapport
-          </button>
-          <button 
-          onClick={() => {setSLidePage("-translate-x-[100vw]")}}
-          className={`${slidePage === "-translate-x-[100vw]" && "bg-orange-50 shadow-lg"} w-full border bg-gray-50 text-center rounded-md py-1`}>
-            Historique
-          </button>
-          <button 
-          onClick={() => {setSLidePage("-translate-x-[200vw]")}}
-          className={`${slidePage === "-translate-x-[200vw]" && "bg-orange-50 shadow-lg"} w-full border bg-gray-50 text-center rounded-md py-1`}>
-            Position
-          </button>
-        </div> */}
 
-        <div className="w-100vw overflow-hidden">
-          <div className={` flex min-w-[300vw] ${slidePage} transition-all `}>
+        <div className=" overflow-hidden">
+          <div className={` transition-all `}>
             {/* ------------------- */}
 
             {/* Rapport des vehicule */}
@@ -731,14 +694,7 @@ function RapportVehicule() {
               {/* ----------------------------------- */}
               {/* ----------------------------------- */}
             </div>
-            {/* Historique des vehicules */}
-            <div className="min-w-[100vw]">{/* <Historique /> */}</div>
-            {/* localisation des vehicules */}
-            <div className="min-w-[100vw]">
-              <h1 className="flex justify-center mt-32">
-                Localisatons de vehicules
-              </h1>
-            </div>
+            
 
             {/* ------------------- */}
           </div>
