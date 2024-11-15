@@ -208,7 +208,21 @@ function RapportPage() {
                       onChange={(e) => setSelectedDate(e.target.value)}
                     />
                   </label>
-                  <button className="font-semibold text-orange-500" type="submit">Appliquer</button>
+                  {selectedDate ? (
+                    <button
+                      className="font-semibold text-orange-500"
+                      type="submit"
+                    >
+                      Appliquer
+                    </button>
+                  ) : (
+                    <div
+                      className="cursor-default font-semibold text-orange-500"
+                      type="submit"
+                    >
+                      Appliquer
+                    </div>
+                  )}
                 </div>
               </form>
 

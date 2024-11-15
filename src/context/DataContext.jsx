@@ -1042,12 +1042,12 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
     // 1. Met à jour l'état avec toutes les données fusionnées
     setSearchdonneeFusionneeForRapport(dataFusionnee);
+    setRapportDataLoading(false);
     
     // 2. Met à jour le chargement uniquement lorsque toutes les données sont traitées
     if (allVehiclesProcessed) {
       console.log("Tous les véhicules ont leurs détails!");
       setSearchdonneeFusionneeForRapport(dataFusionnee);
-      setRapportDataLoading(false);
     } else {
       console.log("Certains véhicules n'ont pas encore leurs détails.");
     }
