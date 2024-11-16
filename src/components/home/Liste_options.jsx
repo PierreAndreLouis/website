@@ -40,7 +40,9 @@ function Liste_options({}) {
   const [showControlePupup, setshowControlePupup] = useState(false);
 
   const handleClick = () => {
+    setShowListOption(false);
     const deviceID = currentVehicule.deviceID;
+
 
     // Recherche du véhicule correspondant dans la liste
     const foundVehicle = donneeFusionneeForRapport.find(

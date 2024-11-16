@@ -10,19 +10,19 @@ import {
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import customMarkerIcon from "/img/cars/localisation.png";
-import iconLowSpeed from "/img/cars/red_location.png";
-import iconMediumSpeed from "/img/cars/yellow_location.png";
-import iconHighSpeed from "/img/cars/green_location.png";
-import { DataContext } from "../../context/DataContext";
-import Navigation_bar from "../home/Navigation_bar";
-import PC_header from "../home/PC_header";
-import Header from "../home/Header";
-import SideBar from "../home/SideBar";
+import iconLowSpeed from "/pin/ping_red.png";
+import iconMediumSpeed from "/pin/ping_yellow.png";
+import iconHighSpeed from "/pin/ping_green.png";
+// import { DataContext } from "../../context/DataContext";
+
 import { IoClose } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 import { FaCar } from "react-icons/fa";
 
-import { FaChevronDown } from "react-icons/fa6";
+import { DataContext } from "../context/DataContext";
+import HeaderLocation from "../components/location_vehicule/HeaderLocation";
+import ShowVehiculeListeComponent from "../components/location_vehicule/ShowVehiculeListeComponent";
+import TypeDeVue from "../components/location_vehicule/TypeDeVue";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -32,7 +32,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
 });
 
-const Groupe_vehicule_location = () => {
+const LocationPage = () => {
   const { mergedData, currentVehicule, selectedVehicle, setSelectedVehicle } =
     useContext(DataContext);
 
@@ -154,161 +154,31 @@ const Groupe_vehicule_location = () => {
 
   return (
     <div className="relative">
-      <div className="absolute z-[10000]">
-        {/* <Navigation_bar />
-        <PC_header />
-        <Header />
-        <SideBar /> */}
-      </div>
-      <div className="fixed bg-white md:bg-white/0 top-12  left-0 right-0 z-[1200] flex flex-col gap-2 p-4">
-        <h2
-          onClick={() => {
-            setShowVehiculeListe(true);
-          }}
-          id="vehicule_actuel"
-          className="flex justify-between items-center border py-2 px-5 rounded-md w-full max-w-[40rem] mx-auto cursor-pointer bg-orange-50 md:bg-white md:border md:border-gray-300  md:shadow-xl"
-        >
-          {selectedVehicle
-            ? vehicleData?.find(
-                (vehicle) => vehicle.deviceID === selectedVehicle
-              )?.description || "Véhicule non disponible"
-            : "Tous les vehicules"}
-          <span>
-            <FaChevronDown />
-          </span>
-        </h2>
+      <HeaderLocation
+        setShowVehiculeListe={setShowVehiculeListe}
+        selectedVehicle={selectedVehicle}
+        vehicleData={vehicleData}
+        setTypeDeVue={setTypeDeVue}
+        showAllVehicles={showAllVehicles}
+      />
 
-        <div className="grid  gap-3 w-full max-w-[40rem] mx-auto grid-cols-2 items-center justify-between">
-          <div
-            onClick={() => {
-              setTypeDeVue(true);
-            }}
-            className="flex items-center md:shadow-xl justify-between gap-1 border px-2 py-1 cursor-pointer bg-orange-50 md:bg-white md:border md:border-gray-300  rounded-md"
-          >
-            <label htmlFor="mapType">Type de vue </label>
-            <FaChevronDown />
-          </div>
-
-          <h3
-            onClick={() => {
-              showAllVehicles();
-              setShowVehiculeListe(false);
-            }}
-            className="text-end md:bg-white md:border md:border-gray-300  md:shadow-xl md:py-1 md:px-4 rounded-lg text-orange-600 font-semibold cursor-pointer underline"
-          >
-            Tous les vehicules
-          </h3>
-        </div>
-      </div>
-   
-          
-
-      {showVehiculeListe && (
-        <div className="  fixed flex justify-center items-center inset-0  bg-black/50 z-[14124124124124] shadow-xl border border-gray-100 rounded-md p-3">
-          <div className="pt-28 relative w-full max-w-[30rem] rounded-xl p-4 max-h-[70vh] overflow-y-auto---- overflow-hidden bg-white">
-            <IoMdClose
-              onClick={() => {
-                setShowVehiculeListe(!showVehiculeListe);
-              }}
-              className="absolute  top-3 cursor-pointer right-1  min-w-14 py-2 text-[2.3rem] text-red-600"
-            />
-
-            <h2
-              onClick={() => {
-                setShowVehiculeListe(!showVehiculeListe);
-              }}
-              className="absolute left-0 top-4 right-0 font-semibold text-gray-700 mb-2 text-lg pl-7 border-b-2 pb-2 border-gray-600/20"
-            >
-              Choisir un vehicule
-            </h2>
-            <div
-              onClick={() => {
-                showAllVehicles();
-                setShowVehiculeListe(false);
-              }}
-              className="pl-5  border-b border-gray-300  cursor-pointer text-orange-600 hover:bg-orange-50 font-semibold py-3"
-            >
-              Tous les véhicules
-            </div>
-            <div className="absolute top-[3.5rem] left-4 right-4 p-2 ">
-              <input
-                className="w-full border p-4 py-1.5 rounded-lg"
-                type="text"
-                placeholder="Recherche"
-                value={searchQuery}
-                onChange={handleSearchChange}
-              />
-            </div>
-
-            <div className="overflow-y-auto overflow-x-hidden h-[80vh] max-h-[58vh] pb-20">
-              {filteredVehicles?.map((vehicule) => (
-                <div
-                  key={vehicule.deviseID}
-                  onClick={() => handleVehicleClick(vehicule)}
-                  className="cursor-pointer flex gap-4 py-4 items-center border-b border-gray-300 px-3 hover:bg-orange-50"
-                >
-                  <FaCar className="text-orange-600/80 min-w-8 text-lg" />
-                  <p className=" ">{vehicule.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
+      <ShowVehiculeListeComponent
+        showVehiculeListe={showVehiculeListe}
+        setShowVehiculeListe={setShowVehiculeListe}
+        showAllVehicles={showAllVehicles}
+        searchQuery={searchQuery}
+        handleSearchChange={handleSearchChange}
+        filteredVehicles={filteredVehicles}
+        handleVehicleClick={handleVehicleClick}
+      />
 
       <div className="relative">
-        {typeDeVue && (
-          <div className="fixed z-[9999999999999999] inset-0 bg-black/50 flex justify-center items-center">
-            <div
-              className="bg-white  max-w-[30rem] relative flex flex-col gap-2 w-[80vw] p-6 border border-gray-600 mt-2 rounded-md"
-              id="mapType"
-            >
-              <IoClose
-                onClick={() => {
-                  setTypeDeVue(false);
-                }}
-                className="absolute right-4 cursor-pointer top-6 text-2xl text-red-600"
-              />
-
-              <h2 className="border-b border-orange-400 text-orange-800 text-lg pb-2 mb-3 font-semibold">
-                Choisir un type de vue:
-              </h2>
-
-              <p
-                className={`cursor-pointer py-1 px-3 rounded-md ${
-                  mapType === "streets" ? "bg-gray-200" : ""
-                }`}
-                onClick={() => handleMapTypeChange("streets")}
-              >
-                Vue Normale
-              </p>
-              <p
-                className={`cursor-pointer py-1 px-3 rounded-md ${
-                  mapType === "humanitarian" ? "bg-gray-200" : ""
-                }`}
-                onClick={() => handleMapTypeChange("humanitarian")}
-              >
-                Vue Humanitaire
-              </p>
-              <p
-                className={`cursor-pointer py-1 px-3 rounded-md ${
-                  mapType === "positron" ? "bg-gray-200" : ""
-                }`}
-                onClick={() => handleMapTypeChange("positron")}
-              >
-                Vue Claire
-              </p>
-              <p
-                className={`cursor-pointer py-1 px-3 rounded-md ${
-                  mapType === "dark" ? "bg-gray-200" : ""
-                }`}
-                onClick={() => handleMapTypeChange("dark")}
-              >
-                Vue Sombre
-              </p>
-            </div>
-          </div>
-        )}
+        <TypeDeVue
+          typeDeVue={typeDeVue}
+          setTypeDeVue={setTypeDeVue}
+          mapType={mapType}
+          handleMapTypeChange={handleMapTypeChange}
+        />
 
         <MapContainer
           center={[0, 0]}
@@ -392,4 +262,4 @@ const Groupe_vehicule_location = () => {
   );
 };
 
-export default Groupe_vehicule_location;
+export default LocationPage;

@@ -14,6 +14,8 @@ import VehiculeNotActiveAjourdhuiComponent from "../components/rapport_vehicule/
 import VehiculeActiveAjourdhuiComponent from "../components/rapport_vehicule/VehiculeActiveAjourdhuiComponent";
 import DateTimePicker from "../components/home/DateTimePicker";
 import DateInput from "../components/rapport_vehicule/DateInput";
+import VehiculeNotActifComponent from "../components/rapport_vehicule/VehiculeNotActifComponent";
+// import { IoReload } from "react-icons/io5";
 
 function RapportPage() {
   const {
@@ -195,14 +197,38 @@ function RapportPage() {
 
             {/* Rapport des vehicule */}
             <div className="min-w-[100vw w-full sm:px-6 md:px-20 px-4">
-              <h1 className="font-semibold text-center mx-4 mb-10 text-xl">
+              <h1
+                onClick={() => {
+                  firstCallRapportData();
+                }}
+                className="font-semibold text-center mx-4 mb-10 text-xl"
+              >
                 {formatDate(selectedDate)}
               </h1>
 
-              <form className="flex justify-end mb-4 " onSubmit={handleApply}>
-                <div className="border rounded-lg px-4 py-2 flex gap-4 items-center shadow-lg">
-                  <label>
+              <form
+                className="flex gap-2 justify-end mb-4 "
+                onSubmit={handleApply}
+              >
+                <button
+                className="bg-orange-50 shadow-lg px-3"
+                  onClick={() => {
+                    searchdonneeFusionneeForRapport([]);
+                    setRapportDataLoading(true);
+                    firstCallRapportData();
+                  }}
+                >
+                  <IoReload 
+                  className="text-orange-600 text-xl"
+                  />
+                </button>
+                <div className="border bg-orange-50 rounded-lg px-4 pl-2 py-1 flex gap-4 items-center shadow-lg">
+                  <label className="border bg-white rounded-md  w-10 flex justify-end pr-[.55rem] relative overflow-hidden">
+                    {/* <div className="absolute bg-white top-0.5 left-0.5 bottom-0.5 right-7">
+                    Date 
+                    </div> */}
                     <input
+                      className="focus:outline-none"
                       type="date"
                       value={selectedDate}
                       onChange={(e) => setSelectedDate(e.target.value)}
@@ -262,7 +288,7 @@ function RapportPage() {
 
               {/* ----------------------------------- */}
 
-              <VehiculeNotActiveAjourdhuiComponent
+              <VehiculeNotActifComponent
                 showInactiveVehicule={showInactiveVehicule}
                 setshowInactiveVehicule={setshowInactiveVehicule}
                 vehiculeNotActif={vehiculeNotActif}

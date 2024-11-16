@@ -457,7 +457,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       // }
       // setRapportDataLoading(false);
     } catch (error) {
-      // setRapportDataLoading(false);
+      setRapportDataLoading(false);
       setError("Erreur lors de la récupération des détails du véhicule.");
       console.error(
         "Erreur lors de la récupération des détails du véhicule",
@@ -1106,6 +1106,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
     // 1. Met à jour l'état avec toutes les données fusionnées
     setdonneeFusionneeForRapport(dataFusionnee);
+    setRapportDataLoading(false);
+
 
     return dataFusionnee;
   };
@@ -1177,10 +1179,14 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
 
     // 3. Met à jour l'état avec tous les véhicules n'ayant aucun événement avec `speedKPH >= 1`
-    const vehiculeNotActiveAjourdhui = currentdataFusionnee.filter((vehicle) =>
-      vehicle.vehiculeDetails.every((detail) => detail.speedKPH < 1)
+    const vehiculeNotActiveAjourdhui = currentdataFusionnee.filter(
+      (vehicle) =>
+        vehicle.vehiculeDetails.length > 0 && // Exclure les véhicules sans détails
+        vehicle.vehiculeDetails.every((detail) => detail.speedKPH < 1)
     );
+    
     setVehiculeNotActiveAjourdhui(vehiculeNotActiveAjourdhui);
+    
 
     // 4. Met à jour l'état avec tous les véhicules dont `vehiculeDetails[0].speedKPH >= 1`
     const vehiculeActiveMaintenant = currentdataFusionnee.filter(
@@ -1193,9 +1199,14 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       const lastUpdate = new Date(vehicle.lastUpdateTime);
       const now = new Date();
       const diffHeures = (now - lastUpdate) / (1000 * 60 * 60);
-      return diffHeures > 24;
+      return vehicle.vehiculeDetails.length <= 0 || diffHeures > 24;
     });
+    
     setVehiculeNotActif(vehiculeNotActif);
+
+
+
+
   }, [
     currentdataFusionnee,
     searchdonneeFusionneeForRapport,

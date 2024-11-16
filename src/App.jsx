@@ -10,16 +10,12 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-// import Ajouter_vehicule from "./components/ajouter_modifier/Ajouter_vehicule";
-import Historique_voiture from "./components/historique/Historique_voiture";
+
 import Paiement_methode from "./components/paiement/Paiement_methode";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Page_404 from "./components/page_404/Page_404";
 import { DataContext } from "./context/DataContext";
-import Vehicule_location from "./components/location/Vehicule_location";
-import Groupe_vehicule_location from "./components/location/Groupe_vehicule_location";
-// import VoitureDetails from "./components/details/VoitureDetails";
-import Historique from "./components/home/Historique";
+
 import Delete_vehicule from "./components/delete_vehicule/Delete_vehicule";
 import ProtectedChangePassword from "./pages/ProtectedChangePassword";
 import Header from "./components/home/Header";
@@ -31,13 +27,13 @@ import AjouterPage from "./pages/AjouterPage";
 import ProfilUserPage from "./pages/ProfilUserPage";
 import DetailsVehiculePage from "./pages/DetailsVehiculePage";
 import RapportPage from "./pages/RapportPage";
+import LocationPage from "./pages/LocationPage";
+import HistoriquePage from "./pages/HistoriquePage";
 
 function App() {
   const location = useLocation();
   const navigate = useNavigate(); // Utilisation de useNavigate
-  const {
-    isAuthenticated,
-  } = useContext(DataContext);
+  const { isAuthenticated } = useContext(DataContext);
 
   React.useEffect(() => {
     // Redirige vers /home si l'utilisateur est authentifié et se rend sur "/login"
@@ -69,6 +65,15 @@ function App() {
         {!shouldHideComponent && <SideBar />}
       </div>
 
+      {/* <Route path="/login" element={<Login2 />} /> */}
+      {/* <div> */}
+        {/* To be Delete */}
+        {/* <Header /> */}
+        {/* <HomePage /> */}
+        {/* <AjouterPage />
+        <Navigation_bar /> */}
+      {/* </div> */}
+
       <Routes>
         <Route
           path="/"
@@ -86,21 +91,21 @@ function App() {
           path="/modifier_vehicule"
           element={<PrivateRoute element={<ModifierPage />} />}
         />
-        <Route
+        {/* <Route
           path="/historique"
           element={<PrivateRoute element={<Historique_voiture />} />}
-        />
+        /> */}
         <Route
           path="/paiement"
           element={<PrivateRoute element={<Paiement_methode />} />}
         />
-        <Route
+        {/* <Route
           path="/Single_Vehicule_Location"
           element={<PrivateRoute element={<Vehicule_location />} />}
-        />
+        /> */}
         <Route
           path="/Groupe_vehicule_location"
-          element={<PrivateRoute element={<Groupe_vehicule_location />} />}
+          element={<PrivateRoute element={<LocationPage />} />}
         />
         <Route
           path="/voiture_details"
@@ -108,7 +113,7 @@ function App() {
         />
         <Route
           path="/voiture_historique"
-          element={<PrivateRoute element={<Historique />} />}
+          element={<PrivateRoute element={<HistoriquePage />} />}
         />
         <Route
           path="/delete_vehicule"

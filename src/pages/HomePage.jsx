@@ -43,7 +43,7 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="sm:px-10 pt-16 md:px-14 lg:px-20 ">
+    <div className="sm:px-10 pt-16 md:px-14 lg:px-20 min-h-screen">
       {/* Statistic component */}
       <Statistics />
 
