@@ -17,7 +17,6 @@ import { IoStatsChart } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import { MdCenterFocusStrong } from "react-icons/md";
 
-
 function HistoriqueHeader({
   setShowHistoriqueInMap,
   showHistoriqueInMap,
@@ -26,7 +25,7 @@ function HistoriqueHeader({
   showVehiculeListe,
   currentVehicule,
   setshowFilter,
-  showFilter
+  showFilter,
 }) {
   return (
     <>
@@ -43,7 +42,6 @@ function HistoriqueHeader({
             <img className="w-[1.7rem]" src="/img/cars/parcoure.png" alt="" />
           )}
         </div>
- 
 
         <div
           onClick={() => {
@@ -55,9 +53,13 @@ function HistoriqueHeader({
             className="flex gap-2 dark:bg-gray-900/50 dark:text-gray-50 dark:border-gray-300/30 justify-between  cursor-pointer border md:border-orange-200  rounded-md
                  px-3 py-2 bg-orange-50 shadow-xl text-center"
           >
-            <p 
-            // className="text-start w-[90%] overflow-hidden whitespace-nowrap text-ellipsis"
+            <p
+              // className="text-start w-[50%] overflow-hidden whitespace-nowrap text-ellipsis"
+              className="md:hidden"
             >
+              Choisir un vehicule
+            </p>
+            <p className="hidden md:block">
               {currentVehicule?.description || "Choisir un vehicule"}
             </p>
             <FaChevronDown className="mt-1" />

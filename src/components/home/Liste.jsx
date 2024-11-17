@@ -95,7 +95,7 @@ function Liste() {
   }
 
   return (
-    <div className="p-4 flex flex-col gap-4 mt-4 mb-32 dark:text-white">
+    <div className="p-2 flex flex-col gap-4 mt-4 mb-32 dark:text-white">
       {isLoading ? (
         <p>Chargement des données...</p>
       ) : filteredData.length > 0 ? (

@@ -201,7 +201,7 @@ function RapportPage() {
             {/* ------------------- */}
 
             {/* Rapport des vehicule */}
-            <div className=" w-full sm:px-6 md:px-20 px-4">
+            <div className=" w-full sm:px-6 md:px-20 px-2">
               <h1
                 onClick={() => {
                   firstCallRapportData();
@@ -213,14 +213,14 @@ function RapportPage() {
 
               <div className="flex gap-2 justify-end mb-4 ">
                 <button
-                  className="bg-orange-50 dark:bg-gray-700 py-1.5 shadow-lg rounded-lg px-3"
+                  className="bg-orange-50 dark:bg-gray-700 py-2 shadow-lg rounded-lg px-3"
                   onClick={() => {
                     setSearchdonneeFusionneeForRapport([]);
                     setRapportDataLoading(true);
                     firstCallRapportData();
                   }}
                 >
-                  <IoReload className="text-orange-600 text-xl" />
+                  <IoReload className="text-orange-600 dark:text-gray-50 text-xl" />
                 </button>
                 <button
                   className="bg-orange-50 dark:bg-gray-700 shadow-lg rounded-lg px-3"
@@ -228,7 +228,7 @@ function RapportPage() {
                     setShowChooseDate(true);
                   }}
                 >
-                  <BsFillCalendar2DateFill className="text-orange-600 text-xl" />
+                  <BsFillCalendar2DateFill className="text-orange-600 dark:text-gray-50 text-xl" />
                 </button>
               </div>
 

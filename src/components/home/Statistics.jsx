@@ -85,7 +85,7 @@ const filteredVehicles = vehicleArray.filter((vehicle) => {
     <div className="mt-2 ">
       {/* ------------------------------- */}
       {/* Début des statistiques */}
-      <div className="p-4 grid grid-cols-2 gap-2 mt-4 md:mt-10">
+      <div className="p-2 grid grid-cols-2 gap-2 mt-4 md:mt-10">
         <div className="bg-white dark:bg-gray-800 rounded-lg">
           <div className="border overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-blue-300/50 dark:bg-blue-700/30 flex justify-between items-start rounded-lg shadow-md p-3">
             <div>

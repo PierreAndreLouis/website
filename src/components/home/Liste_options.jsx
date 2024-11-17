@@ -58,7 +58,7 @@ function Liste_options({}) {
 
 
   return (
-    <div className="bg-black/50 fixed z-[111111] inset-0 flex justify-center items-center">
+    <div className="bg-black/50 dark:bg-black/80 fixed z-[111111] inset-0 flex justify-center items-center">
 
 
 
@@ -72,7 +72,7 @@ function Liste_options({}) {
         onClick={() => setshowControlePupup(false)}
         className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500 dark:text-red-600"
       />
-      <div className="h-20 px-4 bg-orange-100 dark:bg-gray-800 dark:shadow-gray-500 shadow-md text-gray-800 dark:text-gray-200 text-xl font-semibold text-center flex flex-col justify-center items-center px-2">
+      <div className="h-20  bg-orange-100 dark:bg-gray-800 dark:shadow-gray-500 shadow-md text-gray-800 dark:text-gray-200 text-xl font-semibold text-center flex flex-col justify-center items-center px-2">
         <h1 className="px-3">{currentVehicule?.description}</h1>
       </div>
       <div className="p-4 flex flex-col gap-4 py-6 pb-10">
@@ -123,7 +123,7 @@ function Liste_options({}) {
 
 
 
-      <div className="border min-w-[90vw] sm:min-w-[30rem] bg-white dark:border-gray-50/40 dark:shadow-lg dark:shadow-gray-600-- dark:bg-gray-800 mx-4 rounded-xl overflow-hidden">
+      <div className="border min-w-[90vw] sm:min-w-[30rem] bg-white dark:border-gray-50/10 dark:shadow-lg dark:shadow-gray-900 dark:shadow-lg-- dark:bg-gray-800 mx-4 rounded-xl overflow-hidden">
         <div className="p-4 py-6 pt-10 bg-orange-200/50 dark:bg-gray-900 dark:text-gray-50 dark:shadow-lg  dark:shadow-gray-700/50 relative">
           <h2 className="text-xl text-center font-semibold">
             {currentVehicule?.description}
@@ -142,7 +142,7 @@ function Liste_options({}) {
               setShowListOption(false);
             }}
             to="/Groupe_vehicule_location"
-            className=" dark:text-gray-100 dark:shadow-gray-600 col-span-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
+            className=" dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg col-span-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
           >
             <FaLocationDot className="text-4xl" />
             <h3>Localisation</h3>
@@ -153,7 +153,7 @@ function Liste_options({}) {
             onClick={() => {
               setShowListOption(false);
             }}
-            className="dark:text-gray-100 dark:shadow-gray-600  row-start-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
+            className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
           >
             <FaEdit className="text-3xl" />
             <h3>Modifier</h3>
@@ -163,7 +163,7 @@ function Liste_options({}) {
             onClick={() => {
               setshowControlePupup(true);
             }}
-            className="dark:text-gray-100 dark:shadow-gray-600  row-start-2---- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
+            className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-2---- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
           >
             <RiShutDownLine className="text-3xl" />
             <h3>Controle</h3>
@@ -173,7 +173,7 @@ function Liste_options({}) {
             onClick={() => {
               setAccessCode(true);
             }}
-            className="dark:text-gray-100 dark:shadow-gray-600  row-start-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
+            className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
           >
             <FaMicrophone className="text-3xl" />
             <h3>Ecouter</h3>
@@ -186,7 +186,7 @@ function Liste_options({}) {
               }
             }}
             to="/voiture_historique"
-            className="dark:text-gray-100 dark:shadow-gray-600  row-start-3---- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
+            className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-3---- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
           >
             <IoStatsChartSharp className="text-3xl" />
             <h3>Historique</h3>
@@ -197,7 +197,7 @@ function Liste_options({}) {
               setShowListOption(false);
             }}
             to="/voiture_details"
-            className="dark:text-gray-100 dark:shadow-gray-600  row-start-3--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
+            className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-3--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
           >
             <FaInfoCircle className="text-3xl" />
             <h3>Informations</h3>

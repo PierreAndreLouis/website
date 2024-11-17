@@ -13,7 +13,7 @@ function ListeVehicule({
   return (
     <>
       {showVehiculeListe && (
-        <div className="fixed flex justify-center items-center inset-0 bg-black/50 z-20 shadow-xl border border-gray-100 rounded-md p-3 dark:bg-black/80">
+        <div className="fixed flex justify-center items-center inset-0 bg-black/50 z-20 shadow-xl border--- border-gray-100 rounded-md p-3 dark:bg-black/80">
           <div className="pt-28 relative w-full max-w-[30rem] rounded-xl p-4 max-h-[70vh] overflow-y-auto--- overflow-hidden bg-white dark:bg-gray-800">
             <IoMdClose
               onClick={() => {

@@ -110,13 +110,19 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   });
   const [vehiculeActiveMaintenant, setVehiculeActiveMaintenant] = useState([]);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
+
+
+
+
+
+
+  const handleLogin = async (account, user, password) => {
+    // e.preventDefault();
     setIsLoading(true);
     setError(null);
-    const account = e.target.account.value;
-    const user = e.target.username.value;
-    const password = e.target.password.value;
+    // const account = e.target.account.value;
+    // const user = e.target.username.value;
+    // const password = e.target.password.value;
 
     const xmlData = `<GTSRequest command="dbget">
         <Authorization account="${account}" user="${user}" password="${password}" />
@@ -268,8 +274,10 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       if (vehicleData && vehicleData.length > 0) {
         vehicleData.forEach((vehicle) => {
           fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
+          fetRapportchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
+
+          // firstCallRapportData();
         });
-        firstCallRapportData();
       }
     } catch (error) {
       setError("Erreur lors de la récupération des données des véhicules.");
@@ -476,7 +484,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
 
 
-  // ayy
 
   const fetchHistoriqueVehicleDetails = async (Device, TimeFrom, TimeTo) => {
     // console.log("Start fetching.........");
@@ -1055,27 +1062,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     return dataFusionnee;
   };
 
-  // Fonction pour fusionner les données après les requêtes
-  // const rapportSearchfusionnerDonnees = () => {
-  //   if (!vehicleData || !searchrapportvehicleDetails) return [];
 
-  //   const dataFusionnee = vehicleData.map((vehicle) => {
-  //     const events = searchrapportvehicleDetails?.filter(
-  //       (detail) => detail.Device === vehicle.deviceID
-  //     );
-  //     return {
-  //       ...vehicle,
-  //       vehiculeDetails: events,
-  //     };
-  //   });
-
-  //   // 1. Met à jour l'état avec toutes les données fusionnées
-  //   setSearchdonneeFusionneeForRapport(dataFusionnee);
-  //   console.log("enddddddddddddddddddddddddd...............");
-  //   setRapportDataLoading(false);
-
-  //   return dataFusionnee;
-  // };
 
   useEffect(() => {
     console.log(
@@ -1160,11 +1147,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
   const liste1 = [];
 
-  // let currentdataFusionnee = donneeFusionneeForRapport.length > 0 ? liste1 : donneeFusionneeForRapport;
-  // let currentdataFusionnee =
-  //   searchdonneeFusionneeForRapport.length > 0
-  //     ? searchdonneeFusionneeForRapport
-  //     : donneeFusionneeForRapport;
 
   let currentdataFusionnee =
     searchdonneeFusionneeForRapport.length > 0
