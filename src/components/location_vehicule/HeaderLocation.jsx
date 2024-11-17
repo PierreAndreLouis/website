@@ -1,32 +1,30 @@
 import React from "react";
 import { FaChevronDown } from "react-icons/fa6";
 
-
 function HeaderLocation({
-
-    setShowVehiculeListe,
-    selectedVehicle,
-    vehicleData,
-    setTypeDeVue,
-    showAllVehicles
+  setShowVehiculeListe,
+  selectedVehicle,
+  vehicleData,
+  setTypeDeVue,
+  showAllVehicles,
 }) {
-
-
   return (
     <>
-      <div className="fixed bg-white md:bg-white/0 top-12  left-0 right-0 z-[1200] flex flex-col gap-2 p-4">
+      <div className="fixed bg-white dark:bg-gray-800 md:bg-white/0 top-12  left-0 right-0 z-[1200] flex flex-col gap-2 p-4">
         <h2
           onClick={() => {
             setShowVehiculeListe(true);
           }}
           id="vehicule_actuel"
-          className="flex justify-between items-center border py-2 px-5 rounded-md w-full max-w-[40rem] mx-auto cursor-pointer bg-orange-50 md:bg-white md:border md:border-gray-300  md:shadow-xl"
+          className="flex justify-between items-center border py-2 px-5 rounded-md w-full max-w-[40rem] mx-auto cursor-pointer bg-orange-50 dark:bg-gray-900/50 dark:text-gray-100 dark:border-gray-300/40 md:bg-white md:border md:border-gray-300  md:shadow-xl"
         >
-          {selectedVehicle
-            ? vehicleData?.find(
-                (vehicle) => vehicle.deviceID === selectedVehicle
-              )?.description || "Véhicule non disponible"
-            : "Tous les vehicules"}
+          <p className="w-[90%] overflow-hidden whitespace-nowrap text-ellipsis">
+            {selectedVehicle
+              ? vehicleData?.find(
+                  (vehicle) => vehicle.deviceID === selectedVehicle
+                )?.description || "Véhicule non disponible"
+              : "Tous les vehicules"}
+          </p>
           <span>
             <FaChevronDown />
           </span>
@@ -37,7 +35,7 @@ function HeaderLocation({
             onClick={() => {
               setTypeDeVue(true);
             }}
-            className="flex items-center md:shadow-xl justify-between gap-1 border px-2 py-1 cursor-pointer bg-orange-50 md:bg-white md:border md:border-gray-300  rounded-md"
+            className="flex items-center md:shadow-xl justify-between gap-1 border px-2 py-1 cursor-pointer  dark:bg-gray-900/50 dark:text-gray-100 dark:border-gray-300/40 bg-orange-50 md:bg-white md:border md:border-gray-300  rounded-md"
           >
             <label htmlFor="mapType">Type de vue </label>
             <FaChevronDown />

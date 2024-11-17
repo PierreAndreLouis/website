@@ -166,35 +166,35 @@ function RapportOptions({
             <h1>Toyota Land Cruser Prada</h1>
           </div>
           <div className="p-4  flex flex-col gap-4 py-6">
-            <div className="shadow-md cursor-pointer hover:bg-red-100 bg-red-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-red-100 bg-red-50 p-2 rounded-md flex items-center gap-4">
               <IoStatsChartSharp className="min-w-[2rem] text-[1.92rem] text-red-600 " />
-              <h2 className="font-semibold text-red-700">
+              <h2 className="font-semibold dark:text-orange-50 text-red-700">
                 Historique du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-red-100 bg-red-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-red-100 bg-red-50 p-2 rounded-md flex items-center gap-4">
               <img
                 className="w-[1.92rem]"
                 src="/img/cars/orange_parcoure.png"
                 alt=""
               />
-              <h2 className="font-semibold text-red-700">
+              <h2 className="font-semibold dark:text-orange-50 text-red-700">
                 Trajet du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-red-100 bg-red-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-red-100 bg-red-50 p-2 rounded-md flex items-center gap-4">
               <MdLocationPin className="text-[2rem] text-red-600 " />
-              <h2 className="font-semibold text-red-700">
+              <h2 className="font-semibold dark:text-orange-50 text-red-700">
                 Position actuel du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-red-100 bg-red-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-red-100 bg-red-50 p-2 rounded-md flex items-center gap-4">
               <img
                 className="w-[1.92rem]"
                 src="/img/cars/group_position.png"
                 alt=""
               />
-              <h2 className="font-semibold text-red-700">
+              <h2 className="font-semibold dark:text-orange-50 text-red-700">
                 Tous les vehicule en deplacement
               </h2>
             </div>
@@ -204,14 +204,14 @@ function RapportOptions({
       */}
 
       <div className="fixed flex justify-center items-center z-[9999999999999999999999999999999999999999999999999991] inset-0 bg-black/50">
-        <div className="relative w-[95vw] border-b-[.8rem] border-b-white  max-w-[40rem] bg-white overflow-hidden rounded-lg">
+        <div className="relative w-[92vw] border-b-[.8rem] dark:border-gray-700 border-b-white dark:bg-gray-700  max-w-[40rem] bg-white overflow-hidden rounded-lg">
           <IoMdClose
             onClick={() => {
               setshowRapportPupup(false);
             }}
             className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500"
           />
-          <div className="h-16-- py-5 bg-orange-100 shadow-md text-gray-800 text-xl font-semibold text-center flex justify-center items-center p-2">
+          <div className="h-16-- py-5 bg-orange-100 dark:bg-gray-800 dark:text-gray-50 dark:shadow-lg dark:shadow-gray-600 shadow-md text-gray-800 text-xl font-semibold text-center flex justify-center items-center p-2">
             <h1 className="px-3">{currentVehicule?.description}</h1>
           </div>
 
@@ -225,16 +225,16 @@ function RapportOptions({
               // }}
               onClick={() => setshowStatisticOption(true)}
               className={`${
-                showStatisticOption && "bg-orange-100/80"
-              } py-1 px-2 bg-gray-100 shadow-md rounded-md"`}
+                showStatisticOption && "bg-orange-100/80 dark:bg-orange-600"
+              } dark:bg-gray-800 dark:text-gray-50 rounded-lg py-1 px-2 bg-gray-100 shadow-md rounded-md"`}
             >
               Statistics
             </button>
             <button
               onClick={() => setshowStatisticOption(false)}
               className={`${
-                !showStatisticOption && "bg-orange-100/80"
-              } py-1 px-2 bg-gray-100 shadow-md rounded-md"`}
+                !showStatisticOption && "bg-orange-100/80 dark:bg-orange-600"
+              } dark:bg-gray-800 dark:text-gray-50 rounded-lg py-1 px-2 bg-gray-100 shadow-md rounded-md"`}
             >
               Options
             </button>
@@ -245,14 +245,16 @@ function RapportOptions({
           {showStatisticOption ? (
             // Statistics Section
             <div className="p-4 min-h-[60vh] max-h-[60vh] md:min-h-[55vh] md:max-h-[55vh] overflow-y-auto flex flex-col gap-4 py-6 pb-10">
-              <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+              <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
                 <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
-                  <h2 className="font-semibold text-orange-900">Heure</h2>
-                  <div className="text-gray-600">
+                  <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                    Heure
+                  </h2>
+                  <div className="text-gray-600 dark:text-gray-300">
                     <p>
                       Heure de depare:
-                      <span className="font-bold text-gray-700 pl-3">
+                      <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {/* {formatTimestampToTime(
                           heureActiveDebut?.timestamp || "pas d'heure de depart !"
                         )} */}
@@ -263,7 +265,7 @@ function RapportOptions({
                     </p>
                     <p>
                       Derniere heure en mouvement:
-                      <span className="font-bold text-gray-700 pl-3">
+                      <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {heureActiveFin
                           ? formatTimestampToTime(heureActiveFin.timestamp)
                           : "Null"}
@@ -273,16 +275,16 @@ function RapportOptions({
                 </div>
               </div>
 
-              <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+              <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
                 <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
-                  <h2 className="font-semibold text-orange-900">
+                  <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                     Distance Parcourue
                   </h2>
-                  <div className="text-gray-600">
+                  <div className="text-gray-600 dark:text-gray-300">
                     <p>
                       Distance totale:
-                      <span className="font-bold text-gray-700 pl-3">
+                      <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {calculateTotalDistance(
                           currentVehicule?.vehiculeDetails
                         ).toFixed(2)}
@@ -293,26 +295,28 @@ function RapportOptions({
                 </div>
               </div>
 
-              <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+              <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
                 <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
-                  <h2 className="font-semibold text-orange-900">Vitesse</h2>
-                  <div className="text-gray-600">
+                  <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                    Vitesse
+                  </h2>
+                  <div className="text-gray-600 dark:text-gray-300">
                     <p>
                       Vitesse minimale:
-                      <span className="font-bold text-gray-700 pl-3">
+                      <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {minSpeed.toFixed(2)} Km/h
                       </span>
                     </p>
                     <p>
                       Vitess moyenne:
-                      <span className="font-bold text-gray-700 pl-3">
+                      <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {averageSpeed.toFixed(2)} Km/h
                       </span>
                     </p>
                     <p>
                       Vitess maximale:
-                      <span className="font-bold text-gray-700 pl-3">
+                      <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {maxSpeed.toFixed(2)} Km/h
                       </span>
                     </p>
@@ -320,20 +324,22 @@ function RapportOptions({
                 </div>
               </div>
 
-              <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+              <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
                 <PiMapPinAreaBold className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
-                  <h2 className="font-semibold text-orange-900">Adresse</h2>
-                  <div className="text-gray-600 flex flex-col gap-3">
+                  <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                    Adresse
+                  </h2>
+                  <div className="text-gray-600 dark:text-gray-300 flex flex-col gap-3">
                     <p>
-                      <span className="font-semibold text-gray-800 pr-3">
+                      <span className="font-semibold text-gray-800 dark:text-orange-500 pr-3">
                         Adresse Debut:
                       </span>
                       {currentVehicule?.vehiculeDetails[0]?.address ||
                         "pas de resultat"}
                     </p>
                     <p>
-                      <span className="font-semibold text-gray-800 pr-3">
+                      <span className="font-semibold text-gray-800 dark:text-orange-500 pr-3">
                         Derniere position:
                       </span>
                       {currentVehicule?.vehiculeDetails[
@@ -344,17 +350,19 @@ function RapportOptions({
                 </div>
               </div>
 
-              <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+              <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
                 <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
-                  <h2 className="font-semibold text-orange-900">
+                  <h2 className="font-semibold dark:text-orange-500 text-orange-900">
                     Tous les lieux frequente
                   </h2>
                   <div className="text-gray-600 flex flex-col gap-3">
                     {uniqueAddresses?.map((add, index) => {
                       return (
-                        <p>
-                          <span className="font-bold text-black mr-3">* </span>
+                        <p className="dark:text-gray-300">
+                          <span className="font-bold dark:text-orange-500 text-black mr-3">
+                            *{" "}
+                          </span>
                           {add}
                         </p>
                       );
@@ -363,17 +371,19 @@ function RapportOptions({
                 </div>
               </div>
 
-              <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+              <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
                 <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
-                  <h2 className="font-semibold text-orange-900">
+                  <h2 className="font-semibold dark:text-orange-500 text-orange-900">
                     Tous les lieux Stationnees
                   </h2>
                   <div className="text-gray-600 flex flex-col gap-3">
                     {uniqueAddressesZerroSpeed?.map((add, index) => {
                       return (
-                        <p>
-                          <span className="font-bold text-black mr-3">* </span>
+                        <p className="dark:text-gray-300" key={index}>
+                          <span className="font-bold dark:text-orange-500 text-black mr-3">
+                            *{" "}
+                          </span>
                           {add}
                         </p>
                       );
@@ -394,10 +404,10 @@ function RapportOptions({
                     currentVehicule?.vehiculeDetails
                   );
                 }}
-                className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
                 <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-                <h2 className="font-semibold text-orange-900">
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                   Historique du vehicule
                 </h2>
               </Link>
@@ -410,20 +420,20 @@ function RapportOptions({
                     currentVehicule?.vehiculeDetails
                   );
                 }}
-                className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
                 <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-                <h2 className="font-semibold text-orange-900">
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                   Trajet du vehicule
                 </h2>
               </Link>
 
               <Link
                 to="/Groupe_vehicule_location"
-                className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
                 <FiMapPin className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-                <h2 className="font-semibold text-orange-900">
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                   Position du vehicule
                 </h2>
               </Link>
@@ -437,10 +447,10 @@ function RapportOptions({
                     setshowSmsError(!showSmsError);
                   }
                 }}
-                className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
                 <TbLock className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-                <h2 className="font-semibold text-orange-900">
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                   Bloquer le vehicule
                 </h2>
                 {/* <p>{smsError}</p> */}
@@ -456,10 +466,10 @@ function RapportOptions({
                     setshowSmsError(!showSmsError);
                   }
                 }}
-                className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
                 <TbLockOpen className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-                <h2 className="font-semibold text-orange-900">
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                   Debloquer vehicule
                 </h2>
                 {/* <p>{smsError}</p> */}
@@ -489,36 +499,36 @@ function RapportOptions({
 
               {/* --------------------------------- */}
 
-              <div className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+              <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
                 <FaHeadphonesAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-                <h2 className="font-semibold text-orange-900">
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                   Ecouter discussion dans le vehicule
                 </h2>
               </div>
 
               <Link
                 to="/voiture_details"
-                className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
                 <IoInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-                <h2 className="font-semibold text-orange-900">
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                   Informations sur le vehicule
                 </h2>
               </Link>
 
               <Link
                 to="/modifier_vehicule"
-                className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
               >
                 <CiEdit className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-                <h2 className="font-semibold text-orange-900">
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                   Modifier le vehicule
                 </h2>
               </Link>
 
-              {/* <div className="shadow-md cursor-pointer py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+              {/* <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
                 <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-                <h2 className="font-semibold text-orange-900">
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                   Position du vehicule
                 </h2>
               </div> */}
@@ -533,35 +543,35 @@ function RapportOptions({
             <h1>Toyota Land Cruser Prada</h1>
           </div>
           <div className="p-4  flex flex-col gap-4 py-6">
-            <div className="shadow-md cursor-pointer hover:bg-green-100 bg-green-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-green-100 bg-green-50 p-2 rounded-md flex items-center gap-4">
               <IoStatsChartSharp className="min-w-[2rem] text-[1.92rem] text-green-600 " />
-              <h2 className="font-semibold text-green-700">
+              <h2 className="font-semibold dark:text-orange-50 text-green-700">
                 Historique du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-green-100 bg-green-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-green-100 bg-green-50 p-2 rounded-md flex items-center gap-4">
               <img
                 className="w-[1.92rem]"
                 src="/img/cars/green_parcoure.png"
                 alt=""
               />
-              <h2 className="font-semibold text-green-700">
+              <h2 className="font-semibold dark:text-orange-50 text-green-700">
                 Trajet du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-green-100 bg-green-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-green-100 bg-green-50 p-2 rounded-md flex items-center gap-4">
               <MdLocationPin className="text-[2rem] text-green-600 " />
-              <h2 className="font-semibold text-green-700">
+              <h2 className="font-semibold dark:text-orange-50 text-green-700">
                 Position actuel du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-green-100 bg-green-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-green-100 bg-green-50 p-2 rounded-md flex items-center gap-4">
               <img
                 className="w-[1.92rem]"
                 src="/img/cars/group_position.png"
                 alt=""
               />
-              <h2 className="font-semibold text-green-700">
+              <h2 className="font-semibold dark:text-orange-50 text-green-700">
                 Tous les vehicule en deplacement
               </h2>
             </div>
@@ -575,35 +585,35 @@ function RapportOptions({
             <h1>Toyota Land Cruser Prada</h1>
           </div>
           <div className="p-4  flex flex-col gap-4 py-6">
-            <div className="shadow-md cursor-pointer hover:bg-purple-100 bg-purple-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-purple-100 bg-purple-50 p-2 rounded-md flex items-center gap-4">
               <IoStatsChartSharp className="min-w-[2rem] text-[1.92rem] text-purple-600 " />
-              <h2 className="font-semibold text-purple-900">
+              <h2 className="font-semibold dark:text-orange-50 text-purple-900">
                 Historique du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-purple-100 bg-purple-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-purple-100 bg-purple-50 p-2 rounded-md flex items-center gap-4">
               <img
                 className="w-[1.92rem]"
                 src="/img/cars/green_parcoure.png"
                 alt=""
               />
-              <h2 className="font-semibold text-purple-900">
+              <h2 className="font-semibold dark:text-orange-50 text-purple-900">
                 Trajet du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-purple-100 bg-purple-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-purple-100 bg-purple-50 p-2 rounded-md flex items-center gap-4">
               <MdLocationPin className="text-[2rem] text-purple-600 " />
-              <h2 className="font-semibold text-purple-900">
+              <h2 className="font-semibold dark:text-orange-50 text-purple-900">
                 Position actuel du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-purple-100 bg-purple-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-purple-100 bg-purple-50 p-2 rounded-md flex items-center gap-4">
               <img
                 className="w-[1.92rem]"
                 src="/img/cars/group_position.png"
                 alt=""
               />
-              <h2 className="font-semibold text-purple-900">
+              <h2 className="font-semibold dark:text-orange-50 text-purple-900">
                 Tous les vehicule en deplacement
               </h2>
             </div>
@@ -625,35 +635,35 @@ function RapportOptions({
           <div 
         //   onClick={() => {setshowRapportPupup(false)}}
           className="p-4  flex flex-col gap-4 py-6 pb-10">
-            <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
               <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold text-orange-900">
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Historique du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
               <img
                 className="w-[1.92rem]"
                 src="/img/cars/parcoure.png"
                 alt=""
               />
-              <h2 className="font-semibold text-orange-900">
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Trajet du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
               <MdLocationPin className="text-[2rem] min-w-8 text-orange-400 " />
-              <h2 className="font-semibold text-orange-900">
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Position actuel du vehicule
               </h2>
             </div>
-            <div className="shadow-md cursor-pointer hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-600 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
               <img
                 className="w-[1.92rem]"
                 src="/img/cars/orange_group_position.png"
                 alt=""
               />
-              <h2 className="font-semibold text-orange-900">
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Tous les vehicules en deplacement
               </h2>
             </div>

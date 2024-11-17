@@ -238,7 +238,7 @@ function HistoriquePage() {
   };
 
   return (
-    <div className="p-4 flex flex-col gap-4 mt-16 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
+    <div className="p-4 min-h-screen flex flex-col gap-4 mt-16 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
       <div className="z-50"></div>
       {showListeOption && (
         <div className="absolute z-30">
@@ -260,7 +260,7 @@ function HistoriquePage() {
       )}
 
       <div className="mb-6 mt-8 md:mt-16">
-        <div className="fixed flex justify-center z-20 top-[3.5rem] bg-white md:bg-white/0 py-2 pt-3 left-0 right-0">
+        <div className="fixed flex justify-center z-20 top-[3.5rem] bg-white dark:bg-gray-800 md:bg-white/0 py-2 pt-3 left-0 right-0">
           {/* <button onClick={() => {console.log(currentVehicule)}}>Test</button> */}
           {/* centrer la carte */}
           <button
@@ -450,7 +450,7 @@ function HistoriquePage() {
                 )}
 
                 {/* 2. Ajoute la ligne rouge entre les positions consécutives */}
-                <Polyline positions={positions} color="red" weight={1} />
+                <Polyline positions={positions} color="red" weight={2} />
               </MapContainer>
             </div>
           </div>

@@ -14,7 +14,7 @@ function FormAjouterVehicule({
 }) {
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-4 px-4 dark:bg-gray-800">
+      <form onSubmit={handleSubmit} className="space-y-4 px-4">
         {/* Champs du formulaire */}
         {[
           { id: "deviceID", label: "ID", placeholder: "ID" },
@@ -69,7 +69,7 @@ function FormAjouterVehicule({
               value={addvehicleData[field.id]}
               onChange={handleChange}
               required
-              className="block px-3 w-full border-b pb-4 py-1.5 outline-none text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 shadow-sm focus:ring-orange-500 focus:border-orange-500"
+              className="block px-3 w-full border-b pb-4 py-1.5 outline-none text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-900/0 shadow-sm focus:ring-orange-500 focus:border-orange-500"
             />
           </div>
         ))}
@@ -81,13 +81,13 @@ function FormAjouterVehicule({
           </p>
         )}
         {errorImei && (
-          <p className="flex items-start gap-3 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 text-md translate-y-4 px-4 py-1 rounded-md text-center">
+          <p className="flex items-start gap-3 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-100 text-md translate-y-4 px-4 py-1 rounded-md text-center">
             <MdErrorOutline className="text-2xl mt-0.5" />
             {errorImei}
           </p>
         )}
         {errorID && (
-          <p className="flex items-start gap-3 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 text-md translate-y-4 px-4 py-1 rounded-md text-center">
+          <p className="flex items-start gap-3 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-100 text-md translate-y-4 px-4 py-1 rounded-md text-center">
             <MdErrorOutline className="text-2xl mt-0.5" />
             {errorID}
           </p>

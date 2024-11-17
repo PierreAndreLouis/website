@@ -30,12 +30,12 @@ function HistoriqueHeader({
 }) {
   return (
     <>
-      <div className="flex  relative justify-between px-4 max-w-[35rem] items-center-- gap-3 w-full">
+      <div className="flex relative justify-between px-4 max-w-[35rem] w-[100vw]-- w-full items-center-- gap-3 w-full--">
         <div
           onClick={() => {
             setShowHistoriqueInMap(!showHistoriqueInMap);
           }}
-          className="cursor-pointer shadow-xl border md:border-orange-200 min-w-10 rounded-md flex justify-center items-center py-2 bg-orange-50"
+          className="cursor-pointer shadow-xl border md:border-orange-200 min-w-10 rounded-md flex justify-center items-center py-2 bg-orange-50 dark:bg-gray-900/50 dark:border-gray-300/30"
         >
           {showHistoriqueInMap ? (
             <IoStatsChart className="text-xl text-orange-600 " />
@@ -49,13 +49,15 @@ function HistoriqueHeader({
           onClick={() => {
             setShowVehiculeListe(!showVehiculeListe);
           }}
-          className="relative w-full"
+          className="relative w-full "
         >
           <div
-            className="flex justify-between  cursor-pointer border md:border-orange-200 rounded-md
+            className="flex gap-2 dark:bg-gray-900/50 dark:text-gray-50 dark:border-gray-300/30 justify-between  cursor-pointer border md:border-orange-200  rounded-md
                  px-3 py-2 bg-orange-50 shadow-xl text-center"
           >
-            <p className="text-start">
+            <p 
+            // className="text-start w-[90%] overflow-hidden whitespace-nowrap text-ellipsis"
+            >
               {currentVehicule?.description || "Choisir un vehicule"}
             </p>
             <FaChevronDown className="mt-1" />
@@ -64,7 +66,7 @@ function HistoriqueHeader({
 
         <div
           onClick={() => setshowFilter(!showFilter)}
-          className="min-w-10 cursor-pointer border rounded-md shadow-xl md:border-orange-200 flex justify-center items-center py-2 bg-orange-50"
+          className="min-w-10 cursor-pointer border rounded-md shadow-xl md:border-orange-200 flex justify-center items-center py-2 bg-orange-50  dark:bg-gray-900/50 dark:border-gray-300/30"
         >
           <BsFilterRight className="text-2xl text-orange-600 " />
         </div>

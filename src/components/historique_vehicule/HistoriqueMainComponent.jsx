@@ -22,7 +22,7 @@ function HistoriqueMainComponent({
           <h2 className="text-xl md:text-4xl md:mb-4 text-orange-600">
             Historique
           </h2>
-          <h2 className="text-gray-800 font-semibold text-lg md:text-xl mb-2">
+          <h2 className="text-gray-800 dark:text-gray-50 font-semibold text-lg md:text-xl mb-2 ">
             {currentVehicule?.description || "Pas de vehiucle"}
           </h2>
         </div>
@@ -53,32 +53,34 @@ function HistoriqueMainComponent({
                     activeTextColor,
                     statut,
                     vitess_img;
-                  if (speed < 1) {
-                    main_text_color = "text-red-900";
-                    statut = "en arrêt";
-                    lite_bg_color = "bg-red-100/40";
-                    activeTextColor = "text-red-900";
-                    active_bg_color = "bg-red-200/50";
-                    vitess_img = "img/cars/orange_vitess.png";
-                    imgClass = "w-14 sm:w-16 md:w-24";
-                  } else if (speed >= 1 && speed <= 20) {
-                    main_text_color = "text-[#555b03]";
-                    statut = "en ralenti";
-                    lite_bg_color = "bg-[#ffff001b]";
-                    activeTextColor = "text-[#555b03]";
-                    active_bg_color = "bg-yellow-400/20";
-                    vitess_img = "img/cars/yellow_vitess.png";
-                    imgClass = "w-12 sm:w-14 md:w-20";
-                  } else {
-                    main_text_color = "text-green-700";
-                    statut = "en marche";
-                    lite_bg_color = "bg-green-100/50";
-                    activeTextColor = "text-green-800";
-                    active_bg_color = "bg-green-300/50";
-                    vitess_img = "img/cars/green_vitess.png";
-                    imgClass = "w-12 sm:w-14 md:w-20";
-                  }
-
+                    if (speed < 1) {
+                      main_text_color = "text-red-900 dark:text-red-300";
+                      statut = "En arrêt";
+                      lite_bg_color =
+                        "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-red-700/10 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-xl shadow-gray-950/20";
+                      activeTextColor = "text-red-900 dark:text-red-200";
+                      active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
+                      vitess_img = "img/cars/orange_vitess.png";
+                      imgClass = "w-14 sm:w-16 md:w-24";
+                    } else if (speed >= 1 && speed <= 20) {
+                      main_text_color = "text-[#555b03] dark:text-yellow-300";
+                      statut = "En ralenti";
+                      lite_bg_color =
+                        "bg-[#ffff001b] dark:bg-gray-900/40 dark:shadow-yellow-300/10 dark:shadow-lg dark:border-l-[.5rem] dark:border-yellow-400/80  shadow-xl shadow-gray-950/20";
+                      activeTextColor = "text-[#555b03] dark:text-yellow-100";
+                      active_bg_color = "bg-yellow-400/20 dark:bg-yellow-600/20";
+                      vitess_img = "img/cars/yellow_vitess.png";
+                      imgClass = "w-12 sm:w-14 md:w-20";
+                    } else {
+                      main_text_color = "text-green-700 dark:text-green-400";
+                      statut = "En marche";
+                      lite_bg_color =
+                        "bg-green-100/50 dark:bg-gray-900/40 dark:shadow-green-700/10 dark:shadow-lg dark:border-l-[.5rem] dark:border-green-600/80  shadow-xl shadow-gray-950/20";
+                      activeTextColor = "text-green-800 dark:text-green-200";
+                      active_bg_color = "bg-green-300/50 dark:bg-green-500/50";
+                      vitess_img = "img/cars/green_vitess.png";
+                      imgClass = "w-12 sm:w-14 md:w-20";
+                    }
                   return (
                     <div
                       onClick={() => {
@@ -104,15 +106,15 @@ function HistoriqueMainComponent({
                           </h2>
                         </div>
                         <div>
-                          <div className="flex mb-2 gap-4 text-gray-600 text-md">
+                          <div className="flex mb-2 gap-4 text-gray-600 dark:text-gray-200 text-md">
                             <div className="flex gap-3 items-center">
-                              <FaRegCalendarAlt className="text-gray-500/80" />
+                              <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
                               <h3 className="text-sm sm:text-sm md:text-md">
                                 {formatTimestampToDate(vehicle.timestamp)}
                               </h3>
                             </div>
                             <div className="flex items-center gap-1">
-                              <IoMdTime className="text-gray-500/80 text-xl" />
+                              <IoMdTime className="text-gray-500/80 text-xl dark:text-gray-300" />
                               <h3 className="text-sm sm:text-sm md:text-md">
                                 {formatTimestampToTime(vehicle.timestamp)}
                               </h3>
@@ -120,7 +122,7 @@ function HistoriqueMainComponent({
                           </div>
                           <div className="flex gap-2">
                             <div>
-                              <FaCar className="text-gray-500/80" />
+                              <FaCar className="text-gray-500/80 dark:text-gray-300" />
                             </div>
                             <span
                               className={` ${active_bg_color} ml-1 ${activeTextColor} pb-[.2rem] px-2 py-0 text-sm rounded-md `}
@@ -128,11 +130,11 @@ function HistoriqueMainComponent({
                               {statut}
                             </span>
                           </div>
-                          <div className="flex gap-1">
+                          <div className="flex gap-1 ">
                             <div>
-                              <MdLocationPin className="text-xl text-gray-500/80 -translate-x-0.5 mt-3" />
+                              <MdLocationPin className="text-xl dark:text-gray-300 text-gray-500/80 -translate-x-0.5 mt-3" />
                             </div>
-                            <p className="text-md flex text-gray-600 mt-2 md:text-lg">
+                            <p className="text-md flex text-gray-600 dark:text-gray-300 mt-2 md:text-lg">
                               {vehicle.address || "Adresse non disponible"}
                             </p>
                           </div>
@@ -149,7 +151,7 @@ function HistoriqueMainComponent({
               );
             })()
           ) : (
-            <p className="text-center">Aucune donnée disponible</p>
+            <p className="text-center dark:text-gray-50">Aucune donnée disponible</p>
           )}
         </div>
       </div>

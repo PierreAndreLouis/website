@@ -16,6 +16,8 @@ import DateTimePicker from "../components/home/DateTimePicker";
 import DateInput from "../components/rapport_vehicule/DateInput";
 import VehiculeNotActifComponent from "../components/rapport_vehicule/VehiculeNotActifComponent";
 // import { IoReload } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
+import { BsFillCalendar2DateFill } from "react-icons/bs";
 
 function RapportPage() {
   const {
@@ -48,6 +50,7 @@ function RapportPage() {
     setVehiclueHistoriqueDetails,
     searchdonneeFusionneeForRapport,
     fetSearchRapportchVehicleDetails,
+    setSearchdonneeFusionneeForRapport,
     // setShowListOption,
     // showListeOption,
   } = useContext(DataContext);
@@ -56,6 +59,7 @@ function RapportPage() {
   const [showActiveVehicule, setshowActiveVehicule] = useState(false);
   const [showParkingVehicule, setshowParkingVehicule] = useState(false);
   const [showInactiveVehicule, setshowInactiveVehicule] = useState(false);
+  const [showChooseDate, setShowChooseDate] = useState(false);
   //
   const [showRapportPupup, setshowRapportPupup] = useState(false);
   const [showDatePicker, setShowDatePicker] = useState(false);
@@ -154,6 +158,7 @@ function RapportPage() {
   // Gestion de la soumission
   const handleApply = (e) => {
     e.preventDefault();
+    setShowChooseDate(false);
     setRapportDataLoading(true);
     const startTime = "00:00:00";
     const endTime = "23:59:59";
@@ -184,7 +189,7 @@ function RapportPage() {
         />
       )}
       {rapportDataLoading && (
-        <div className="fixed z-30 inset-0 bg-gray-200/50">
+        <div className="fixed z-30 inset-0 bg-gray-200/50 dark:bg-gray-900/50">
           <div className="w-full h-full flex justify-center items-center">
             <div className="border-blue-500 h-20 w-20 animate-spin rounded-full border-8 border-t-gray-100/0" />
           </div>
@@ -196,61 +201,79 @@ function RapportPage() {
             {/* ------------------- */}
 
             {/* Rapport des vehicule */}
-            <div className="min-w-[100vw w-full sm:px-6 md:px-20 px-4">
+            <div className=" w-full sm:px-6 md:px-20 px-4">
               <h1
                 onClick={() => {
                   firstCallRapportData();
                 }}
-                className="font-semibold text-center mx-4 mb-10 text-xl"
+                className="font-semibold dark:text-gray-200 text-center mx-4 mb-10 text-xl"
               >
                 {formatDate(selectedDate)}
               </h1>
 
-              <form
-                className="flex gap-2 justify-end mb-4 "
-                onSubmit={handleApply}
-              >
+              <div className="flex gap-2 justify-end mb-4 ">
                 <button
-                className="bg-orange-50 shadow-lg px-3"
+                  className="bg-orange-50 dark:bg-gray-700 py-1.5 shadow-lg rounded-lg px-3"
                   onClick={() => {
-                    searchdonneeFusionneeForRapport([]);
+                    setSearchdonneeFusionneeForRapport([]);
                     setRapportDataLoading(true);
                     firstCallRapportData();
                   }}
                 >
-                  <IoReload 
-                  className="text-orange-600 text-xl"
-                  />
+                  <IoReload className="text-orange-600 text-xl" />
                 </button>
-                <div className="border bg-orange-50 rounded-lg px-4 pl-2 py-1 flex gap-4 items-center shadow-lg">
-                  <label className="border bg-white rounded-md  w-10 flex justify-end pr-[.55rem] relative overflow-hidden">
-                    {/* <div className="absolute bg-white top-0.5 left-0.5 bottom-0.5 right-7">
-                    Date 
-                    </div> */}
-                    <input
-                      className="focus:outline-none"
-                      type="date"
-                      value={selectedDate}
-                      onChange={(e) => setSelectedDate(e.target.value)}
+                <button
+                  className="bg-orange-50 dark:bg-gray-700 shadow-lg rounded-lg px-3"
+                  onClick={() => {
+                    setShowChooseDate(true);
+                  }}
+                >
+                  <BsFillCalendar2DateFill className="text-orange-600 text-xl" />
+                </button>
+              </div>
+
+              {showChooseDate && (
+                <form
+                  onSubmit={handleApply}
+                  className="fixed z-10 inset-0 flex justify-center items-center bg-black/50"
+                >
+                  <div className="border relative flex-col bg-orange-50 dark:bg-gray-800 w-full max-w-[25rem] mx-4 rounded-lg px-4 pl-2 py-1 flex gap-4 shadow-lg">
+                    <IoClose
+                      onClick={() => {
+                        setShowChooseDate(false);
+                      }}
+                      className="absolute top-4 right-4 text-xl text-red-500 dark:text-red-400 cursor-pointer"
                     />
-                  </label>
-                  {selectedDate ? (
-                    <button
-                      className="font-semibold text-orange-500"
-                      type="submit"
-                    >
-                      Recherche
-                    </button>
-                  ) : (
-                    <div
-                      className="cursor-default font-semibold text-orange-500"
-                      type="submit"
-                    >
-                      Recherche
+
+                    <h2 className="pt-4 pl-4 text-gray-900 dark:text-gray-100">
+                      Choisissez une date :
+                    </h2>
+                    {/* <p> {formatDate(selectedDate)}</p> */}
+                    <label className="px-4">
+                      <input
+                        className="focus:outline-none bg-black/0 border p-2 rounded-lg w-full bg-gray-50 dark:bg-gray-400  dark:border-gray-600 dark:text-gray-200--"
+                        type="date"
+                        value={selectedDate}
+                        onChange={(e) => setSelectedDate(e.target.value)}
+                      />
+                    </label>
+                    <div className="flex mx-4 mb-4">
+                      {selectedDate ? (
+                        <button
+                          className="cursor-pointer font-semibold text-gray-100 px-8 py-1 rounded-md bg-orange-500 dark:bg-orange-600"
+                          type="submit"
+                        >
+                          Rechercher
+                        </button>
+                      ) : (
+                        <div className="cursor-default font-semibold text-gray-100 px-8 py-1 rounded-md bg-orange-500 dark:bg-orange-600">
+                          Rechercher
+                        </div>
+                      )}
                     </div>
-                  )}
-                </div>
-              </form>
+                  </div>
+                </form>
+              )}
 
               <VehiculeActiveMaintenantComponent
                 showActiveVehiculeNow={showActiveVehiculeNow}

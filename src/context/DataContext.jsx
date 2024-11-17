@@ -1396,6 +1396,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         setVehiclueHistoriqueDetails,
         fetSearchRapportchVehicleDetails,
         searchdonneeFusionneeForRapport,
+        setSearchdonneeFusionneeForRapport
       }}
     >
       {children}

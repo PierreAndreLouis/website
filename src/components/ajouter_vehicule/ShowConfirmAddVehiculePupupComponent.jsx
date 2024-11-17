@@ -12,15 +12,15 @@ function ShowConfirmAddVehiculePupupComponent({
   return (
     <>
       {showConfirmAddVehiculePupup && (
-        <div className="fixed z-10 flex justify-center items-center inset-0 bg-black/50">
+        <div className="fixed  z-10 flex justify-center items-center inset-0 bg-black/50">
           <form
             onSubmit={handlePasswordCheck}
-            className="bg-white max-w-[25rem] p-6 rounded-xl w-[80vw]"
+            className="bg-white dark:bg-gray-700 dark:shadow-gray-600-- dark:shadow-lg dark:border dark:border-gray-600 max-w-[25rem] p-6 rounded-xl w-[80vw]"
           >
             <div>
               <label
                 htmlFor="password"
-                className="block text-lg text-center leading-6 text-gray-500 mb-3"
+                className="block text-lg text-center dark:text-gray-100 leading-6 text-gray-500 mb-3"
               >
                 Veuillez entrer votre mot de passe
               </label>
@@ -33,7 +33,7 @@ function ShowConfirmAddVehiculePupupComponent({
                   required
                   value={inputPassword}
                   onChange={(e) => setInputPassword(e.target.value)}
-                  className=" px-3 w-full rounded-md  py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 border border-gray-400  sm:text-sm sm:leading-6"
+                  className=" px-3 w-full dark:text-white rounded-md dark:bg-gray-800 py-1.5 text-gray-900 shadow-sm  placeholder:text-gray-400 border border-gray-400  sm:text-sm sm:leading-6"
                 />
               </div>
               {errorMessage && (

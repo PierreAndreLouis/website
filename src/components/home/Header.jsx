@@ -173,12 +173,12 @@ function Header() {
             }}
             className="text-2xl cursor-pointer text-gray-500 dark:text-gray-200"
           />
-          {/* <button
+          <button
             className="text-gray-500 dark:text-gray-200"
             onClick={() => dispatch(toggleTheme())} // Permet de basculer entre les thèmes
           >
             {theme === "light" ? <FaSun /> : <FaMoon />}
-          </button> */}
+          </button>
           <Link
             className="hidden lg:block"
             onClick={() => handleTabClick("profile")}

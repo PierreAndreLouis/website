@@ -51,88 +51,100 @@ function App() {
   );
 
   return (
-    <div className="dark:bg-slate-800 dark:border dark:border-slate-800">
-      {/* Pupup qui Permet a l'utilisateur de refraich la page quand il y a mise a jour */}
-      <div className="z-50 ">{/* <ReloadPrompt /> */}</div>
+    <div className="dark:bg-gray-700">
+      <div className="dark:bg-slate-800/70 dark:border dark:border-slate-800">
+        {/* Pupup qui Permet a l'utilisateur de refraich la page quand il y a mise a jour */}
+        <div className="z-50 ">{/* <ReloadPrompt /> */}</div>
 
-      {/* Composant pour faire défiler vers le haut */}
-      <ScrollToTop />
+        {/* Composant pour faire défiler vers le haut */}
+        <ScrollToTop />
 
-      {/* Ces composant vont pouvoir apparaitre dans tous les page, sauf dans /login */}
-      <div className="absolute z-[100000000000000000000000000]">
-        {!shouldHideComponent && <Header />}
-        {!shouldHideComponent && <Navigation_bar />}
-        {!shouldHideComponent && <SideBar />}
-      </div>
+        {/* Ces composant vont pouvoir apparaitre dans tous les page, sauf dans /login */}
+        <div className="absolute z-[100000000000000000000000000]">
+          {!shouldHideComponent && <Header />}
+          {!shouldHideComponent && <Navigation_bar />}
+          {!shouldHideComponent && <SideBar />}
+        </div>
 
-      {/* <Route path="/login" element={<Login2 />} /> */}
-      {/* <div> */}
+        {/* <Route path="/login" element={<Login2 />} /> */}
+        {/* <div> */}
         {/* To be Delete */}
         {/* <Header /> */}
         {/* <HomePage /> */}
         {/* <AjouterPage />
         <Navigation_bar /> */}
-      {/* </div> */}
+        {/* </div> */}
 
-      <Routes>
-        <Route
-          path="/"
-          element={
-            isAuthenticated ? <Navigate to="/home" /> : <Navigate to="/login" />
-          }
-        />
-        <Route path="/login" element={<Login2 />} />
-        <Route path="/home" element={<PrivateRoute element={<HomePage />} />} />
-        <Route
-          path="/ajouter_vehicule"
-          element={<PrivateRoute element={<AjouterPage />} />}
-        />
-        <Route
-          path="/modifier_vehicule"
-          element={<PrivateRoute element={<ModifierPage />} />}
-        />
-        {/* <Route
+        <Routes>
+          <Route
+            path="/"
+            element={
+              isAuthenticated ? (
+                <Navigate to="/home" />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route path="/login" element={<Login2 />} />
+          <Route
+            path="/home"
+            element={<PrivateRoute element={<HomePage />} />}
+          />
+          <Route
+            path="/ajouter_vehicule"
+            element={<PrivateRoute element={<AjouterPage />} />}
+          />
+          <Route
+            path="/modifier_vehicule"
+            element={<PrivateRoute element={<ModifierPage />} />}
+          />
+          {/* <Route
           path="/historique"
           element={<PrivateRoute element={<Historique_voiture />} />}
         /> */}
-        <Route
-          path="/paiement"
-          element={<PrivateRoute element={<Paiement_methode />} />}
-        />
-        {/* <Route
+          <Route
+            path="/paiement"
+            element={<PrivateRoute element={<Paiement_methode />} />}
+          />
+          {/* <Route
           path="/Single_Vehicule_Location"
           element={<PrivateRoute element={<Vehicule_location />} />}
         /> */}
-        <Route
-          path="/Groupe_vehicule_location"
-          element={<PrivateRoute element={<LocationPage />} />}
-        />
-        <Route
-          path="/voiture_details"
-          element={<PrivateRoute element={<DetailsVehiculePage />} />}
-        />
-        <Route
-          path="/voiture_historique"
-          element={<PrivateRoute element={<HistoriquePage />} />}
-        />
-        <Route
-          path="/delete_vehicule"
-          element={<PrivateRoute element={<Delete_vehicule />} />}
-        />
-        <Route
-          path="/User_Profile"
-          element={<PrivateRoute element={<ProfilUserPage />} />}
-        />
+          <Route
+            path="/Groupe_vehicule_location"
+            element={<PrivateRoute element={<LocationPage />} />}
+          />
+          <Route
+            path="/voiture_details"
+            element={<PrivateRoute element={<DetailsVehiculePage />} />}
+          />
+          <Route
+            path="/voiture_historique"
+            element={<PrivateRoute element={<HistoriquePage />} />}
+          />
+          <Route
+            path="/delete_vehicule"
+            element={<PrivateRoute element={<Delete_vehicule />} />}
+          />
+          <Route
+            path="/User_Profile"
+            element={<PrivateRoute element={<ProfilUserPage />} />}
+          />
 
-        <Route
-          path="/rapport_vehicule"
-          element={<PrivateRoute element={<RapportPage />} />}
-        />
+          <Route
+            path="/rapport_vehicule"
+            element={<PrivateRoute element={<RapportPage />} />}
+          />
 
-        <Route path="/Change_Password" element={<ProtectedChangePassword />} />
+          <Route
+            path="/Change_Password"
+            element={<ProtectedChangePassword />}
+          />
 
-        <Route path="*" element={<Page_404 />} />
-      </Routes>
+          <Route path="*" element={<Page_404 />} />
+        </Routes>
+      </div>
     </div>
   );
 }

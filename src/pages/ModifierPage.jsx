@@ -180,7 +180,7 @@ function Modifier() {
   );
 
   return (
-    <div>
+    <div className="px-3">
       {/* Loading */}
       {crud_loading && (
         <div className="fixed z-30 inset-0 bg-gray-200/50">
@@ -237,10 +237,10 @@ function Modifier() {
 
       <div className="flex w-full justify-center h-full mt-16 pb-2 md:mt-20">
         <div className="w-full flex justify-center">
-          <div className="bg-white max-w-[40rem] md:px-6 mb-20 w-full mt-4 rounded-xl shadow-lg overflow-auto">
+          <div className="bg-white dark:bg-gray-900/30 max-w-[40rem] md:px-6 mb-20 w-full mt-4 rounded-xl shadow-lg overflow-auto">
             <div className="flex justify-center mb-6 items-center w-full py-6 pb-8">
               {/* <CiEdit className="text-2xl mr-2 text-orange-500" /> */}
-              <h3 className="text-center font-semibold text-gray-600 text-xl">
+              <h3 className="text-center font-semibold text-gray-600 dark:text-gray-300 text-xl">
                 Modifier / Supprimer un Appareil
               </h3>
             </div>
@@ -250,13 +250,13 @@ function Modifier() {
               onClick={() => {
                 setShowVehiculeListe(true);
               }}
-              className="relative  mx-4 mb-6"
+              className="relative  mx-4 mb-12"
             >
               <div
-                className="flex justify-between  cursor-pointer border rounded-md
-                 px-3 py-2 bg-orange-50 text-center"
+                className="flex justify-between   cursor-pointer border rounded-md
+                 px-3 py-2 bg-orange-50 dark:bg-gray-900/50 dark:border-gray-500  dark:text-gray-300 text-center"
               >
-                <p className="text-start">
+                <p className="text-start w-[90%] overflow-hidden whitespace-nowrap text-ellipsis">
                   {currentVehicule?.description || "Choisir un vehicule"}
                 </p>
                 <FaChevronDown className="mt-1" />

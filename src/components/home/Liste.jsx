@@ -100,7 +100,7 @@ function Liste() {
         <p>Chargement des données...</p>
       ) : filteredData.length > 0 ? (
         filteredData.map((vehicle, index) => {
-          // const speed = 190;
+          // const speed = 0;
           const speed = vehicle.vehiculeDetails?.[0]?.speedKPH || 0;
 
           let main_text_color,
@@ -114,7 +114,7 @@ function Liste() {
             main_text_color = "text-red-900 dark:text-red-300";
             statut = "En arrêt";
             lite_bg_color =
-              "bg-red-100/40 dark:bg-red-300/10 shadow-xl shadow-gray-950/20";
+              "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-xl shadow-gray-950/20";
             activeTextColor = "text-red-900 dark:text-red-200";
             active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
             vitess_img = "img/cars/orange_vitess.png";
@@ -123,7 +123,7 @@ function Liste() {
             main_text_color = "text-[#555b03] dark:text-yellow-300";
             statut = "En ralenti";
             lite_bg_color =
-              "bg-[#ffff001b] dark:bg-yellow-300/10 shadow-xl shadow-gray-950/20";
+              "bg-[#ffff001b] dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-yellow-400/80  shadow-xl shadow-gray-950/20";
             activeTextColor = "text-[#555b03] dark:text-yellow-100";
             active_bg_color = "bg-yellow-400/20 dark:bg-yellow-600/20";
             vitess_img = "img/cars/yellow_vitess.png";
@@ -132,7 +132,7 @@ function Liste() {
             main_text_color = "text-green-700 dark:text-green-400";
             statut = "En marche";
             lite_bg_color =
-              "bg-green-100/50 dark:bg-green-300/10 shadow-xl shadow-gray-950/20";
+              "bg-green-100/50 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-green-600/80  shadow-xl shadow-gray-950/20";
             activeTextColor = "text-green-800 dark:text-green-200";
             active_bg_color = "bg-green-300/50 dark:bg-green-500/50";
             vitess_img = "img/cars/green_vitess.png";
@@ -175,19 +175,26 @@ function Liste() {
                       <div className="flex gap-3 items-center">
                         <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
                         <h3 className="text-sm sm:text-sm md:text-md">
-                          {formatTimestampToDate(
-                            vehicle.vehiculeDetails?.[0]?.timestamp
-                          )}
+                          {vehicle.vehiculeDetails?.[0]?.timestamp
+                            ? formatTimestampToDate(
+                                vehicle.vehiculeDetails?.[0]?.timestamp
+                              )
+                            : "Pas de date disponible"}
                         </h3>
                       </div>
-                      <div className="flex items-center gap-1">
-                        <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl" />
-                        <h3 className="text-sm sm:text-sm md:text-md">
-                          {formatTimestampToTime(
-                            vehicle.vehiculeDetails?.[0]?.timestamp || 0
-                          )}
-                        </h3>
-                      </div>
+
+                      {vehicle.vehiculeDetails?.[0]?.timestamp ? (
+                        <div className="flex items-center gap-1">
+                          <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl" />
+                          <h3 className="text-sm sm:text-sm md:text-md">
+                            {formatTimestampToTime(
+                              vehicle.vehiculeDetails?.[0]?.timestamp
+                            )}
+                          </h3>
+                        </div>
+                      ) : (
+                        <div></div>
+                      )}
                     </div>
 
                     <div className="flex gap-2">
@@ -215,7 +222,6 @@ function Liste() {
                 </div>
               </div>
             </div>
-     
           );
         })
       ) : (

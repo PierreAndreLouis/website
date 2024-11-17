@@ -156,7 +156,7 @@ function AjouterPage() {
 
       <div className="flex w-full justify-center h-full mt-10 md:mt-20 ">
         <div className="w-full flex justify-center">
-          <div className="bg-white  dark:bg-gray-800 max-w-[40rem] rounded-xl w-full md:px-6 mt-6 mb-20 border-- shadow-lg overflow-auto">
+          <div className="bg-white  dark:bg-gray-900/30 max-w-[40rem] rounded-xl w-full md:px-6 mt-6 mb-20 border-- shadow-lg overflow-auto">
             <div className="flex justify-center items-center w-full mb-10 pt-10 ">
               <FaCar className="text-2xl mr-2 text-orange-500" />
               <h3 className="text-center font-semibold text-gray-600 dark:text-gray-100 text-xl">

@@ -59,9 +59,9 @@ const Home = () => {
 
       {/* Message quand il n y a pas d'internet */}
       {isOffline && (
-        <div className="shadow-md flex gap-2 justify-center md:gap-6 rounded-lg mx-5 p-3 text-center bg-red-100">
-          <RiWifiOffLine className="translate-y-0 text-red-700 text-4xl" />
-          <h3 className="text-red-700">
+        <div className="shadow-md dark:bg-red-900/40 dark:shadow-gray-900  flex gap-2 justify-center md:gap-6 rounded-lg mx-5 p-3 text-center bg-red-100">
+          <RiWifiOffLine className="translate-y-0 text-red-700 dark:text-gray-200 text-4xl" />
+          <h3 className="text-red-700 dark:text-red-100">
             Vous êtes hors ligne. Veuillez vérifier votre connexion internet.
           </h3>
         </div>
