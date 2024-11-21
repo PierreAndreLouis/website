@@ -29,8 +29,8 @@ function TimeZone({ setChangeTimeZone }) {
 
   return (
     <div className="fixed inset-0 z-40 flex justify-center items-center bg-black/50 dark:bg-black/70">
-      <div className="w-[90vw] relative rounded-lg p-4 max-w-[40rem] max-h-[79vh] bg-white dark:bg-gray-800 min-h-[60vh]">
-        <div className="p-4 absolute top-0 left-0 right-0">
+      <div className="w-[95vw] relative rounded-lg p-4 px-2 max-w-[40rem] max-h-[79vh] bg-white dark:bg-gray-800 min-h-[60vh]">
+        <div className="p-4 px-3 md:px-4 absolute top-0 left-0 right-0">
           <div className="flex gap-3 items-center">
             <h2 className="md:min-w-24 font-semibold text-gray-500 dark:text-gray-300">
               TimeZone
@@ -81,7 +81,7 @@ function TimeZone({ setChangeTimeZone }) {
             </div>
           </div>
         </div>
-        <div className="shadow-lg overflow-y-auto overflow-x-hidden max-h-[55vh] mt-[7rem] rounded-lg min-h-[100%] px-2">
+        <div className="shadow-lg-- overflow-y-auto overflow-x-hidden max-h-[55vh] mt-[7.3rem] rounded-lg min-h-[100%] px-0">
           {filteredData.map((item, index) => (
             <div
               key={index}
