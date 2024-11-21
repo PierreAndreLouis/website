@@ -24,7 +24,7 @@ function VehiculeNotActifComponent({
           }}
           className="flex gap-4 dark:text-gray-200 dark:bg-gray-900/50 dark:shadow-lg dark:shadow-gray-700 justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
         >
-          <h2>Vehicules inactifs :</h2>
+          <h2 className="text-lg">Vehicules inactifs :</h2>
           <FaChevronDown
             className={`${
               showInactiveVehicule ? "rotate-180" : "rotate-0"

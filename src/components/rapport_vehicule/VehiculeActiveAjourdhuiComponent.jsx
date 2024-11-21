@@ -13,7 +13,36 @@ function VehiculeActiveAjourdhuiComponent({
   formatTimestampToDate,
   formatTimestampToTime,
   handleClick,
+  selectUTC,
 }) {
+  function convertToTimezone(timestamp, offset) {
+    const date = new Date(timestamp * 1000); // Convertir le timestamp en millisecondes
+    const [sign, hours, minutes] = offset
+      .match(/([+-])(\d{2}):(\d{2})/)
+      .slice(1);
+    const totalOffsetMinutes =
+      (parseInt(hours) * 60 + parseInt(minutes)) * (sign === "+" ? 1 : -1);
+
+    date.setMinutes(date.getMinutes() + totalOffsetMinutes); // Appliquer le décalage
+    return date;
+  }
+
+  function formatTimestampToDateWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  function formatTimestampToTimeWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
   return (
     <div>
       <div className="transition-all">
@@ -23,7 +52,7 @@ function VehiculeActiveAjourdhuiComponent({
           }}
           className="flex gap-4 dark:text-gray-200 dark:bg-gray-900/50 dark:shadow-lg dark:shadow-gray-700 justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
         >
-          <h2>Vehicules en mouvement aujourd'hui:</h2>
+          <h2 className="text-lg">En mouvement aujourd'hui:</h2>
           <FaChevronDown
             className={`${
               showActiveVehicule ? "rotate-180" : "rotate-0"
@@ -77,17 +106,35 @@ function VehiculeActiveAjourdhuiComponent({
                           <div className="flex gap-3 items-center dark:text-gray-300">
                             <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
                             <h3 className="text-sm sm:text-sm md:text-md">
-                              {formatTimestampToDate(
+                              {/* {formatTimestampToDate(
                                 vehicule?.vehiculeDetails[0]?.timestamp
-                              )}
+                              )} */}
+                              {vehicule.vehiculeDetails?.[0]?.timestamp
+                                ? selectUTC
+                                  ? formatTimestampToDateWithTimezone(
+                                      vehicule.vehiculeDetails[0].timestamp,
+                                      selectUTC
+                                    )
+                                  : formatTimestampToDate(
+                                      vehicule.vehiculeDetails?.[0]?.timestamp
+                                    )
+                                : "Pas de date disponible"}
                             </h3>
                           </div>
                           <div className="flex items-center gap-1 dark:text-gray-300">
                             <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl" />
                             <h3 className="text-sm sm:text-sm md:text-md">
-                              {formatTimestampToTime(
+                              {/* {formatTimestampToTime(
                                 vehicule.vehiculeDetails?.[0]?.timestamp || 0
-                              )}
+                              )} */}
+                              {selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    vehicule.vehiculeDetails[0].timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(
+                                    vehicule.vehiculeDetails?.[0]?.timestamp
+                                  )}
                             </h3>
                           </div>
                         </div>

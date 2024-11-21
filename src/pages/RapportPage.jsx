@@ -51,6 +51,7 @@ function RapportPage() {
     searchdonneeFusionneeForRapport,
     fetSearchRapportchVehicleDetails,
     setSearchdonneeFusionneeForRapport,
+    selectUTC
     // setShowListOption,
     // showListeOption,
   } = useContext(DataContext);
@@ -283,6 +284,8 @@ function RapportPage() {
                 formatTimestampToDate={formatTimestampToDate}
                 formatTimestampToTime={formatTimestampToTime}
                 handleClick={handleClick}
+                selectUTC={selectUTC}
+
               />
 
               {/* ----------------------------------- */}
@@ -295,6 +298,8 @@ function RapportPage() {
                 formatTimestampToDate={formatTimestampToDate}
                 formatTimestampToTime={formatTimestampToTime}
                 handleClick={handleClick}
+                selectUTC={selectUTC}
+
               />
 
               {/* ----------------------------------- */}
@@ -307,6 +312,7 @@ function RapportPage() {
                 formatTimestampToDate={formatTimestampToDate}
                 formatTimestampToTime={formatTimestampToTime}
                 handleClick={handleClick}
+                selectUTC={selectUTC}
               />
 
               {/* ----------------------------------- */}

@@ -41,7 +41,14 @@ const LocationPage = () => {
   const [typeDeVue, setTypeDeVue] = useState(false);
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
-  const vehicleData = dataFusionee.map((vehicule) => ({
+  // const vehiculeActive = dataFusionee.filter((vehicule) =>  !vehicule.vehiculeDetails || vehicule.vehiculeDetails.length === 0 )
+
+  const vehiculeActive = dataFusionee.filter(
+    (vehicule) =>
+      vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
+  );
+
+  const vehicleData = vehiculeActive.map((vehicule) => ({
     deviceID: vehicule.deviceID || "",
     description: vehicule.description || "Véhicule",
     lastValidLatitude: vehicule.vehiculeDetails?.[0]?.latitude || "",
@@ -148,7 +155,10 @@ const LocationPage = () => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredVehicles = dataFusionee?.filter((vehicule) =>
+  // const vehiculeActive = dataFusionee.filter((vehicule) =>  vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0 )
+  // const vehiculeActive = dataFusionee.filter((vehicule) =>  !vehicule.vehiculeDetails || vehicule.vehiculeDetails.length === 0 )
+
+  const filteredVehicles = vehiculeActive?.filter((vehicule) =>
     vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 

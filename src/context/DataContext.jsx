@@ -1,6 +1,7 @@
 // DataContextProvider.js
 import React, { createContext, useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import moment from "moment-timezone";
 
 export const DataContext = createContext();
 
@@ -72,6 +73,49 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   //   []
   // );
   // Initialisation des états depuis localStorage
+  const [timeZoneData, setTimeZoneData] = useState([]);
+  const [timeZonesearchQuery, settimeZoneSearchQuery] = useState(""); // État pour la recherche
+  const [selectedTimeZone, setSelectedTimeZone] = useState(() => {
+    return localStorage.getItem("selectedTimeZone") || "";
+  });
+  const [selectUTC, setselectUTC] = useState(() => {
+    return localStorage.getItem("selectUTC") || "";
+  });
+  // const [selectUTC, setselectUTC] = useState("");
+  const [selectTime, setselectTime] = useState(() => {
+    return localStorage.getItem("selectTime") || "";
+  });
+
+  // Charger les fuseaux horaires
+  useEffect(() => {
+    const zones = moment.tz.names().map((zone) => {
+      const currentTime = moment().tz(zone).format("HH:mm");
+      const utcOffset = moment().tz(zone).format("Z");
+      return { region: zone, currentTime, utcOffset };
+    });
+    setTimeZoneData(zones);
+  }, []);
+
+  const handleSelectTimeZone = (item) => {
+    setSelectedTimeZone(item.region);
+    setselectUTC(item.utcOffset);
+    setselectTime(item.currentTime);
+    localStorage.setItem("selectedTimeZone", item.region);
+    localStorage.setItem("selectUTC", item.utcOffset);
+    localStorage.setItem("selectTime", item.currentTime);
+  };
+
+  useEffect(() => {
+    if (selectedTimeZone) {
+      localStorage.setItem("selectedTimeZone", selectedTimeZone);
+    }
+    if (selectUTC) {
+      localStorage.setItem("selectUTC", selectUTC);
+    }
+    if (selectTime) {
+      localStorage.setItem("selectTime", selectTime);
+    }
+  }, [selectedTimeZone, selectUTC, selectTime]);
 
   const [donneeFusionneeForRapport, setdonneeFusionneeForRapport] = useState(
     () => {
@@ -109,12 +153,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     return storedVehiculeNotActif ? JSON.parse(storedVehiculeNotActif) : [];
   });
   const [vehiculeActiveMaintenant, setVehiculeActiveMaintenant] = useState([]);
-
-
-
-
-
-
 
   const handleLogin = async (account, user, password) => {
     // e.preventDefault();
@@ -474,16 +512,11 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     }
   };
 
-
-  
   useEffect(() => {
     if (rapportvehicleDetails.length > 0 && vehicleData?.length > 0) {
       rapportfusionnerDonnees();
     }
   }, [rapportvehicleDetails, vehicleData]);
-
-
-
 
   const fetchHistoriqueVehicleDetails = async (Device, TimeFrom, TimeTo) => {
     // console.log("Start fetching.........");
@@ -1009,7 +1042,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         ...filteredVehicleDetails,
       ]);
 
-
       console.log("end fetching.................");
       console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.");
       console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.");
@@ -1050,7 +1082,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     // 1. Met à jour l'état avec toutes les données fusionnées
     setSearchdonneeFusionneeForRapport(dataFusionnee);
     setRapportDataLoading(false);
-    
+
     // 2. Met à jour le chargement uniquement lorsque toutes les données sont traitées
     if (allVehiclesProcessed) {
       console.log("Tous les véhicules ont leurs détails!");
@@ -1061,8 +1093,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
     return dataFusionnee;
   };
-
-
 
   useEffect(() => {
     console.log(
@@ -1094,7 +1124,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     // 1. Met à jour l'état avec toutes les données fusionnées
     setdonneeFusionneeForRapport(dataFusionnee);
     setRapportDataLoading(false);
-
 
     return dataFusionnee;
   };
@@ -1147,7 +1176,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
   const liste1 = [];
 
-
   let currentdataFusionnee =
     searchdonneeFusionneeForRapport.length > 0
       ? searchdonneeFusionneeForRapport
@@ -1166,9 +1194,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         vehicle.vehiculeDetails.length > 0 && // Exclure les véhicules sans détails
         vehicle.vehiculeDetails.every((detail) => detail.speedKPH < 1)
     );
-    
+
     setVehiculeNotActiveAjourdhui(vehiculeNotActiveAjourdhui);
-    
 
     // 4. Met à jour l'état avec tous les véhicules dont `vehiculeDetails[0].speedKPH >= 1`
     const vehiculeActiveMaintenant = currentdataFusionnee.filter(
@@ -1183,12 +1210,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       const diffHeures = (now - lastUpdate) / (1000 * 60 * 60);
       return vehicle.vehiculeDetails.length <= 0 || diffHeures > 24;
     });
-    
+
     setVehiculeNotActif(vehiculeNotActif);
-
-
-
-
   }, [
     currentdataFusionnee,
     searchdonneeFusionneeForRapport,
@@ -1378,7 +1401,19 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         setVehiclueHistoriqueDetails,
         fetSearchRapportchVehicleDetails,
         searchdonneeFusionneeForRapport,
-        setSearchdonneeFusionneeForRapport
+        setSearchdonneeFusionneeForRapport,
+
+        timeZoneData,
+        setTimeZoneData,
+        timeZonesearchQuery,
+        settimeZoneSearchQuery,
+        selectedTimeZone,
+        setSelectedTimeZone,
+        selectUTC,
+        setselectUTC,
+        selectTime,
+        setselectTime,
+        handleSelectTimeZone,
       }}
     >
       {children}

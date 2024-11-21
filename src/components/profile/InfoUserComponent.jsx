@@ -7,6 +7,8 @@ function InfoUserComponent({
   userData,
   setShowChangePasswordPupup,
   setLogOut,
+  selectUTC,
+  setChangeTimeZone,
 }) {
   return (
     <div>
@@ -27,7 +29,9 @@ function InfoUserComponent({
           <h3 className="font-bold text-gray-600 dark:text-gray-100 min-w-[11.8rem] lg:min-w-[16rem]">
             Compte :
           </h3>
-          <p className="pl-3 text-gray-500 dark:text-gray-300">{account || "-----"}</p>
+          <p className="pl-3 text-gray-500 dark:text-gray-300">
+            {account || "-----"}
+          </p>
         </div>
 
         {/* Nom d'utilisateur */}
@@ -35,7 +39,9 @@ function InfoUserComponent({
           <h3 className="font-bold text-gray-600 dark:text-gray-100 min-w-[11.8rem] lg:min-w-[16rem]">
             Nom d'utilisateur :
           </h3>
-          <p className="pl-3 text-gray-500 dark:text-gray-300">{username || "-----"}</p>
+          <p className="pl-3 text-gray-500 dark:text-gray-300">
+            {username || "-----"}
+          </p>
         </div>
 
         {/* Mot de passe */}
@@ -51,9 +57,20 @@ function InfoUserComponent({
           <h3 className="font-bold text-gray-600 dark:text-gray-100 min-w-[11.8rem] lg:min-w-[16rem]">
             Fuseau horaire :
           </h3>
-          <p className="pl-3 text-gray-500 dark:text-gray-300">
-            {userData?.timeZone || "-----"}
-          </p>
+          <div className="flex justify-between items-center w-full">
+            <p className="pl-3 text-gray-500 dark:text-gray-300">
+              {/* {userData?.timeZone || "-----"} */}
+              {selectUTC ? selectUTC : userData?.timeZone || "-----"}
+            </p>
+            <p
+              onClick={() => {
+                setChangeTimeZone(true);
+              }}
+              className="pl-3 text-orange-500 cursor-pointer dark:text-orange-500"
+            >
+              Modifier
+            </p>
+          </div>
         </div>
 
         {/* Adresse */}

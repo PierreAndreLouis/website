@@ -67,7 +67,7 @@ function Header() {
 
   return (
     // En-tête fixe avec barre de recherche conditionnelle et navigation utilisateur
-    <div className="fixed md:shadow-md md:py-1 md:px-20 z-50 bg-white dark:bg-gray-800 top-0 left-0 right-0 pb-2">
+    <div className="fixed   md:shadow-md md:py-1 md:px-20 z-50 bg-white dark:bg-gray-800 top-0 left-0 right-0 pb-2">
       {logOut && <Logout setLogOut={setLogOut} />}{" "}
       {/* Affiche le composant de déconnexion si logOut est vrai */}
       {searchVehicule && (
@@ -85,7 +85,7 @@ function Header() {
                 onClick={() => {
                   navigate("/home?tab=acceuil"); // Redirige vers la page d'accueil lors de la recherche
                 }}
-                className="text-2xl text-gray-500 dark:text-gray-200 cursor-pointer"
+                className="text-3xl text-gray-500 dark:text-gray-200 cursor-pointer"
               />
               <IoMdClose
                 onClick={() => {
@@ -99,7 +99,7 @@ function Header() {
           </div>
         </form>
       )}
-      <div className="flex justify-between px-4 py-1 items-center dark:text-white">
+      <div className="flex pt-2  justify-between px-4 py-1 items-center dark:text-white">
         <div className="flex items-center gap-4">
           <Link
             onClick={() => handleTabClick("acceuil")} // Définit l'onglet courant sur "acceuil"
@@ -177,7 +177,7 @@ function Header() {
             className="text-gray-500 dark:text-gray-200"
             onClick={() => dispatch(toggleTheme())} // Permet de basculer entre les thèmes
           >
-            {theme === "light" ? <FaSun /> : <FaMoon />}
+            {theme === "light" ? <FaSun className="text-lg"/> : <FaMoon className="text-lg"/>}
           </button>
           <Link
             className="hidden lg:block"

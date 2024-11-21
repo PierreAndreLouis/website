@@ -32,8 +32,6 @@ function Liste() {
     updateCurrentVehicule,
     searchQuery,
     donneeFusionneeForRapport,
-    selectUTC,
-    userData,
   } = useContext(DataContext);
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
@@ -94,34 +92,6 @@ function Liste() {
     const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
     const year = date.getUTCFullYear();
     return `${day}-${month}-${year}`;
-  }
-
-  function convertToTimezone(timestamp, offset) {
-    const date = new Date(timestamp * 1000); // Convertir le timestamp en millisecondes
-    const [sign, hours, minutes] = offset
-      .match(/([+-])(\d{2}):(\d{2})/)
-      .slice(1);
-    const totalOffsetMinutes =
-      (parseInt(hours) * 60 + parseInt(minutes)) * (sign === "+" ? 1 : -1);
-
-    date.setMinutes(date.getMinutes() + totalOffsetMinutes); // Appliquer le décalage
-    return date;
-  }
-
-  function formatTimestampToDateWithTimezone(timestamp, offset) {
-    const date = convertToTimezone(timestamp, offset);
-    const day = date.getDate().toString().padStart(2, "0");
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
-  }
-
-  function formatTimestampToTimeWithTimezone(timestamp, offset) {
-    const date = convertToTimezone(timestamp, offset);
-    const hours = date.getHours().toString().padStart(2, "0");
-    const minutes = date.getMinutes().toString().padStart(2, "0");
-    const seconds = date.getSeconds().toString().padStart(2, "0");
-    return `${hours}:${minutes}:${seconds}`;
   }
 
   return (
@@ -206,14 +176,9 @@ function Liste() {
                         <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
                         <h3 className="text-sm sm:text-sm md:text-md">
                           {vehicle.vehiculeDetails?.[0]?.timestamp
-                            ? selectUTC
-                              ? formatTimestampToDateWithTimezone(
-                                  vehicle.vehiculeDetails[0].timestamp,
-                                  selectUTC
-                                )
-                              : formatTimestampToDate(
-                                  vehicle.vehiculeDetails?.[0]?.timestamp
-                                )
+                            ? formatTimestampToDate(
+                                vehicle.vehiculeDetails?.[0]?.timestamp
+                              )
                             : "Pas de date disponible"}
                         </h3>
                       </div>
@@ -222,14 +187,9 @@ function Liste() {
                         <div className="flex items-center gap-1">
                           <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl" />
                           <h3 className="text-sm sm:text-sm md:text-md">
-                            {selectUTC
-                              ? formatTimestampToTimeWithTimezone(
-                                  vehicle.vehiculeDetails[0].timestamp,
-                                  selectUTC
-                                )
-                              : formatTimestampToTime(
-                                  vehicle.vehiculeDetails?.[0]?.timestamp
-                                )}
+                            {formatTimestampToTime(
+                              vehicle.vehiculeDetails?.[0]?.timestamp
+                            )}
                           </h3>
                         </div>
                       ) : (

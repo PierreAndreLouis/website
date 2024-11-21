@@ -69,6 +69,7 @@ function HistoriquePage() {
     setShowHistoriqueInMap,
     donneeFusionneeForRapport,
     setVehiclueHistoriqueDetails,
+    selectUTC,
   } = useContext(DataContext);
 
   const [checkboxes, setCheckboxes] = useState({
@@ -152,6 +153,7 @@ function HistoriquePage() {
   };
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
+
   const [showVehiculeListe, setShowVehiculeListe] = useState(false);
 
   // Fonctions pour formater le temps et la date
@@ -219,7 +221,12 @@ function HistoriquePage() {
     setSearchQuery(e.target.value);
   };
 
-  const filteredVehiclesPupup = dataFusionee?.filter((vehicule) =>
+  const vehiculeActive = dataFusionee.filter(
+    (vehicule) =>
+      vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
+  );
+
+  const filteredVehiclesPupup = vehiculeActive?.filter((vehicule) =>
     vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -318,6 +325,7 @@ function HistoriquePage() {
             setShowListOption={setShowListOption}
             formatTimestampToDate={formatTimestampToDate}
             formatTimestampToTime={formatTimestampToTime}
+            selectUTC={selectUTC}
           />
         </div>
       ) : (

@@ -8,6 +8,7 @@ import Logout from "../components/login/Logout";
 import { DataContext } from "../context/DataContext";
 import ConfirmPasswordComponent from "../components/profile/ConfirmPasswordComponent";
 import InfoUserComponent from "../components/profile/InfoUserComponent";
+import TimeZone from "../components/profile/TimeZone";
 
 function ProfilUserPage() {
   const {
@@ -19,11 +20,13 @@ function ProfilUserPage() {
     setIsPasswordConfirmed,
     showChangePasswordPupup,
     setShowChangePasswordPupup,
+    selectUTC
   } = useContext(DataContext);
   const [logOut, setLogOut] = useState(false);
   const [inputPassword, setInputPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const [changeTimeZone, setChangeTimeZone] = useState(false);
 
   // Redirection si le mot de passe est "password"
   useEffect(() => {
@@ -44,8 +47,6 @@ function ProfilUserPage() {
       setErrorMessage("Mot de passe incorrect. Veuillez réessayer.");
     }
   };
-
-
 
   console.log(currentVehicule?.description || "no data");
 
@@ -70,8 +71,11 @@ function ProfilUserPage() {
         userData={userData}
         setShowChangePasswordPupup={setShowChangePasswordPupup}
         setLogOut={setLogOut}
+        selectUTC={selectUTC}
+        setChangeTimeZone={setChangeTimeZone}
       />
 
+      {changeTimeZone && <TimeZone setChangeTimeZone={setChangeTimeZone} />}
     </div>
   );
 }

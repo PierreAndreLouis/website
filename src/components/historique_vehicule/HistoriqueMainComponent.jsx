@@ -12,9 +12,36 @@ function HistoriqueMainComponent({
   appliedCheckboxes,
   setShowListOption,
   formatTimestampToDate,
-  formatTimestampToTime
-  
+  formatTimestampToTime,
+  selectUTC,
 }) {
+  function convertToTimezone(timestamp, offset) {
+    const date = new Date(timestamp * 1000); // Convertir le timestamp en millisecondes
+    const [sign, hours, minutes] = offset
+      .match(/([+-])(\d{2}):(\d{2})/)
+      .slice(1);
+    const totalOffsetMinutes =
+      (parseInt(hours) * 60 + parseInt(minutes)) * (sign === "+" ? 1 : -1);
+
+    date.setMinutes(date.getMinutes() + totalOffsetMinutes); // Appliquer le décalage
+    return date;
+  }
+
+  function formatTimestampToDateWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  function formatTimestampToTimeWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
   return (
     <>
       <div>
@@ -53,34 +80,34 @@ function HistoriqueMainComponent({
                     activeTextColor,
                     statut,
                     vitess_img;
-                    if (speed < 1) {
-                      main_text_color = "text-red-900 dark:text-red-300";
-                      statut = "En arrêt";
-                      lite_bg_color =
-                        "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-red-700/10 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-xl shadow-gray-950/20";
-                      activeTextColor = "text-red-900 dark:text-red-200";
-                      active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
-                      vitess_img = "img/cars/orange_vitess.png";
-                      imgClass = "w-14 sm:w-16 md:w-24";
-                    } else if (speed >= 1 && speed <= 20) {
-                      main_text_color = "text-[#555b03] dark:text-yellow-300";
-                      statut = "En ralenti";
-                      lite_bg_color =
-                        "bg-[#ffff001b] dark:bg-gray-900/40 dark:shadow-yellow-300/10 dark:shadow-lg dark:border-l-[.5rem] dark:border-yellow-400/80  shadow-xl shadow-gray-950/20";
-                      activeTextColor = "text-[#555b03] dark:text-yellow-100";
-                      active_bg_color = "bg-yellow-400/20 dark:bg-yellow-600/20";
-                      vitess_img = "img/cars/yellow_vitess.png";
-                      imgClass = "w-12 sm:w-14 md:w-20";
-                    } else {
-                      main_text_color = "text-green-700 dark:text-green-400";
-                      statut = "En marche";
-                      lite_bg_color =
-                        "bg-green-100/50 dark:bg-gray-900/40 dark:shadow-green-700/10 dark:shadow-lg dark:border-l-[.5rem] dark:border-green-600/80  shadow-xl shadow-gray-950/20";
-                      activeTextColor = "text-green-800 dark:text-green-200";
-                      active_bg_color = "bg-green-300/50 dark:bg-green-500/50";
-                      vitess_img = "img/cars/green_vitess.png";
-                      imgClass = "w-12 sm:w-14 md:w-20";
-                    }
+                  if (speed < 1) {
+                    main_text_color = "text-red-900 dark:text-red-300";
+                    statut = "En arrêt";
+                    lite_bg_color =
+                      "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-red-700/10 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-lg shadow-gray-950/20";
+                    activeTextColor = "text-red-900 dark:text-red-200";
+                    active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
+                    vitess_img = "img/cars/orange_vitess.png";
+                    imgClass = "w-14 sm:w-16 md:w-24";
+                  } else if (speed >= 1 && speed <= 20) {
+                    main_text_color = "text-[#555b03] dark:text-yellow-300";
+                    statut = "En ralenti";
+                    lite_bg_color =
+                      "bg-[#ffff001b] dark:bg-gray-900/40 dark:shadow-yellow-300/10 dark:shadow-lg dark:border-l-[.5rem] dark:border-yellow-400/80  shadow-lg shadow-gray-950/20";
+                    activeTextColor = "text-[#555b03] dark:text-yellow-100";
+                    active_bg_color = "bg-yellow-400/20 dark:bg-yellow-600/20";
+                    vitess_img = "img/cars/yellow_vitess.png";
+                    imgClass = "w-12 sm:w-14 md:w-20";
+                  } else {
+                    main_text_color = "text-green-700 dark:text-green-400";
+                    statut = "En marche";
+                    lite_bg_color =
+                      "bg-green-100/50 dark:bg-gray-900/40 dark:shadow-green-700/10 dark:shadow-lg dark:border-l-[.5rem] dark:border-green-600/80  shadow-lg shadow-gray-950/20";
+                    activeTextColor = "text-green-800 dark:text-green-200";
+                    active_bg_color = "bg-green-300/50 dark:bg-green-500/50";
+                    vitess_img = "img/cars/green_vitess.png";
+                    imgClass = "w-12 sm:w-14 md:w-20";
+                  }
                   return (
                     <div
                       onClick={() => {
@@ -110,13 +137,27 @@ function HistoriqueMainComponent({
                             <div className="flex gap-3 items-center">
                               <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
                               <h3 className="text-sm sm:text-sm md:text-md">
-                                {formatTimestampToDate(vehicle.timestamp)}
+                                {/* {formatTimestampToDate(vehicle.timestamp)} */}
+                                {vehicle.timestamp
+                                  ? selectUTC
+                                    ? formatTimestampToDateWithTimezone(
+                                        vehicle.timestamp,
+                                        selectUTC
+                                      )
+                                    : formatTimestampToDate(vehicle.timestamp)
+                                  : "Pas de date disponible"}
                               </h3>
                             </div>
                             <div className="flex items-center gap-1">
                               <IoMdTime className="text-gray-500/80 text-xl dark:text-gray-300" />
                               <h3 className="text-sm sm:text-sm md:text-md">
-                                {formatTimestampToTime(vehicle.timestamp)}
+                                {/* {formatTimestampToTime(vehicle.timestamp)} */}
+                                {selectUTC
+                                  ? formatTimestampToTimeWithTimezone(
+                                      vehicle.timestamp,
+                                      selectUTC
+                                    )
+                                  : formatTimestampToTime(vehicle.timestamp)}
                               </h3>
                             </div>
                           </div>
@@ -151,7 +192,9 @@ function HistoriqueMainComponent({
               );
             })()
           ) : (
-            <p className="text-center dark:text-gray-50">Aucune donnée disponible</p>
+            <p className="text-center dark:text-gray-50">
+              Aucune donnée disponible
+            </p>
           )}
         </div>
       </div>
