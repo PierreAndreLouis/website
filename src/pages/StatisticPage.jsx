@@ -26,7 +26,7 @@ function StatisticPage() {
   } = useContext(DataContext);
 
   return (
-    <div className="min-w-full min-h-screen pt-40 pb-20 px-4">
+    <div className="min-w-full min-h-screen pt-40 pb-20 px-2">
       <div>
         <div className="fixed z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
           <div
