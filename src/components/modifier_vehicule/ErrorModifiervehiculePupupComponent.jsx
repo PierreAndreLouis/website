@@ -12,7 +12,7 @@ function ErrorModifiervehiculePupupComponent({
           <div className="bg-red-50 max-w-[25rem] p-6 rounded-xl w-[80vw]">
             <div>
               <h3 className="block text-lg  text-center leading-6 text-red-600 mb-3">
-                Echec de la modification du vehicule
+                Échec de la modification du véhicule{" "}
               </h3>
               <h4 className="text-center text-lg text-gray-600">
                 {addvehicleData.description}

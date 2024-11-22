@@ -25,7 +25,7 @@ function TypeDeVue({
             />
 
             <h2 className="border-b border-orange-400 text-orange-800 text-lg pb-2 mb-3 font-semibold dark:text-white dark:border-orange-500">
-              Choisir un type de vue :
+              Choisis un type de vue :
             </h2>
 
             <p

@@ -185,7 +185,7 @@ function VehiculeNotActiveAjourdhuiComponent({
             })
           ) : (
             <p className="text-center dark:text-gray-200">
-              Pas de vehicule en stationnement ajourd'hui
+              Pas de véhicule en stationnement ajourd'hui
             </p>
           )}
         </div>

@@ -70,20 +70,20 @@ function AjouterPage() {
 
     if (deviceExists) {
       setErrorID(
-        "Cet identifiant (ID) est déjà utilisé, veuillez en choisir un autre."
+        "Cet identifiant (ID) est déjà utilisé. Veuillez en choisir un autre."
       );
       return;
     }
 
     // Validation du numéro SIM
     if (isNaN(addvehicleData.simPhoneNumber)) {
-      setErrorID("Le numéro SIM doit être un nombre.");
+      setErrorID("Le numéro de la carte SIM doit être un nombre.");
       return; // Empêche la soumission si le numéro SIM n'est pas valide
     }
 
     // Validation du numéro SIM
     if (isNaN(addvehicleData.imeiNumber)) {
-      setErrorID("Imei doit être un nombre.");
+      setErrorID("L'IMEI doit être un nombre.");
       return; // Empêche la soumission si le numéro SIM n'est pas valide
     }
 
@@ -158,9 +158,9 @@ function AjouterPage() {
         <div className="w-full flex justify-center">
           <div className="bg-white  dark:bg-gray-900/30 max-w-[40rem] rounded-xl w-full md:px-6 mt-6 mb-20 border-- shadow-lg overflow-auto">
             <div className="flex justify-center items-center w-full mb-10 pt-10 ">
-              <FaCar className="text-2xl mr-2 text-orange-500" />
+              {/* <FaCar className="text-2xl mr-2 text-orange-500" /> */}
               <h3 className="text-center font-semibold text-gray-600 dark:text-gray-100 text-xl">
-                Nouveau Appareil
+              Enregistrer un nouveau véhicule
               </h3>
             </div>
 

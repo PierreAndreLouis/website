@@ -7,7 +7,7 @@ function ShowConfirmDeletePupupComponent({
   errorMessage,
   setErrorMessage,
   setshowConfirmDeletePupup,
-  inputPassword
+  inputPassword,
 }) {
   return (
     <>
@@ -19,14 +19,14 @@ function ShowConfirmDeletePupupComponent({
           >
             <div>
               <h2 className="text-center text-xl mb-3 text-red-500 dark:text-red-400 font-semibold">
-                Supprimer ?
+                Confirmer la suppression{" "}
               </h2>
 
               <label
                 htmlFor="password"
                 className="block text-lg text-center leading-6 text-gray-500 dark:text-gray-100 mb-3"
               >
-                Veuillez entrer votre mot de passe
+                Veuillez saisir votre mot de passe{" "}
               </label>
               <div className="mt-2">
                 <input
@@ -48,7 +48,7 @@ function ShowConfirmDeletePupupComponent({
             </div>
             <div className="grid grid-cols-2 gap-2 justify-start mt-5">
               <button className="py-1 px-5 bg-orange-500 rounded-lg text-white dark:bg-orange-600">
-                Confirmer
+                Confirmer {" "}
               </button>
 
               <h3
@@ -59,7 +59,7 @@ function ShowConfirmDeletePupupComponent({
                 }}
                 className="py-1 px-5 cursor-pointer text-center text-orange-500 dark:text-orange-400 rounded-lg font-semibold border border-orange-500 dark:border-orange-400"
               >
-                Annuler
+                Annuler 
               </h3>
             </div>
           </form>

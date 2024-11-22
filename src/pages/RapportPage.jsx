@@ -129,7 +129,7 @@ function RapportPage() {
     if (!dateInput) {
       // Si la date est vide, afficher Aujourd'hui
       const today = new Date();
-      return "Rapport Vehicule";
+      return "Rapport Véhicule";
     }
 
     const selected = new Date(dateInput + "T00:00:00");
@@ -267,7 +267,7 @@ function RapportPage() {
                           Rechercher
                         </button>
                       ) : (
-                        <div className="cursor-default font-semibold text-gray-100 px-8 py-1 rounded-md bg-orange-500 dark:bg-orange-600">
+                        <div className="cursor-default font-semibold text-gray-100 px-8 py-1 rounded-md bg-gray-400 dark:bg-gray-600">
                           Rechercher
                         </div>
                       )}

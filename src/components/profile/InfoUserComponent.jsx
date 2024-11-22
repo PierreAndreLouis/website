@@ -93,7 +93,7 @@ function InfoUserComponent({
             }}
             className="text-orange-500 dark:text-orange-400 cursor-pointer text-center rounded-lg px-3 border border-orange-500 dark:border-orange-400 py-2 hover:bg-orange-100 dark:hover:bg-orange-900"
           >
-            Changer le mot de passe
+            Changer le mot de passe{" "}
           </div>
         )}
         <button
@@ -102,7 +102,7 @@ function InfoUserComponent({
           }}
           className="bg-orange-500 dark:bg-orange-400 text-center rounded-lg px-3 text-white py-2 hover:bg-orange-600 dark:hover:bg-orange-500"
         >
-          Se Déconnecter
+          Se déconnecter{" "}
         </button>
       </div>
     </div>

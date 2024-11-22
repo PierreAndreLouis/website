@@ -80,12 +80,12 @@ function Modifier() {
 
     // Validation du numéro SIM
     if (isNaN(addvehicleData.simPhoneNumber)) {
-      setErrorID("Le numéro SIM doit être un nombre.");
+      setErrorID("Le numéro de la carte SIM doit être un nombre.");
       return; // Empêche la soumission si le numéro SIM n'est pas valide
     }
 
     if (isNaN(addvehicleData.imeiNumber)) {
-      setErrorID("Imei doit être un nombre.");
+      setErrorID("L'IMEI doit être un nombre.");
       return; // Empêche la soumission si le numéro SIM n'est pas valide
     }
 
@@ -102,7 +102,7 @@ function Modifier() {
       setErrorMessage("");
       setInputPassword("");
     } else {
-      setErrorMessage("Mot de passe incorrect. Veuillez réessayer.");
+      setErrorMessage("Le mot de passe est incorrect. Veuillez réessayer.");
     }
   };
 
@@ -137,7 +137,7 @@ function Modifier() {
       setErrorMessage("");
       setInputPassword("");
     } else {
-      setErrorMessage("Mot de passe incorrect. Veuillez réessayer.");
+      setErrorMessage("Le mot de passe est incorrect. Veuillez réessayer.");
     }
   };
 
@@ -241,7 +241,7 @@ function Modifier() {
             <div className="flex justify-center mb-6 items-center w-full py-6 pb-8">
               {/* <CiEdit className="text-2xl mr-2 text-orange-500" /> */}
               <h3 className="text-center font-semibold text-gray-600 dark:text-gray-300 text-xl">
-                Modifier / Supprimer un Appareil
+                Modifier / Supprimer un Véhicule
               </h3>
             </div>
 
@@ -257,7 +257,7 @@ function Modifier() {
                  px-3 py-2 bg-orange-50 dark:bg-gray-900/50 dark:border-gray-500  dark:text-gray-300 text-center"
               >
                 <p className="text-start w-[90%] overflow-hidden whitespace-nowrap text-ellipsis">
-                  {currentVehicule?.description || "Choisir un vehicule"}
+                  {currentVehicule?.description || "Choisis un Véhicule"}
                 </p>
                 <FaChevronDown className="mt-1" />
               </div>

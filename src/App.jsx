@@ -16,7 +16,7 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import Page_404 from "./components/page_404/Page_404";
 import { DataContext } from "./context/DataContext";
 
-import Delete_vehicule from "./components/delete_vehicule/Delete_vehicule";
+// import Delete_vehicule from "./components/delete_vehicule/Delete_vehicule";
 import ProtectedChangePassword from "./pages/ProtectedChangePassword";
 import Header from "./components/home/Header";
 import Navigation_bar from "./components/home/Navigation_bar";
@@ -29,6 +29,7 @@ import DetailsVehiculePage from "./pages/DetailsVehiculePage";
 import RapportPage from "./pages/RapportPage";
 import LocationPage from "./pages/LocationPage";
 import HistoriquePage from "./pages/HistoriquePage";
+import StatisticPage from "./pages/StatisticPage";
 
 function App() {
   const location = useLocation();
@@ -123,10 +124,10 @@ function App() {
             path="/voiture_historique"
             element={<PrivateRoute element={<HistoriquePage />} />}
           />
-          <Route
+          {/* <Route
             path="/delete_vehicule"
             element={<PrivateRoute element={<Delete_vehicule />} />}
-          />
+          /> */}
           <Route
             path="/User_Profile"
             element={<PrivateRoute element={<ProfilUserPage />} />}
@@ -141,6 +142,8 @@ function App() {
             path="/Change_Password"
             element={<ProtectedChangePassword />}
           />
+
+          <Route path="/Statistics_Page" element={<StatisticPage />} />
 
           <Route path="*" element={<Page_404 />} />
         </Routes>

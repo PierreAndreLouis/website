@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
+import { Link } from "react-router-dom";
 
 // okk
 // okk
@@ -15,7 +16,19 @@ import { DataContext } from "../../context/DataContext";
 // dark
 
 function Statistics() {
-  const { mergedData } = useContext(DataContext);
+  const {
+    mergedData,
+    showCategorieListe,
+    setshowCategorieListe,
+    chooseActifs,
+    setchooseActifs,
+    chooseStationnement,
+    setchooseStationnement,
+    chooseInactifs,
+    setchooseInactifs,
+    chooseALl,
+    setchooseALl,
+  } = useContext(DataContext);
 
   const vehicleArray = mergedData ? Object.values(mergedData) : [];
   const totalVehicleCount = vehicleArray.length;
@@ -28,66 +41,72 @@ function Statistics() {
         vehicle.vehiculeDetails[0].speedKPH > 0
     ).length || "0";
 
+  // Calculer les 20 heures en millisecondes
+  const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
+  const currentTime = Date.now(); // Heure actuelle en millisecondes
 
-  
-// Calculer les 20 heures en millisecondes
-const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
-const currentTime = Date.now(); // Heure actuelle en millisecondes
+  // Filtrer les véhicules correspondant aux nouvelles conditions
+  const filteredVehicles = vehicleArray.filter((vehicle) => {
+    // Vérifie si le véhicule a des détails
+    const hasDetails =
+      vehicle.vehiculeDetails && vehicle.vehiculeDetails.length > 0;
 
-// Filtrer les véhicules correspondant aux nouvelles conditions
-const filteredVehicles = vehicleArray.filter((vehicle) => {
-  // Vérifie si le véhicule a des détails
-  const hasDetails = vehicle.vehiculeDetails && vehicle.vehiculeDetails.length > 0;
+    // Vérifie la vitesse (noSpeed)
+    const noSpeed = vehicle.vehiculeDetails?.[0]?.speedKPH <= 1;
 
-  // Vérifie la vitesse (noSpeed)
-  const noSpeed = vehicle.vehiculeDetails?.[0]?.speedKPH <= 1;
+    // Vérifie si le véhicule est actif (mise à jour dans les 20 dernières heures)
+    const lastUpdateTimeMs = vehicle.lastUpdateTime
+      ? vehicle.lastUpdateTime * 1000
+      : 0;
+    const isActive = currentTime - lastUpdateTimeMs < twentyHoursInMs;
 
-  // Vérifie si le véhicule est actif (mise à jour dans les 20 dernières heures)
-  const lastUpdateTimeMs = vehicle.lastUpdateTime ? vehicle.lastUpdateTime * 1000 : 0;
-  const isActive = currentTime - lastUpdateTimeMs < twentyHoursInMs;
-
-  // Inclure seulement les véhicules qui ont des détails, qui sont actifs, et qui ont noSpeed
-  return hasDetails && isActive && noSpeed;
-});
+    // Inclure seulement les véhicules qui ont des détails, qui sont actifs, et qui ont noSpeed
+    return hasDetails && isActive && noSpeed;
+  });
 
   // Nombre de véhicules inactifs
   const inactiveVehicleCount = filteredVehicles.length || "0";
-  
 
-
-
-  // const twentyHoursInMs = 20 * 60 * 60 * 1000; // 20 heures en millisecondes
+  // Calculer les 20 heures en millisecondes
+  // const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
   // const currentTime = Date.now(); // Heure actuelle en millisecondes
-  
+
   // Filtrer les véhicules sans détails ou inactifs
   const filteredVehiclesInactifs = vehicleArray.filter((vehicle) => {
     // Vérifier si le véhicule n'a pas de détails
-    const noDetails = !vehicle.vehiculeDetails || vehicle.vehiculeDetails.length === 0;
-  
+    const noDetails =
+      !vehicle.vehiculeDetails || vehicle.vehiculeDetails.length === 0;
+
     // Vérifier si le véhicule est inactif
     const lastUpdateTime = vehicle?.lastUpdateTime;
     const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
-    const isInactive = lastUpdateTimeMs > 0 && (currentTime - lastUpdateTimeMs >= twentyHoursInMs);
-  
+    const isInactive =
+      lastUpdateTimeMs > 0 && currentTime - lastUpdateTimeMs >= twentyHoursInMs;
+
     // Retourne true si l'une des conditions est satisfaite
     return noDetails || isInactive;
   });
-  
+
   // Nombre de véhicules filtrés
   const notActiveVehicleCount = filteredVehiclesInactifs.length || "0";
-  
-
-  
-
-
 
   return (
     <div className="mt-2 ">
       {/* ------------------------------- */}
       {/* Début des statistiques */}
       <div className="p-2 grid grid-cols-2 gap-2 mt-4 md:mt-10">
-        <div className="bg-white dark:bg-gray-800 rounded-lg">
-          <div className="border overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-blue-300/50 dark:bg-blue-700/30 flex justify-between items-start rounded-lg shadow-md p-3">
+        <Link
+          onClick={() => {
+            setchooseALl(true);
+            setchooseActifs(false);
+            setchooseStationnement(false);
+            setchooseInactifs(false);
+          }}
+          to="/Statistics_Page"
+          className="bg-white dark:bg-gray-800 rounded-lg"
+        >
+          <div className="border overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-blue-300/50 dark:bg-blue-700/40 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-blue-300/50 dark:bg-blue-700/30 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-700 dark:text-gray-300 md:font-semibold md:text-xl ">
                 Total
@@ -109,9 +128,21 @@ const filteredVehicles = vehicleArray.filter((vehicle) => {
               />
             </div>
           </div>
-        </div>
-        <div className="bg-white dark:bg-gray-800 rounded-lg">
-          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-green-300/50 dark:bg-green-700/30 flex justify-between items-start rounded-lg shadow-md p-3">
+        </Link>
+
+        {/*  */}
+        <Link
+          onClick={() => {
+            setchooseALl(false);
+            setchooseActifs(true);
+            setchooseStationnement(false);
+            setchooseInactifs(false);
+          }}
+          to="/Statistics_Page"
+          className="bg-white dark:bg-gray-800 rounded-lg"
+        >
+          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-green-300/50 dark:bg-green-600/40 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-green-300/50 dark:bg-green-700/30 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-700 dark:text-gray-300 md:font-semibold md:text-xl ">
                 Actifs
@@ -133,10 +164,20 @@ const filteredVehicles = vehicleArray.filter((vehicle) => {
               />
             </div>
           </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg">
-          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-red-300/50 dark:bg-red-900/40 flex justify-between items-start rounded-lg shadow-md p-3">
+        </Link>
+        {/*  */}
+        <Link
+          onClick={() => {
+            setchooseALl(false);
+            setchooseActifs(false);
+            setchooseStationnement(true);
+            setchooseInactifs(false);
+          }}
+          to="/Statistics_Page"
+          className="bg-white dark:bg-gray-800 rounded-lg"
+        >
+          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-red-300/50 dark:bg-red-800/50 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-red-300/50 dark:bg-red-900/40 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-700 dark:text-gray-300 md:font-semibold md:text-xl ">
                 Parking
@@ -158,10 +199,20 @@ const filteredVehicles = vehicleArray.filter((vehicle) => {
               />
             </div>
           </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-400/10 rounded-lg">
-          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-purple-300/50 dark:bg-purple-950/50 flex justify-between items-start rounded-lg shadow-md p-3">
+        </Link>
+        {/*  */}
+        <Link
+          onClick={() => {
+            setchooseALl(false);
+            setchooseActifs(false);
+            setchooseStationnement(false);
+            setchooseInactifs(true);
+          }}
+          to="/Statistics_Page"
+          className="bg-white dark:bg-gray-400/10 rounded-lg"
+        >
+          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-purple-300/50 dark:bg-purple-700/30 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-purple-300/50 dark:bg-purple-950/50 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-900 dark:text-gray-300 md:font-semibold md:text-xl ">
                 Inactifs
@@ -183,7 +234,8 @@ const filteredVehicles = vehicleArray.filter((vehicle) => {
               />
             </div>
           </div>
-        </div>
+        </Link>
+        {/*  */}
       </div>
       {/* Fin des statistiques */}
       {/* ------------------------------- */}

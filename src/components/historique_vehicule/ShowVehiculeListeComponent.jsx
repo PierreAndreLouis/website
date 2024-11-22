@@ -30,13 +30,13 @@ function ShowVehiculeListeComponent({
               }}
               className="absolute left-0 top-4 right-0 font-semibold text-gray-700 mb-2 text-lg pl-7 border-b-2 pb-2 border-gray-600/20 dark:text-white dark:border-gray-500"
             >
-              Choisir un véhicule
+              Choisis un véhicule
             </h2>
             <div className="absolute top-[3.5rem] left-4 right-4 p-2">
               <input
                 className="w-full border p-4 py-1.5 rounded-lg dark:bg-gray-700 dark:text-white dark:border-gray-600"
                 type="text"
-                placeholder="Recherche"
+                placeholder="Rechercher"
                 value={searchQuery}
                 onChange={handleSearchChange}
               />

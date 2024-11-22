@@ -28,7 +28,7 @@ function Liste_options({}) {
   } = useContext(DataContext); // fetchVehicleDetails importée du contexte
 
   const [showAccessCode, setAccessCode] = useState(false);
-  <h1 className="px-3">Toyota Land Cruser Prada</h1>;
+  // <h1 className="px-3">Toyota Land Cruser Prada</h1>;
   const [showControlePupup, setshowControlePupup] = useState(false);
 
   const handleClick = () => {
@@ -166,7 +166,7 @@ function Liste_options({}) {
             className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-2---- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
           >
             <RiShutDownLine className="text-3xl" />
-            <h3>Controle</h3>
+            <h3>Contrôle</h3>
           </div>
 
           <div
@@ -176,7 +176,7 @@ function Liste_options({}) {
             className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
           >
             <FaMicrophone className="text-3xl" />
-            <h3>Ecouter</h3>
+            <h3>Écouter</h3>
           </div>
 
           <Link

@@ -44,7 +44,7 @@ function ProfilUserPage() {
       navigate("/Change_Password");
       setShowChangePasswordPupup(false);
     } else {
-      setErrorMessage("Mot de passe incorrect. Veuillez réessayer.");
+      setErrorMessage("Le mot de passe est incorrect. Veuillez réessayer.");
     }
   };
 

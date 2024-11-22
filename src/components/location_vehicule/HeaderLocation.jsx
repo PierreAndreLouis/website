@@ -23,7 +23,7 @@ function HeaderLocation({
               ? vehicleData?.find(
                   (vehicle) => vehicle.deviceID === selectedVehicle
                 )?.description || "Véhicule non disponible"
-              : "Tous les vehicules"}
+              : "Tous les véhicules"}
           </p>
           <span>
             <FaChevronDown />

@@ -25,7 +25,7 @@ function TimeZone({ setChangeTimeZone }) {
     [zone.region, zone.utcOffset, zone.currentTime].some((field) =>
       field.toLowerCase().includes(timeZonesearchQuery.toLowerCase())
     )
-  );
+  )
 
   return (
     <div className="fixed inset-0 z-40 flex justify-center items-center bg-black/50 dark:bg-black/70">
@@ -38,7 +38,7 @@ function TimeZone({ setChangeTimeZone }) {
             <div className="flex w-full items-center border rounded-lg px-3 dark:border-gray-600">
               <input
                 type="text"
-                placeholder="Recherche (région, UTC, heure)"
+                placeholder="Recherche (région, UTC, heure actuelle)"
                 className="focus:outline-none p-1 w-full bg-transparent dark:text-gray-200"
                 value={timeZonesearchQuery}
                 onChange={(e) => settimeZoneSearchQuery(e.target.value)}
@@ -73,7 +73,7 @@ function TimeZone({ setChangeTimeZone }) {
             </div>
             <div className="flex justify-between items-center">
               <p className="text-gray-500 dark:text-gray-400">
-                {selectedTimeZone || "Pas de fuseau horaire"}
+                {selectedTimeZone || "Aucun fuseau horaire sélectionné"}
               </p>
               <p className="text-gray-500 dark:text-gray-400">
                 {selectUTC || "--"} / {selectTime || "--"}

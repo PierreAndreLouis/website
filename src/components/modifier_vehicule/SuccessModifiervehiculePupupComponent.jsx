@@ -15,7 +15,7 @@ function SuccessModifiervehiculePupupComponent({
           >
             <div>
               <h3 className="block text-lg  text-center leading-6 text-green-600 mb-3">
-                Vous avez modifié le véhicule avec success.
+                Vous avez modifié le véhicule avec succès.
               </h3>
               <h4 className="text-center text-lg text-gray-600">
                 {addvehicleData.description}

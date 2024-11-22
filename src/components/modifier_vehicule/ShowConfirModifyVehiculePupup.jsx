@@ -7,7 +7,7 @@ function ShowConfirModifyVehiculePupup({
   setInputPassword,
   errorMessage,
   setshowConfirmAddVehiculePupup,
-  setErrorMessage
+  setErrorMessage,
 }) {
   return (
     <>
@@ -22,7 +22,7 @@ function ShowConfirModifyVehiculePupup({
                 htmlFor="password"
                 className="block text-lg text-center leading-6 text-gray-500 dark:text-gray-100 mb-3"
               >
-                Veuillez entrer votre mot de passe
+                Veuillez saisir votre mot de passe{" "}
               </label>
               <div className="mt-2">
                 <input
@@ -43,10 +43,8 @@ function ShowConfirModifyVehiculePupup({
               )}
             </div>
             <div className="grid grid-cols-2 gap-2 justify-start mt-5">
-              <button
-                className="py-1 px-5 bg-orange-500 rounded-lg text-white dark:bg-orange-600"
-              >
-                Confirmer
+              <button className="py-1 px-5 bg-orange-500 rounded-lg text-white dark:bg-orange-600">
+                Confirmer{" "}
               </button>
 
               <h3

@@ -177,7 +177,7 @@ function VehiculeActiveAjourdhuiComponent({
             })
           ) : (
             <p className="text-center dark:text-gray-200">
-              Pas de vehicule actif aujourd'hui
+              Pas de véhicule actif aujourd'hui
             </p>
           )}
         </div>

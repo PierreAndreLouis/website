@@ -54,7 +54,7 @@ function DetailsVehiculePage() {
                  px-3 py-2 bg-orange-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-50 text-center"
           >
             <p className="text-start w-[90%] overflow-hidden whitespace-nowrap text-ellipsis">
-              {currentVehicule?.description || "Choisir un vehicule"}
+              {currentVehicule?.description || "Choisis un véhicule"}
             </p>
             <FaChevronDown className="mt-1" />
           </div>
@@ -70,7 +70,7 @@ function DetailsVehiculePage() {
         />
 
         <div className="flex justify-center items-center">
-          <img src="/img/cars/voitrue_details.png" alt="" />
+          <img src="/img/cars/voitrue_details.png" alt="Image de détails du véhicule" />
         </div>
         <h1 className="text-center dark:text-gray-200 font-bold text-xl mt-8 text-gray-600">
           {currentVehicule?.displayName || ""}

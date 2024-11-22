@@ -1,16 +1,16 @@
 import React from 'react'
-import Navigation_bar from '../home/Navigation_bar'
-import PC_header from '../home/PC_header'
-import Header from '../home/Header'
-import SideBar from '../home/SideBar'
+// import Navigation_bar from '../home/Navigation_bar'
+// import PC_header from '../home/PC_header'
+// import Header from '../home/Header'
+// import SideBar from '../home/SideBar'
 
 function Paiement_methode() {
   return (
     <div className='flex justify-center mt-24 mb-24 md:mt-24'>
-              <Navigation_bar />
+              {/* <Navigation_bar />
               <PC_header />
               <Header  />
-              <SideBar  />
+              <SideBar  /> */}
 
         <div className='max-w-[40rem] px-4 w-full'>
             <h1 className='text-center mb-2 text-xl text-gray-600'>Choisissez votre mode de paiement</h1>

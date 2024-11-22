@@ -1,21 +1,59 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { MdLocationPin } from "react-icons/md";
 import { FaCar } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
-import { IoReload } from "react-icons/io5";
+import { DataContext } from "../../context/DataContext";
 
-function VehiculeActiveMaintenantComponent({
-  showActiveVehiculeNow,
-  setshowActiveVehiculeNow,
-  vehiculeActiveMaintenant,
+function Actifs_Vehicule({
+  showActiveVehicule,
+  setshowActiveVehicule,
+  vehiculeActiveAjourdhui,
   setshowRapportPupup,
   formatTimestampToDate,
   formatTimestampToTime,
   handleClick,
   selectUTC,
 }) {
+  const { mergedData, chooseActifs, setCurrentVehicule, setShowListOption } =
+    useContext(DataContext);
+
+  const vehicleArray = mergedData ? Object.values(mergedData) : [];
+  const totalVehicleCount = vehicleArray.length;
+
+  // const activeVehicleCount =
+  //   vehicleArray.filter(
+  //     (vehicle) =>
+  //       vehicle.vehiculeDetails &&
+  //       vehicle.vehiculeDetails[0] &&
+  //       vehicle.vehiculeDetails[0].speedKPH > 0
+  //   ).length || "0";
+
+  const activeVehicleCount = vehicleArray.filter(
+    (vehicle) =>
+      vehicle.vehiculeDetails &&
+      vehicle.vehiculeDetails[0] &&
+      vehicle.vehiculeDetails[0].speedKPH > 0
+  );
+
+  // Fonctions pour formater le temps et la date
+  function formatTimestampToTime(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const hours = date.getUTCHours().toString().padStart(2, "0");
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+  function formatTimestampToDate(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const year = date.getUTCFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
   function convertToTimezone(timestamp, offset) {
     const date = new Date(timestamp * 1000); // Convertir le timestamp en millisecondes
     const [sign, hours, minutes] = offset
@@ -43,54 +81,37 @@ function VehiculeActiveMaintenantComponent({
     const seconds = date.getSeconds().toString().padStart(2, "0");
     return `${hours}:${minutes}:${seconds}`;
   }
+
   return (
     <div>
       <div className="transition-all">
-        <div
-          className="flex gap-4 dark:text-gray-200 dark:bg-gray-900/50 dark:shadow-lg dark:shadow-gray-700 justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
-          onClick={() => {
-            setshowActiveVehiculeNow(!showActiveVehiculeNow);
-          }}
-        >
-          <h2 className="text-lg">En mouvement actuellement:</h2>
-          <FaChevronDown
-            className={`${
-              showActiveVehiculeNow ? "rotate-180" : "rotate-0"
-            } transition-all`}
-          />
-        </div>
-        <div
-          onClick={() => {
-            // setshowRapportPupup(true);
-          }}
-          className={`${
-            showActiveVehiculeNow
-              ? "max-h-[100rem] pb-14 overflow-y-auto transition-all"
-              : "max-h-[0rem] transition-all"
-          } flex overflow-hidden flex-col gap-4 transition-all`}
-        >
-          {vehiculeActiveMaintenant?.length > 0 ? (
-            vehiculeActiveMaintenant?.map((vehicule, index) => {
+        <div className="flex flex-col gap-3 mt-3">
+          {activeVehicleCount?.length > 0 ? (
+            activeVehicleCount?.map((vehicule, index) => {
               return (
                 <div
                   onClick={() => {
-                    handleClick(vehicule);
-                    setshowRapportPupup(true);
+                    // handleClick(vehicule);
+                    // setshowRapportPupup(true);
+                    setCurrentVehicule(vehicule);
+                    setShowListOption(true);
                   }}
                   key={index}
-                  className=" py-6 bg-white rounded-lg dark:bg-gray-800 dark:shadow-gray-600"
+                  className="bg-white rounded-lg dark:bg-gray-800 dark:shadow-gray-600"
                 >
-                  <div className="bg-green-100/20 dark:border-l-[.5rem] dark:border-green-800 dark:bg-gray-900/50 dark:shadow-gray-700 shadow-md rounded-lg p-3">
+                  <div
+                    className={` py-6 bg-green-100/20 dark:border-l-[.5rem] dark:border-green-800 dark:bg-gray-900/50 dark:shadow-gray-700 shadow-md rounded-lg p-3`}
+                  >
                     <div className="flex items-stretch relative gap-3 md:py-6--">
                       <div className="flex justify-center border-2 md:pt-6 md:pb-8 bg-green-200/40 dark:bg-green-900 border-white dark:border-green-400 dark:shadow-gray-600 shadow-md shadow-green-200 rounded-md p-2 flex-col items-center md:min-w-32">
                         <div>
                           <img
-                            className="dark:hidden min-w-[4.5rem]  scale-110 max-w-[4.5rem] px-2 sm:max-w-[6.5rem]"
+                            className="dark:hidden  scale-110  min-w-[4.5rem] max-w-[4.5rem] px-2 sm:max-w-[6.5rem]"
                             src="/img/home_icon/active.png"
                             alt=""
                           />
                           <img
-                            className="hidden dark:block min-w-[4.5rem] scale-110 max-w-[4.5rem] px-2 sm:max-w-[6.5rem]"
+                            className="hidden dark:block  scale-110  min-w-[4.5rem] max-w-[4.5rem] px-2 sm:max-w-[6.5rem]"
                             src="/img/home_icon/rapport_active.png"
                             alt=""
                           />
@@ -98,7 +119,9 @@ function VehiculeActiveMaintenantComponent({
                       </div>
 
                       <div>
-                        <h2 className="text-green-800 dark:text-green-200 text-gray-800-- font-semibold text-md md:text-xl mb-2">
+                        <h2
+                          className={`text-green-800 dark:text-green-200 text-gray-800-- font-semibold text-md md:text-xl mb-2`}
+                        >
                           {vehicule?.description || "non disponible"}
                         </h2>
                         <div className="flex mb-2 gap-4 text-gray-600 text-md">
@@ -126,7 +149,7 @@ function VehiculeActiveMaintenantComponent({
                               {/* {formatTimestampToTime(
                                 vehicule.vehiculeDetails?.[0]?.timestamp || 0
                               )} */}
-                                {selectUTC
+                              {selectUTC
                                 ? formatTimestampToTimeWithTimezone(
                                     vehicule.vehiculeDetails[0].timestamp,
                                     selectUTC
@@ -142,7 +165,9 @@ function VehiculeActiveMaintenantComponent({
                           <div>
                             <FaCar className="text-gray-500/80 dark:text-gray-300" />
                           </div>
-                          <span className="bg-green-300/20 ml-1 dark:text-green-300 text-green-800 pb-[.2rem] px-2 py-0 text-sm rounded-md">
+                          <span
+                            className={`bg-green-300/20 ml-1 dark:text-green-300 text-green-800 pb-[.2rem] px-2 py-0 text-sm rounded-md`}
+                          >
                             En déplacement
                           </span>
                         </div>
@@ -172,10 +197,12 @@ function VehiculeActiveMaintenantComponent({
                 </div>
               );
             })
-          ) : (
+          ) : chooseActifs ? (
             <p className="text-center dark:text-gray-200">
-              Pas de véhicule actif maintenant
+              Pas de véhicule actif en ce moment
             </p>
+          ) : (
+            <p className="text-center dark:text-gray-200"></p>
           )}
         </div>
       </div>
@@ -183,4 +210,6 @@ function VehiculeActiveMaintenantComponent({
   );
 }
 
-export default VehiculeActiveMaintenantComponent;
+export default Actifs_Vehicule;
+
+// export default Actifs_Vehicule

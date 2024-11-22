@@ -1,54 +1,62 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { MdLocationPin } from "react-icons/md";
 import { FaCar } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 import { IoReload } from "react-icons/io5";
+import { DataContext } from "../../context/DataContext";
 
-function VehiculeNotActifComponent({
-  showInactiveVehicule,
-  setshowInactiveVehicule,
-  vehiculeNotActif,
-  setshowRapportPupup,
-  formatTimestampToDate,
-  formatTimestampToTime,
-  handleClick,
-}) {
+function Inactifs_Vehicules() {
+  const { mergedData, chooseInactifs, setCurrentVehicule, setShowListOption } =
+    useContext(DataContext);
+
+  const vehicleArray = mergedData ? Object.values(mergedData) : [];
+  const totalVehicleCount = vehicleArray.length;
+
+  // Calculer les 20 heures en millisecondes
+  const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
+  const currentTime = Date.now(); // Heure actuelle en millisecondes
+
+  // Filtrer les véhicules sans détails ou inactifs
+  const filteredVehiclesInactifs = vehicleArray.filter((vehicle) => {
+    // Vérifier si le véhicule n'a pas de détails
+    const noDetails =
+      !vehicle.vehiculeDetails || vehicle.vehiculeDetails.length === 0;
+
+    // Vérifier si le véhicule est inactif
+    const lastUpdateTime = vehicle?.lastUpdateTime;
+    const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
+    const isInactive =
+      lastUpdateTimeMs > 0 && currentTime - lastUpdateTimeMs >= twentyHoursInMs;
+
+    // Retourne true si l'une des conditions est satisfaite
+    return noDetails || isInactive;
+  });
+
+  // Nombre de véhicules filtrés
+  const notActiveVehicleCount = filteredVehiclesInactifs.length || "0";
+
   return (
     <div>
       <div className="transition-all">
-        <div
-          onClick={() => {
-            setshowInactiveVehicule(!showInactiveVehicule);
-          }}
-          className="flex gap-4 dark:text-gray-200 dark:bg-gray-900/50 dark:shadow-lg dark:shadow-gray-700 justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
-        >
-          <h2 className="text-lg">Vehicules inactifs :</h2>
-          <FaChevronDown
-            className={`${
-              showInactiveVehicule ? "rotate-180" : "rotate-0"
-            } transition-all`}
-          />
-        </div>
+        {/* <h1 className="text-center text-xl text-gray-600 mb-10 font-semibold">Vehicule Inactifs</h1> */}
 
         <div
+          className="flex flex-col gap-3 pt-3"
           onClick={() => {
             // setshowRapportPupup(true);
           }}
-          className={` ${
-            showInactiveVehicule
-              ? "max-h-[100rem] pb-14 overflow-y-auto transition-all"
-              : "max-h-[0rem] transition-all"
-          } flex   overflow-hidden flex-col gap-4 transition-all `}
         >
-          {vehiculeNotActif?.length > 0 ? (
-            vehiculeNotActif?.map((vehicule, index) => {
+          {filteredVehiclesInactifs?.length > 0 ? (
+            filteredVehiclesInactifs?.map((vehicule, index) => {
               return (
                 <div
                   onClick={() => {
-                    handleClick(vehicule);
-                    setshowRapportPupup(true);
+                    // handleClick(vehicule);
+                    // setshowRapportPupup(true);
+                    setCurrentVehicule(vehicule);
+                    setShowListOption(true);
                   }}
                   key={index}
                   className="bg-white rounded-lg dark:bg-gray-800 dark:shadow-gray-600"
@@ -82,22 +90,16 @@ function VehiculeNotActifComponent({
                           <div className="flex gap-3 items-center dark:text-gray-300">
                             <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
                             <h3 className="text-sm sm:text-sm md:text-md">
-                              {vehicule?.vehiculeDetails[0]?.timestamp ? (
-                                formatTimestampToDate(
-                                  vehicule?.vehiculeDetails[0]?.timestamp
-                                )
-                              ) : (
-                                <p>Pas de date disponible</p>
-                              )}
+                              <p>Pas de date disponible</p>
                             </h3>
                           </div>
                           {vehicule.vehiculeDetails?.[0]?.timestamp && (
                             <div className="flex items-center gap-1 dark:text-gray-300">
                               <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl" />
                               <h3 className="text-sm sm:text-sm md:text-md">
-                                {formatTimestampToTime(
+                                {/* {formatTimestampToTime(
                                   vehicule.vehiculeDetails?.[0]?.timestamp || 0
-                                )}
+                                )} */}
                               </h3>
                             </div>
                           )}
@@ -120,8 +122,7 @@ function VehiculeNotActifComponent({
                           </div>
 
                           <p className="text-md felx sm:flex text-gray-600 dark:text-gray-200 mt-2 md:text-lg">
-                            {vehicule.vehiculeDetails[0]?.address ||
-                              "adresse non disponible"}
+                            {"adresse non disponible"}
                           </p>
                         </div>
                       </div>
@@ -131,18 +132,19 @@ function VehiculeNotActifComponent({
                         <span className="text-purple-800 font-bold dark:text-purple-200">
                           Adresse :{" "}
                         </span>
-                        {vehicule.vehiculeDetails[0]?.address ||
-                          "adresse non disponible"}
+                        {"adresse non disponible"}
                       </p>
                     </div>
                   </div>
                 </div>
               );
             })
-          ) : (
+          ) : chooseInactifs ? (
             <p className="text-center dark:text-gray-200">
-              Pas de véhicule inactifs
+              Pas de véhicule inactifs{" "}
             </p>
+          ) : (
+            <div></div>
           )}
         </div>
       </div>
@@ -150,6 +152,6 @@ function VehiculeNotActifComponent({
   );
 }
 
-export default VehiculeNotActifComponent;
+export default Inactifs_Vehicules;
 
-
+// export default Inactifs_Vehicules

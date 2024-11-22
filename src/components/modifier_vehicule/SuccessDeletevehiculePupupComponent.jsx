@@ -11,12 +11,10 @@ function SuccessDeletevehiculePupupComponent({
     <>
       {successDeletevehiculePupup && (
         <div className="fixed z-10 flex justify-center items-center inset-0 bg-black/50">
-          <div
-            className="bg-green-50 max-w-[25rem] p-6 rounded-xl w-[80vw]"
-          >
+          <div className="bg-green-50 max-w-[25rem] p-6 rounded-xl w-[80vw]">
             <div>
               <h3 className="block text-lg  text-center leading-6 text-green-600 mb-3">
-                Vous avez supprimé le véhicule avec success.
+                Vous avez supprimé le véhicule avec succès.{" "}
               </h3>
               <h4 className="text-center text-lg text-gray-600">
                 {addvehicleData.description}

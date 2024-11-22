@@ -232,7 +232,7 @@ const LocationPage = () => {
                   </p>
                   <p>
                     <strong>IMEI Number :</strong>{" "}
-                    {vehicle.imeiNumber || "loading..."}
+                    {vehicle.imeiNumber || "Chargement..."}
                   </p>
                   <p>
                     <strong>Vitesse :</strong>{" "}
@@ -248,8 +248,8 @@ const LocationPage = () => {
                   </p>
                   {/* {vehicle.speedKPH < 1 ? "En arrêt" : vehicle.speedKPH > 20 ? "En déplacement" : "En ralenti"} */}
                   <p>
-                    <strong>License Plate :</strong>{" "}
-                    {vehicle.licensePlate || "loading..."}
+                    <strong>Plaque d'immatriculation :</strong>{" "}
+                    {vehicle.licensePlate || "Chargement..."}
                   </p>
                   <button
                     onClick={() =>

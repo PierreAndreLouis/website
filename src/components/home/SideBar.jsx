@@ -90,7 +90,7 @@ function SideBar() {
           } dark:text-gray-300 dark:border-gray-600 dark:hover:text-orange-400`}
         >
           <FaRegEdit />
-          <h3>Modifier/Supprimer un véhicule</h3>
+          <h3>Modifier ou supprimer un véhicule</h3>
         </Link>
 
         <Link

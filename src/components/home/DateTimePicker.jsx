@@ -49,13 +49,15 @@ const DateTimePicker = ({ setShowDatePicker }) => {
             <span className="inline-block translate-y-0 mr-2">
               <MdErrorOutline className="text-2xl mt-0.5" />
             </span>
-            Une recherche sur plus de 3 jours ralentira légèrement la carte.
+            Une recherche portant sur plus de 3 jours ralentira un peu la carte.{" "}
           </p>
 
           {/* Date et heure de début */}
           <div className="flex gap-4 justify-center items-center">
             <div className="w-full">
-              <label className="block text-gray-500 dark:text-gray-300">Date Début:</label>
+              <label className="block text-gray-500 dark:text-gray-300">
+                Date de Début:
+              </label>
               <input
                 type="date"
                 value={startDate}
@@ -65,7 +67,9 @@ const DateTimePicker = ({ setShowDatePicker }) => {
               />
             </div>
             <div className="w-full">
-              <label className="block text-gray-500 dark:text-gray-300">Heure Début:</label>
+              <label className="block text-gray-500 dark:text-gray-300">
+                Heure de Début:
+              </label>
               <input
                 type="time"
                 value={startTime}
@@ -79,7 +83,9 @@ const DateTimePicker = ({ setShowDatePicker }) => {
           {/* Date et heure de fin */}
           <div className="flex gap-4 justify-center items-center">
             <div className="w-full">
-              <label className="block text-gray-500 dark:text-gray-300">Date Fin:</label>
+              <label className="block text-gray-500 dark:text-gray-300">
+                Date de Fin:
+              </label>
               <input
                 type="date"
                 value={endDate}
@@ -89,7 +95,9 @@ const DateTimePicker = ({ setShowDatePicker }) => {
               />
             </div>
             <div className="w-full">
-              <label className="block text-gray-500 dark:text-gray-300">Heure Fin:</label>
+              <label className="block text-gray-500 dark:text-gray-300">
+                Heure de fin:
+              </label>
               <input
                 type="time"
                 value={endTime}

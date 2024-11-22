@@ -69,6 +69,12 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
   const [showHistoriqueInMap, setShowHistoriqueInMap] = useState(false);
 
+  const [showCategorieListe, setshowCategorieListe] = useState(false);
+  const [chooseActifs, setchooseActifs] = useState(false);
+  const [chooseStationnement, setchooseStationnement] = useState(false);
+  const [chooseInactifs, setchooseInactifs] = useState(false);
+  const [chooseALl, setchooseALl] = useState(false);
+
   // const [donneeFusionneeForRapport, setdonneeFusionneeForRapport] = useState(
   //   []
   // );
@@ -1414,6 +1420,18 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         selectTime,
         setselectTime,
         handleSelectTimeZone,
+
+        // 
+        showCategorieListe,
+        setshowCategorieListe,
+        chooseActifs,
+        setchooseActifs,
+        chooseStationnement,
+        setchooseStationnement,
+        chooseInactifs,
+        setchooseInactifs,
+        chooseALl,
+        setchooseALl,
       }}
     >
       {children}
@@ -1422,3 +1440,4 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 };
 
 export default DataContextProvider;
+

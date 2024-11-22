@@ -57,7 +57,7 @@ function HistoriqueHeader({
               // className="text-start w-[50%] overflow-hidden whitespace-nowrap text-ellipsis"
               className="md:hidden"
             >
-              Choisir un vehicule
+              Choisis un véhicule
             </p>
             <p className="hidden md:block">
               {currentVehicule?.description || "Choisir un vehicule"}

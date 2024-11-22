@@ -28,7 +28,7 @@ function ListeVehicule({
               }}
               className="absolute left-0 top-4 right-0 font-semibold text-gray-700 mb-2 text-lg pl-7 border-b-2 pb-2 border-gray-600/20 dark:text-gray-200 dark:border-gray-600"
             >
-              Choisir un véhicule
+              Choisis un véhicule
             </h2>
             <div className="absolute top-[3.5rem] left-4 right-4 p-2">
               <input

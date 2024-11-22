@@ -115,7 +115,7 @@ function Header() {
               Hello...
             </h3>
             <h2 className="font-semibold text-lg text-gray-600 dark:text-gray-200 leading-5">
-              {(userData && userData.contactName) || "Nom vide"}
+              {(userData && userData.contactName) || "Nom absent"}
             </h2>
           </div>
         </div>

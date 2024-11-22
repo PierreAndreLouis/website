@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { RiLockPasswordLine, RiLockPasswordFill } from "react-icons/ri";
 import { DataContext } from "../../context/DataContext";
-import Navigation_bar from "../home/Navigation_bar";
-import PC_header from "../home/PC_header";
+// import Navigation_bar from "../home/Navigation_bar";
+// import PC_header from "../home/PC_header";
 import { Link } from "react-router-dom";
 
 function ChangePassword() {
@@ -17,8 +17,8 @@ function ChangePassword() {
 
   return (
     <div className="pb-20 mt-14 bg-gray-100 dark:bg-gray-800">
-      <Navigation_bar />
-      <PC_header />
+      {/* <Navigation_bar />
+      <PC_header /> */}
       <div className="flex w-full justify-center">
         <div className="w-full flex justify-center pb-3">
           <div className="bg-white dark:bg-gray-900/50 mt-8 pb-10 mx-4 dark:text-gray-100  max-w-[40rem] w-full shadow-lg overflow-auto rounded-md">

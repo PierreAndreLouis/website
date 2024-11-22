@@ -253,7 +253,7 @@ function RapportOptions({
                   </h2>
                   <div className="text-gray-600 dark:text-gray-300">
                     <p>
-                      Heure de depare:
+                      Heure de départ:
                       <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {/* {formatTimestampToTime(
                           heureActiveDebut?.timestamp || "pas d'heure de depart !"
@@ -264,7 +264,7 @@ function RapportOptions({
                       </span>
                     </p>
                     <p>
-                      Derniere heure en mouvement:
+                      Dernière heure en mouvement:
                       <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {heureActiveFin
                           ? formatTimestampToTime(heureActiveFin.timestamp)
@@ -309,13 +309,13 @@ function RapportOptions({
                       </span>
                     </p>
                     <p>
-                      Vitess moyenne:
+                      Vitesse moyenne:
                       <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {averageSpeed.toFixed(2)} Km/h
                       </span>
                     </p>
                     <p>
-                      Vitess maximale:
+                      Vitesse maximale:
                       <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {maxSpeed.toFixed(2)} Km/h
                       </span>
@@ -333,14 +333,14 @@ function RapportOptions({
                   <div className="text-gray-600 dark:text-gray-300 flex flex-col gap-3">
                     <p>
                       <span className="font-semibold text-gray-800 dark:text-orange-500 pr-3">
-                        Adresse Debut:
+                        Adresse Début:
                       </span>
                       {currentVehicule?.vehiculeDetails[0]?.address ||
                         "pas de resultat"}
                     </p>
                     <p>
                       <span className="font-semibold text-gray-800 dark:text-orange-500 pr-3">
-                        Derniere position:
+                        Dernière position:
                       </span>
                       {currentVehicule?.vehiculeDetails[
                         currentVehicule?.vehiculeDetails.length - 1
@@ -354,7 +354,7 @@ function RapportOptions({
                 <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
                   <h2 className="font-semibold dark:text-orange-500 text-orange-900">
-                    Tous les lieux frequente
+                    Tous les lieux fréquentés
                   </h2>
                   <div className="text-gray-600 flex flex-col gap-3">
                     {uniqueAddresses?.map((add, index) => {
@@ -375,7 +375,7 @@ function RapportOptions({
                 <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <div>
                   <h2 className="font-semibold dark:text-orange-500 text-orange-900">
-                    Tous les lieux Stationnees
+                    Tous les lieux Stationnés
                   </h2>
                   <div className="text-gray-600 flex flex-col gap-3">
                     {uniqueAddressesZerroSpeed?.map((add, index) => {
@@ -408,7 +408,7 @@ function RapportOptions({
               >
                 <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                  Historique du vehicule
+                  Historique du véhicule
                 </h2>
               </Link>
 
@@ -424,7 +424,7 @@ function RapportOptions({
               >
                 <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                  Trajet du vehicule
+                  Trajet du véhicule{" "}
                 </h2>
               </Link>
 
@@ -434,7 +434,7 @@ function RapportOptions({
               >
                 <FiMapPin className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                  Position du vehicule
+                  Position du véhicule{" "}
                 </h2>
               </Link>
               <div
@@ -442,7 +442,7 @@ function RapportOptions({
                   {
                     envoyerSMS(
                       currentVehicule.simPhoneNumber,
-                      "Bonjour, ceci est un test de Debloquage"
+                      "Bonjour, ceci est un test de Déblocage"
                     );
                     setshowSmsError(!showSmsError);
                   }
@@ -451,7 +451,7 @@ function RapportOptions({
               >
                 <TbLock className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                  Bloquer le vehicule
+                  Bloquer le véhicule{" "}
                 </h2>
                 {/* <p>{smsError}</p> */}
               </div>
@@ -461,7 +461,7 @@ function RapportOptions({
                   {
                     envoyerSMS(
                       currentVehicule.simPhoneNumber,
-                      "Bonjour, ceci est un test de Debloquage"
+                      "Bonjour, ceci est un test de Déblocage"
                     );
                     setshowSmsError(!showSmsError);
                   }
@@ -470,7 +470,7 @@ function RapportOptions({
               >
                 <TbLockOpen className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                  Debloquer vehicule
+                  Débloquer le véhicule{" "}
                 </h2>
                 {/* <p>{smsError}</p> */}
               </div>
@@ -502,7 +502,7 @@ function RapportOptions({
               <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
                 <FaHeadphonesAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                  Ecouter discussion dans le vehicule
+                  Écouter la discussion dans le véhicule{" "}
                 </h2>
               </div>
 
@@ -512,7 +512,7 @@ function RapportOptions({
               >
                 <IoInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                  Informations sur le vehicule
+                  Informations sur le véhicule{" "}
                 </h2>
               </Link>
 
@@ -522,7 +522,7 @@ function RapportOptions({
               >
                 <CiEdit className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                  Modifier le vehicule
+                  Modifier le véhicule{" "}
                 </h2>
               </Link>
 

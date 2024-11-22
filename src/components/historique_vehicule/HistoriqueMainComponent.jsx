@@ -50,7 +50,7 @@ function HistoriqueMainComponent({
             Historique
           </h2>
           <h2 className="text-gray-800 dark:text-gray-50 font-semibold text-lg md:text-xl mb-2 ">
-            {currentVehicule?.description || "Pas de vehiucle"}
+            {currentVehicule?.description || "Pas de véhicule sélectionné"}
           </h2>
         </div>
 
@@ -186,7 +186,7 @@ function HistoriqueMainComponent({
                 })
               ) : (
                 <p className="text-center">
-                  Pas de donnée disponible{" "}
+                  Pas de données disponibles{" "}
                   <span className=" text-orange-600">pour le filtre</span>
                 </p>
               );

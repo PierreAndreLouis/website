@@ -26,7 +26,7 @@ function FormModifierVehicule({
           },
           {
             id: "uniqueIdentifier",
-            label: "Identificateur unique",
+            label: "Identifiant unique",
             placeholder: "Exemple : tk + IMEI",
           },
           {
@@ -36,7 +36,7 @@ function FormModifierVehicule({
           },
           {
             id: "displayName",
-            label: "Nom court du véhicule",
+            label: "Nom du véhicule",
             placeholder: "Nom du véhicule",
           },
           {
@@ -51,7 +51,7 @@ function FormModifierVehicule({
           },
           {
             id: "simPhoneNumber",
-            label: "Numéro SIM",
+            label: "Numéro de la carte SIM",
             placeholder: "Numéro SIM",
           },
         ].map((field) => (
