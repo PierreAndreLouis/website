@@ -42,10 +42,10 @@ function StatisticPage() {
               <p className="text-start w-[90%] dark:text-gray-200 overflow-hidden whitespace-nowrap text-ellipsis">
                 {/* {currentVehicule?.description || "Choisis un Véhicule"} */}
                 {/* Choisis un Categorie */}
-                {chooseALl && "Tous les vehicules"}
-                {chooseActifs && "Vehicule en deplacement"}
-                {chooseStationnement && "Vehicules en stationnement"}
-                {chooseInactifs && "Vehicules inactifs"}
+                {chooseALl && "Tous les véhicules"}
+                {chooseActifs && "Vehicule en déplacement"}
+                {chooseStationnement && "Véhicules en stationnement"}
+                {chooseInactifs && "Véhicules inactifs"}
               </p>
 
               <div
@@ -82,7 +82,7 @@ function StatisticPage() {
                       alt=""
                     />
                   </div>
-                  <h3 className="dark:text-gray-200">Tous les Vehicules</h3>
+                  <h3 className="dark:text-gray-200">Tous les Véhicules</h3>
                 </div>
                 <div
                   onClick={() => {
@@ -104,7 +104,7 @@ function StatisticPage() {
                     />
                   </div>
                   <h3 className="dark:text-gray-200">
-                    Vehicules en deplacement
+                    Véhicules en déplacement
                   </h3>
                 </div>
                 <div
@@ -127,7 +127,7 @@ function StatisticPage() {
                     />
                   </div>
                   <h3 className="dark:text-gray-200">
-                    Vehicules en Stationnement
+                    Véhicules en Stationnement
                   </h3>
                 </div>
                 <div
@@ -149,7 +149,7 @@ function StatisticPage() {
                       alt=""
                     />
                   </div>
-                  <h3 className="dark:text-gray-200">Vehicules Inactifs</h3>
+                  <h3 className="dark:text-gray-200">Véhicules Inactifs</h3>
                 </div>
               </div>
             )}
@@ -159,10 +159,10 @@ function StatisticPage() {
         <div>
           <h1 className="text-center text-xl text-gray-600 dark:text-gray-200 mb-10 font-semibold">
             {/* Vehicule Inactifs */}
-            {chooseALl && "Tous les vehicules"}
-            {chooseActifs && "Vehicule en deplacement"}
-            {chooseStationnement && "Vehicules en stationnement"}
-            {chooseInactifs && "Vehicules inactifs"}
+            {chooseALl && "Tous les véhicules"}
+            {chooseActifs && "Véhicule en déplacement"}
+            {chooseStationnement && "Véhicules en stationnement"}
+            {chooseInactifs && "Véhicules inactifs"}
           </h1>
           {showListeOption && <Liste_options />}
           {chooseActifs && <Actifs_Vehicule />}

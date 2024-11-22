@@ -102,7 +102,7 @@ function VehiculeActiveAjourdhuiComponent({
                         >
                           {vehicule?.description || "non disponible"}
                         </h2>
-                        <div className="flex mb-2 gap-4 text-gray-600 text-md">
+                        <div className="flex mb-2 gap-3 text-gray-600 text-md">
                           <div className="flex gap-3 items-center dark:text-gray-300">
                             <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
                             <h3 className="text-sm sm:text-sm md:text-md">

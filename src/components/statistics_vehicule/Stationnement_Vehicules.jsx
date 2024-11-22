@@ -18,13 +18,14 @@ function Stationnement_Vehicules({
   // formatTimestampToDate,
   // formatTimestampToTime,
   handleClick,
-  selectUTC,
+  // selectUTC,
 }) {
   const {
     mergedData,
     chooseStationnement,
     setCurrentVehicule,
     setShowListOption,
+    selectUTC
   } = useContext(DataContext);
 
   const vehicleArray = mergedData ? Object.values(mergedData) : [];

@@ -11,12 +11,12 @@ function Actifs_Vehicule({
   setshowActiveVehicule,
   vehiculeActiveAjourdhui,
   setshowRapportPupup,
-  formatTimestampToDate,
-  formatTimestampToTime,
+  // formatTimestampToDate,
+  // formatTimestampToTime,
   handleClick,
-  selectUTC,
+  // selectUTC,
 }) {
-  const { mergedData, chooseActifs, setCurrentVehicule, setShowListOption } =
+  const { mergedData, selectUTC,chooseActifs, setCurrentVehicule, setShowListOption } =
     useContext(DataContext);
 
   const vehicleArray = mergedData ? Object.values(mergedData) : [];
