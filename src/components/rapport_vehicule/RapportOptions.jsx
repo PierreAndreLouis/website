@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { MdLocationPin } from "react-icons/md";
 import { IoStatsChartSharp } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
@@ -18,6 +18,7 @@ import { FaHeadphonesAlt } from "react-icons/fa";
 import { IoInformationCircleOutline } from "react-icons/io5";
 import { FaEdit } from "react-icons/fa";
 import { CiEdit } from "react-icons/ci";
+import { DataContext } from "../../context/DataContext";
 
 function RapportOptions({
   setshowRapportPupup,
@@ -29,6 +30,13 @@ function RapportOptions({
   setShowHistoriqueInMap,
   setVehiclueHistoriqueDetails,
 }) {
+  const {
+    mergedData,
+    chooseStationnement,
+    setCurrentVehicule,
+    setShowListOption,
+    selectUTC,
+  } = useContext(DataContext);
   const [showStatisticOption, setshowStatisticOption] = useState(true);
   const [showSmsError, setshowSmsError] = useState(false);
 
@@ -157,6 +165,34 @@ function RapportOptions({
     currentVehicule?.vehiculeDetails
   );
 
+  function convertToTimezone(timestamp, offset) {
+    const date = new Date(timestamp * 1000); // Convertir le timestamp en millisecondes
+    const [sign, hours, minutes] = offset
+      .match(/([+-])(\d{2}):(\d{2})/)
+      .slice(1);
+    const totalOffsetMinutes =
+      (parseInt(hours) * 60 + parseInt(minutes)) * (sign === "+" ? 1 : -1);
+
+    date.setMinutes(date.getMinutes() + totalOffsetMinutes); // Appliquer le décalage
+    return date;
+  }
+
+  function formatTimestampToDateWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  function formatTimestampToTimeWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
   return (
     <div>
       {/* 
@@ -255,11 +291,13 @@ function RapportOptions({
                     <p>
                       Heure de départ:
                       <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                        {/* {formatTimestampToTime(
-                          heureActiveDebut?.timestamp || "pas d'heure de depart !"
-                        )} */}
                         {heureActiveDebut
-                          ? formatTimestampToTime(heureActiveDebut.timestamp)
+                          ? selectUTC
+                            ? formatTimestampToTimeWithTimezone(
+                                heureActiveDebut.timestamp,
+                                selectUTC
+                              )
+                            : formatTimestampToTime(heureActiveDebut.timestamp)
                           : "Null"}
                       </span>
                     </p>
@@ -267,7 +305,12 @@ function RapportOptions({
                       Dernière heure en mouvement:
                       <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                         {heureActiveFin
-                          ? formatTimestampToTime(heureActiveFin.timestamp)
+                          ? selectUTC
+                            ? formatTimestampToTimeWithTimezone(
+                                heureActiveFin.timestamp,
+                                selectUTC
+                              )
+                            : formatTimestampToTime(heureActiveFin.timestamp)
                           : "Null"}
                       </span>
                     </p>

@@ -8,8 +8,13 @@ import { IoReload } from "react-icons/io5";
 import { DataContext } from "../../context/DataContext";
 
 function Inactifs_Vehicules() {
-  const { mergedData, chooseInactifs, setCurrentVehicule, setShowListOption } =
-    useContext(DataContext);
+  const {
+    mergedData,
+    chooseInactifs,
+    selectUTC,
+    setCurrentVehicule,
+    setShowListOption,
+  } = useContext(DataContext);
 
   const vehicleArray = mergedData ? Object.values(mergedData) : [];
   const totalVehicleCount = vehicleArray.length;
@@ -37,6 +42,51 @@ function Inactifs_Vehicules() {
   // Nombre de véhicules filtrés
   const notActiveVehicleCount = filteredVehiclesInactifs.length || "0";
 
+  // Fonctions pour formater le temps et la date
+  function formatTimestampToTime(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const hours = date.getUTCHours().toString().padStart(2, "0");
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
+  function formatTimestampToDate(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const year = date.getUTCFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  function convertToTimezone(timestamp, offset) {
+    const date = new Date(timestamp * 1000); // Convertir le timestamp en millisecondes
+    const [sign, hours, minutes] = offset
+      .match(/([+-])(\d{2}):(\d{2})/)
+      .slice(1);
+    const totalOffsetMinutes =
+      (parseInt(hours) * 60 + parseInt(minutes)) * (sign === "+" ? 1 : -1);
+
+    date.setMinutes(date.getMinutes() + totalOffsetMinutes); // Appliquer le décalage
+    return date;
+  }
+
+  function formatTimestampToDateWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  function formatTimestampToTimeWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
   return (
     <div>
       <div className="transition-all">
@@ -50,6 +100,9 @@ function Inactifs_Vehicules() {
         >
           {filteredVehiclesInactifs?.length > 0 ? (
             filteredVehiclesInactifs?.map((vehicule, index) => {
+
+          {/* {vehicleArray?.length > 0 ? (
+            vehicleArray?.map((vehicule, index) => { */}
               return (
                 <div
                   onClick={() => {
@@ -88,26 +141,41 @@ function Inactifs_Vehicules() {
                         </h2>
                         <div className="flex mb-2 gap-4 text-gray-600 text-md">
                           <div className="flex gap-3 items-center dark:text-gray-300">
-                            <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
+                            <FaRegCalendarAlt  id="date-icon" className="text-gray-500/80 dark:text-gray-300" />
                             <h3 className="text-sm sm:text-sm md:text-md">
-                              <p>Pas de date disponible</p>
+                              {vehicule.vehiculeDetails?.[0]?.timestamp
+                                ? selectUTC
+                                  ? formatTimestampToDateWithTimezone(
+                                      vehicule.vehiculeDetails[0].timestamp,
+                                      selectUTC
+                                    )
+                                  : formatTimestampToDate(
+                                      vehicule.vehiculeDetails?.[0]?.timestamp
+                                    )
+                                : "Pas de date disponible"}
                             </h3>
                           </div>
+
                           {vehicule.vehiculeDetails?.[0]?.timestamp && (
                             <div className="flex items-center gap-1 dark:text-gray-300">
-                              <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl" />
+                              <IoMdTime id="time-icon" className="text-gray-500/80 dark:text-gray-300 text-xl" />
                               <h3 className="text-sm sm:text-sm md:text-md">
-                                {/* {formatTimestampToTime(
-                                  vehicule.vehiculeDetails?.[0]?.timestamp || 0
-                                )} */}
+                                {selectUTC
+                                  ? formatTimestampToTimeWithTimezone(
+                                      vehicule.vehiculeDetails[0].timestamp,
+                                      selectUTC
+                                    )
+                                  : formatTimestampToTime(
+                                      vehicule.vehiculeDetails?.[0]?.timestamp
+                                    )}
                               </h3>
                             </div>
                           )}
                         </div>
 
-                        <div className="flex gap-2 items-center">
+                        <div id="statut-box" className="flex gap-2 items-center">
                           <div>
-                            <FaCar className="text-gray-500/80 dark:text-gray-300" />
+                            <FaCar id="car-icon" className="text-gray-500/80 dark:text-gray-300" />
                           </div>
                           <span
                             className={` bg-purple-300/50 ml-1 dark:text-purple-100 text-purple-800 pb-[.2rem] px-2 py-0 text-sm rounded-md `}
@@ -118,11 +186,12 @@ function Inactifs_Vehicules() {
 
                         <div className="hidden sm:flex gap-1">
                           <div>
-                            <MdLocationPin className="text-xl text-gray-500/80 dark:text-gray-300 -translate-x-0.5 mt-3" />
+                            <MdLocationPin  className="text-xl text-gray-500/80 dark:text-gray-300 -translate-x-0.5 mt-3" />
                           </div>
 
                           <p className="text-md felx sm:flex text-gray-600 dark:text-gray-200 mt-2 md:text-lg">
-                            {"adresse non disponible"}
+                            {vehicule.vehiculeDetails[0]?.address ||
+                              "adresse non disponible"}
                           </p>
                         </div>
                       </div>
@@ -132,7 +201,8 @@ function Inactifs_Vehicules() {
                         <span className="text-purple-800 font-bold dark:text-purple-200">
                           Adresse :{" "}
                         </span>
-                        {"adresse non disponible"}
+                        {vehicule.vehiculeDetails[0]?.address ||
+                          "adresse non disponible"}
                       </p>
                     </div>
                   </div>

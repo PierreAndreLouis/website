@@ -63,21 +63,6 @@ function Liste() {
     console.log("Véhicule sélectionné", vehicle);
   };
 
-  // const handleClick = (vehicle) => {
-  //   const deviceID = vehicle.deviceID;
-
-  //   // Recherche du véhicule correspondant dans la liste
-  //   const foundVehicle = donneeFusionneeForRapport.find((v) => v.deviceID === deviceID);
-
-  //   if (foundVehicle) {
-  //     setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-  //     setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
-  //     setShowListOption(true); // Affiche la liste d'options si nécessaire
-  //     console.log("Véhicule sélectionné", foundVehicle);
-  //   } else {
-  //     console.error("Véhicule introuvable avec le deviceID :", deviceID);
-  //   }
-  // };
 
   // Fonctions pour formater le temps et la date
   function formatTimestampToTime(timestamp) {

@@ -149,7 +149,7 @@ function HistoriqueMainComponent({
                               </h3>
                             </div>
                             <div className="flex items-center gap-1">
-                              <IoMdTime className="text-gray-500/80 text-xl dark:text-gray-300" />
+                              <IoMdTime id="time-icon" className="text-gray-500/80 text-xl dark:text-gray-300" />
                               <h3 className="text-sm sm:text-sm md:text-md">
                                 {/* {formatTimestampToTime(vehicle.timestamp)} */}
                                 {selectUTC

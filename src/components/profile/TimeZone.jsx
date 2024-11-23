@@ -25,7 +25,7 @@ function TimeZone({ setChangeTimeZone }) {
     [zone.region, zone.utcOffset, zone.currentTime].some((field) =>
       field.toLowerCase().includes(timeZonesearchQuery.toLowerCase())
     )
-  )
+  );
 
   return (
     <div className="fixed inset-0 z-40 flex justify-center items-center bg-black/50 dark:bg-black/70">
@@ -76,12 +76,13 @@ function TimeZone({ setChangeTimeZone }) {
                 {selectedTimeZone || "Aucun fuseau horaire sélectionné"}
               </p>
               <p className="text-gray-500 dark:text-gray-400">
-                {selectUTC || "--"} / {selectTime || "--"}
+                {selectUTC || "--"}
+                 {/* / {selectTime || "--"} */}
               </p>
             </div>
           </div>
         </div>
-        <div className="shadow-lg-- overflow-y-auto overflow-x-hidden max-h-[55vh] mt-[7.3rem] rounded-lg min-h-[100%] px-0">
+        <div className="shadow-lg-- overflow-y-auto overflow-x-hidden max-h-[55vh] mt-[7.3rem] rounded-lg min-h-[100%] px-0 ">
           {filteredData.map((item, index) => (
             <div
               key={index}
@@ -89,7 +90,7 @@ function TimeZone({ setChangeTimeZone }) {
                 handleSelectTimeZone(item);
                 setChangeTimeZone(false);
               }}
-              className={`flex justify-between border-b py-2 my-2 cursor-pointer rounded-lg px-2 ${
+              className={`flex justify-between border-b py-3 my-2 cursor-pointer rounded-lg px-2 ${
                 selectedTimeZone === item.region
                   ? "bg-orange-50 dark:bg-gray-900/80"
                   : "hover:bg-orange-50 dark:hover:bg-gray-900/80"
@@ -100,12 +101,13 @@ function TimeZone({ setChangeTimeZone }) {
                   {item.region}
                 </h3>
                 <h4 className="text-gray-500 dark:text-gray-400">
-                  UTC {item.utcOffset}
+                  {/* UTC {item.utcOffset} */}
                 </h4>
               </div>
               <div>
                 <h3 className="text-gray-600 dark:text-gray-300">
-                  {item.currentTime}
+                  {/* {item.currentTime} */}
+                  UTC {item.utcOffset}
                 </h3>
               </div>
             </div>

@@ -271,7 +271,7 @@ function HistoriquePage() {
           {/* <button onClick={() => {console.log(currentVehicule)}}>Test</button> */}
           {/* centrer la carte */}
           <button
-            className="fixed top-[12rem] right-[2rem]"
+            className="fixed top-[9rem] right-[1rem]"
             onClick={centerOnFirstMarker}
           >
             {showHistoriqueInMap && !typeDeVue && (
