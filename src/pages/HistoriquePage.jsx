@@ -38,6 +38,7 @@ import ShowFilterComponent from "../components/historique_vehicule/ShowFilterCom
 import HistoriqueMainComponent from "../components/historique_vehicule/HistoriqueMainComponent";
 import HistoriqueHeader from "../components/historique_vehicule/HistoriqueHeader";
 import TypeDeVue from "../components/historique_vehicule/TypeDeVue";
+import TrajetVehicule from "../components/historique_vehicule/TrajetVehicule";
 // import ShowVehiculeListeComponent from "../components/location_vehicule/ShowVehiculeListeComponent";
 
 // Configurer les icônes de Leaflet
@@ -270,7 +271,7 @@ function HistoriquePage() {
         <div className="fixed flex justify-center z-20 top-[3.5rem] bg-white dark:bg-gray-800 md:bg-white/0 py-2 pt-3 left-0 right-0">
           {/* <button onClick={() => {console.log(currentVehicule)}}>Test</button> */}
           {/* centrer la carte */}
-          <button
+          {/* <button
             className="fixed top-[9rem] right-[1rem]"
             onClick={centerOnFirstMarker}
           >
@@ -279,7 +280,7 @@ function HistoriquePage() {
                 <MdCenterFocusStrong className="text-orange-500 text-[1.52rem]" />
               </div>
             )}
-          </button>
+          </button> */}
 
           <HistoriqueHeader
             setShowHistoriqueInMap={setShowHistoriqueInMap}
@@ -331,7 +332,27 @@ function HistoriquePage() {
       ) : (
         // carte section
         <div className="  fixed z-[9] right-0 top-[5rem] md:top-[3.8rem] bottom-0 overflow-hidden left-0">
-          <div>
+          <div className=" mt-[2.3rem] md:mt-0 overflow-hidden">
+            <TrajetVehicule
+              typeDeVue={typeDeVue}
+              setTypeDeVue={setTypeDeVue}
+              mapType={mapType}
+              handleMapTypeChange={handleMapTypeChange}
+              vehicles={vehicles}
+              mapRef={mapRef}
+              tileLayers={tileLayers}
+              getMarkerIcon={getMarkerIcon}
+              currentLocation={currentLocation}
+              customMarkerIcon={customMarkerIcon}
+              positions={positions}
+              centerOnFirstMarker={centerOnFirstMarker}
+              showHistoriqueInMap={showHistoriqueInMap}
+              openGoogleMaps={openGoogleMaps}
+            />
+          </div>
+          {/* <div className="border-2 relative border-red-600 w-[50rem]--- h-[30rem]--- mt-[2.3rem]-- md:mt-0-- overflow-hidden---">
+        
+           
             <div className="relative">
               <TypeDeVue
                 typeDeVue={typeDeVue}
@@ -355,6 +376,8 @@ function HistoriquePage() {
                 />
                 <ScaleControl position="bottomright" />
                 <AttributionControl position="bottomleft" />
+
+                
 
                 {vehicles?.map((vehicule, index) => {
                   const {
@@ -392,6 +415,7 @@ function HistoriquePage() {
                     >
                       <Popup className="">
                         <div className="--w-[70vw] ---max-w-[20rem]">
+                          
                           <p>
                             <strong>Description :</strong>{" "}
                             {description || "Non disponible"}
@@ -457,11 +481,10 @@ function HistoriquePage() {
                   </Marker>
                 )}
 
-                {/* 2. Ajoute la ligne rouge entre les positions consécutives */}
                 <Polyline positions={positions} color="red" weight={2} />
               </MapContainer>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </div>

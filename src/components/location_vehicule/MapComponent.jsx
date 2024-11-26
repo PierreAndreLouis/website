@@ -13,17 +13,8 @@ import customMarkerIcon from "/img/cars/localisation.png";
 import iconLowSpeed from "/pin/ping_red.png";
 import iconMediumSpeed from "/pin/ping_yellow.png";
 import iconHighSpeed from "/pin/ping_green.png";
+import { DataContext } from "../../context/DataContext";
 // import { DataContext } from "../../context/DataContext";
-
-import { IoClose } from "react-icons/io5";
-import { IoMdClose } from "react-icons/io";
-import { FaCar } from "react-icons/fa";
-
-import { DataContext } from "../context/DataContext";
-import HeaderLocation from "../components/location_vehicule/HeaderLocation";
-import ShowVehiculeListeComponent from "../components/location_vehicule/ShowVehiculeListeComponent";
-import TypeDeVue from "../components/location_vehicule/TypeDeVue";
-import MapComponent from "../components/location_vehicule/MapComponent";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -33,7 +24,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
 });
 
-const LocationPage = () => {
+function MapComponent() {
   const { mergedData, currentVehicule, selectedVehicle, setSelectedVehicle } =
     useContext(DataContext);
 
@@ -162,122 +153,87 @@ const LocationPage = () => {
   const filteredVehicles = vehiculeActive?.filter((vehicule) =>
     vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
   return (
-    <div className="relative">
-      <HeaderLocation
-        setShowVehiculeListe={setShowVehiculeListe}
-        selectedVehicle={selectedVehicle}
-        vehicleData={vehicleData}
-        setTypeDeVue={setTypeDeVue}
-        showAllVehicles={showAllVehicles}
-      />
-
-      <ShowVehiculeListeComponent
-        showVehiculeListe={showVehiculeListe}
-        setShowVehiculeListe={setShowVehiculeListe}
-        showAllVehicles={showAllVehicles}
-        searchQuery={searchQuery}
-        handleSearchChange={handleSearchChange}
-        filteredVehicles={filteredVehicles}
-        handleVehicleClick={handleVehicleClick}
-      />
-
-      <div className="relative">
-        <TypeDeVue
-          typeDeVue={typeDeVue}
-          setTypeDeVue={setTypeDeVue}
-          mapType={mapType}
-          handleMapTypeChange={handleMapTypeChange}
+    <div>
+      <MapContainer
+        center={[0, 0]}
+        zoom={3}
+        // maxZoom={3} // Empêche un zoom trop proche
+        style={{ height: "100vh", width: "100%" }}
+        ref={mapRef}
+      >
+        <TileLayer
+          url={tileLayers[mapType].url}
+          attribution={tileLayers[mapType].attribution}
         />
+        <ScaleControl position="bottomright" />
+        <AttributionControl position="bottomleft" />
 
-
-
-
-<MapComponent />
-        {/* <MapContainer
-          center={[0, 0]}
-          zoom={15}
-          style={{ height: "100vh", width: "100%" }}
-          ref={mapRef}
-        >
-          <TileLayer
-            url={tileLayers[mapType].url}
-            attribution={tileLayers[mapType].attribution}
-          />
-          <ScaleControl position="bottomright" />
-          <AttributionControl position="bottomleft" />
-
-          {vehicles.map((vehicle, index) => (
-            <Marker
-              key={index}
-              position={[
-                vehicle.lastValidLatitude || 0,
-                vehicle.lastValidLongitude || 0,
-              ]}
-              icon={L.icon({
-                iconUrl: getMarkerIcon(vehicle.speedKPH),
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowUrl:
-                  "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
-                shadowSize: [41, 41],
-              })}
-            >
-              <Popup>
-                <div className="w-[70vw] max-w-[20rem]">
-                  <p>
-                    <strong>Description :</strong>{" "}
-                    {vehicle.description || "Non disponible"}
-                  </p>
-                  <p>
-                    <strong>Adresse :</strong>{" "}
-                    {vehicle.address || "Non disponible"}
-                  </p>
-                  <p>
-                    <strong>IMEI Number :</strong>{" "}
-                    {vehicle.imeiNumber || "Chargement..."}
-                  </p>
-                  <p>
-                    <strong>Vitesse :</strong>{" "}
-                    {vehicle.speedKPH || "Non disponible"} Km/h
-                  </p>
-                  <p>
-                    <strong>Statut :</strong>
-                    {vehicle.speedKPH < 1 && "en arret"}
-                    {vehicle.speedKPH > 20 && "en deplacement"}
-                    {vehicle.speedKPH >= 1 &&
-                      vehicle.speedKPH <= 20 &&
-                      "en ralenti"}
-                  </p>
-                  <p>
-                    <strong>Plaque d'immatriculation :</strong>{" "}
-                    {vehicle.licensePlate || "Chargement..."}
-                  </p>
-                  <button
-                    onClick={() =>
-                      openGoogleMaps(
-                        vehicle.lastValidLatitude,
-                        vehicle.lastValidLongitude
-                      )
-                    }
-                    className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md"
-                  >
-                    Voir sur Google Maps
-                  </button>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer> */}
-
-
-
-
-      </div>
+        {vehicles.map((vehicle, index) => (
+          <Marker
+            key={index}
+            position={[
+              vehicle.lastValidLatitude || 0,
+              vehicle.lastValidLongitude || 0,
+            ]}
+            icon={L.icon({
+              iconUrl: getMarkerIcon(vehicle.speedKPH),
+              iconSize: [25, 41],
+              iconAnchor: [12, 41],
+              popupAnchor: [1, -34],
+              shadowUrl:
+                "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
+              shadowSize: [41, 41],
+            })}
+          >
+            <Popup>
+              <div className="w-[70vw] max-w-[20rem]">
+                <p>
+                  <strong>Description :</strong>{" "}
+                  {vehicle.description || "Non disponible"}
+                </p>
+                <p>
+                  <strong>Adresse :</strong>{" "}
+                  {vehicle.address || "Non disponible"}
+                </p>
+                <p>
+                  <strong>IMEI Number :</strong>{" "}
+                  {vehicle.imeiNumber || "Chargement..."}
+                </p>
+                <p>
+                  <strong>Vitesse :</strong>{" "}
+                  {vehicle.speedKPH || "Non disponible"} Km/h
+                </p>
+                <p>
+                  <strong>Statut :</strong>
+                  {vehicle.speedKPH < 1 && "en arret"}
+                  {vehicle.speedKPH > 20 && "en deplacement"}
+                  {vehicle.speedKPH >= 1 &&
+                    vehicle.speedKPH <= 20 &&
+                    "en ralenti"}
+                </p>
+                <p>
+                  <strong>Plaque d'immatriculation :</strong>{" "}
+                  {vehicle.licensePlate || "Chargement..."}
+                </p>
+                <button
+                  onClick={() =>
+                    openGoogleMaps(
+                      vehicle.lastValidLatitude,
+                      vehicle.lastValidLongitude
+                    )
+                  }
+                  className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md"
+                >
+                  Voir sur Google Maps
+                </button>
+              </div>
+            </Popup>
+          </Marker>
+        ))}
+      </MapContainer>
     </div>
   );
-};
+}
 
-export default LocationPage;
+export default MapComponent;

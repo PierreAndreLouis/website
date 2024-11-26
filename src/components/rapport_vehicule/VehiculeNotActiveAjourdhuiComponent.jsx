@@ -8,6 +8,7 @@ import { FaCar } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 // import RapportOptions from "./RapportOptions";
 import { IoReload } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 function VehiculeNotActiveAjourdhuiComponent({
   showParkingVehicule,
@@ -76,10 +77,11 @@ function VehiculeNotActiveAjourdhuiComponent({
           {vehiculeNotActiveAjourdhui?.length > 0 ? (
             vehiculeNotActiveAjourdhui?.map((vehicule, index) => {
               return (
-                <div
+                <Link
+                to="/rapport_page_details"
                   onClick={() => {
                     handleClick(vehicule);
-                    setshowRapportPupup(true);
+                    // setshowRapportPupup(true);
                   }}
                   key={index}
                   className="bg-white rounded-lg dark:bg-gray-800 dark:shadow-gray-600"
@@ -180,7 +182,7 @@ function VehiculeNotActiveAjourdhuiComponent({
                       </p>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })
           ) : (

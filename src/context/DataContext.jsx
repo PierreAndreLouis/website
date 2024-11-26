@@ -24,9 +24,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   const [rapportvehicleDetails, setrapportVehicleDetails] = useState([]);
   const [searchrapportvehicleDetails, setSearchrapportVehicleDetails] =
     useState([]);
-  const [vehiclueHistoriqueDetails, setVehiclueHistoriqueDetails] = useState(
-    []
-  );
+
   const [mergedData, setMergedData] = useState(() => {
     const storedMergedData = localStorage.getItem("mergedData");
     return storedMergedData ? JSON.parse(storedMergedData) : null;
@@ -140,6 +138,29 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     );
     return storedVehiculeActiveAjourdhui
       ? JSON.parse(storedVehiculeActiveAjourdhui)
+      : [];
+  });
+
+  const [vehiclueHistoriqueDetails, setVehiclueHistoriqueDetails] = useState(
+    () => {
+      const storedvehiclueHistoriqueDetails = localStorage.getItem(
+        "vehiclueHistoriqueDetails"
+      );
+      return storedvehiclueHistoriqueDetails
+        ? JSON.parse(storedvehiclueHistoriqueDetails)
+        : [];
+    }
+  );
+
+  const [
+    vehiclueHistoriqueRapportDetails,
+    setVehiclueHistoriqueRapportDetails,
+  ] = useState(() => {
+    const storedvehiclueHistoriqueRapportDetails = localStorage.getItem(
+      "vehiclueHistoriqueRapportDetails"
+    );
+    return storedvehiclueHistoriqueRapportDetails
+      ? JSON.parse(storedvehiclueHistoriqueRapportDetails)
       : [];
   });
 
@@ -607,6 +628,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         });
 
       setVehiclueHistoriqueDetails(filteredVehicleDetails);
+      setVehiclueHistoriqueRapportDetails(newVehicleDetails);
 
       // console.log("newVehicleDetails.......>>>", newVehicleDetails);
       // console.log(
@@ -1279,11 +1301,29 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       JSON.stringify(vehiculeActiveAjourdhui)
     );
     localStorage.setItem(
+      "vehiclueHistoriqueDetails",
+      JSON.stringify(vehiclueHistoriqueDetails)
+    );
+
+    localStorage.setItem(
+      "vehiclueHistoriqueRapportDetails",
+      JSON.stringify(vehiclueHistoriqueRapportDetails)
+    );
+
+    localStorage.setItem(
       "vehiculeNotActiveAjourdhui",
       JSON.stringify(vehiculeNotActiveAjourdhui)
     );
+
     localStorage.setItem("vehiculeNotActif", JSON.stringify(vehiculeNotActif));
-  }, [vehiculeActiveAjourdhui, vehiculeNotActiveAjourdhui, vehiculeNotActif]);
+  }, [
+    vehiculeActiveAjourdhui,
+    vehiculeNotActiveAjourdhui,
+    vehiculeNotActif,
+    vehiclueHistoriqueRapportDetails,
+    donneeFusionneeForRapport,
+    vehiclueHistoriqueDetails,
+  ]);
 
   const updateCurrentVehicule = (vehicle) => {
     setCurrentVehicule(vehicle);
@@ -1421,7 +1461,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         setselectTime,
         handleSelectTimeZone,
 
-        // 
+        //
         showCategorieListe,
         setshowCategorieListe,
         chooseActifs,
@@ -1432,6 +1472,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         setchooseInactifs,
         chooseALl,
         setchooseALl,
+        vehiclueHistoriqueRapportDetails,
+        setVehiclueHistoriqueRapportDetails
       }}
     >
       {children}
@@ -1440,4 +1482,3 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 };
 
 export default DataContextProvider;
-

@@ -5,6 +5,7 @@ import { MdLocationPin } from "react-icons/md";
 import { FaCar } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 import { IoReload } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 function VehiculeNotActifComponent({
   showInactiveVehicule,
@@ -45,10 +46,11 @@ function VehiculeNotActifComponent({
           {vehiculeNotActif?.length > 0 ? (
             vehiculeNotActif?.map((vehicule, index) => {
               return (
-                <div
+                <Link
+                to="/rapport_page_details"
                   onClick={() => {
                     handleClick(vehicule);
-                    setshowRapportPupup(true);
+                    // setshowRapportPupup(true);
                   }}
                   key={index}
                   className="bg-white rounded-lg dark:bg-gray-800 dark:shadow-gray-600"
@@ -136,7 +138,7 @@ function VehiculeNotActifComponent({
                       </p>
                     </div>
                   </div>
-                </div>
+                </Link>
               );
             })
           ) : (

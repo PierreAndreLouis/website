@@ -27,8 +27,8 @@ function StatisticPage() {
 
   return (
     <div className="min-w-full min-h-screen pt-40 pb-20 px-2">
-      <div>
-        <div className="fixed z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
+      <div className="max-w-[80vw] mx-auto ">
+        <div className="fixed sm:px-[15vw] z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
           <div
             onClick={() => {
               setshowCategorieListe(!showCategorieListe);

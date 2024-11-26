@@ -7,9 +7,9 @@ import { IoTimeOutline } from "react-icons/io5";
 import { RiPinDistanceLine } from "react-icons/ri";
 import { SlSpeedometer } from "react-icons/sl";
 import { TfiMapAlt } from "react-icons/tfi";
+import { FaCar } from "react-icons/fa";
 import { PiMapPinAreaBold } from "react-icons/pi";
 import { LuParkingCircle } from "react-icons/lu";
-import { FaCar } from "react-icons/fa";
 import { GiPathDistance } from "react-icons/gi";
 import { FiMapPin } from "react-icons/fi";
 import { TbLock } from "react-icons/tb";
@@ -36,33 +36,24 @@ function RapportOptions({
     setCurrentVehicule,
     setShowListOption,
     selectUTC,
+    setVehiclueHistoriqueRapportDetails,
   } = useContext(DataContext);
   const [showStatisticOption, setshowStatisticOption] = useState(true);
   const [showSmsError, setshowSmsError] = useState(false);
 
-  // const firstSpeedEntry = currentVehicule?.vehiculeDetails
-  // ?.find(
-  //   (item) => parseFloat(item.speedKPH) > 0
-  // );
-  // if (firstSpeedEntry) {
-  //   return formatTimestampToTime(firstSpeedEntry.timestamp);
-  // }
-  // else {
-  //   console.log("pas de premier date.");
-  // }
 
   const filteredList = currentVehicule?.vehiculeDetails?.filter(
     (item) => parseFloat(item.speedKPH) > 0
   );
 
   // Trouve l'élément avec le timestamp minimum
-  const heureActiveDebut = filteredList.reduce((minItem, currentItem) => {
+  const heureActiveDebut = filteredList?.reduce((minItem, currentItem) => {
     return parseInt(currentItem.timestamp) < parseInt(minItem.timestamp)
       ? currentItem
       : minItem;
   }, filteredList[0]);
 
-  const heureActiveFin = filteredList.reduce((maxItem, currentItem) => {
+  const heureActiveFin = filteredList?.reduce((maxItem, currentItem) => {
     return parseInt(currentItem.timestamp) > parseInt(maxItem.timestamp)
       ? currentItem
       : maxItem;
@@ -118,11 +109,15 @@ function RapportOptions({
       };
     }
 
+
+    
     // Calcul de la vitesse minimale, maximale et moyenne
     const minSpeed = Math.min(...speeds);
     const maxSpeed = Math.max(...speeds);
+
+
     const averageSpeed =
-      speeds.reduce((sum, speed) => sum + speed, 0) / speeds.length;
+      speeds?.reduce((sum, speed) => sum + speed, 0) / speeds.length;
 
     return {
       minSpeed,
@@ -348,19 +343,19 @@ function RapportOptions({
                     <p>
                       Vitesse minimale:
                       <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                        {minSpeed.toFixed(2)} Km/h
+                        {minSpeed.toFixed(2) || "0"} Km/h
                       </span>
                     </p>
                     <p>
                       Vitesse moyenne:
                       <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                        {averageSpeed.toFixed(2)} Km/h
+                        {averageSpeed.toFixed(2) || "0"} Km/h
                       </span>
                     </p>
                     <p>
                       Vitesse maximale:
                       <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                        {maxSpeed.toFixed(2)} Km/h
+                        {maxSpeed.toFixed(2) || "0"} Km/h
                       </span>
                     </p>
                   </div>
@@ -434,6 +429,11 @@ function RapportOptions({
                   </div>
                 </div>
               </div>
+
+
+
+
+
             </div>
           ) : (
             // Options section
@@ -460,6 +460,9 @@ function RapportOptions({
                 onClick={() => {
                   setShowHistoriqueInMap(true);
                   setVehiclueHistoriqueDetails(
+                    currentVehicule?.vehiculeDetails
+                  );
+                  setVehiclueHistoriqueRapportDetails(
                     currentVehicule?.vehiculeDetails
                   );
                 }}

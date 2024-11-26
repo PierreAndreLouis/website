@@ -30,6 +30,7 @@ import RapportPage from "./pages/RapportPage";
 import LocationPage from "./pages/LocationPage";
 import HistoriquePage from "./pages/HistoriquePage";
 import StatisticPage from "./pages/StatisticPage";
+import RapportPageDetails from "./pages/RapportPageDetails";
 
 function App() {
   const location = useLocation();
@@ -139,6 +140,11 @@ function App() {
           />
 
           <Route
+            path="/rapport_page_details"
+            element={<PrivateRoute element={<RapportPageDetails />} />}
+          />
+
+          <Route
             path="/Change_Password"
             element={<ProtectedChangePassword />}
           />
@@ -153,3 +159,22 @@ function App() {
 }
 
 export default App;
+
+
+
+// {Device: "863844053509383";
+// accountID: "lelevier";
+// address: "Delmas 61, Commune de Delmas, Département de l'Ouest 6120, Ayiti";
+// city: "Commune de Delmas";
+// creationMillis: "1732468878595";
+// creationTime: "1732468878";
+// deviceID: "863844053509383";
+// heading: "0.0";
+// latitude: "18.541458833333333";
+// longitude: "-72.297372";
+// odometerKM: "1273.1891098784806";
+// speedKPH: "0.0";
+// stateProvince: "Département de l'Ouest";
+// statusCode: "0xF952";
+// streetAddress: "Delmas 61";
+// timestamp: "1732468863";}
