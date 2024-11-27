@@ -78,7 +78,7 @@ function VehiculeNotActiveAjourdhuiComponent({
             vehiculeNotActiveAjourdhui?.map((vehicule, index) => {
               return (
                 <Link
-                to="/rapport_page_details"
+                  to="/rapport_page_details"
                   onClick={() => {
                     handleClick(vehicule);
                     // setshowRapportPupup(true);
@@ -104,7 +104,6 @@ function VehiculeNotActiveAjourdhuiComponent({
                           />
                         </div>
                       </div>
-
                       <div>
                         <h2
                           className={`text-red-800 dark:text-red-200 text-gray-800-- font-semibold text-md md:text-xl mb-2 `}
@@ -113,7 +112,10 @@ function VehiculeNotActiveAjourdhuiComponent({
                         </h2>
                         <div className="flex mb-2 gap-3 text-gray-600 text-md">
                           <div className="flex gap-3 items-center  dark:text-gray-300">
-                            <FaRegCalendarAlt  id="date-icon" className="text-gray-500/80  dark:text-gray-300" />
+                            <FaRegCalendarAlt
+                              id="date-icon"
+                              className="text-gray-500/80  dark:text-gray-300"
+                            />
                             <h3 className="text-sm sm:text-sm md:text-md">
                               {/* {formatTimestampToDate(
                                 vehicule?.vehiculeDetails[0]?.timestamp
@@ -131,7 +133,10 @@ function VehiculeNotActiveAjourdhuiComponent({
                             </h3>
                           </div>
                           <div className="flex items-center gap-1  dark:text-gray-300">
-                            <IoMdTime id="time-icon" className="text-gray-500/80  dark:text-gray-300 text-xl" />
+                            <IoMdTime
+                              id="time-icon"
+                              className="text-gray-500/80  dark:text-gray-300 text-xl"
+                            />
                             <h3 className="text-sm sm:text-sm md:text-md">
                               {/* {formatTimestampToTime(
                                 vehicule.vehiculeDetails?.[0]?.timestamp || 0
@@ -149,9 +154,15 @@ function VehiculeNotActiveAjourdhuiComponent({
                           </div>
                         </div>
 
-                        <div id="statut-box" className="flex gap-2 items-center">
+                        <div
+                          id="statut-box"
+                          className="flex gap-2 items-center"
+                        >
                           <div>
-                            <FaCar id="car-icon" className="text-gray-500/80 dark:text-gray-300" />
+                            <FaCar
+                              id="car-icon"
+                              className="text-gray-500/80 dark:text-gray-300"
+                            />
                           </div>
                           <span
                             className={` bg-red-300/20 ml-1 dark:text-red-300  text-red-800 pb-[.2rem] px-2 py-0 text-sm rounded-md `}
