@@ -10,6 +10,7 @@ import { Chart, registerables } from "chart.js";
 import { IoTimeOutline } from "react-icons/io5";
 import { GiPathDistance } from "react-icons/gi";
 import { FaChevronDown } from "react-icons/fa6";
+import { IoMdInformationCircleOutline } from "react-icons/io";
 
 // Enregistrement des composants nécessaires
 Chart.register(...registerables);
@@ -42,6 +43,11 @@ function RapportPageDetails() {
     vehiclueHistoriqueRapportDetails,
     showHistoriqueInMap,
     selectUTC,
+    donneeFusionneeForRapport,
+    vehiculeActiveAjourdhui,
+    vehiculeNotActiveAjourdhui,
+    vehiculeNotActif,
+    currentdataFusionnee,
   } = useContext(DataContext);
 
   const mapRef = useRef(); // Référence de la carte
@@ -68,6 +74,8 @@ function RapportPageDetails() {
 
   const [mapType, setMapType] = useState("streets");
   const [currentLocation, setCurrentLocation] = useState(null);
+
+  const [personnelDetails, setPersonnelDetails] = useState(true);
 
   const tileLayers = {
     streets: {
@@ -157,7 +165,12 @@ function RapportPageDetails() {
 
     // Créer un nouveau graphique
     new Chart(ctx, {
-      type: "line", // Type de graphique
+      // type: "line", // Type de graphique
+      // type: "polarArea", // Type de graphique
+      // type: "radar", // Type de graphique
+      type: "bar", // Type de graphique
+      fill: true, // Ajoutez cette propriété pour un graphique en aires
+
       data: {
         labels: timestamps, // Échelle X
         datasets: [
@@ -337,32 +350,32 @@ function RapportPageDetails() {
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
 
-  const vehiculedetails = currentVehicule?.vehiculeDetails;
+  // const vehiculedetails = currentVehicule?.vehiculeDetails;
 
-  // Filtrer les détails où le véhicule est en mouvement
-  const movingDetails = vehiculedetails?.filter(
-    (detail) => parseFloat(detail.speedKPH) >= 1
-  );
+  // // Filtrer les détails où le véhicule est en mouvement
+  // const movingDetails = vehiculedetails?.filter(
+  //   (detail) => parseFloat(detail.speedKPH) >= 1
+  // );
 
-  // Calculer la différence entre le premier et le dernier timestamp
-  let timeInMotion = 0;
-  if (movingDetails?.length > 0) {
-    const firstTimestamp = parseInt(movingDetails[0].timestamp, 10);
-    const lastTimestamp = parseInt(
-      movingDetails[movingDetails.length - 1].timestamp,
-      10
-    );
-    timeInMotion = lastTimestamp - firstTimestamp; // Temps en secondes
-  }
+  // // Calculer la différence entre le premier et le dernier timestamp
+  // let timeInMotion = 0;
+  // if (movingDetails?.length > 0) {
+  //   const firstTimestamp = parseInt(movingDetails[0].timestamp, 10);
+  //   const lastTimestamp = parseInt(
+  //     movingDetails[movingDetails.length - 1].timestamp,
+  //     10
+  //   );
+  //   timeInMotion = lastTimestamp - firstTimestamp; // Temps en secondes
+  // }
 
-  // Convertir le temps en mouvement en heures, minutes, secondes
-  const formatTime = (seconds) => {
-    const absSeconds = Math.abs(seconds); // Éviter les valeurs négatives
-    const hrs = Math.floor(absSeconds / 3600);
-    const mins = Math.floor((absSeconds % 3600) / 60);
-    const secs = absSeconds % 60;
-    return `${hrs}h ${mins}m ${secs}s`;
-  };
+  // // Convertir le temps en mouvement en heures, minutes, secondes
+  // const formatTime = (seconds) => {
+  //   const absSeconds = Math.abs(seconds); // Éviter les valeurs négatives
+  //   const hrs = Math.floor(absSeconds / 3600);
+  //   const mins = Math.floor((absSeconds % 3600) / 60);
+  //   const secs = absSeconds % 60;
+  //   return `${hrs}h ${mins}m ${secs}s`;
+  // };
 
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -469,562 +482,922 @@ function RapportPageDetails() {
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
 
-  const longestStopDuration = (vehiculedetails) => {
-    let longestStop = 0;
-    let stopStart = null;
+  //   const processVehicleDataWithDurations = (vehiculedetails) => {
+  //     const firstIndex = vehiculedetails?.findIndex(item => parseFloat(item.speedKPH) >= 1);
+  //     const lastIndex = vehiculedetails?.length - 1 - vehiculedetails?.slice().reverse().findIndex(item => parseFloat(item.speedKPH) >= 1);
 
-    vehiculedetails?.length &&
-      vehiculedetails?.forEach((detail, index) => {
-        const speed = parseFloat(detail.speedKPH);
-        const timestamp = parseInt(detail.timestamp, 10);
+  //     if (firstIndex === -1 || lastIndex === -1) {
+  //       return { filteredDetails: [], stopDurations: [], totalStopTime: "0h 0m 0s", stopCount: 0 };
+  //     }
 
-        if (speed === 0) {
-          if (stopStart === null) {
-            stopStart = timestamp;
+  //     const filteredDetails = vehiculedetails?.slice(firstIndex, lastIndex + 1);
+
+  //     let stopCount = 0;
+  //     let totalStopTime = 0;
+  //     const stopDurations = [];
+  //     let currentStopStart = null;
+
+  //     for (let i = 0; i < filteredDetails?.length; i++) {
+  //       const currSpeed = parseFloat(filteredDetails[i].speedKPH);
+  //       const currTimestamp = parseInt(filteredDetails[i].timestamp, 10);
+
+  //       if (currSpeed === 0) {
+  //         if (currentStopStart === null) {
+  //           currentStopStart = currTimestamp;
+  //         }
+  //       } else {
+  //         if (currentStopStart !== null) {
+  //           const stopDuration = currTimestamp - currentStopStart;
+  //           stopDurations.push(stopDuration);
+  //           totalStopTime += stopDuration;
+  //           stopCount++;
+  //           currentStopStart = null;
+  //         }
+  //       }
+  //     }
+
+  //     if (currentStopStart !== null) {
+  //       const lastTimestamp = parseInt(filteredDetails[filteredDetails.length - 1].timestamp, 10);
+  //       const stopDuration = lastTimestamp - currentStopStart;
+  //       stopDurations.push(stopDuration);
+  //       totalStopTime += stopDuration;
+  //       stopCount++;
+  //     }
+
+  //     const formatDuration = (duration) => {
+  //       const h = Math.max(0, Math.floor(duration / 3600));
+  //       const m = Math.max(0, Math.floor((duration % 3600) / 60));
+  //       const s = Math.max(0, duration % 60);
+  //       return `${h}h ${m}m ${s}s`;
+  //     };
+
+  //     const totalStopTimeFormatted = formatDuration(totalStopTime);
+
+  //     const formattedStopDurations = stopDurations.map(duration => formatDuration(duration));
+
+  //     return {
+  //       filteredDetails,
+  //       stopDurations: formattedStopDurations,
+  //       totalStopTime: totalStopTimeFormatted,
+  //       stopCount,
+  //     };
+  //   };
+
+  //   // Exemple d'utilisation
+  //   // const result = processVehicleDataWithDurations(vehiculedetails2);
+  //   // console.log(result);
+
+  // // Exemple d'utilisation
+  // const vehiculedetails2 = [
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "1.0",
+  //     timestamp: "1732468800", // 08:00:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "1.0",
+  //     timestamp: "1732472400", // 08:10:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "0.0",
+  //     timestamp: "1732474200", // 08:30:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "0.0",
+  //     timestamp: "1732477800", // 09:30:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "1.0",
+  //     timestamp: "1732478700", // 09:45:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "0.0",
+  //     timestamp: "1732482600", // 10:00:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "0.0",
+  //     timestamp: "1732483200", // 10:10:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "5.0",
+  //     timestamp: "1732483800", // 10:20:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "0.0",
+  //     timestamp: "1732484400", // 10:30:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "1.0",
+  //     timestamp: "1732486200", // 10:50:00
+  //   },
+  // ];
+
+  // const result = processVehicleDataWithDurations(vehiculedetails2);
+  // const result2 = processVehicleDataWithDurations(vehiclueHistoriqueDetails);
+
+  // console.log("Détails filtrés :", result.filteredDetails);
+  // console.log("Durées des arrêts :", result.stopDurations);
+  // console.log("Temps total d'arrêt :", result.totalStopTime);
+  // console.log("Nombre d'arrêts :", result.stopCount);
+
+  // console.log("Détails filtrés :", result2.filteredDetails);
+  // console.log("Durées des arrêts :", result2.stopDurations);
+  // console.log("Temps total d'arrêt :", result2.totalStopTime);
+  // console.log("Nombre d'arrêts :", result2.stopCount);
+
+  function filterVehicleData(data) {
+    // Trouver l'indice du premier objet avec speedKPH >= 1
+    const firstValidIndex = data?.findIndex(
+      (obj) => parseFloat(obj.speedKPH) >= 1
+    );
+
+    // Trouver l'indice du dernier objet avec speedKPH >= 1
+    const lastValidIndex = data?.findLastIndex(
+      (obj) => parseFloat(obj.speedKPH) >= 1
+    );
+
+    // Filtrer les données en excluant les objets avec speedKPH <= 0 avant le premier objet validé
+    // et après le dernier objet validé
+    return data?.filter((obj, index) => {
+      const speedKPH = parseFloat(obj.speedKPH);
+      if (index < firstValidIndex) {
+        return speedKPH > 0; // Exclure les objets avant le premier valide avec speedKPH <= 0
+      } else if (index > lastValidIndex) {
+        return speedKPH > 0; // Exclure les objets après le dernier valide avec speedKPH <= 0
+      }
+      return true; // Inclure les objets dans la plage valide
+    });
+  }
+
+  // Exemple de données à filtre
+
+  // Appliquer la fonction de filtrage
+  const filteredData = filterVehicleData(currentVehicule?.vehiculeDetails);
+
+  ///////////////////////////////////
+
+  const [longestHours, setLongestHours] = useState(0);
+  const [longestMinutes, setLongestMinutes] = useState(0);
+  const [longestSeconds, setLongestSeconds] = useState(0);
+  const [totalStopHours, setTotalStopHours] = useState(0);
+  const [totalStopMinutes, setTotalStopMinutes] = useState(0);
+  const [totalStopSeconds, setTotalStopSeconds] = useState(0);
+  const [totalMovingHours, setTotalMovingHours] = useState(0);
+  const [totalMovingMinutes, setTotalMovingMinutes] = useState(0);
+  const [totalMovingSeconds, setTotalMovingSeconds] = useState(0);
+
+  let stopSequences = [];
+
+  useEffect(() => {
+    // Fonction pour calculer la durée des arrêts et des déplacements
+    function countStopsAndShowData(data) {
+      let longestDuration = 0; // Variable pour suivre la durée la plus longue
+      let totalStopDuration = 0; // Variable pour suivre la durée totale de tous les arrêts
+      let totalMovingDuration = 0; // Variable pour suivre la durée totale en mouvement
+
+      let inStopSequence = false;
+
+      // Parcours des données
+      for (let i = 0; i < data?.length; i++) {
+        const speedKPH = parseFloat(data[i].speedKPH);
+
+        if (speedKPH <= 0) {
+          if (!inStopSequence) {
+            // Si on entre dans une séquence d'arrêt (speedKPH <= 0)
+            inStopSequence = true;
+            stopSequences.push([data[i]]); // Démarrer une nouvelle séquence d'arrêt
+          } else {
+            // Si on est déjà dans une séquence d'arrêt, ajouter l'objet à la séquence en cours
+            stopSequences[stopSequences.length - 1].push(data[i]);
           }
-        } else {
-          if (stopStart !== null) {
-            const stopDuration = timestamp - stopStart;
-            longestStop = Math.max(longestStop, stopDuration);
-            stopStart = null;
+        } else if (speedKPH >= 1 && inStopSequence) {
+          // Quand on trouve un objet avec speedKPH >= 1 après une séquence d'arrêt
+          inStopSequence = false; // Terminer la séquence d'arrêt
+        }
+
+        // Calculer la durée des déplacements
+        if (speedKPH > 0) {
+          const currentTimestamp = parseInt(data[i].timestamp) * 1000; // Convertir en millisecondes
+          if (i > 0) {
+            const prevTimestamp = parseInt(data[i - 1].timestamp) * 1000; // Convertir en millisecondes
+            totalMovingDuration += Math.abs(currentTimestamp - prevTimestamp); // Ajouter à la durée totale en mouvement
           }
+        }
+      }
+
+      // Calculer la durée entre le premier et le dernier objet de chaque séquence d'arrêt
+      stopSequences.forEach((sequence) => {
+        const firstTimestamp = sequence[0].timestamp;
+        const lastTimestamp = sequence[sequence.length - 1].timestamp;
+
+        const firstMillis = parseInt(firstTimestamp) * 1000; // Convertir en millisecondes
+        const lastMillis = parseInt(lastTimestamp) * 1000; // Convertir en millisecondes
+
+        const differenceInMillis = Math.abs(lastMillis - firstMillis);
+        totalStopDuration += differenceInMillis; // Ajouter la durée à la durée totale
+
+        // Mettre à jour la durée la plus longue
+        if (differenceInMillis > longestDuration) {
+          longestDuration = differenceInMillis;
         }
       });
 
-    if (stopStart !== null) {
-      const lastTimestamp = parseInt(
-        vehiculedetails[vehiculedetails.length - 1].timestamp,
-        10
+      // Convertir la durée la plus longue en heures, minutes et secondes
+      const longestStopHours = Math.floor(longestDuration / (1000 * 60 * 60));
+      const longestStopMinutes = Math.floor(
+        (longestDuration % (1000 * 60 * 60)) / (1000 * 60)
       );
-      const stopDuration = lastTimestamp - stopStart;
-      longestStop = Math.max(longestStop, stopDuration);
+      const longestStopSeconds = Math.floor(
+        (longestDuration % (1000 * 60)) / 1000
+      );
+
+      // Convertir la durée totale d'arrêt en heures, minutes et secondes
+      const stopHours = Math.floor(totalStopDuration / (1000 * 60 * 60));
+      const stopMinutes = Math.floor(
+        (totalStopDuration % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const stopSeconds = Math.floor((totalStopDuration % (1000 * 60)) / 1000);
+
+      // Convertir la durée totale en mouvement en heures, minutes et secondes
+      const movingHours = Math.floor(totalMovingDuration / (1000 * 60 * 60));
+      const movingMinutes = Math.floor(
+        (totalMovingDuration % (1000 * 60 * 60)) / (1000 * 60)
+      );
+      const movingSeconds = Math.floor(
+        (totalMovingDuration % (1000 * 60)) / 1000
+      );
+
+      // Mettre à jour l'état avec la durée la plus longue d'arrêt
+      setLongestHours(longestStopHours);
+      setLongestMinutes(longestStopMinutes);
+      setLongestSeconds(longestStopSeconds);
+
+      // Mettre à jour l'état avec la durée totale d'arrêt
+      setTotalStopHours(stopHours);
+      setTotalStopMinutes(stopMinutes);
+      setTotalStopSeconds(stopSeconds);
+
+      // Mettre à jour l'état avec la durée totale en mouvement
+      setTotalMovingHours(movingHours);
+      setTotalMovingMinutes(movingMinutes);
+      setTotalMovingSeconds(movingSeconds);
     }
 
-    return longestStop;
-  };
-
-  const formatDuration = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = seconds % 60;
-    return `${hours}h ${minutes}m ${secs}s`;
-  };
-
-  const longestStopduree = longestStopDuration(
-    currentVehicule?.vehiculeDetails[0]
-  );
+    // Appeler la fonction avec les données du véhicule
+    countStopsAndShowData(filteredData);
+  }, [filteredData]);
 
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
 
+  function getUniqueAddresses(dataList) {
+    // Extraire toutes les adresses de la liste
+    const addresses = dataList?.map((item) => item.address);
+
+    // Utiliser un Set pour éliminer les doublons
+    const uniqueAddresses = [...new Set(addresses)];
+
+    return uniqueAddresses;
+  }
+
+  const uniqueAddresses = getUniqueAddresses(currentVehicule?.vehiculeDetails);
+
+  function getUniqueAddressesWhenSpeedZeroOrLess(dataList) {
+    // Filtrer les éléments où la vitesse est <= 0
+    const filteredData = dataList?.filter(
+      (item) => parseFloat(item.speedKPH) <= 0
+    );
+
+    // Extraire les adresses de ces éléments filtrés
+    const addresses = filteredData?.map((item) => item.address);
+
+    // Utiliser un Set pour éliminer les doublons
+    const uniqueAddresses = [...new Set(addresses)];
+
+    return uniqueAddresses;
+  }
+  const uniqueAddressesZerroSpeed = getUniqueAddressesWhenSpeedZeroOrLess(
+    currentVehicule?.vehiculeDetails
+  );
+
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////
+  // Filtrer les détails du véhicule en mouvement (speedKPH > 0) et trier par timestamp
+
+  const firstVehiculeData = currentdataFusionnee;
+
+  // Fonction pour trouver le premier véhicule en mouvement
+  function getFirstMovingVehicle(data) {
+    let firstMovingVehicle = null;
+
+    data.forEach((vehicle) => {
+      // Trie les détails du véhicule par timestamp croissant
+      const sortedDetails = vehicle.vehiculedetails?.sort(
+        (a, b) => a.timestamp - b.timestamp
+      );
+
+      // Trouve le premier détail avec une vitesse différente de 0
+      for (let detail of sortedDetails) {
+        if (parseFloat(detail.speedKPH) > 0) {
+          firstMovingVehicle = vehicle.description;
+          break;
+        }
+      }
+    });
+
+    return firstMovingVehicle;
+  }
+
+  console.log(
+    "eeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    vehiculeActiveAjourdhui,
+    getFirstMovingVehicle(vehiculeActiveAjourdhui)
+  );
+
   return (
     <div className="flex pt-28 flex-col max-w-screen overflow-hidden justify-center items-center pb-20">
-      {/* <div className="fixed z-[555555555] top-[4.5rem] left-0 right-0">
+      <div className="fixed  px-4 z-[555555555] top-[3.4rem] left-0 right-0 bg-white py-3 dark:bg-gray-800">
         <h2
-          // onClick={() => {
-          //   setShowVehiculeListe(true);
-          // }}
+          onClick={() => {
+            // setShowVehiculeListe(true);
+            console.log(currentdataFusionnee);
+          }}
           id="vehicule_actuel"
           className="flex justify-between items-center border py-2 px-5 rounded-md w-full max-w-[40rem] mx-auto cursor-pointer bg-orange-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-300/40 md:bg-white md:border md:border-gray-300  md:shadow-xl"
         >
           <p className="w-[90%] overflow-hidden whitespace-nowrap text-ellipsis">
-          
-            Choisir un vehicule 
+            Choisir un vehiculeoooo
           </p>
           <span>
             <FaChevronDown />
           </span>
         </h2>
-      </div> */}
+      </div>
 
-      <div className=" px-4 md:max-w-[80vw] w-full">
-        <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
-          Rapport detaillee du vehicule
-        </h1>
+      <div className="flex px-4 mb-10 w-full gap-3 justify-between max-w-[40rem] mx-auto mt-4 ">
+        <button
+          onClick={() => {
+            setPersonnelDetails(true);
+          }}
+          className={`${
+            personnelDetails
+              ? "dark:bg-orange-700 bg-orange-100"
+              : "dark:bg-gray-900/70 bg-gray-100"
+          } border border-gray-100   dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg   shadow-lg-- shadow-gray-200 w-full py-1 `}
+        >
+          Personnel
+        </button>
+        <button
+          onClick={() => {
+            setPersonnelDetails(false);
+          }}
+          className={`${
+            !personnelDetails
+              ? "dark:bg-orange-700 bg-orange-100"
+              : "dark:bg-gray-900/70 bg-gray-100"
+          } border border-gray-100   dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg   shadow-lg-- shadow-gray-200 w-full py-1 `}
+        >
+          En Groupe
+        </button>
+        <button className="border border-gray-100 dark:bg-gray-900/70 dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg bg-gray-100 shadow-lg-- shadow-gray-200 w-full py-1">
+          Options
+        </button>
+      </div>
 
-        <div className="shadow-md dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Info sur le vehicule
-            </h2>
-            <div className="text-gray-700 font-bold flex flex-col gap-2 dark:text-gray-300">
-              <p>
-                Véhicule :{" "}
-                <span className=" dark:text-orange-500 font-normal text-gray-700 pl-3">
-                  {currentVehicule?.description || "---"}
-                </span>
-              </p>
-              <p>
-                Plaque :{" "}
-                <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
-                  {currentVehicule?.licensePlate || "---"}
-                </span>
-              </p>
-              <p>
-                Date :{" "}
-                <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
-                  {formattedDate}
-                </span>
-              </p>
+      {personnelDetails && (
+        <div className=" px-4 md:max-w-[80vw] w-full">
+          <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
+            Rapport detaillee du vehicule
+          </h1>
+
+          <div className="shadow-md dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <IoMdInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                Info sur le vehicule
+              </h2>
+              <div className="text-gray-700 font-bold flex flex-col gap-2 dark:text-gray-300">
+                <p>
+                  Véhicule :{" "}
+                  <span className=" dark:text-orange-500 font-normal text-gray-700 pl-3">
+                    {currentVehicule?.description || "---"}
+                  </span>
+                </p>
+                <p>
+                  Plaque :{" "}
+                  <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
+                    {currentVehicule?.licensePlate || "---"}
+                  </span>
+                </p>
+                <p>
+                  Date :{" "}
+                  <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
+                    {formattedDate || "---"}
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Temps
-            </h2>
-            <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
-              <p>
-                Heure de départ:{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {heureActiveDebut
-                    ? selectUTC
-                      ? formatTimestampToTimeWithTimezone(
-                          heureActiveDebut.timestamp,
-                          selectUTC
-                        )
-                      : formatTimestampToTime(heureActiveDebut.timestamp)
-                    : "---"}{" "}
-                </span>
-              </p>
-              <p>
-                Dernière heure en mouvement:{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {heureActiveFin
-                    ? selectUTC
-                      ? formatTimestampToTimeWithTimezone(
-                          heureActiveFin.timestamp,
-                          selectUTC
-                        )
-                      : formatTimestampToTime(heureActiveFin.timestamp)
-                    : "---"}{" "}
-                </span>
-              </p>
-              <p>
-                Temps en mouvement :{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {formatTime(timeInMotion)}{" "}
-                </span>
-              </p>
+          <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                Temps
+              </h2>
+              <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
+                <p>
+                  Heure de départ:{" "}
+                  <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
+                    {heureActiveDebut
+                      ? selectUTC
+                        ? formatTimestampToTimeWithTimezone(
+                            heureActiveDebut.timestamp,
+                            selectUTC
+                          )
+                        : formatTimestampToTime(heureActiveDebut.timestamp)
+                      : "0h 0m 0s"}{" "}
+                  </span>
+                </p>
+                <p>
+                  Heure d'arriver:{" "}
+                  <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
+                    {heureActiveFin
+                      ? selectUTC
+                        ? formatTimestampToTimeWithTimezone(
+                            heureActiveFin.timestamp,
+                            selectUTC
+                          )
+                        : formatTimestampToTime(heureActiveFin.timestamp)
+                      : "0h 0m 0s"}{" "}
+                  </span>
+                </p>
+                <p>
+                  Duree total en mouvement :{" "}
+                  <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
+                    {/* {formatTime(timeInMotion)}{" "} */}
+                    {totalMovingHours || "0"}h {totalMovingMinutes || "0"}m{" "}
+                    {totalMovingSeconds || "0"}s
+                  </span>
+                </p>
+                <p>
+                  Durée totale de tous les arrêts :
+                  <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
+                    {totalStopHours}h {totalStopMinutes}m {totalStopSeconds}s{" "}
+                  </span>
+                </p>
+                <p>
+                  Duree de l’arrêts le plus long :
+                  <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
+                    {`${longestHours || "0"}h ${longestMinutes || "0"}mn ${
+                      longestSeconds || "0"
+                    }s`}{" "}
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Distance
-            </h2>
-            <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-              <p>
-                Distance totale parcourue:
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {calculateTotalDistance(
-                    currentVehicule?.vehiculeDetails
-                  ).toFixed(2)}
-                  Km{" "}
-                </span>
-              </p>
-              <p>
-                Nombre total d’arrêts :
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {nombreArret || ""} {longestStopduree || "---"}
-                </span>
-              </p>
+          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                Distance
+              </h2>
+              <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
+                <p>
+                  Distance totale parcourue:
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    {calculateTotalDistance(
+                      currentVehicule?.vehiculeDetails
+                    ).toFixed(2)}
+                    Km{" "}
+                  </span>
+                </p>
+                <p>
+                  Nombre total d’arrêts :
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    {nombreArret || "0"}
+                    {/* {stopSequences?.length || "---"} */}
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Vitesse
-            </h2>
-            <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-              {/* <p>
+          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                Vitesse
+              </h2>
+              <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
+                {/* <p>
                 Vitesse minimale:
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                   {minSpeed.toFixed(2) || "0"} Km/h
                 </span>
               </p> */}
-              <p>
-                Vitesse moyenne:
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {averageSpeed.toFixed(2) || "0"} Km/h/
-                </span>
-              </p>
-              <p>
-                Vitesse maximale:
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {maxSpeed.toFixed(2) || "0"} Km/h
-                </span>
-              </p>
+                <p>
+                  Vitesse moyenne:
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    {(averageSpeed && averageSpeed.toFixed(2)) || "0"} Km/h/
+                  </span>
+                </p>
+                <p>
+                  Vitesse maximale:
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    {(maxSpeed && maxSpeed.toFixed(2)) || "0"} Km/h
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="shadow-md mt-20  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
-          <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-            Trajet du véhicule{" "}
-          </h2>
-        </div>
+          <div className="shadow-md mt-20  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
+            <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+              Trajet du véhicule{" "}
+            </h2>
+          </div>
 
-        <div className="relative mt-3 h-[60vh] overflow-hidden w-full">
-          <button
-            className="absolute z-[999] top-[1rem] right-[1rem]"
-            onClick={centerOnFirstMarker}
-          >
-            <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
-              <MdCenterFocusStrong className="text-orange-500 text-[1.52rem]" />
+          <div className="relative mt-3 h-[40vh] md:h-[60vh] overflow-hidden w-full">
+            <button
+              className="absolute z-[999] top-[1rem] right-[1rem]"
+              onClick={centerOnFirstMarker}
+            >
+              <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
+                <MdCenterFocusStrong className="text-orange-500 text-[1.52rem]" />
+              </div>
+            </button>
+            <div className="absolute -top-[50%] w-full ">
+              <div>
+                <TrajetVehicule
+                  typeDeVue={typeDeVue}
+                  setTypeDeVue={setTypeDeVue}
+                  mapType={mapType}
+                  handleMapTypeChange={handleMapTypeChange}
+                  vehicles={vehicles}
+                  mapRef={mapRef}
+                  tileLayers={tileLayers}
+                  getMarkerIcon={getMarkerIcon}
+                  currentLocation={currentLocation}
+                  customMarkerIcon={customMarkerIcon}
+                  positions={positions}
+                  centerOnFirstMarker={centerOnFirstMarker}
+                  showHistoriqueInMap={showHistoriqueInMap}
+                  openGoogleMaps={openGoogleMaps}
+                />
+              </div>
             </div>
-          </button>
-          <div className="absolute -top-[50%] w-full ">
+          </div>
+
+          <div className="shadow-md mt-20 mb-8  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
+            <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+              Diagramme du vitesse{" "}
+            </h2>
+          </div>
+
+          <div className=" transition-all w-full ">
             <div>
-              <TrajetVehicule
-                typeDeVue={typeDeVue}
-                setTypeDeVue={setTypeDeVue}
-                mapType={mapType}
-                handleMapTypeChange={handleMapTypeChange}
-                vehicles={vehicles}
-                mapRef={mapRef}
-                tileLayers={tileLayers}
-                getMarkerIcon={getMarkerIcon}
-                currentLocation={currentLocation}
-                customMarkerIcon={customMarkerIcon}
-                positions={positions}
-                centerOnFirstMarker={centerOnFirstMarker}
-                showHistoriqueInMap={showHistoriqueInMap}
-                openGoogleMaps={openGoogleMaps}
-              />
+              <canvas className="w-full transition-all " id="myChart"></canvas>
             </div>
           </div>
-        </div>
-
-        <div className="shadow-md mt-20  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
-          <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-            Diagramme du vitesse{" "}
-          </h2>
-        </div>
-
-        <div className=" transition-all w-full ">
-          <div>
-            <canvas className="w-full transition-all " id="myChart"></canvas>
-          </div>
-        </div>
-
-        <div className=" w-full- mt-20 overflow-auto ">
-          <table
-            className="overflow-auto w-full"
-            style={{
-              // width: "100%",
-              // borderCollapse: "collapse",
-              textAlign: "left",
-            }}
-          >
-            <thead>
-              <tr className="bg-orange-50 text-gray-700 border">
-                <th className="border py-3 px-2 min-w-[7rem]">Heure</th>
-                <th className="border py-3 px-2 min-w-[10rem]">Événement</th>
-                <th className="border py-3 px-2 min-w-[15rem]">Localisation</th>
-                <th className="border py-3 px-2 min-w-[7rem]">
-                  Vitesse (km/h)
-                </th>
-                <th className="border py-3 px-2 min-w-[11rem]">Commentaire</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, index) => (
-                <tr
-                  key={index}
-                  className="border"
-                  //  style={{ borderBottom: "1px solid #ddd" }}
-                >
-                  <td className="border py-3 px-2">{row.time}</td>
-                  <td className="border py-3 px-2">{row.event}</td>
-                  <td className="border py-3 px-2">{row.location}</td>
-                  <td className="border py-3 px-2">{row.speed} km/h</td>
-                  <td className="border py-3 px-2">{row.comment}</td>
+          {/* 
+          <div className=" w-full- mt-20 overflow-auto ">
+            <table
+              className="overflow-auto w-full"
+              style={{
+                // width: "100%",
+                // borderCollapse: "collapse",
+                textAlign: "left",
+              }}
+            >
+              <thead>
+                <tr className="bg-orange-50 text-gray-700 border">
+                  <th className="border py-3 px-2 min-w-[7rem]">Heure</th>
+                  <th className="border py-3 px-2 min-w-[10rem]">Événement</th>
+                  <th className="border py-3 px-2 min-w-[15rem]">
+                    Localisation
+                  </th>
+                  <th className="border py-3 px-2 min-w-[7rem]">
+                    Vitesse (km/h)
+                  </th>
+                  <th className="border py-3 px-2 min-w-[11rem]">
+                    Commentaire
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {rows.map((row, index) => (
+                  <tr
+                    key={index}
+                    className="border"
+                    //  style={{ borderBottom: "1px solid #ddd" }}
+                  >
+                    <td className="border py-3 px-2">{row.time}</td>
+                    <td className="border py-3 px-2">{row.event}</td>
+                    <td className="border py-3 px-2">{row.location}</td>
+                    <td className="border py-3 px-2">{row.speed} km/h</td>
+                    <td className="border py-3 px-2">{row.comment}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div> */}
 
-        <div className="shadow-md mt-20 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-500 text-orange-900">
-              Tous les lieux fréquentés
-            </h2>
-            <div className="text-gray-600 flex flex-col gap-3">
-              <p className="dark:text-gray-300">
-                <span className="font-bold dark:text-orange-500 text-black mr-3">
-                  *{" "}
-                </span>
-                Delmas 33, rue de la Zaracoule, Port-au-prince, Haiti
-              </p>
+          <div className="shadow-md mt-20 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-500 text-orange-900">
+                Tous les lieux fréquentés
+              </h2>
+              <div className="text-gray-600 flex flex-col gap-3">
+                {uniqueAddresses?.map((add, index) => {
+                  return (
+                    <p className="dark:text-gray-300">
+                      <span className="font-bold dark:text-orange-500 text-black mr-3">
+                        *{" "}
+                      </span>
+                      {add}
+                    </p>
+                  );
+                })}{" "}
+              </div>
+            </div>
+          </div>
+
+          <div className="shadow-md mt-4 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-500 text-orange-900">
+                Tous les lieux Stationnés
+              </h2>
+              <div className="text-gray-600 flex flex-col gap-3">
+                {uniqueAddressesZerroSpeed?.map((add, index) => {
+                  return (
+                    <p className="dark:text-gray-300" key={index}>
+                      <span className="font-bold dark:text-orange-500 text-black mr-3">
+                        *{" "}
+                      </span>
+                      {add}
+                    </p>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
+      )}
 
-        <div className="shadow-md mt-4 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-500 text-orange-900">
-              Tous les lieux Stationnés
-            </h2>
-            <div className="text-gray-600 flex flex-col gap-3">
-              <p className="dark:text-gray-300">
-                <span className="font-bold dark:text-orange-500 text-black mr-3">
-                  *{" "}
-                </span>
-                Delmas 33, rue de la Zaracoule, Port-au-prince, Haiti
-              </p>
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {!personnelDetails && (
+        <div className=" px-4 md:max-w-[80vw] w-full">
+          <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
+            Rapport detaillee en groupe
+          </h1>
+          <div className="shadow-md dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                Info sur le vehicule
+              </h2>
+              <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
+                <p>
+                  Date :{" "}
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    {formattedDate || "---"}
+                  </span>
+                </p>
+                <p>
+                  Nombre de Véhicule total :{" "}
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    {donneeFusionneeForRapport?.length || "---"}
+                  </span>
+                </p>
+                <p>
+                  Nombre de Véhicule actif aujourd'hui :{" "}
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    {vehiculeActiveAjourdhui?.length || "0"}
+                  </span>
+                </p>
+                <p>
+                  Nombre de Véhicule en stationnement :{" "}
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    {vehiculeNotActiveAjourdhui?.length || "---"}
+                  </span>
+                </p>
+                <p>
+                  Nombre de Véhicule hors service :{" "}
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    {vehiculeNotActif?.length || "0"}
+                  </span>
+                </p>
+
+                <p>
+                  1er vehicule en mouvement :{" "}
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    Nissan xterra{" "}
+                  </span>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+          <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                Temps
+              </h2>
+              <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
+                <p>
+                  Heure du 1er mouvement:{" "}
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    08:34:55
+                  </span>
+                </p>
+                <p>
+                  Dernière heure de mouvement:{" "}
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    12:34:32
+                  </span>
+                </p>
+                <p>
+                  Temps d'activite total : 8h 20m
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    2h 45mn
+                  </span>
+                </p>
+                <p>
+                  Vehicule en mouvement plus longtemps
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    Nissan xterra{" "}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                Distance
+              </h2>
+              <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
+                <p>
+                  Distance totale parcourue:
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    230 Km
+                  </span>
+                </p>
+                <p>
+                  Nombre total d’arrêts :
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    5
+                  </span>
+                </p>
+                <p>
+                  Vehicule ayant parcourru la plus grande distance :
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    Nissan xterra
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                Vitesse
+              </h2>
+              <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
+                <p>
+                  Vitesse minimale:
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    Km/h
+                  </span>
+                </p>
+                <p>
+                  Vitesse moyenne:
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    Km/h
+                  </span>
+                </p>
+                <p>
+                  Vitesse maximale:
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    Km/h
+                  </span>
+                </p>
+                <p>
+                  Vehicule avec la vitesse maximale:
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    Nissan xterra
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
 
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      <div className=" px-4 md:max-w-[80vw] w-full">
-        <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
-          Rapport detaillee en groupe
-        </h1>
-        <div className="shadow-md dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
+          <div className="shadow-md mt-20  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
+            <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
             <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Info sur le vehicule
+              Position des véhicules{" "}
             </h2>
-            <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
-              <p>
-                Date :{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  23 novembre 2024{" "}
-                </span>
-              </p>
-              <p>
-                Nombre de Véhicule total :{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  34
-                </span>
-              </p>
-              <p>
-                Nombre de Véhicule actif aujourd'hui :{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  34
-                </span>
-              </p>
-              <p>
-                Nombre de Véhicule en stationnement :{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  34
-                </span>
-              </p>
-              <p>
-                Nombre de Véhicule hors service :{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  34
-                </span>
-              </p>
-
-              <p>
-                1er vehicule en mouvement :{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  Nissan xterra{" "}
-                </span>
-              </p>
-            </div>
           </div>
-        </div>
-        <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Temps
-            </h2>
-            <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
-              <p>
-                Heure du 1er mouvement:{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  08:34:55
-                </span>
-              </p>
-              <p>
-                Dernière heure de mouvement:{" "}
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  12:34:32
-                </span>
-              </p>
-              <p>
-                Temps d'activite total : 8h 20m
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  2h 45mn
-                </span>
-              </p>
-              <p>
-                Vehicule en mouvement plus longtemps
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  Nissan xterra{" "}
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Distance
-            </h2>
-            <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-              <p>
-                Distance totale parcourue:
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  230 Km
-                </span>
-              </p>
-              <p>
-                Nombre total d’arrêts :
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  5
-                </span>
-              </p>
-              <p>
-                Vehicule ayant parcourru la plus grande distance :
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  Nissan xterra
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
-        <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Vitesse
-            </h2>
-            <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-              <p>
-                Vitesse minimale:
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  Km/h
-                </span>
-              </p>
-              <p>
-                Vitesse moyenne:
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  Km/h
-                </span>
-              </p>
-              <p>
-                Vitesse maximale:
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  Km/h
-                </span>
-              </p>
-              <p>
-                Vehicule avec la vitesse maximale:
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  Nissan xterra
-                </span>
-              </p>
-            </div>
-          </div>
-        </div>
 
-        <div className="shadow-md mt-20  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
-          <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-            Position des véhicules{" "}
-          </h2>
-        </div>
+          <div className="max-h-[60vh] mt-3 overflow-hidden">
+            <MapComponent />
+          </div>
 
-        <div className="max-h-[60vh] mt-3 overflow-hidden">
-          <MapComponent />
-        </div>
-
-        <div className=" w-full- mt-20 overflow-auto ">
-          <table
-            className="overflow-auto w-full"
-            style={{
-              // width: "100%",
-              // borderCollapse: "collapse",
-              textAlign: "left",
-            }}
-          >
-            <thead>
-              <tr className="bg-orange-50 text-gray-700 border">
-                <th className="border py-3 px-2 min-w-[7rem]">Véhicule</th>
-                <th className="border py-3 px-2 min-w-[10rem]">
-                  Distance parcourue
-                </th>
-                <th className="border py-3 px-2 min-w-[15rem]">Temps actif</th>
-                <th className="border py-3 px-2 min-w-[7rem]">
-                  Vitesse moyenne
-                </th>
-                <th className="border py-3 px-2 min-w-[7rem]">
-                  Vitesse maximale
-                </th>
-                <th className="border py-3 px-2 min-w-[7rem]">Adresse</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows.map((row, index) => (
-                <tr
-                  key={index}
-                  className="border"
-                  //  style={{ borderBottom: "1px solid #ddd" }}
-                >
-                  <td className="border py-3 px-2">{row.time}</td>
-                  <td className="border py-3 px-2">{row.event}</td>
-                  <td className="border py-3 px-2">{row.location}</td>
-                  <td className="border py-3 px-2">{row.speed} km/h</td>
-                  <td className="border py-3 px-2">{row.speed} km/h</td>
-                  <td className="border py-3 px-2">{row.speed} km/h</td>
+          <div className=" w-full- mt-20 overflow-auto ">
+            <table
+              className="overflow-auto w-full"
+              style={{
+                // width: "100%",
+                // borderCollapse: "collapse",
+                textAlign: "left",
+              }}
+            >
+              <thead>
+                <tr className="bg-orange-50 text-gray-700 border">
+                  <th className="border py-3 px-2 min-w-[7rem]">Véhicule</th>
+                  <th className="border py-3 px-2 min-w-[10rem]">
+                    Distance parcourue
+                  </th>
+                  <th className="border py-3 px-2 min-w-[15rem]">
+                    Temps actif
+                  </th>
+                  <th className="border py-3 px-2 min-w-[7rem]">
+                    Vitesse moyenne
+                  </th>
+                  <th className="border py-3 px-2 min-w-[7rem]">
+                    Vitesse maximale
+                  </th>
+                  <th className="border py-3 px-2 min-w-[7rem]">Adresse</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody>
+                {rows.map((row, index) => (
+                  <tr
+                    key={index}
+                    className="border"
+                    //  style={{ borderBottom: "1px solid #ddd" }}
+                  >
+                    <td className="border py-3 px-2">{row.time}</td>
+                    <td className="border py-3 px-2">{row.event}</td>
+                    <td className="border py-3 px-2">{row.location}</td>
+                    <td className="border py-3 px-2">{row.speed} km/h</td>
+                    <td className="border py-3 px-2">{row.speed} km/h</td>
+                    <td className="border py-3 px-2">{row.speed} km/h</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-        <div className="shadow-md mt-20 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-500 text-orange-900">
-              Tous les lieux fréquentés
-            </h2>
-            <div className="text-gray-600 flex flex-col gap-3">
-              {/* {uniqueAddresses?.map((add, index) => {
+          <div className="shadow-md mt-20 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-500 text-orange-900">
+                Tous les lieux fréquentés
+              </h2>
+              <div className="text-gray-600 flex flex-col gap-3">
+                {/* {uniqueAddresses?.map((add, index) => {
                       return (
                         <p className="dark:text-gray-300">
                           <span className="font-bold dark:text-orange-500 text-black mr-3">
@@ -1034,24 +1407,24 @@ function RapportPageDetails() {
                         </p>
                       );
                     })} */}
-              <p className="dark:text-gray-300">
-                <span className="font-bold dark:text-orange-500 text-black mr-3">
-                  *{" "}
-                </span>
-                Delmas 33, rue de la Zaracoule, Port-au-prince, Haiti
-              </p>
+                <p className="dark:text-gray-300">
+                  <span className="font-bold dark:text-orange-500 text-black mr-3">
+                    *{" "}
+                  </span>
+                  Delmas 33, rue de la Zaracoule, Port-au-prince, Haiti
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="shadow-md mt-4 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-          <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <div>
-            <h2 className="font-semibold dark:text-orange-500 text-orange-900">
-              Tous les lieux Stationnés
-            </h2>
-            <div className="text-gray-600 flex flex-col gap-3">
-              {/* {uniqueAddressesZerroSpeed?.map((add, index) => {
+          <div className="shadow-md mt-4 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-500 text-orange-900">
+                Tous les lieux Stationnés
+              </h2>
+              <div className="text-gray-600 flex flex-col gap-3">
+                {/* {uniqueAddressesZerroSpeed?.map((add, index) => {
                       return (
                         <p className="dark:text-gray-300" key={index}>
                           <span className="font-bold dark:text-orange-500 text-black mr-3">
@@ -1061,16 +1434,17 @@ function RapportPageDetails() {
                         </p>
                       );
                     })} */}
-              <p className="dark:text-gray-300">
-                <span className="font-bold dark:text-orange-500 text-black mr-3">
-                  *{" "}
-                </span>
-                Delmas 33, rue de la Zaracoule, Port-au-prince, Haiti
-              </p>
+                <p className="dark:text-gray-300">
+                  <span className="font-bold dark:text-orange-500 text-black mr-3">
+                    *{" "}
+                  </span>
+                  Delmas 33, rue de la Zaracoule, Port-au-prince, Haiti
+                </p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

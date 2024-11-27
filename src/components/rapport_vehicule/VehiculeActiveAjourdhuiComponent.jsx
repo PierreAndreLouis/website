@@ -71,10 +71,10 @@ function VehiculeActiveAjourdhuiComponent({
             vehiculeActiveAjourdhui?.map((vehicule, index) => {
               return (
                 <Link
-                to="/rapport_page_details"
+                // to="/rapport_page_details"
                   onClick={() => {
                     handleClick(vehicule);
-                    // setshowRapportPupup(true);
+                    setshowRapportPupup(true);
                   }}
                   key={index}
                   className="bg-white rounded-lg dark:bg-gray-800 dark:shadow-gray-600"

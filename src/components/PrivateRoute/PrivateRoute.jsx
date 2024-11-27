@@ -6,6 +6,7 @@ const PrivateRoute = ({ element }) => {
   const { userData } = useContext(DataContext); // vérifier si userData est bien défini
 
   // Vérifie l'authentification en consultant localStorage si userData est absent
+  // const isAuthenticated = true;
   const isAuthenticated = userData || localStorage.getItem("userData");
 
   return isAuthenticated ? element : <Navigate to="/login" />;

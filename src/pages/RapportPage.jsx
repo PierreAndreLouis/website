@@ -339,3 +339,10 @@ function RapportPage() {
 }
 
 export default RapportPage;
+
+
+
+
+// je veux le length de chaque sequence.
+// je veux aussi voir les donnees de chaque sequence.
+// afficher le timestamp du premier et du dernier object de chaque sequence.

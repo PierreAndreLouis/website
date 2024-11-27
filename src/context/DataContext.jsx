@@ -1473,7 +1473,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         chooseALl,
         setchooseALl,
         vehiclueHistoriqueRapportDetails,
-        setVehiclueHistoriqueRapportDetails
+        setVehiclueHistoriqueRapportDetails,
+        currentdataFusionnee,
       }}
     >
       {children}
