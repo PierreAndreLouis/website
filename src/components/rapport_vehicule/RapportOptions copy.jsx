@@ -270,7 +270,7 @@ function RapportOptions({
 
           {/*  */}
 
-          {/* {showStatisticOption ? (
+          {showStatisticOption ? (
             // Statistics Section
             <div className="p-4 min-h-[60vh] max-h-[60vh] md:min-h-[55vh] md:max-h-[55vh] overflow-y-auto flex flex-col gap-4 py-6 pb-10">
               <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
@@ -427,147 +427,151 @@ function RapportOptions({
                 </div>
               </div>
             </div>
-          ) : ( */}
-          {/* // Options section */}
-          <div className="p-4 min-h-[60vh] max-h-[60vh] md:min-h-[55vh] md:max-h-[55vh] overflow-y-auto flex flex-col gap-4 py-6 pb-10">
-            <Link
-              to="/voiture_historique"
-              onClick={() => {
-                setShowHistoriqueInMap(false);
+          ) : (
+            // Options section
+            <div className="p-4 min-h-[60vh] max-h-[60vh] md:min-h-[55vh] md:max-h-[55vh] overflow-y-auto flex flex-col gap-4 py-6 pb-10">
+              <Link
+                to="/voiture_historique"
+                onClick={() => {
+                  setShowHistoriqueInMap(false);
 
-                setVehiclueHistoriqueDetails(currentVehicule?.vehiculeDetails);
-              }}
-              className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
-            >
-              <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Historique du véhicule
-              </h2>
-            </Link>
-
-            <Link
-              to="/voiture_historique"
-              onClick={() => {
-                setShowHistoriqueInMap(true);
-                setVehiclueHistoriqueDetails(currentVehicule?.vehiculeDetails);
-                setVehiclueHistoriqueRapportDetails(
-                  currentVehicule?.vehiculeDetails
-                );
-              }}
-              className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
-            >
-              <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Trajet du véhicule{" "}
-              </h2>
-            </Link>
-
-            <Link
-              to="/Groupe_vehicule_location"
-              className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
-            >
-              <FiMapPin className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Position du véhicule{" "}
-              </h2>
-            </Link>
-            <div
-              onClick={() => {
-                {
-                  envoyerSMS(
-                    currentVehicule.simPhoneNumber,
-                    "Bonjour, ceci est un test de Déblocage"
+                  setVehiclueHistoriqueDetails(
+                    currentVehicule?.vehiculeDetails
                   );
-                  setshowSmsError(!showSmsError);
-                }
-              }}
-              className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
-            >
-              <TbLock className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Bloquer le véhicule{" "}
-              </h2>
-              {/* <p>{smsError}</p> */}
-            </div>
+                }}
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+              >
+                <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                  Historique du véhicule
+                </h2>
+              </Link>
 
-            <div
-              onClick={() => {
-                {
-                  envoyerSMS(
-                    currentVehicule.simPhoneNumber,
-                    "Bonjour, ceci est un test de Déblocage"
+              <Link
+                to="/voiture_historique"
+                onClick={() => {
+                  setShowHistoriqueInMap(true);
+                  setVehiclueHistoriqueDetails(
+                    currentVehicule?.vehiculeDetails
                   );
-                  setshowSmsError(!showSmsError);
-                }
-              }}
-              className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
-            >
-              <TbLockOpen className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Débloquer le véhicule{" "}
-              </h2>
-              {/* <p>{smsError}</p> */}
-            </div>
+                  setVehiclueHistoriqueRapportDetails(
+                    currentVehicule?.vehiculeDetails
+                  );
+                }}
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+              >
+                <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                  Trajet du véhicule{" "}
+                </h2>
+              </Link>
 
-            {showSmsError && smsError && (
-              <div className="fixed z-10 flex justify-center items-center inset-0 bg-black/50">
-                <div className="bg-red-50 max-w-[25rem] p-6 rounded-xl w-[80vw]">
-                  <div>
-                    <h3 className="block text-lg  text-center leading-6 text-red-600 mb-3">
-                      {smsError}
-                    </h3>
-                  </div>
-                  <div className="flex justify-center gap-2 mt-5">
-                    <h3
-                      onClick={() => {
-                        setshowSmsError(!showSmsError);
-                      }}
-                      className="cursor-pointer py-1 text-center px-10 bg-red-500 rounded-lg text-white"
-                    >
-                      OK
-                    </h3>
+              <Link
+                to="/Groupe_vehicule_location"
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+              >
+                <FiMapPin className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                  Position du véhicule{" "}
+                </h2>
+              </Link>
+              <div
+                onClick={() => {
+                  {
+                    envoyerSMS(
+                      currentVehicule.simPhoneNumber,
+                      "Bonjour, ceci est un test de Déblocage"
+                    );
+                    setshowSmsError(!showSmsError);
+                  }
+                }}
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+              >
+                <TbLock className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                  Bloquer le véhicule{" "}
+                </h2>
+                {/* <p>{smsError}</p> */}
+              </div>
+
+              <div
+                onClick={() => {
+                  {
+                    envoyerSMS(
+                      currentVehicule.simPhoneNumber,
+                      "Bonjour, ceci est un test de Déblocage"
+                    );
+                    setshowSmsError(!showSmsError);
+                  }
+                }}
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+              >
+                <TbLockOpen className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                  Débloquer le véhicule{" "}
+                </h2>
+                {/* <p>{smsError}</p> */}
+              </div>
+
+              {showSmsError && smsError && (
+                <div className="fixed z-10 flex justify-center items-center inset-0 bg-black/50">
+                  <div className="bg-red-50 max-w-[25rem] p-6 rounded-xl w-[80vw]">
+                    <div>
+                      <h3 className="block text-lg  text-center leading-6 text-red-600 mb-3">
+                        {smsError}
+                      </h3>
+                    </div>
+                    <div className="flex justify-center gap-2 mt-5">
+                      <h3
+                        onClick={() => {
+                          setshowSmsError(!showSmsError);
+                        }}
+                        className="cursor-pointer py-1 text-center px-10 bg-red-500 rounded-lg text-white"
+                      >
+                        OK
+                      </h3>
+                    </div>
                   </div>
                 </div>
+              )}
+
+              {/* --------------------------------- */}
+
+              <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+                <FaHeadphonesAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                  Écouter la discussion dans le véhicule{" "}
+                </h2>
               </div>
-            )}
 
-            {/* --------------------------------- */}
+              <Link
+                to="/voiture_details"
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+              >
+                <IoInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                  Informations sur le véhicule{" "}
+                </h2>
+              </Link>
 
-            <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
-              <FaHeadphonesAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Écouter la discussion dans le véhicule{" "}
-              </h2>
-            </div>
+              <Link
+                to="/modifier_vehicule"
+                className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
+              >
+                <CiEdit className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                  Modifier le véhicule{" "}
+                </h2>
+              </Link>
 
-            <Link
-              to="/voiture_details"
-              className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
-            >
-              <IoInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Informations sur le véhicule{" "}
-              </h2>
-            </Link>
-
-            <Link
-              to="/modifier_vehicule"
-              className="shadow-md cursor-pointer py-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4"
-            >
-              <CiEdit className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Modifier le véhicule{" "}
-              </h2>
-            </Link>
-
-            {/* <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
+              {/* <div className="shadow-md cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 py-3 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-center gap-4">
                 <IoStatsChartSharp className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
                 <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                   Position du vehicule
                 </h2>
               </div> */}
-          </div>
-          {/* )} */}
+            </div>
+          )}
         </div>
       </div>
 

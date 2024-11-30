@@ -51,7 +51,8 @@ function RapportPage() {
     searchdonneeFusionneeForRapport,
     fetSearchRapportchVehicleDetails,
     setSearchdonneeFusionneeForRapport,
-    selectUTC
+    selectUTC,
+    currentdataFusionnee,
     // setShowListOption,
     // showListeOption,
   } = useContext(DataContext);
@@ -114,8 +115,27 @@ function RapportPage() {
   }
 
   const handleClick = (vehicle) => {
-    setCurrentVehicule(vehicle);
-    setSelectedVehicle(vehicle.deviceID);
+    // setCurrentVehicule(vehicle);
+
+    const deviceID = vehicle.deviceID;
+
+    // // Recherche du véhicule correspondant dans la liste
+    const foundVehicle = currentdataFusionnee.find(
+      (v) => v.deviceID === deviceID
+    );
+
+    if (foundVehicle) {
+      setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
+      console.log("current vehicule data", foundVehicle.vehiculeDetails);
+      // setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
+      // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
+      // setShowListOption(false); // Affiche la liste d'options si nécessaire
+      console.log("Véhicule sélectionné", foundVehicle);
+    } else {
+      console.error("Véhicule introuvable avec le deviceID :", deviceID);
+    }
+
+    // setSelectedVehicle(vehicle.deviceID);
     // setSelectedVehicle(vehicle);  // Ajouter cette ligne
     // setShowListOption(true);
     console.log("Véhicule en variable_________________", currentVehicule);
@@ -161,6 +181,7 @@ function RapportPage() {
     e.preventDefault();
     setShowChooseDate(false);
     setRapportDataLoading(true);
+
     const startTime = "00:00:00";
     const endTime = "23:59:59";
 
@@ -204,14 +225,30 @@ function RapportPage() {
             {/* Rapport des vehicule */}
             <div className=" w-full sm:px-6 md:px-20 px-2">
               <h1
-                onClick={() => {
-                  firstCallRapportData();
-                }}
+                // onClick={() => {
+                //   firstCallRapportData();
+                // }}
                 className="font-semibold dark:text-gray-200 text-center mx-4 mb-10 text-xl"
               >
                 {formatDate(selectedDate)}
               </h1>
+              {/* <button
+                onClick={() => {
+                  console.log(
+                    "searchdonneeFusionneeForRapport",
+                    searchdonneeFusionneeForRapport
+                  );
 
+                  console.log(
+                    "donneeFusionneeForRapport",
+                    donneeFusionneeForRapport
+                  );
+                  console.log("currentdataFusionnee", currentdataFusionnee);
+                  console.log("currentVehicule", currentVehicule);
+                }}
+              >
+                Test
+              </button> */}
               <div className="flex gap-2 justify-end mb-4 ">
                 <button
                   className="bg-orange-50 dark:bg-gray-700 py-2 shadow-lg rounded-lg px-3"
@@ -223,6 +260,7 @@ function RapportPage() {
                 >
                   <IoReload className="text-orange-600 dark:text-gray-50 text-xl" />
                 </button>
+
                 <button
                   className="bg-orange-50 dark:bg-gray-700 shadow-lg rounded-lg px-3"
                   onClick={() => {
@@ -232,7 +270,6 @@ function RapportPage() {
                   <BsFillCalendar2DateFill className="text-orange-600 dark:text-gray-50 text-xl" />
                 </button>
               </div>
-
               {showChooseDate && (
                 <form
                   onSubmit={handleApply}
@@ -275,7 +312,6 @@ function RapportPage() {
                   </div>
                 </form>
               )}
-
               <VehiculeActiveMaintenantComponent
                 showActiveVehiculeNow={showActiveVehiculeNow}
                 setshowActiveVehiculeNow={setshowActiveVehiculeNow}
@@ -285,11 +321,8 @@ function RapportPage() {
                 formatTimestampToTime={formatTimestampToTime}
                 handleClick={handleClick}
                 selectUTC={selectUTC}
-
               />
-
               {/* ----------------------------------- */}
-
               <VehiculeActiveAjourdhuiComponent
                 showActiveVehicule={showActiveVehicule}
                 setshowActiveVehicule={setshowActiveVehicule}
@@ -299,11 +332,8 @@ function RapportPage() {
                 formatTimestampToTime={formatTimestampToTime}
                 handleClick={handleClick}
                 selectUTC={selectUTC}
-
               />
-
               {/* ----------------------------------- */}
-
               <VehiculeNotActiveAjourdhuiComponent
                 showParkingVehicule={showParkingVehicule}
                 setshowParkingVehicule={setshowParkingVehicule}
@@ -314,9 +344,7 @@ function RapportPage() {
                 handleClick={handleClick}
                 selectUTC={selectUTC}
               />
-
               {/* ----------------------------------- */}
-
               <VehiculeNotActifComponent
                 showInactiveVehicule={showInactiveVehicule}
                 setshowInactiveVehicule={setshowInactiveVehicule}
@@ -326,7 +354,6 @@ function RapportPage() {
                 formatTimestampToTime={formatTimestampToTime}
                 handleClick={handleClick}
               />
-
               {/* ----------------------------------- */}
             </div>
 
@@ -339,9 +366,6 @@ function RapportPage() {
 }
 
 export default RapportPage;
-
-
-
 
 // je veux le length de chaque sequence.
 // je veux aussi voir les donnees de chaque sequence.

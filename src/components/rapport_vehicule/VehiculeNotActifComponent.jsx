@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 import { MdLocationPin } from "react-icons/md";
@@ -6,6 +6,7 @@ import { FaCar } from "react-icons/fa";
 import { FaChevronDown } from "react-icons/fa6";
 import { IoReload } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { DataContext } from "../../context/DataContext";
 
 function VehiculeNotActifComponent({
   showInactiveVehicule,
@@ -16,6 +17,12 @@ function VehiculeNotActifComponent({
   formatTimestampToTime,
   handleClick,
 }) {
+  const {
+    setVehiclueHistoriqueDetails,
+    setVehiclueHistoriqueRapportDetails,
+    currentVehicule,
+  } = useContext(DataContext);
+
   return (
     <div>
       <div className="transition-all">
@@ -47,9 +54,15 @@ function VehiculeNotActifComponent({
             vehiculeNotActif?.map((vehicule, index) => {
               return (
                 <Link
-                to="/rapport_page_details"
+                  // to="/rapport_page_details"
                   onClick={() => {
                     handleClick(vehicule);
+                    // setVehiclueHistoriqueDetails(
+                    //   currentVehicule?.vehiculeDetails
+                    // );
+                    // setVehiclueHistoriqueRapportDetails(
+                    //   currentVehicule?.vehiculeDetails
+                    // );
                     // setshowRapportPupup(true);
                   }}
                   key={index}
@@ -82,7 +95,10 @@ function VehiculeNotActifComponent({
                         </h2>
                         <div className="flex mb-2 gap-4 text-gray-600 text-md">
                           <div className="flex gap-3 items-center dark:text-gray-300">
-                            <FaRegCalendarAlt  id="date-icon" className="text-gray-500/80 dark:text-gray-300" />
+                            <FaRegCalendarAlt
+                              id="date-icon"
+                              className="text-gray-500/80 dark:text-gray-300"
+                            />
                             <h3 className="text-sm sm:text-sm md:text-md">
                               {vehicule?.vehiculeDetails[0]?.timestamp ? (
                                 formatTimestampToDate(
@@ -95,7 +111,10 @@ function VehiculeNotActifComponent({
                           </div>
                           {vehicule.vehiculeDetails?.[0]?.timestamp && (
                             <div className="flex items-center gap-1 dark:text-gray-300">
-                              <IoMdTime id="time-icon" className="text-gray-500/80 dark:text-gray-300 text-xl" />
+                              <IoMdTime
+                                id="time-icon"
+                                className="text-gray-500/80 dark:text-gray-300 text-xl"
+                              />
                               <h3 className="text-sm sm:text-sm md:text-md">
                                 {formatTimestampToTime(
                                   vehicule.vehiculeDetails?.[0]?.timestamp || 0
@@ -105,9 +124,15 @@ function VehiculeNotActifComponent({
                           )}
                         </div>
 
-                        <div id="statut-box" className="flex gap-2 items-center">
+                        <div
+                          id="statut-box"
+                          className="flex gap-2 items-center"
+                        >
                           <div>
-                            <FaCar id="car-icon" className="text-gray-500/80 dark:text-gray-300" />
+                            <FaCar
+                              id="car-icon"
+                              className="text-gray-500/80 dark:text-gray-300"
+                            />
                           </div>
                           <span
                             className={` bg-purple-300/50 ml-1 dark:text-purple-100 text-purple-800 pb-[.2rem] px-2 py-0 text-sm rounded-md `}
@@ -153,5 +178,3 @@ function VehiculeNotActifComponent({
 }
 
 export default VehiculeNotActifComponent;
-
-

@@ -5,9 +5,9 @@ import { FaCar } from "react-icons/fa";
 import { Chart, registerables } from "chart.js";
 import { IoTimeOutline } from "react-icons/io5";
 import { GiPathDistance } from "react-icons/gi";
-import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa6";
-import { IoMdClose } from "react-icons/io";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+
 // Enregistrement des composants nécessaires
 Chart.register(...registerables);
 
@@ -20,8 +20,6 @@ import { SlSpeedometer } from "react-icons/sl";
 
 import TrajetVehicule from "../components/historique_vehicule/TrajetVehicule";
 import MapComponent from "../components/location_vehicule/MapComponent";
-import RapportOptions from "../components/rapport_vehicule/RapportOptions";
-import Liste_options from "../components/home/Liste_options";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -48,42 +46,9 @@ function RapportPageDetails() {
     currentdataFusionnee,
     searchdonneeFusionneeForRapport,
     searchrapportvehicleDetails,
-    showListeOption,
-    setShowListOption,
-    setCurrentVehicule,
   } = useContext(DataContext);
 
   const mapRef = useRef(); // Référence de la carte
-
-  const [showOptions, setShowOptions] = useState(false);
-
-  const handleClick = (vehicle) => {
-    // setCurrentVehicule(vehicle);
-
-    const deviceID = vehicle.deviceID;
-
-    // // Recherche du véhicule correspondant dans la liste
-    const foundVehicle = currentdataFusionnee.find(
-      (v) => v.deviceID === deviceID
-    );
-
-    if (foundVehicle) {
-      setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-      console.log("current vehicule data", foundVehicle.vehiculeDetails);
-      // setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
-      // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
-      // setShowListOption(false); // Affiche la liste d'options si nécessaire
-      console.log("Véhicule sélectionné", foundVehicle);
-    } else {
-      console.error("Véhicule introuvable avec le deviceID :", deviceID);
-    }
-
-    // setSelectedVehicle(vehicle.deviceID);
-    // setSelectedVehicle(vehicle);  // Ajouter cette ligne
-    // setShowListOption(true);
-    console.log("Véhicule en variable_________________", currentVehicule);
-    console.log("Véhicule cliqué_____________________", vehicle);
-  };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,8 +61,8 @@ function RapportPageDetails() {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [personnelDetails, setPersonnelDetails] = useState(true);
 
-  // const filteredVehicles = vehiclueHistoriqueDetails;
-  const filteredVehicles = currentVehicule?.vehiculeDetails;
+  const filteredVehicles = vehiclueHistoriqueDetails;
+  // const filteredVehicles = currentVehicule?.vehiculeDetails;
 
   const historiqueInMap = filteredVehicles
     ? Object.values(filteredVehicles)
@@ -304,43 +269,41 @@ function RapportPageDetails() {
       : maxItem;
   }, filteredList[0]);
 
-  function formatTimestampToTime(timestamp) {
-    const date = new Date(timestamp * 1000);
-    const hours = date.getUTCHours().toString().padStart(2, "0");
-    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-    const seconds = date.getUTCSeconds().toString().padStart(2, "0");
-    return `${hours}:${minutes}:${seconds}`;
-  }
-
   function calculateActivePeriodsForAllVehicles(vehicleData) {
+    // Tableau des résultats
     const results = [];
 
     vehicleData.forEach((vehicle) => {
-      const { description, vehiculeDetails } = vehicle;
+      const { description, vehiculeDetails } = vehicle; // Nom et détails du véhicule
 
+      // Filtrer les données pour les moments actifs (vitesse > 0)
       const filteredList = vehiculeDetails?.filter(
         (item) => parseFloat(item.speedKPH) > 0
       );
 
       if (filteredList && filteredList.length > 0) {
+        // Trouver l'élément avec le timestamp minimum
         const startTimestamp = filteredList.reduce((minItem, currentItem) => {
           return parseInt(currentItem.timestamp) < parseInt(minItem.timestamp)
             ? currentItem
             : minItem;
         }, filteredList[0]);
 
+        // Trouver l'élément avec le timestamp maximum
         const endTimestamp = filteredList.reduce((maxItem, currentItem) => {
           return parseInt(currentItem.timestamp) > parseInt(maxItem.timestamp)
             ? currentItem
             : maxItem;
         }, filteredList[0]);
 
+        // Ajouter au tableau des résultats
         results.push({
           description,
-          startTime: formatTimestampToTime(parseInt(startTimestamp.timestamp)),
-          endTime: formatTimestampToTime(parseInt(endTimestamp.timestamp)),
+          startTime: new Date(parseInt(startTimestamp.timestamp) * 1000), // Convertir en format lisible
+          endTime: new Date(parseInt(endTimestamp.timestamp) * 1000), // Convertir en format lisible
         });
       } else {
+        // Aucun moment actif pour ce véhicule
         results.push({
           description,
           startTime: null,
@@ -355,56 +318,6 @@ function RapportPageDetails() {
   const activePeriods =
     calculateActivePeriodsForAllVehicles(currentdataFusionnee);
   console.log(activePeriods);
-
-  // function calculateActivePeriodsForAllVehicles(vehicleData) {
-  //   // Tableau des résultats
-  //   const results = [];
-
-  //   vehicleData.forEach((vehicle) => {
-  //     const { description, vehiculeDetails } = vehicle; // Nom et détails du véhicule
-
-  //     // Filtrer les données pour les moments actifs (vitesse > 0)
-  //     const filteredList = vehiculeDetails?.filter(
-  //       (item) => parseFloat(item.speedKPH) > 0
-  //     );
-
-  //     if (filteredList && filteredList.length > 0) {
-  //       // Trouver l'élément avec le timestamp minimum
-  //       const startTimestamp = filteredList.reduce((minItem, currentItem) => {
-  //         return parseInt(currentItem.timestamp) < parseInt(minItem.timestamp)
-  //           ? currentItem
-  //           : minItem;
-  //       }, filteredList[0]);
-
-  //       // Trouver l'élément avec le timestamp maximum
-  //       const endTimestamp = filteredList.reduce((maxItem, currentItem) => {
-  //         return parseInt(currentItem.timestamp) > parseInt(maxItem.timestamp)
-  //           ? currentItem
-  //           : maxItem;
-  //       }, filteredList[0]);
-
-  //       // Ajouter au tableau des résultats
-  //       results.push({
-  //         description,
-  //         startTime: new Date(parseInt(startTimestamp.timestamp) * 1000), // Convertir en format lisible
-  //         endTime: new Date(parseInt(endTimestamp.timestamp) * 1000), // Convertir en format lisible
-  //       });
-  //     } else {
-  //       // Aucun moment actif pour ce véhicule
-  //       results.push({
-  //         description,
-  //         startTime: null,
-  //         endTime: null,
-  //       });
-  //     }
-  //   });
-
-  //   return results;
-  // }
-
-  // const activePeriods =
-  //   calculateActivePeriodsForAllVehicles(currentdataFusionnee);
-  // console.log(activePeriods);
 
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -946,102 +859,43 @@ function RapportPageDetails() {
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
-
   //  section pour savoir le vehicule en mouvement en premier et en dernier
 
-  function processVehicleData(vehicleData) {
-    if (!vehicleData || vehicleData.length === 0) {
-      return {
-        filteredData: [],
-        earliestVehicle: null,
-        latestVehicle: null,
-      };
-    }
+  const data2 = currentdataFusionnee;
 
-    // Filtrer les vehiculeDetails avec speedKPH >= 1
-    const filteredData = vehicleData.map((vehicle) => ({
-      ...vehicle,
-      vehiculeDetails: vehicle.vehiculeDetails?.filter(
+  // Filtrer les vehiculeDetails avec speedKPH >= 1
+  data2 &&
+    data2.length > 0 &&
+    data2?.forEach((vehicle) => {
+      vehicle.vehiculeDetails = vehicle.vehiculeDetails?.filter(
         (detail) => parseFloat(detail.speedKPH) >= 1
-      ),
-    }));
+      );
+    });
 
-    // Trouver le véhicule avec le timestamp le plus tôt et le plus tard
-    let earliestVehicle = null;
-    let latestVehicle = null;
-    let earliestTimestamp = Infinity;
-    let latestTimestamp = -Infinity;
+  // Trouver le véhicule avec le timestamp le plus tôt et le plus tard
+  let earliestVehicle = null;
+  let latestVehicle = null;
+  let earliestTimestamp = Infinity;
+  let latestTimestamp = -Infinity;
 
-    filteredData.forEach((vehicle) => {
+  data2 &&
+    data2.length > 0 &&
+    data2?.forEach((vehicle) => {
+      // const lastDetail = vehicle.vehiculeDetails[0];
       const lastDetail =
-        vehicle.vehiculeDetails?.[vehicle.vehiculeDetails?.length - 1];
-
+        vehicle.vehiculeDetails[vehicle.vehiculeDetails?.length - 1];
       if (lastDetail) {
         const timestamp = parseInt(lastDetail.timestamp, 10);
-
         if (timestamp < earliestTimestamp) {
           earliestTimestamp = timestamp;
           earliestVehicle = vehicle;
         }
-
         if (timestamp > latestTimestamp) {
           latestTimestamp = timestamp;
           latestVehicle = vehicle;
         }
       }
     });
-
-    return {
-      filteredData,
-      earliestVehicle,
-      latestVehicle,
-    };
-  }
-
-  const data2 = currentdataFusionnee;
-
-  const { filteredData2, earliestVehicle, latestVehicle } =
-    processVehicleData(data2);
-
-  // console.log("Filtered Data:", filteredData2);
-  // console.log("Earliest Vehicle:", earliestVehicle);
-  // console.log("Latest Vehicle:", latestVehicle);
-
-  // const data2 = currentdataFusionnee;
-
-  // // Filtrer les vehiculeDetails avec speedKPH >= 1
-  // data2 &&
-  //   data2.length > 0 &&
-  //   data2?.forEach((vehicle) => {
-  //     vehicle.vehiculeDetails = vehicle.vehiculeDetails?.filter(
-  //       (detail) => parseFloat(detail.speedKPH) >= 1
-  //     );
-  //   });
-
-  // // Trouver le véhicule avec le timestamp le plus tôt et le plus tard
-  // let earliestVehicle = null;
-  // let latestVehicle = null;
-  // let earliestTimestamp = Infinity;
-  // let latestTimestamp = -Infinity;
-
-  // data2 &&
-  //   data2.length > 0 &&
-  //   data2?.forEach((vehicle) => {
-  //     // const lastDetail = vehicle.vehiculeDetails[0];
-  //     const lastDetail =
-  //       vehicle.vehiculeDetails[vehicle.vehiculeDetails?.length - 1];
-  //     if (lastDetail) {
-  //       const timestamp = parseInt(lastDetail.timestamp, 10);
-  //       if (timestamp < earliestTimestamp) {
-  //         earliestTimestamp = timestamp;
-  //         earliestVehicle = vehicle;
-  //       }
-  //       if (timestamp > latestTimestamp) {
-  //         latestTimestamp = timestamp;
-  //         latestVehicle = vehicle;
-  //       }
-  //     }
-  //   });
 
   // Affichage des résultats
   // console.log("Véhicule avec le timestamp le plus tôt:", earliestVehicle);
@@ -1167,9 +1021,7 @@ function RapportPageDetails() {
   return (
     <div className="flex pt-28 flex-col max-w-screen overflow-hidden justify-center items-center pb-20">
       <div className="fixed  px-4 z-[555555555] top-[3.4rem] left-0 right-0 bg-white py-3 dark:bg-gray-800">
-        {showListeOption && <Liste_options />}
-
-        {/* <h2
+        <h2
           onClick={() => {
             console.log("Current vehicule", currentVehicule);
 
@@ -1292,159 +1144,7 @@ function RapportPageDetails() {
           <span>
             <FaChevronDown />
           </span>
-        </h2> */}
-
-        <div className="fixed sm:px-[15vw] z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
-          <div
-            onClick={() => {
-              setShowOptions(!showOptions);
-            }}
-            className="relative pt-5  mx-4 mb-2"
-          >
-            <div
-              className="flex justify-between   cursor-pointer border rounded-md
-                 px-3 py-2 bg-orange-50 dark:bg-gray-900/50 dark:border-gray-500  dark:text-gray-300 text-center"
-            >
-              <p className="text-start w-[90%] dark:text-gray-200 overflow-hidden whitespace-nowrap text-ellipsis">
-                {/* {currentVehicule?.description || "Choisis un Véhicule"} */}
-                {/* Choisis un Categorie */}
-                {/* {chooseALl && "Tous les véhicules"}
-                {chooseActifs && "Vehicule en déplacement"}
-                {chooseStationnement && "Véhicules en stationnement"}
-                {chooseInactifs && "Véhicules inactifs"} */}
-                {currentVehicule?.description || "---"}
-              </p>
-
-              <div
-                className={`${
-                  !showOptions ? "rotate-0" : "rotate-180"
-                } transition-all`}
-              >
-                {!showOptions ? (
-                  <FaChevronDown className="mt-1" />
-                ) : (
-                  <IoMdClose className="mt-1 text-xl text-red-500 -translate-y-[.2rem] -translate-x-[.1rem]" />
-                )}
-              </div>
-            </div>
-
-            {/* vehiculeActiveAjourdhui,
-    vehiculeNotActiveAjourdhui,
-    vehiculeNotActif, */}
-
-            {showOptions && (
-              <div className="absolute p-4 dark:bg-gray-900 dark:border dark:border-gray-500 dark:shadow-lg dark:shadow-gray-500 text-gray-500 top-20 rounded-lg bg-white right-0 left-0 min-h-20 shadow-lg shadow-gray-600">
-                <div
-                  onClick={() => {
-                    setShowOptions(!showOptions);
-                    // setchooseALl(true);
-                    // setchooseActifs(false);
-                    // setchooseStationnement(false);
-                    // setchooseInactifs(false);
-                  }}
-                  className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                >
-                  <div className="min-w-[2.5rem]">
-                    <img
-                      className="w-[2em] ml-2"
-                      src="/img/home_icon/total.png"
-                      alt=""
-                    />
-                  </div>
-
-                  <h3 className="dark:text-gray-200">Rapport en Groupe</h3>
-                </div>
-
-                {vehiculeActiveAjourdhui &&
-                  vehiculeActiveAjourdhui.map((vehicule, index) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setShowOptions(!showOptions);
-                          handleClick(vehicule);
-
-                          // setchooseALl(false);
-                          // setchooseActifs(true);
-                          // setchooseStationnement(false);
-                          // setchooseInactifs(false);
-                        }}
-                        className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                      >
-                        <div className="min-w-[2.5rem]">
-                          <img
-                            className="w-[2.5em] "
-                            src="/img/home_icon/active.png"
-                            alt=""
-                          />
-                        </div>
-                        <h3 className="dark:text-gray-200">
-                          {vehicule.description || "---"}
-                        </h3>
-                      </div>
-                    );
-                  })}
-
-                {vehiculeNotActiveAjourdhui &&
-                  vehiculeNotActiveAjourdhui.map((vehicule, index) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setShowOptions(!showOptions);
-                          handleClick(vehicule);
-
-                          // setchooseALl(false);
-                          // setchooseActifs(true);
-                          // setchooseStationnement(false);
-                          // setchooseInactifs(false);
-                        }}
-                        className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                      >
-                        <div className="min-w-[2.5rem]">
-                          <img
-                            className="w-[2em]  ml-2"
-                            src="/img/cars/parking.png"
-                            alt=""
-                          />
-                        </div>
-                        <h3 className="dark:text-gray-200">
-                          {vehicule.description || "---"}
-                        </h3>
-                      </div>
-                    );
-                  })}
-
-                {vehiculeNotActif &&
-                  vehiculeNotActif.map((vehicule, index) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setShowOptions(!showOptions);
-                          handleClick(vehicule);
-
-                          // setchooseALl(false);
-                          // setchooseActifs(true);
-                          // setchooseStationnement(false);
-                          // setchooseInactifs(false);
-                        }}
-                        className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                      >
-                        <div className="min-w-[2.5rem]">
-                          <img
-                            className="w-[1.72em]  ml-1"
-                            src="/img/home_icon/payer.png"
-                            alt=""
-                          />
-                        </div>
-                        <h3 className="dark:text-gray-200">
-                          {vehicule.description || "---"}
-                        </h3>
-                      </div>
-                    );
-                  })}
-              </div>
-            )}
-          </div>
-        </div>
+        </h2>
       </div>
 
       <div className="flex px-4 mb-10 w-full gap-3 justify-between max-w-[40rem] mx-auto mt-4 ">
@@ -1472,12 +1172,7 @@ function RapportPageDetails() {
         >
           En Groupe
         </button>
-        <button
-          onClick={() => {
-            setShowListOption(true);
-          }}
-          className="border border-gray-100 dark:bg-gray-900/70 dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg bg-gray-100 shadow-lg-- shadow-gray-200 w-full py-1"
-        >
+        <button className="border border-gray-100 dark:bg-gray-900/70 dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg bg-gray-100 shadow-lg-- shadow-gray-200 w-full py-1">
           Options
         </button>
       </div>
@@ -1677,12 +1372,9 @@ function RapportPageDetails() {
             </h2>
           </div>
 
-          <div className="transition-all w-full bg-gray-100 rounded-lg dark:bg-gray-900 dark:text-gray-100">
+          <div className=" transition-all w-full ">
             <div>
-              <canvas
-                className="w-full transition-all dark:bg-gray-900 rounded-lg"
-                id="myChart"
-              ></canvas>
+              <canvas className="w-full transition-all " id="myChart"></canvas>
             </div>
           </div>
           {/* 
@@ -1794,8 +1486,6 @@ function RapportPageDetails() {
       {/* ////////////////////////////////////////////////////////////////////////////////////// */}
       {!personnelDetails && (
         <div className=" px-4 md:max-w-[80vw] w-full">
-          {/* <RapportOptions /> */}
-
           <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
             Rapport detaillee en groupe
           </h1>
@@ -2017,96 +1707,7 @@ function RapportPageDetails() {
             <MapComponent />
           </div>
 
-          <div className="w-full mt-20 overflow-auto">
-            <table className="overflow-auto w-full text-left dark:bg-gray-800 dark:text-gray-200">
-              <thead>
-                <tr className="bg-orange-50 text-gray-700 border-- dark:bg-gray-700 dark:text-gray-100">
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[20rem]">
-                    Véhicule
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Heure de départ
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Heure d'arrivée
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Vitesse moyenne
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Vitesse maximale
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Distance totale
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Nombre d'arrêts
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Temps actif
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[20rem]">
-                    Adresse actuelle
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentdataFusionnee?.map((vehicule, index) => (
-                  <tr key={index} className="border dark:border-gray-600">
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {vehicule.description}
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleTimeString()
-                        : "---"}
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {activePeriods[index]?.endTime
-                        ? activePeriods[index].endTime.toLocaleTimeString()
-                        : "---"}
-                    </td>
-                    <td
-                      onClick={() => {
-                        console.log(vehicule.vehiculeDetails[0]?.address);
-                      }}
-                      className="border py-3 px-2 dark:border-gray-600"
-                    >
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].averageSpeed.toFixed(2)}{" "}
-                      km/h
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].maxSpeed.toFixed(2)}{" "}
-                      km/h
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {Object.entries(result2.distancesByVehicle)[
-                        index
-                      ][1].toFixed(2)}{" "}
-                      km
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {Object.entries(result3.stopsByVehicle)[index][1]} arrêts
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {movingTimes[index].totalMovingDuration.hours}h{" "}
-                      {movingTimes[index].totalMovingDuration.minutes}m{" "}
-                      {movingTimes[index].totalMovingDuration.seconds}s
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {vehicule.vehiculeDetails[0]?.address || "---"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* <div className=" w-full- mt-20 overflow-auto ">
+          <div className=" w-full- mt-20 overflow-auto ">
             <table
               className="overflow-auto w-full"
               style={{
@@ -2147,14 +1748,10 @@ function RapportPageDetails() {
                   <tr key={index} className="border">
                     <td className="border py-3 px-2">{vehicule.description}</td>
                     <td className="border py-3 px-2">
-                      {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleString()
-                        : "---"}
+                      {activePeriods[index].startTime || "---"}{" "}
                     </td>
                     <td className="border py-3 px-2">
-                      {activePeriods[index]?.endTime
-                        ? activePeriods[index].endTime.toLocaleString()
-                        : "---"}{" "}
+                      {activePeriods[index].endTime || "---"}{" "}
                     </td>
 
                     <td
@@ -2163,26 +1760,25 @@ function RapportPageDetails() {
                       }}
                       className="border py-3 px-2"
                     >
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].averageSpeed.toFixed(2)}{" "}
+                      {
+                        // Object.entries(result5.statsByVehicle)[index][1]
+                        //   .averageSpeed
+                      }{" "}
                       km/h
                     </td>
                     <td className="border py-3 px-2">
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].maxSpeed.toFixed(2)}{" "}
+                      {
+                        // Object.entries(result5.statsByVehicle)[index][1]
+                        //   .maxSpeed
+                      }{" "}
                       km/h
                     </td>
                     <td className="border py-3 px-2">
-                      {Object.entries(result2.distancesByVehicle)[
-                        index
-                      ][1].toFixed(2)}{" "}
-                      Km
+                      {/* {Object.entries(result2.distancesByVehicle)[index][1]} Km */}
                     </td>
 
                     <td className="border py-3 px-2">
-                      {Object.entries(result3.stopsByVehicle)[index][1]} arrets
+                      {/* {Object.entries(result3.stopsByVehicle)[index][1]} arrets */}
                     </td>
 
                     <td className="border py-3 px-2">
@@ -2198,7 +1794,7 @@ function RapportPageDetails() {
                 ))}
               </tbody>
             </table>
-          </div> */}
+          </div>
         </div>
       )}
     </div>

@@ -222,12 +222,16 @@ function HistoriquePage() {
     setSearchQuery(e.target.value);
   };
 
-  const vehiculeActive = dataFusionee.filter(
-    (vehicule) =>
-      vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
-  );
+  // const vehiculeActive = dataFusionee.filter(
+  //   (vehicule) =>
+  //     vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
+  // );
 
-  const filteredVehiclesPupup = vehiculeActive?.filter((vehicule) =>
+  // const filteredVehiclesPupup = vehiculeActive?.filter((vehicule) =>
+  //   vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+
+  const filteredVehiclesPupup = dataFusionee?.filter((vehicule) =>
     vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 

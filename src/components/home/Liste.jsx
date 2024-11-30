@@ -34,6 +34,11 @@ function Liste() {
     donneeFusionneeForRapport,
     selectUTC,
     userData,
+    vehicleData,
+    vehicleDetails,
+    fetchVehicleDetails,
+    fetRapportchVehicleDetails,
+    fonctionTest,
   } = useContext(DataContext);
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
@@ -62,7 +67,6 @@ function Liste() {
     setShowListOption(true);
     console.log("Véhicule sélectionné", vehicle);
   };
-
 
   // Fonctions pour formater le temps et la date
   function formatTimestampToTime(timestamp) {
@@ -109,8 +113,53 @@ function Liste() {
     return `${hours}:${minutes}:${seconds}`;
   }
 
+  const reloadVehiculeDetails = () => {
+    const now = new Date();
+    const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")} ${now
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now
+      .getSeconds()
+      .toString()
+      .padStart(2, "0")}`;
+
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${startOfDay
+      .getDate()
+      .toString()
+      .padStart(2, "0")} 00:00:00`;
+
+    if (vehicleData && vehicleData?.length > 0) {
+      vehicleData?.forEach((vehicle) => {
+        fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
+        fetRapportchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
+        console.log(
+          "lancement des requette de details.....iiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
+        );
+        // firstCallRapportData();
+      });
+    }
+  };
+
   return (
     <div className="p-2 flex flex-col gap-4 mt-4 mb-32 dark:text-white">
+      {/* <button
+        onClick={() => {
+          // console.log("mergedData...", mergedData);
+          // console.log("vehicleData", vehicleData);
+          // console.log("vehicleDetails", vehicleDetails);
+          fonctionTest();
+          // reloadVehiculeDetails();
+        }}
+      >
+        test
+      </button> */}
       {isLoading ? (
         <p>Chargement des données...</p>
       ) : filteredData.length > 0 ? (

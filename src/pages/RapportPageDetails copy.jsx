@@ -5,9 +5,9 @@ import { FaCar } from "react-icons/fa";
 import { Chart, registerables } from "chart.js";
 import { IoTimeOutline } from "react-icons/io5";
 import { GiPathDistance } from "react-icons/gi";
-import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa6";
-import { IoMdClose } from "react-icons/io";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+
 // Enregistrement des composants nécessaires
 Chart.register(...registerables);
 
@@ -20,8 +20,6 @@ import { SlSpeedometer } from "react-icons/sl";
 
 import TrajetVehicule from "../components/historique_vehicule/TrajetVehicule";
 import MapComponent from "../components/location_vehicule/MapComponent";
-import RapportOptions from "../components/rapport_vehicule/RapportOptions";
-import Liste_options from "../components/home/Liste_options";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -46,44 +44,9 @@ function RapportPageDetails() {
     vehiculeNotActiveAjourdhui,
     vehiculeNotActif,
     currentdataFusionnee,
-    searchdonneeFusionneeForRapport,
-    searchrapportvehicleDetails,
-    showListeOption,
-    setShowListOption,
-    setCurrentVehicule,
   } = useContext(DataContext);
 
   const mapRef = useRef(); // Référence de la carte
-
-  const [showOptions, setShowOptions] = useState(false);
-
-  const handleClick = (vehicle) => {
-    // setCurrentVehicule(vehicle);
-
-    const deviceID = vehicle.deviceID;
-
-    // // Recherche du véhicule correspondant dans la liste
-    const foundVehicle = currentdataFusionnee.find(
-      (v) => v.deviceID === deviceID
-    );
-
-    if (foundVehicle) {
-      setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-      console.log("current vehicule data", foundVehicle.vehiculeDetails);
-      // setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
-      // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
-      // setShowListOption(false); // Affiche la liste d'options si nécessaire
-      console.log("Véhicule sélectionné", foundVehicle);
-    } else {
-      console.error("Véhicule introuvable avec le deviceID :", deviceID);
-    }
-
-    // setSelectedVehicle(vehicle.deviceID);
-    // setSelectedVehicle(vehicle);  // Ajouter cette ligne
-    // setShowListOption(true);
-    console.log("Véhicule en variable_________________", currentVehicule);
-    console.log("Véhicule cliqué_____________________", vehicle);
-  };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -96,9 +59,7 @@ function RapportPageDetails() {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [personnelDetails, setPersonnelDetails] = useState(true);
 
-  // const filteredVehicles = vehiclueHistoriqueDetails;
   const filteredVehicles = currentVehicule?.vehiculeDetails;
-
   const historiqueInMap = filteredVehicles
     ? Object.values(filteredVehicles)
     : [];
@@ -253,7 +214,84 @@ function RapportPageDetails() {
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
 
-  // Trouver la date du rapport//  exemple  Résultat : Date : 23 novembre 2024
+  const data = vehiclueHistoriqueDetails;
+
+  // Trouver l'événement de vitesse maximale
+  const maxSpeedEvent = data?.reduce(
+    (max, d) => (parseFloat(d.speedKPH) > parseFloat(max.speedKPH) ? d : max),
+    { speedKPH: "0.0" }
+  );
+
+  // Trouver l'arrêt le plus long
+  const stops = data?.filter((d) => parseFloat(d.speedKPH) === 0);
+
+  // Si plusieurs arrêts, on calcule la durée entre eux et on trouve le plus long
+  let longestStop = null;
+  let longestDuration = 0;
+
+  if (stops?.length > 1) {
+    for (let i = 0; i < stops.length - 1; i++) {
+      const currentStop = stops[i];
+      const nextStop = stops[i + 1];
+      const duration =
+        parseInt(nextStop.timestamp) - parseInt(currentStop.timestamp);
+
+      if (duration > longestDuration) {
+        longestDuration = duration;
+        longestStop = currentStop;
+      }
+    }
+  }
+
+  // Préparer les lignes du tableau
+  // const rows = [
+  //   {
+  //     time: formatTimestamp(data[0]?.timestamp),
+  //     event: "Démarrage",
+  //     location: `${data[0]?.streetAddress}, ${data[0]?.stateProvince}`,
+  //     speed: parseFloat(data[0]?.speedKPH).toFixed(1),
+  //     comment: "Début de la journée",
+  //   },
+  //   {
+  //     time: formatTimestamp(maxSpeedEvent?.timestamp),
+  //     event: "Vitesse maximale enregistrée",
+  //     location: `${maxSpeedEvent?.streetAddress}, ${maxSpeedEvent?.stateProvince}`,
+  //     speed: parseFloat(maxSpeedEvent?.speedKPH).toFixed(1),
+  //     comment: `Vitesse maximale:  ${parseFloat(
+  //       maxSpeedEvent?.speedKPH
+  //     ).toFixed(1)} km/h`,
+  //   },
+  //   {
+  //     time: formatTimestamp(longestStop?.timestamp || 0),
+  //     event: "L'arrêt le plus long",
+  //     location: `${longestStop?.streetAddress || "Adresse inconnue"}, ${
+  //       longestStop?.stateProvince || "Province inconnue"
+  //     }`,
+  //     speed: "0.0",
+  //     comment: `Durée de l'arrêt  : ${longestDuration || 0} minutes`,
+  //   },
+  //   {
+  //     time: formatTimestamp(data[data.length - 1]?.timestamp),
+  //     event: "Fin de trajet",
+  //     location: `${data[data.length - 1]?.streetAddress}, ${
+  //       data[data.length - 1]?.stateProvince
+  //     }`,
+  //     speed: parseFloat(data[data.length - 1]?.speedKPH).toFixed(1),
+  //     comment: "Fin de la journée",
+  //   },
+  // ].filter(Boolean); // Supprime les lignes nulles si aucun arrêt long n'est trouvé
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+
+  // Convertir le timestamp en millisecondes
   const timestampInSeconds = currentVehicule?.vehiculeDetails[0]?.timestamp;
   const dateObject = new Date(timestampInSeconds * 1000);
 
@@ -264,11 +302,12 @@ function RapportPageDetails() {
     year: "numeric",
   });
 
+  console.log("Date :", vehiclueHistoriqueDetails); // Résultat : Date : 23 novembre 2024
+
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
-  // section pour trouver l'heure du debut et l'heure de la fin dur parcoure du vehicule
 
   // Fonctions pour formater le temps et la date
   function formatTimestampToTime(timestamp) {
@@ -304,115 +343,40 @@ function RapportPageDetails() {
       : maxItem;
   }, filteredList[0]);
 
-  function formatTimestampToTime(timestamp) {
-    const date = new Date(timestamp * 1000);
-    const hours = date.getUTCHours().toString().padStart(2, "0");
-    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
-    const seconds = date.getUTCSeconds().toString().padStart(2, "0");
-    return `${hours}:${minutes}:${seconds}`;
-  }
+  ////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////////
 
-  function calculateActivePeriodsForAllVehicles(vehicleData) {
-    const results = [];
+  // const vehiculedetails = currentVehicule?.vehiculeDetails;
 
-    vehicleData.forEach((vehicle) => {
-      const { description, vehiculeDetails } = vehicle;
+  // // Filtrer les détails où le véhicule est en mouvement
+  // const movingDetails = vehiculedetails?.filter(
+  //   (detail) => parseFloat(detail.speedKPH) >= 1
+  // );
 
-      const filteredList = vehiculeDetails?.filter(
-        (item) => parseFloat(item.speedKPH) > 0
-      );
-
-      if (filteredList && filteredList.length > 0) {
-        const startTimestamp = filteredList.reduce((minItem, currentItem) => {
-          return parseInt(currentItem.timestamp) < parseInt(minItem.timestamp)
-            ? currentItem
-            : minItem;
-        }, filteredList[0]);
-
-        const endTimestamp = filteredList.reduce((maxItem, currentItem) => {
-          return parseInt(currentItem.timestamp) > parseInt(maxItem.timestamp)
-            ? currentItem
-            : maxItem;
-        }, filteredList[0]);
-
-        results.push({
-          description,
-          startTime: formatTimestampToTime(parseInt(startTimestamp.timestamp)),
-          endTime: formatTimestampToTime(parseInt(endTimestamp.timestamp)),
-        });
-      } else {
-        results.push({
-          description,
-          startTime: null,
-          endTime: null,
-        });
-      }
-    });
-
-    return results;
-  }
-
-  const activePeriods =
-    calculateActivePeriodsForAllVehicles(currentdataFusionnee);
-  console.log(activePeriods);
-
-  // function calculateActivePeriodsForAllVehicles(vehicleData) {
-  //   // Tableau des résultats
-  //   const results = [];
-
-  //   vehicleData.forEach((vehicle) => {
-  //     const { description, vehiculeDetails } = vehicle; // Nom et détails du véhicule
-
-  //     // Filtrer les données pour les moments actifs (vitesse > 0)
-  //     const filteredList = vehiculeDetails?.filter(
-  //       (item) => parseFloat(item.speedKPH) > 0
-  //     );
-
-  //     if (filteredList && filteredList.length > 0) {
-  //       // Trouver l'élément avec le timestamp minimum
-  //       const startTimestamp = filteredList.reduce((minItem, currentItem) => {
-  //         return parseInt(currentItem.timestamp) < parseInt(minItem.timestamp)
-  //           ? currentItem
-  //           : minItem;
-  //       }, filteredList[0]);
-
-  //       // Trouver l'élément avec le timestamp maximum
-  //       const endTimestamp = filteredList.reduce((maxItem, currentItem) => {
-  //         return parseInt(currentItem.timestamp) > parseInt(maxItem.timestamp)
-  //           ? currentItem
-  //           : maxItem;
-  //       }, filteredList[0]);
-
-  //       // Ajouter au tableau des résultats
-  //       results.push({
-  //         description,
-  //         startTime: new Date(parseInt(startTimestamp.timestamp) * 1000), // Convertir en format lisible
-  //         endTime: new Date(parseInt(endTimestamp.timestamp) * 1000), // Convertir en format lisible
-  //       });
-  //     } else {
-  //       // Aucun moment actif pour ce véhicule
-  //       results.push({
-  //         description,
-  //         startTime: null,
-  //         endTime: null,
-  //       });
-  //     }
-  //   });
-
-  //   return results;
+  // // Calculer la différence entre le premier et le dernier timestamp
+  // let timeInMotion = 0;
+  // if (movingDetails?.length > 0) {
+  //   const firstTimestamp = parseInt(movingDetails[0].timestamp, 10);
+  //   const lastTimestamp = parseInt(
+  //     movingDetails[movingDetails.length - 1].timestamp,
+  //     10
+  //   );
+  //   timeInMotion = lastTimestamp - firstTimestamp; // Temps en secondes
   // }
 
-  // const activePeriods =
-  //   calculateActivePeriodsForAllVehicles(currentdataFusionnee);
-  // console.log(activePeriods);
+  // // Convertir le temps en mouvement en heures, minutes, secondes
+  // const formatTime = (seconds) => {
+  //   const absSeconds = Math.abs(seconds); // Éviter les valeurs négatives
+  //   const hrs = Math.floor(absSeconds / 3600);
+  //   const mins = Math.floor((absSeconds % 3600) / 60);
+  //   const secs = absSeconds % 60;
+  //   return `${hrs}h ${mins}m ${secs}s`;
+  // };
 
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // section pour calculer la distance totale parcourrue par le vehicule
 
   function calculateDistance(lat1, lon1, lat2, lon2) {
     const R = 6371; // Rayon de la Terre en kilomètres
@@ -450,64 +414,11 @@ function RapportPageDetails() {
     return totalDistance; // Distance totale en kilomètres
   }
 
-  // Fonction pour calculer la distance totale pour tous les véhicules
-  // Fonction pour calculer la distance totale pour tous les véhicules
-  function calculateDistancesForAllVehicles(vehicles) {
-    if (vehicles && vehicles.length > 0) {
-      let distancesByVehicle = {}; // Stocker la distance totale pour chaque véhicule
-      let totalDistanceAllVehicles = 0; // Stocker la distance totale pour tous les véhicules
-      let maxDistance = 0; // Distance maximale parcourue
-      let maxDistanceVehicle = ""; // Nom du véhicule ayant parcouru la plus grande distance
-
-      vehicles.forEach((vehicle) => {
-        const data = filterVehicleData(vehicle?.vehiculeDetails); // Appliquer le filtrage si nécessaire
-
-        const totalDistance = calculateTotalDistance(data); // Calculer la distance pour ce véhicule
-        distancesByVehicle[vehicle.description] = totalDistance; // Nom du véhicule + distance
-
-        totalDistanceAllVehicles += totalDistance; // Ajouter la distance au total global
-
-        // Vérifier si ce véhicule a la plus grande distance
-        if (totalDistance > maxDistance) {
-          maxDistance = totalDistance;
-          maxDistanceVehicle = vehicle.description;
-        }
-      });
-
-      return {
-        distancesByVehicle, // Distance par véhicule
-        totalDistanceAllVehicles, // Distance totale pour tous les véhicules
-        maxDistanceVehicle, // Nom du véhicule ayant parcouru la plus grande distance
-        maxDistance, // Distance la plus grande
-      };
-    }
-  }
-
-  // Exemple d'utilisation :
-  const result2 = calculateDistancesForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste
-  // console.log("Distance totale par véhicule :", result2?.distancesByVehicle);
-  // console.log(
-  //   "Distance totale pour tous les véhicules :",
-  //   result2?.totalDistanceAllVehicles.toFixed(2),
-  //   "km"
-  // );
-  // console.log(
-  //   "Véhicule ayant parcouru la plus grande distance :",
-  //   result2?.maxDistanceVehicle,
-  //   "avec",
-  //   result2?.maxDistance.toFixed(2),
-  //   "km"
-  // );
-
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // Fonction pour compter les arrêts totale du vehicule
 
+  // Fonction pour compter les arrêts
   const countStops = (vehiculedetails) => {
     let stopCount = 0;
     for (let i = 1; i < vehiculedetails?.length; i++) {
@@ -524,43 +435,9 @@ function RapportPageDetails() {
   // Calculer le nombre d'arrêts
   const nombreArret = countStops(currentVehicule?.vehiculeDetails);
 
-  // Fonction pour calculer le nombre total d'arrêts pour tous les véhicules
-  function countStopsForAllVehicles(vehicles) {
-    if (vehicles && vehicles.length > 0) {
-      let stopsByVehicle = {}; // Stocker le nombre d'arrêts pour chaque véhicule
-      let totalStopsAllVehicles = 0; // Stocker le nombre total d'arrêts pour tous les véhicules
-
-      vehicles.forEach((vehicle) => {
-        const data = filterVehicleData(vehicle?.vehiculeDetails); // Appliquer le filtrage si nécessaire
-
-        const stopCount = countStops(data); // Nombre d'arrêts pour ce véhicule
-        stopsByVehicle[vehicle.description] = stopCount; // Nom du véhicule + nombre d'arrêts
-
-        totalStopsAllVehicles += stopCount; // Ajouter le nombre d'arrêts au total global
-      });
-
-      return {
-        stopsByVehicle, // Nombre d'arrêts par véhicule
-        totalStopsAllVehicles, // Nombre total d'arrêts pour tous les véhicules
-      };
-    }
-  }
-
-  // Exemple d'utilisation :
-  const result3 = countStopsForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste
-  // console.log("Nombre d'arrêts par véhicule :", result3.stopsByVehicle);
-  // console.log(
-  //   "Nombre total d'arrêts pour tous les véhicules :",
-  //   result3.totalStopsAllVehicles
-  // );
-
-  ////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
-  // calcule de la vitesse ninimal, maximal et moyenne du vehicule
 
   function calculateSpeedStats(dataList) {
     // Filtre pour ne garder que les vitesses supérieures à 0
@@ -598,118 +475,141 @@ function RapportPageDetails() {
     currentVehicule?.vehiculeDetails
   );
 
-  // Fonction pour calculer les statistiques de vitesse (min, max, moyenne) pour tous les véhicules
-  // function calculateSpeedStatsForAllVehicles(vehicles) {
-  //   if (vehicles && vehicles.length > 0) {
-  //     let allSpeeds = []; // Stocker toutes les vitesses de tous les véhicules
-  //     let statsByVehicle = {}; // Stocker les statistiques par véhicule
-
-  //     vehicles.forEach((vehicle) => {
-  //       const data = filterVehicleData(vehicle?.vehiculeDetails); // Filtrer les données si nécessaire
-  //       const stats = calculateSpeedStats(data); // Obtenir les statistiques pour ce véhicule
-
-  //       statsByVehicle[vehicle.description] = stats; // Ajouter les stats de ce véhicule
-  //       allSpeeds = [
-  //         ...allSpeeds,
-  //         ...data
-  //           .map((item) => parseFloat(item.speedKPH))
-  //           .filter((speed) => speed > 0),
-  //       ];
-  //     });
-
-  //     // Calcul des statistiques globales pour tous les véhicules
-  //     const globalStats = calculateGlobalSpeedStats(allSpeeds);
-
-  //     return {
-  //       statsByVehicle, // Statistiques par véhicule
-  //       globalStats, // Statistiques globales
-  //     };
-  //   }
-  // }
-
-  function calculateSpeedStatsForAllVehicles(vehicles) {
-    if (vehicles && vehicles.length > 0) {
-      let allSpeeds = []; // Stocker toutes les vitesses de tous les véhicules
-      let statsByVehicle = {}; // Stocker les statistiques par véhicule
-      let maxSpeedVehicle = { description: null, maxSpeed: 0 }; // Véhicule avec la vitesse maximale la plus élevée
-
-      vehicles.forEach((vehicle) => {
-        const data = vehicle?.vehiculeDetails || []; // Récupérer les détails du véhicule
-        const stats = calculateSpeedStats(data); // Calculer les stats pour ce véhicule
-
-        statsByVehicle[vehicle.description] = stats; // Ajouter les stats de ce véhicule
-
-        // Vérifier si ce véhicule a la vitesse maximale la plus élevée
-        if (stats.maxSpeed > maxSpeedVehicle.maxSpeed) {
-          maxSpeedVehicle = {
-            description: vehicle.description,
-            maxSpeed: stats.maxSpeed,
-          };
-        }
-
-        // Ajouter les vitesses du véhicule aux vitesses globales
-        allSpeeds = [
-          ...allSpeeds,
-          ...data
-            .map((item) => parseFloat(item.speedKPH))
-            .filter((speed) => speed > 0),
-        ];
-      });
-
-      // Calcul des statistiques globales pour tous les véhicules
-      const globalStats = calculateGlobalSpeedStats(allSpeeds);
-
-      return {
-        statsByVehicle, // Statistiques par véhicule
-        globalStats, // Statistiques globales
-        maxSpeedVehicle, // Véhicule avec la vitesse maximale la plus élevée
-      };
-    }
-  }
-
-  // Fonction pour calculer les statistiques globales pour toutes les vitesses
-  function calculateGlobalSpeedStats(allSpeeds) {
-    if (allSpeeds.length === 0) {
-      return {
-        minSpeed: 0,
-        maxSpeed: 0,
-        averageSpeed: 0,
-      };
-    }
-
-    const minSpeed = Math.min(...allSpeeds);
-    const maxSpeed = Math.max(...allSpeeds);
-    const averageSpeed =
-      allSpeeds.reduce((sum, speed) => sum + speed, 0) / allSpeeds.length;
-
-    return {
-      minSpeed,
-      maxSpeed,
-      averageSpeed,
-    };
-  }
-
-  // Exemple d'utilisation :
-  // const result4 = calculateSpeedStatsForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste
-  // console.log("Statistiques par véhicule :", result4?.statsByVehicle);
-  // console.log("Statistiques globales :", result4?.globalStats);
-
-  // Exemple d'utilisation :
-  const result5 = calculateSpeedStatsForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste
-  // console.log("Statistiques par véhicule :", result5?.statsByVehicle);
-  // console.log("Statistiques globales :", result5?.globalStats);
-  // console.log(
-  //   `Véhicule avec la vitesse maximale la plus élevée : ${result5?.maxSpeedVehicle.description}, Vitesse : ${result5?.maxSpeedVehicle.maxSpeed} KPH`
-  // );
-
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // calcule de la duree total en mouvement, duree total en arret et le plus longue arret
+
+  //   const processVehicleDataWithDurations = (vehiculedetails) => {
+  //     const firstIndex = vehiculedetails?.findIndex(item => parseFloat(item.speedKPH) >= 1);
+  //     const lastIndex = vehiculedetails?.length - 1 - vehiculedetails?.slice().reverse().findIndex(item => parseFloat(item.speedKPH) >= 1);
+
+  //     if (firstIndex === -1 || lastIndex === -1) {
+  //       return { filteredDetails: [], stopDurations: [], totalStopTime: "0h 0m 0s", stopCount: 0 };
+  //     }
+
+  //     const filteredDetails = vehiculedetails?.slice(firstIndex, lastIndex + 1);
+
+  //     let stopCount = 0;
+  //     let totalStopTime = 0;
+  //     const stopDurations = [];
+  //     let currentStopStart = null;
+
+  //     for (let i = 0; i < filteredDetails?.length; i++) {
+  //       const currSpeed = parseFloat(filteredDetails[i].speedKPH);
+  //       const currTimestamp = parseInt(filteredDetails[i].timestamp, 10);
+
+  //       if (currSpeed === 0) {
+  //         if (currentStopStart === null) {
+  //           currentStopStart = currTimestamp;
+  //         }
+  //       } else {
+  //         if (currentStopStart !== null) {
+  //           const stopDuration = currTimestamp - currentStopStart;
+  //           stopDurations.push(stopDuration);
+  //           totalStopTime += stopDuration;
+  //           stopCount++;
+  //           currentStopStart = null;
+  //         }
+  //       }
+  //     }
+
+  //     if (currentStopStart !== null) {
+  //       const lastTimestamp = parseInt(filteredDetails[filteredDetails.length - 1].timestamp, 10);
+  //       const stopDuration = lastTimestamp - currentStopStart;
+  //       stopDurations.push(stopDuration);
+  //       totalStopTime += stopDuration;
+  //       stopCount++;
+  //     }
+
+  //     const formatDuration = (duration) => {
+  //       const h = Math.max(0, Math.floor(duration / 3600));
+  //       const m = Math.max(0, Math.floor((duration % 3600) / 60));
+  //       const s = Math.max(0, duration % 60);
+  //       return `${h}h ${m}m ${s}s`;
+  //     };
+
+  //     const totalStopTimeFormatted = formatDuration(totalStopTime);
+
+  //     const formattedStopDurations = stopDurations.map(duration => formatDuration(duration));
+
+  //     return {
+  //       filteredDetails,
+  //       stopDurations: formattedStopDurations,
+  //       totalStopTime: totalStopTimeFormatted,
+  //       stopCount,
+  //     };
+  //   };
+
+  //   // Exemple d'utilisation
+  //   // const result = processVehicleDataWithDurations(vehiculedetails2);
+  //   // console.log(result);
+
+  // // Exemple d'utilisation
+  // const vehiculedetails2 = [
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "1.0",
+  //     timestamp: "1732468800", // 08:00:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "1.0",
+  //     timestamp: "1732472400", // 08:10:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "0.0",
+  //     timestamp: "1732474200", // 08:30:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "0.0",
+  //     timestamp: "1732477800", // 09:30:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "1.0",
+  //     timestamp: "1732478700", // 09:45:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "0.0",
+  //     timestamp: "1732482600", // 10:00:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "0.0",
+  //     timestamp: "1732483200", // 10:10:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "5.0",
+  //     timestamp: "1732483800", // 10:20:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "0.0",
+  //     timestamp: "1732484400", // 10:30:00
+  //   },
+  //   {
+  //     Device: "863844053509383",
+  //     speedKPH: "1.0",
+  //     timestamp: "1732486200", // 10:50:00
+  //   },
+  // ];
+
+  // const result = processVehicleDataWithDurations(vehiculedetails2);
+  // const result2 = processVehicleDataWithDurations(vehiclueHistoriqueDetails);
+
+  // console.log("Détails filtrés :", result.filteredDetails);
+  // console.log("Durées des arrêts :", result.stopDurations);
+  // console.log("Temps total d'arrêt :", result.totalStopTime);
+  // console.log("Nombre d'arrêts :", result.stopCount);
+
+  // console.log("Détails filtrés :", result2.filteredDetails);
+  // console.log("Durées des arrêts :", result2.stopDurations);
+  // console.log("Temps total d'arrêt :", result2.totalStopTime);
+  // console.log("Nombre d'arrêts :", result2.stopCount);
 
   function filterVehicleData(data) {
     // Trouver l'indice du premier objet avec speedKPH >= 1
@@ -735,8 +635,12 @@ function RapportPageDetails() {
     });
   }
 
+  // Exemple de données à filtre
+
   // Appliquer la fonction de filtrage
   const filteredData = filterVehicleData(currentVehicule?.vehiculeDetails);
+
+  ///////////////////////////////////
 
   const [longestHours, setLongestHours] = useState(0);
   const [longestMinutes, setLongestMinutes] = useState(0);
@@ -852,64 +756,6 @@ function RapportPageDetails() {
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-
-  function calculateTotalMovingTimePerVehicle(vehicleData) {
-    // Initialiser un tableau pour stocker les résultats
-    const results = [];
-
-    vehicleData.forEach((vehicle) => {
-      const { description, vehiculeDetails } = vehicle; // Nom et détails du véhicule
-      let totalMovingDuration = 0; // Durée totale en mouvement pour ce véhicule
-
-      vehiculeDetails.forEach((data, index) => {
-        const speedKPH = parseFloat(data.speedKPH);
-        if (speedKPH > 0 && index > 0) {
-          const currentTimestamp = parseInt(data.timestamp) * 1000; // Convertir en millisecondes
-          const prevTimestamp =
-            parseInt(vehiculeDetails[index - 1].timestamp) * 1000; // Convertir en millisecondes
-
-          totalMovingDuration += Math.abs(currentTimestamp - prevTimestamp); // Ajouter la durée en mouvement
-        }
-      });
-
-      // Convertir la durée totale en heures, minutes et secondes
-      const movingHours = Math.floor(totalMovingDuration / (1000 * 60 * 60));
-      const movingMinutes = Math.floor(
-        (totalMovingDuration % (1000 * 60 * 60)) / (1000 * 60)
-      );
-      const movingSeconds = Math.floor(
-        (totalMovingDuration % (1000 * 60)) / 1000
-      );
-
-      // Ajouter le résultat pour ce véhicule
-      results.push({
-        description,
-        totalMovingDuration: {
-          hours: movingHours,
-          minutes: movingMinutes,
-          seconds: movingSeconds,
-        },
-      });
-    });
-
-    return results;
-  }
-
-  const movingTimes = calculateTotalMovingTimePerVehicle(currentdataFusionnee);
-  console.log(movingTimes);
-
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  ////////////////////////////////////////////////////////////////////////////////////////
-  // section pour savoir tous les lieux frequentes et stationnes
 
   function getUniqueAddresses(dataList) {
     // Extraire toutes les adresses de la liste
@@ -946,44 +792,130 @@ function RapportPageDetails() {
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////
+  //
 
-  //  section pour savoir le vehicule en mouvement en premier et en dernier
+  const data2 = currentdataFusionnee;
 
-  function processVehicleData(vehicleData) {
-    if (!vehicleData || vehicleData.length === 0) {
-      return {
-        filteredData: [],
-        earliestVehicle: null,
-        latestVehicle: null,
-      };
-    }
+  const data22 = [
+    {
+      description: "toyota land cruser",
+      plaque: "",
+      type: "B1",
+      vehiculedetails: [
+        {
+          Device: "863844053509383",
+          accountID: "lelevier",
+          address:
+            "Delmas 61, Commune de Delmas, Département de l'Ouest 6120, Ayiti",
+          city: "Commune de Delmas",
+          creationMillis: "1732468878595",
+          creationTime: "1732468878",
+          deviceID: "863844053509383",
+          heading: "0.0",
+          latitude: "18.541458833333333",
+          longitude: "-72.297372",
+          odometerKM: "1273.1891098784806",
+          speedKPH: "0.0",
+          stateProvince: "Département de l'Ouest",
+          statusCode: "0xF952",
+          streetAddress: "Delmas 61",
+          timestamp: "1732468863",
+        },
+        {
+          Device: "863844053509383",
+          accountID: "lelevier",
+          address:
+            "Delmas 61, Commune de Delmas, Département de l'Ouest 6120, Ayiti",
+          city: "Commune de Delmas",
+          creationMillis: "1732468878595",
+          creationTime: "1732468878",
+          deviceID: "863844053509383",
+          heading: "0.0",
+          latitude: "18.541458833333333",
+          longitude: "-72.297372",
+          odometerKM: "1273.1891098784806",
+          speedKPH: "12.0",
+          stateProvince: "Département de l'Ouest",
+          statusCode: "0xF952",
+          streetAddress: "Delmas 61",
+          timestamp: "1732468864",
+        },
+      ],
+    },
+    {
+      description: "Nissan xterra",
+      plaque: "",
+      type: "B2",
+      vehiculedetails: [
+        {
+          Device: "863844053509383",
+          accountID: "lelevier",
+          address:
+            "Delmas 61, Commune de Delmas, Département de l'Ouest 6120, Ayiti",
+          city: "Commune de Delmas",
+          creationMillis: "1732468878595",
+          creationTime: "1732468878",
+          deviceID: "863844053509383",
+          heading: "0.0",
+          latitude: "18.541458833333333",
+          longitude: "-72.297372",
+          odometerKM: "1273.1891098784806",
+          speedKPH: "10.0",
+          stateProvince: "Département de l'Ouest",
+          statusCode: "0xF952",
+          streetAddress: "Delmas 61",
+          timestamp: "1732468865",
+        },
+        {
+          Device: "863844053509383",
+          accountID: "lelevier",
+          address:
+            "Delmas 61, Commune de Delmas, Département de l'Ouest 6120, Ayiti",
+          city: "Commune de Delmas",
+          creationMillis: "1732468878595",
+          creationTime: "1732468878",
+          deviceID: "863844053509383",
+          heading: "0.0",
+          latitude: "18.541458833333333",
+          longitude: "-72.297372",
+          odometerKM: "1273.1891098784806",
+          speedKPH: "0.0",
+          stateProvince: "Département de l'Ouest",
+          statusCode: "0xF952",
+          streetAddress: "Delmas 61",
+          timestamp: "1732468866",
+        },
+      ],
+    },
+  ];
 
-    // Filtrer les vehiculeDetails avec speedKPH >= 1
-    const filteredData = vehicleData.map((vehicle) => ({
-      ...vehicle,
-      vehiculeDetails: vehicle.vehiculeDetails?.filter(
+  // Filtrer les vehiculeDetails avec speedKPH >= 1
+  data2 &&
+    data2.length > 0 &&
+    data2?.forEach((vehicle) => {
+      vehicle.vehiculeDetails = vehicle.vehiculeDetails?.filter(
         (detail) => parseFloat(detail.speedKPH) >= 1
-      ),
-    }));
+      );
+    });
 
-    // Trouver le véhicule avec le timestamp le plus tôt et le plus tard
-    let earliestVehicle = null;
-    let latestVehicle = null;
-    let earliestTimestamp = Infinity;
-    let latestTimestamp = -Infinity;
+  // Trouver le véhicule avec le timestamp le plus tôt et le plus tard
+  let earliestVehicle = null;
+  let latestVehicle = null;
+  let earliestTimestamp = Infinity;
+  let latestTimestamp = -Infinity;
 
-    filteredData.forEach((vehicle) => {
+  data2 &&
+    data2.length > 0 &&
+    data2?.forEach((vehicle) => {
+      // const lastDetail = vehicle.vehiculeDetails[0];
       const lastDetail =
-        vehicle.vehiculeDetails?.[vehicle.vehiculeDetails?.length - 1];
-
+        vehicle.vehiculeDetails[vehicle.vehiculeDetails?.length - 1];
       if (lastDetail) {
         const timestamp = parseInt(lastDetail.timestamp, 10);
-
         if (timestamp < earliestTimestamp) {
           earliestTimestamp = timestamp;
           earliestVehicle = vehicle;
         }
-
         if (timestamp > latestTimestamp) {
           latestTimestamp = timestamp;
           latestVehicle = vehicle;
@@ -991,273 +923,17 @@ function RapportPageDetails() {
       }
     });
 
-    return {
-      filteredData,
-      earliestVehicle,
-      latestVehicle,
-    };
-  }
-
-  const data2 = currentdataFusionnee;
-
-  const { filteredData2, earliestVehicle, latestVehicle } =
-    processVehicleData(data2);
-
-  // console.log("Filtered Data:", filteredData2);
-  // console.log("Earliest Vehicle:", earliestVehicle);
-  // console.log("Latest Vehicle:", latestVehicle);
-
-  // const data2 = currentdataFusionnee;
-
-  // // Filtrer les vehiculeDetails avec speedKPH >= 1
-  // data2 &&
-  //   data2.length > 0 &&
-  //   data2?.forEach((vehicle) => {
-  //     vehicle.vehiculeDetails = vehicle.vehiculeDetails?.filter(
-  //       (detail) => parseFloat(detail.speedKPH) >= 1
-  //     );
-  //   });
-
-  // // Trouver le véhicule avec le timestamp le plus tôt et le plus tard
-  // let earliestVehicle = null;
-  // let latestVehicle = null;
-  // let earliestTimestamp = Infinity;
-  // let latestTimestamp = -Infinity;
-
-  // data2 &&
-  //   data2.length > 0 &&
-  //   data2?.forEach((vehicle) => {
-  //     // const lastDetail = vehicle.vehiculeDetails[0];
-  //     const lastDetail =
-  //       vehicle.vehiculeDetails[vehicle.vehiculeDetails?.length - 1];
-  //     if (lastDetail) {
-  //       const timestamp = parseInt(lastDetail.timestamp, 10);
-  //       if (timestamp < earliestTimestamp) {
-  //         earliestTimestamp = timestamp;
-  //         earliestVehicle = vehicle;
-  //       }
-  //       if (timestamp > latestTimestamp) {
-  //         latestTimestamp = timestamp;
-  //         latestVehicle = vehicle;
-  //       }
-  //     }
-  //   });
-
   // Affichage des résultats
-  // console.log("Véhicule avec le timestamp le plus tôt:", earliestVehicle);
-  // console.log("Véhicule avec le timestamp le plus tard:", latestVehicle);
-
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-  ///////////////////////////////////////////////////////////////////////////////////////////
-
-  function calculateDurationsForAllVehicles(vehicles) {
-    if (vehicles && vehicles.length > 0) {
-      let totalMovingDuration = 0;
-      let totalStopDuration = 0;
-      let longestStopDuration = 0;
-      let vehicleWithLongestStop = null;
-      let longestMovingDuration = 0;
-      let vehicleWithLongestMoving = null;
-
-      vehicles.forEach((vehicle) => {
-        const data = filterVehicleData(vehicle?.vehiculeDetails); // Appliquer le filtrage
-        let stopSequences = [];
-        let vehicleMovingDuration = 0;
-        let vehicleStopDuration = 0;
-        let vehicleLongestStop = 0;
-        let inStopSequence = false;
-
-        for (let i = 0; i < data?.length; i++) {
-          const speedKPH = parseFloat(data[i].speedKPH);
-
-          if (speedKPH <= 0) {
-            if (!inStopSequence) {
-              inStopSequence = true;
-              stopSequences.push([data[i]]);
-            } else {
-              stopSequences[stopSequences.length - 1].push(data[i]);
-            }
-          } else if (speedKPH >= 1 && inStopSequence) {
-            inStopSequence = false;
-          }
-
-          if (speedKPH > 0 && i > 0) {
-            const currentTimestamp = parseInt(data[i].timestamp) * 1000;
-            const prevTimestamp = parseInt(data[i - 1].timestamp) * 1000;
-            vehicleMovingDuration += Math.abs(currentTimestamp - prevTimestamp);
-          }
-        }
-
-        stopSequences.forEach((sequence) => {
-          const firstTimestamp = sequence[0].timestamp;
-          const lastTimestamp = sequence[sequence.length - 1].timestamp;
-
-          const firstMillis = parseInt(firstTimestamp) * 1000;
-          const lastMillis = parseInt(lastTimestamp) * 1000;
-          const differenceInMillis = Math.abs(lastMillis - firstMillis);
-
-          vehicleStopDuration += differenceInMillis;
-
-          if (differenceInMillis > vehicleLongestStop) {
-            vehicleLongestStop = differenceInMillis;
-          }
-        });
-
-        // Ajouter les durées de ce véhicule aux totaux
-        totalMovingDuration += vehicleMovingDuration;
-        totalStopDuration += vehicleStopDuration;
-
-        // Vérifier si ce véhicule a le plus long arrêt
-        if (vehicleLongestStop > longestStopDuration) {
-          longestStopDuration = vehicleLongestStop;
-          vehicleWithLongestStop = vehicle.description; // Supposez que le nom du véhicule est dans `vehicle.description`
-        }
-
-        // Vérifier si ce véhicule a été en mouvement le plus longtemps
-        if (vehicleMovingDuration > longestMovingDuration) {
-          longestMovingDuration = vehicleMovingDuration;
-          vehicleWithLongestMoving = vehicle.description;
-        }
-      });
-
-      // Convertir les résultats finaux en heures, minutes et secondes
-      const convertMillisToTime = (millis) => {
-        const hours = Math.floor(millis / (1000 * 60 * 60));
-        const minutes = Math.floor((millis % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((millis % (1000 * 60)) / 1000);
-        return { hours, minutes, seconds };
-      };
-
-      const totalMovingTime = convertMillisToTime(totalMovingDuration);
-      const totalStopTime = convertMillisToTime(totalStopDuration);
-      const longestStopTime = convertMillisToTime(longestStopDuration);
-      const longestMovingTime = convertMillisToTime(longestMovingDuration);
-
-      return {
-        totalMovingTime,
-        totalStopTime,
-        longestStopTime,
-        longestMovingTime,
-        vehicleWithLongestStop, // Nom du véhicule avec le plus long arrêt
-        vehicleWithLongestMoving, // Nom du véhicule ayant été en mouvement le plus longtemps
-      };
-    }
-  }
-  // Exemple d'utilisation :
-  const result = calculateDurationsForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste de véhicules
-  // const result = calculateDurationsForAllVehicles(allVehicles); // Remplacez "allVehicles" par votre liste de véhicules
-  // console.log("Durée totale en mouvement :", result?.totalMovingTime);
-  // console.log("Durée totale en arrêt :", result?.totalStopTime);
-  // console.log("Le plus long arrêt :", result?.longestStopTime);
-  // console.log("Le plus long déplacement :", result?.longestMovingTime);
-  // console.log(
-  //   "Véhicule avec le plus long arrêt :",
-  //   result?.vehicleWithLongestStop
-  // );
-  // console.log(
-  //   "Véhicule en mouvement le plus longtemps :",
-  //   result?.vehicleWithLongestMoving
-  // );
+  console.log("Véhicule avec le timestamp le plus tôt:", earliestVehicle);
+  console.log("Véhicule avec le timestamp le plus tard:", latestVehicle);
 
   return (
     <div className="flex pt-28 flex-col max-w-screen overflow-hidden justify-center items-center pb-20">
       <div className="fixed  px-4 z-[555555555] top-[3.4rem] left-0 right-0 bg-white py-3 dark:bg-gray-800">
-        {showListeOption && <Liste_options />}
-
-        {/* <h2
+        <h2
           onClick={() => {
-            console.log("Current vehicule", currentVehicule);
-
-            console.log(
-              "searchdonneeFusionneeForRapport",
-              searchdonneeFusionneeForRapport
-            );
-
-            console.log("donneeFusionneeForRapport", donneeFusionneeForRapport);
-            console.log("currentdataFusionnee", currentdataFusionnee);
-            // console.log("searchdonneeFusionneeForRapport", searchdonneeFusionneeForRapport);
-
-            // console.log("Statistiques par véhicule :", result5?.statsByVehicle);
-            // console.log("Statistiques globales :", result5?.globalStats);
-            // console.log(
-            //   `Véhicule avec la vitesse maximale la plus élevée : ${result5?.maxSpeedVehicle.description}, Vitesse : ${result5?.maxSpeedVehicle.maxSpeed} KPH`
-            // );
-            // console.log("Statistiques par véhicule :", result4?.statsByVehicle);
-            // console.log("Statistiques globales :", result4?.globalStats);
-            // console.log(
-
-            // console.log(
-            //   "Distance totale pour tous les véhicules :",
-            //   result2?.totalDistanceAllVehicles.toFixed(2),
-            //   "km"
-            // );
-            // console.log(
-            //   "Véhicule ayant parcouru la plus grande distance :",
-            //   result2?.maxDistanceVehicle,
-            //   "avec",
-            //   result2?.maxDistance.toFixed(2),
-            //   "km"
-            // );
-
-            // console.log(
-            //   "Véhicule ayant parcouru la plus grande distance :",
-            //   result2?.maxDistanceVehicle
-            // );
-            // console.log(
-            //   "Nombre d'arrêts par véhicule :",
-            //   result3.stopsByVehicle
-            // );
-            // console.log(
-            //   "Nombre total d'arrêts pour tous les véhicules :",
-            //   result3.totalStopsAllVehicles
-            // );
-            // console.log(
-            //   "Distance totale par véhicule :",
-            //   result2?.distancesByVehicle
-            // );
-
-            // console.log(
-            //   "Distance totale pour tous les véhicules :",
-            //   result2?.totalDistanceAllVehicles.toFixed(2),
-            //   "km"
-            // );
-
             // setShowVehiculeListe(true);
-            // console.log("current Data fusionnee", currentdataFusionnee);
-            // console.log(
-            //   "Search data fusionnee",
-            //   searchdonneeFusionneeForRapport
-            // );
-            // console.log(
-            //   "searchrapportvehicleDetails",
-            //   searchrapportvehicleDetails
-            // );
-            // console.log(
-            //   "-------------Durée totale en mouvement :",
-            //   result?.totalMovingTime
-            // );
-            // console.log(
-            //   "---------------Durée totale en arrêt :",
-            //   result?.totalStopTime
-            // );
-            // console.log(
-            //   "--------------Le plus long arrêt :",
-            //   result?.longestStopTime
-            // );
-            // console.log(
-            //   "-----------Véhicule avec le plus long arrêt :",
-            //   result.vehicleWithLongestStop
-            // );
-            // console.log(
-            //   "Véhicule en mouvement le plus longtemps :",
-            //   result?.vehicleWithLongestMoving
-            // );
-
+            // console.log("Data fusionnee", currentdataFusionnee);
             // console.log("Full data:", vehiclueHistoriqueRapportDetails);
             // console.log("current vehicule", currentVehicule);
             // console.log("vehicule parking :", vehiculeNotActiveAjourdhui);
@@ -1265,23 +941,14 @@ function RapportPageDetails() {
             //   "vehiclueHistoriqueDetails:",
             //   vehiclueHistoriqueDetails
             // );
-            // console.log(
-            //   "Véhicule avec le timestamp le plus tôt:",
-            //   earliestVehicle
-            // );
-            // console.log(
-            //   "Véhicule avec le timestamp le plus tard:",
-            //   latestVehicle
-            // );
-            // console.log(
-            //   "currentVehicule?.vehiculeDetails",
-            //   currentVehicule?.vehiculeDetails
-            // );
-            // console.log("vehiclueHistoriqueDetails", vehiclueHistoriqueDetails);
-            // console.log(
-            //   "vehiclueHistoriqueRapportDetails",
-            //   vehiclueHistoriqueRapportDetails
-            // );
+            console.log(
+              "Véhicule avec le timestamp le plus tôt:",
+              earliestVehicle
+            );
+            console.log(
+              "Véhicule avec le timestamp le plus tard:",
+              latestVehicle
+            );
           }}
           id="vehicule_actuel"
           className="flex justify-between items-center border py-2 px-5 rounded-md w-full max-w-[40rem] mx-auto cursor-pointer bg-orange-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-300/40 "
@@ -1292,159 +959,7 @@ function RapportPageDetails() {
           <span>
             <FaChevronDown />
           </span>
-        </h2> */}
-
-        <div className="fixed sm:px-[15vw] z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
-          <div
-            onClick={() => {
-              setShowOptions(!showOptions);
-            }}
-            className="relative pt-5  mx-4 mb-2"
-          >
-            <div
-              className="flex justify-between   cursor-pointer border rounded-md
-                 px-3 py-2 bg-orange-50 dark:bg-gray-900/50 dark:border-gray-500  dark:text-gray-300 text-center"
-            >
-              <p className="text-start w-[90%] dark:text-gray-200 overflow-hidden whitespace-nowrap text-ellipsis">
-                {/* {currentVehicule?.description || "Choisis un Véhicule"} */}
-                {/* Choisis un Categorie */}
-                {/* {chooseALl && "Tous les véhicules"}
-                {chooseActifs && "Vehicule en déplacement"}
-                {chooseStationnement && "Véhicules en stationnement"}
-                {chooseInactifs && "Véhicules inactifs"} */}
-                {currentVehicule?.description || "---"}
-              </p>
-
-              <div
-                className={`${
-                  !showOptions ? "rotate-0" : "rotate-180"
-                } transition-all`}
-              >
-                {!showOptions ? (
-                  <FaChevronDown className="mt-1" />
-                ) : (
-                  <IoMdClose className="mt-1 text-xl text-red-500 -translate-y-[.2rem] -translate-x-[.1rem]" />
-                )}
-              </div>
-            </div>
-
-            {/* vehiculeActiveAjourdhui,
-    vehiculeNotActiveAjourdhui,
-    vehiculeNotActif, */}
-
-            {showOptions && (
-              <div className="absolute p-4 dark:bg-gray-900 dark:border dark:border-gray-500 dark:shadow-lg dark:shadow-gray-500 text-gray-500 top-20 rounded-lg bg-white right-0 left-0 min-h-20 shadow-lg shadow-gray-600">
-                <div
-                  onClick={() => {
-                    setShowOptions(!showOptions);
-                    // setchooseALl(true);
-                    // setchooseActifs(false);
-                    // setchooseStationnement(false);
-                    // setchooseInactifs(false);
-                  }}
-                  className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                >
-                  <div className="min-w-[2.5rem]">
-                    <img
-                      className="w-[2em] ml-2"
-                      src="/img/home_icon/total.png"
-                      alt=""
-                    />
-                  </div>
-
-                  <h3 className="dark:text-gray-200">Rapport en Groupe</h3>
-                </div>
-
-                {vehiculeActiveAjourdhui &&
-                  vehiculeActiveAjourdhui.map((vehicule, index) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setShowOptions(!showOptions);
-                          handleClick(vehicule);
-
-                          // setchooseALl(false);
-                          // setchooseActifs(true);
-                          // setchooseStationnement(false);
-                          // setchooseInactifs(false);
-                        }}
-                        className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                      >
-                        <div className="min-w-[2.5rem]">
-                          <img
-                            className="w-[2.5em] "
-                            src="/img/home_icon/active.png"
-                            alt=""
-                          />
-                        </div>
-                        <h3 className="dark:text-gray-200">
-                          {vehicule.description || "---"}
-                        </h3>
-                      </div>
-                    );
-                  })}
-
-                {vehiculeNotActiveAjourdhui &&
-                  vehiculeNotActiveAjourdhui.map((vehicule, index) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setShowOptions(!showOptions);
-                          handleClick(vehicule);
-
-                          // setchooseALl(false);
-                          // setchooseActifs(true);
-                          // setchooseStationnement(false);
-                          // setchooseInactifs(false);
-                        }}
-                        className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                      >
-                        <div className="min-w-[2.5rem]">
-                          <img
-                            className="w-[2em]  ml-2"
-                            src="/img/cars/parking.png"
-                            alt=""
-                          />
-                        </div>
-                        <h3 className="dark:text-gray-200">
-                          {vehicule.description || "---"}
-                        </h3>
-                      </div>
-                    );
-                  })}
-
-                {vehiculeNotActif &&
-                  vehiculeNotActif.map((vehicule, index) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setShowOptions(!showOptions);
-                          handleClick(vehicule);
-
-                          // setchooseALl(false);
-                          // setchooseActifs(true);
-                          // setchooseStationnement(false);
-                          // setchooseInactifs(false);
-                        }}
-                        className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                      >
-                        <div className="min-w-[2.5rem]">
-                          <img
-                            className="w-[1.72em]  ml-1"
-                            src="/img/home_icon/payer.png"
-                            alt=""
-                          />
-                        </div>
-                        <h3 className="dark:text-gray-200">
-                          {vehicule.description || "---"}
-                        </h3>
-                      </div>
-                    );
-                  })}
-              </div>
-            )}
-          </div>
-        </div>
+        </h2>
       </div>
 
       <div className="flex px-4 mb-10 w-full gap-3 justify-between max-w-[40rem] mx-auto mt-4 ">
@@ -1472,12 +987,7 @@ function RapportPageDetails() {
         >
           En Groupe
         </button>
-        <button
-          onClick={() => {
-            setShowListOption(true);
-          }}
-          className="border border-gray-100 dark:bg-gray-900/70 dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg bg-gray-100 shadow-lg-- shadow-gray-200 w-full py-1"
-        >
+        <button className="border border-gray-100 dark:bg-gray-900/70 dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg bg-gray-100 shadow-lg-- shadow-gray-200 w-full py-1">
           Options
         </button>
       </div>
@@ -1677,12 +1187,9 @@ function RapportPageDetails() {
             </h2>
           </div>
 
-          <div className="transition-all w-full bg-gray-100 rounded-lg dark:bg-gray-900 dark:text-gray-100">
+          <div className=" transition-all w-full ">
             <div>
-              <canvas
-                className="w-full transition-all dark:bg-gray-900 rounded-lg"
-                id="myChart"
-              ></canvas>
+              <canvas className="w-full transition-all " id="myChart"></canvas>
             </div>
           </div>
           {/* 
@@ -1794,8 +1301,6 @@ function RapportPageDetails() {
       {/* ////////////////////////////////////////////////////////////////////////////////////// */}
       {!personnelDetails && (
         <div className=" px-4 md:max-w-[80vw] w-full">
-          {/* <RapportOptions /> */}
-
           <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
             Rapport detaillee en groupe
           </h1>
@@ -1827,7 +1332,7 @@ function RapportPageDetails() {
                 <p>
                   Nombre de Véhicule en stationnement :{" "}
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {vehiculeNotActiveAjourdhui?.length || "0"}
+                    {vehiculeNotActiveAjourdhui?.length || "---"}
                   </span>
                 </p>
                 <p>
@@ -1842,7 +1347,7 @@ function RapportPageDetails() {
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                     {earliestVehicle?.displayName ||
                       earliestVehicle?.description ||
-                      "Pas de vehicule"}
+                      "---"}
                   </span>
                 </p>
               </div>
@@ -1892,40 +1397,15 @@ function RapportPageDetails() {
                   </span>
                 </p>
                 <p>
-                  Temps d'activite total :
+                  Temps d'activite total : 8h 20m
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result?.totalMovingTime.hours}h{" "}
-                    {result?.totalMovingTime.minutes}m{" "}
-                    {result?.totalMovingTime.seconds}m{" "}
-                  </span>
-                </p>
-                <p>
-                  Temps d'activite total :
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result?.totalStopTime.hours}h{" "}
-                    {result?.totalStopTime.minutes}m{" "}
-                    {result?.totalStopTime.seconds}m{" "}
-                  </span>
-                </p>
-                <p>
-                  L'arret le plus longue :
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result?.longestStopTime.hours}h{" "}
-                    {result?.longestStopTime.minutes}m{" "}
-                    {result?.longestStopTime.seconds}m{" "}
-                  </span>
-                </p>
-
-                <p>
-                  Vehicule avec le plus grand arret:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result.vehicleWithLongestStop || "Pas de vehicule"}{" "}
+                    2h 45mn
                   </span>
                 </p>
                 <p>
                   Vehicule en mouvement plus longtemps
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result.vehicleWithLongestMoving || "Pas de vehicule"}{" "}
+                    Nissan xterra{" "}
                   </span>
                 </p>
               </div>
@@ -1941,27 +1421,20 @@ function RapportPageDetails() {
                 <p>
                   Distance totale parcourue:
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result2?.totalDistanceAllVehicles.toFixed(2) || "0"} km{" "}
+                    230 Km
                   </span>
                 </p>
                 <p>
                   Nombre total d’arrêts :
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result3.totalStopsAllVehicles}
+                    5
                   </span>
                 </p>
                 <p>
                   Vehicule ayant parcourru la plus grande distance :
-                  {result2?.maxDistanceVehicle ? (
-                    <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                      {result2?.maxDistanceVehicle}, avec
-                      {result2?.maxDistance.toFixed(2)}, "km"
-                    </span>
-                  ) : (
-                    <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                      Pas de vehicule en mouvement
-                    </span>
-                  )}
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    Nissan xterra
+                  </span>
                 </p>
               </div>
             </div>
@@ -1973,33 +1446,28 @@ function RapportPageDetails() {
                 Vitesse
               </h2>
               <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-                {/* <p>
+                <p>
                   Vitesse minimale:
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                     Km/h
                   </span>
-                </p> */}
+                </p>
                 <p>
                   Vitesse moyenne:
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result5?.globalStats.averageSpeed.toFixed(2) || "---"} Km/h
+                    Km/h
                   </span>
                 </p>
                 <p>
                   Vitesse maximale:
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result5?.globalStats.maxSpeed.toFixed(2) || "---"} Km/h
                     Km/h
                   </span>
                 </p>
                 <p>
                   Vehicule avec la vitesse maximale:
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result5?.maxSpeedVehicle.description}, Vitesse :{" "}
-                  </span>
-                  avec une vitesse de :
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result5?.maxSpeedVehicle.maxSpeed.toFixed(2)} Km/h
+                    Nissan xterra
                   </span>
                 </p>
               </div>
@@ -2017,188 +1485,105 @@ function RapportPageDetails() {
             <MapComponent />
           </div>
 
-          <div className="w-full mt-20 overflow-auto">
-            <table className="overflow-auto w-full text-left dark:bg-gray-800 dark:text-gray-200">
-              <thead>
-                <tr className="bg-orange-50 text-gray-700 border-- dark:bg-gray-700 dark:text-gray-100">
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[20rem]">
-                    Véhicule
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Heure de départ
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Heure d'arrivée
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Vitesse moyenne
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Vitesse maximale
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Distance totale
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Nombre d'arrêts
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Temps actif
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[20rem]">
-                    Adresse actuelle
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentdataFusionnee?.map((vehicule, index) => (
-                  <tr key={index} className="border dark:border-gray-600">
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {vehicule.description}
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleTimeString()
-                        : "---"}
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {activePeriods[index]?.endTime
-                        ? activePeriods[index].endTime.toLocaleTimeString()
-                        : "---"}
-                    </td>
-                    <td
-                      onClick={() => {
-                        console.log(vehicule.vehiculeDetails[0]?.address);
-                      }}
-                      className="border py-3 px-2 dark:border-gray-600"
-                    >
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].averageSpeed.toFixed(2)}{" "}
-                      km/h
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].maxSpeed.toFixed(2)}{" "}
-                      km/h
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {Object.entries(result2.distancesByVehicle)[
-                        index
-                      ][1].toFixed(2)}{" "}
-                      km
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {Object.entries(result3.stopsByVehicle)[index][1]} arrêts
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {movingTimes[index].totalMovingDuration.hours}h{" "}
-                      {movingTimes[index].totalMovingDuration.minutes}m{" "}
-                      {movingTimes[index].totalMovingDuration.seconds}s
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {vehicule.vehiculeDetails[0]?.address || "---"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
           {/* <div className=" w-full- mt-20 overflow-auto ">
             <table
               className="overflow-auto w-full"
               style={{
+                // width: "100%",
+                // borderCollapse: "collapse",
                 textAlign: "left",
               }}
             >
               <thead>
                 <tr className="bg-orange-50 text-gray-700 border">
-                  <th className="border py-3 px-2 min-w-[20rem]">Véhicule</th>
+                  <th className="border py-3 px-2 min-w-[7rem]">Véhicule</th>
                   <th className="border py-3 px-2 min-w-[10rem]">
-                    Heure de départ
+                    Distance parcourue
                   </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Heure d'arrivée
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Vitesse moyenne
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Vitesse maximale
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Distance Totale
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Nombre d'arrêts
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
+                  <th className="border py-3 px-2 min-w-[15rem]">
                     Temps actif
                   </th>
-                  <th className="border py-3 px-2 min-w-[20rem]">
-                    Adresse actuelle
+                  <th className="border py-3 px-2 min-w-[7rem]">
+                    Vitesse moyenne
                   </th>
+                  <th className="border py-3 px-2 min-w-[7rem]">
+                    Vitesse maximale
+                  </th>
+                  <th className="border py-3 px-2 min-w-[7rem]">Adresse</th>
                 </tr>
               </thead>
               <tbody>
-                {currentdataFusionnee?.map((vehicule, index) => (
-                  <tr key={index} className="border">
-                    <td className="border py-3 px-2">{vehicule.description}</td>
-                    <td className="border py-3 px-2">
-                      {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleString()
-                        : "---"}
-                    </td>
-                    <td className="border py-3 px-2">
-                      {activePeriods[index]?.endTime
-                        ? activePeriods[index].endTime.toLocaleString()
-                        : "---"}{" "}
-                    </td>
-
-                    <td
-                      onClick={() => {
-                        console.log(vehicule.vehiculeDetails[0]?.address);
-                      }}
-                      className="border py-3 px-2"
-                    >
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].averageSpeed.toFixed(2)}{" "}
-                      km/h
-                    </td>
-                    <td className="border py-3 px-2">
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].maxSpeed.toFixed(2)}{" "}
-                      km/h
-                    </td>
-                    <td className="border py-3 px-2">
-                      {Object.entries(result2.distancesByVehicle)[
-                        index
-                      ][1].toFixed(2)}{" "}
-                      Km
-                    </td>
-
-                    <td className="border py-3 px-2">
-                      {Object.entries(result3.stopsByVehicle)[index][1]} arrets
-                    </td>
-
-                    <td className="border py-3 px-2">
-                      {movingTimes[index].totalMovingDuration.hours}h{" "}
-                      {movingTimes[index].totalMovingDuration.minutes}m{" "}
-                      {movingTimes[index].totalMovingDuration.seconds}s
-                    </td>
-
-                    <td className="border py-3 px-2">
-                      {vehicule.vehiculeDetails[0]?.address || "---"}
-                    </td>
+                {rows.map((row, index) => (
+                  <tr
+                    key={index}
+                    className="border"
+                    //  style={{ borderBottom: "1px solid #ddd" }}
+                  >
+                    <td className="border py-3 px-2">{row.time}</td>
+                    <td className="border py-3 px-2">{row.event}</td>
+                    <td className="border py-3 px-2">{row.location}</td>
+                    <td className="border py-3 px-2">{row.speed} km/h</td>
+                    <td className="border py-3 px-2">{row.speed} km/h</td>
+                    <td className="border py-3 px-2">{row.speed} km/h</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div> */}
+
+          <div className="shadow-md mt-20 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-500 text-orange-900">
+                Tous les lieux fréquentés
+              </h2>
+              <div className="text-gray-600 flex flex-col gap-3">
+                {/* {uniqueAddresses?.map((add, index) => {
+                      return (
+                        <p className="dark:text-gray-300">
+                          <span className="font-bold dark:text-orange-500 text-black mr-3">
+                            *{" "}
+                          </span>
+                          {add}
+                        </p>
+                      );
+                    })} */}
+                <p className="dark:text-gray-300">
+                  <span className="font-bold dark:text-orange-500 text-black mr-3">
+                    *{" "}
+                  </span>
+                  Delmas 33, rue de la Zaracoule, Port-au-prince, Haiti
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="shadow-md mt-4 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
+            <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <div>
+              <h2 className="font-semibold dark:text-orange-500 text-orange-900">
+                Tous les lieux Stationnés
+              </h2>
+              <div className="text-gray-600 flex flex-col gap-3">
+                {/* {uniqueAddressesZerroSpeed?.map((add, index) => {
+                      return (
+                        <p className="dark:text-gray-300" key={index}>
+                          <span className="font-bold dark:text-orange-500 text-black mr-3">
+                            *{" "}
+                          </span>
+                          {add}
+                        </p>
+                      );
+                    })} */}
+                <p className="dark:text-gray-300">
+                  <span className="font-bold dark:text-orange-500 text-black mr-3">
+                    *{" "}
+                  </span>
+                  Delmas 33, rue de la Zaracoule, Port-au-prince, Haiti
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>

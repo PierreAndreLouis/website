@@ -35,6 +35,7 @@ import RapportPageDetails from "./pages/RapportPageDetails";
 function App() {
   const location = useLocation();
   const navigate = useNavigate(); // Utilisation de useNavigate
+
   const { isAuthenticated } = useContext(DataContext);
 
   React.useEffect(() => {
@@ -159,8 +160,6 @@ function App() {
 }
 
 export default App;
-
-
 
 // {Device: "863844053509383";
 // accountID: "lelevier";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
@@ -9,6 +9,7 @@ import { FaChevronDown } from "react-icons/fa6";
 // import RapportOptions from "./RapportOptions";
 import { IoReload } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import { DataContext } from "../../context/DataContext";
 
 function VehiculeNotActiveAjourdhuiComponent({
   showParkingVehicule,
@@ -20,6 +21,13 @@ function VehiculeNotActiveAjourdhuiComponent({
   handleClick,
   selectUTC,
 }) {
+  const {
+    setVehiclueHistoriqueDetails,
+    setVehiclueHistoriqueRapportDetails,
+    currentVehicule,
+    vehiclueHistoriqueRapportDetails,
+  } = useContext(DataContext);
+
   function convertToTimezone(timestamp, offset) {
     const date = new Date(timestamp * 1000); // Convertir le timestamp en millisecondes
     const [sign, hours, minutes] = offset
@@ -47,6 +55,30 @@ function VehiculeNotActiveAjourdhuiComponent({
     const seconds = date.getSeconds().toString().padStart(2, "0");
     return `${hours}:${minutes}:${seconds}`;
   }
+
+  // const handleClick = () => {
+  //   setShowListOption(false);
+  //   const deviceID = currentVehicule.deviceID;
+
+  //   // Recherche du véhicule correspondant dans la liste
+  //   const foundVehicle = donneeFusionneeForRapport.find(
+  //     (v) => v.deviceID === deviceID
+  //   );
+
+  //   if (foundVehicle) {
+  //     setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
+  //     console.log(
+  //       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  //       foundVehicle.vehiculeDetails
+  //     );
+  //     setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
+  //     setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
+  //     setShowListOption(false); // Affiche la liste d'options si nécessaire
+  //     console.log("Véhicule sélectionné", foundVehicle);
+  //   } else {
+  //     console.error("Véhicule introuvable avec le deviceID :", deviceID);
+  //   }
+  // };
   return (
     <div>
       <div className="transition-all">
@@ -81,6 +113,12 @@ function VehiculeNotActiveAjourdhuiComponent({
                   to="/rapport_page_details"
                   onClick={() => {
                     handleClick(vehicule);
+                    // setVehiclueHistoriqueDetails(
+                    //   currentVehicule?.vehiculeDetails
+                    // );
+                    // setVehiclueHistoriqueRapportDetails(
+                    //   currentVehicule?.vehiculeDetails
+                    // );
                     // setshowRapportPupup(true);
                   }}
                   key={index}
