@@ -54,7 +54,7 @@ function VehiculeNotActifComponent({
             vehiculeNotActif?.map((vehicule, index) => {
               return (
                 <Link
-                  // to="/rapport_page_details"
+                  to="/rapport_page_details"
                   onClick={() => {
                     handleClick(vehicule);
                     // setVehiclueHistoriqueDetails(

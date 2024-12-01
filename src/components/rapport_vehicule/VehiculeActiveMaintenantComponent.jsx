@@ -84,12 +84,12 @@ function VehiculeActiveMaintenantComponent({
                   to="/rapport_page_details"
                   onClick={() => {
                     handleClick(vehicule);
-                    setVehiclueHistoriqueDetails(
-                      currentVehicule?.vehiculeDetails
-                    );
-                    setVehiclueHistoriqueRapportDetails(
-                      currentVehicule?.vehiculeDetails
-                    );
+                    // setVehiclueHistoriqueDetails(
+                    //   currentVehicule?.vehiculeDetails
+                    // );
+                    // setVehiclueHistoriqueRapportDetails(
+                    //   currentVehicule?.vehiculeDetails
+                    // );
                     // setshowRapportPupup(true);
                   }}
                   key={index}

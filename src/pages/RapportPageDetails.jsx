@@ -2013,7 +2013,7 @@ function RapportPageDetails() {
             </h2>
           </div>
 
-          <div className="max-h-[60vh] mt-3 overflow-hidden">
+          <div className=" h-[40vh] md:max-h-[60vh] mt-3 overflow-hidden">
             <MapComponent />
           </div>
 
