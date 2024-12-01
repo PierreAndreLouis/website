@@ -83,7 +83,30 @@ function HistoriquePage() {
 
   const [appliedCheckboxes, setAppliedCheckboxes] = useState(checkboxes);
 
-  const filteredVehicles = vehiclueHistoriqueDetails?.filter(
+  // // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
+  const ecar10minuteArret = [];
+  let lastZeroSpeedTimestamp = null;
+
+  vehiclueHistoriqueDetails
+    ?.sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp))
+    .forEach((details) => {
+      const timestamp = parseInt(details.timestamp);
+      const speedKPH = parseFloat(details.speedKPH);
+
+      if (speedKPH <= 0) {
+        if (
+          lastZeroSpeedTimestamp === null ||
+          lastZeroSpeedTimestamp - timestamp >= 600
+        ) {
+          ecar10minuteArret.push(details);
+          lastZeroSpeedTimestamp = timestamp;
+        }
+      } else {
+        ecar10minuteArret.push(details);
+      }
+    });
+
+  const filteredVehicles = ecar10minuteArret?.filter(
     (vehicle) =>
       (appliedCheckboxes.en_marche && vehicle.speedKPH > 20) ||
       (appliedCheckboxes.en_ralenti &&

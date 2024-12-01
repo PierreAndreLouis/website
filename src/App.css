@@ -1,15 +1,10 @@
-@media(max-width: 350px) {
-
-  
-#time-icon {
-  display: none;
-}
+@media (max-width: 350px) {
+  #time-icon {
+    display: none;
+  }
 }
 
-
-@media(max-width: 325px) {
-
-  
+@media (max-width: 325px) {
   #date-icon {
     display: none;
   }
@@ -22,8 +17,12 @@
     gap: 0;
   }
 
-  #statut-box > span{
+  #statut-box > span {
     margin-left: 0;
   }
-  }
+}
 
+#myChart {
+  height: 30rem !important;
+  width: 50rem !important;
+}

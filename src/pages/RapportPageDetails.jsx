@@ -10,6 +10,7 @@ import { FaChevronDown } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 // Enregistrement des composants nécessaires
 Chart.register(...registerables);
+import ReactECharts from "echarts-for-react";
 
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -47,7 +48,6 @@ function RapportPageDetails() {
     vehiculeNotActif,
     currentdataFusionnee,
     searchdonneeFusionneeForRapport,
-    searchrapportvehicleDetails,
     showListeOption,
     setShowListOption,
     setCurrentVehicule,
@@ -96,8 +96,30 @@ function RapportPageDetails() {
   const [currentLocation, setCurrentLocation] = useState(null);
   const [personnelDetails, setPersonnelDetails] = useState(true);
 
+  // // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
+  const filteredVehicles = [];
+  let lastZeroSpeedTimestamp = null;
+
+  currentVehicule?.vehiculeDetails
+    .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp))
+    .forEach((details) => {
+      const timestamp = parseInt(details.timestamp);
+      const speedKPH = parseFloat(details.speedKPH);
+
+      if (speedKPH <= 0) {
+        if (
+          lastZeroSpeedTimestamp === null ||
+          lastZeroSpeedTimestamp - timestamp >= 600
+        ) {
+          filteredVehicles.push(details);
+          lastZeroSpeedTimestamp = timestamp;
+        }
+      } else {
+        filteredVehicles.push(details);
+      }
+    });
   // const filteredVehicles = vehiclueHistoriqueDetails;
-  const filteredVehicles = currentVehicule?.vehiculeDetails;
+  // const filteredVehicles = currentVehicule?.vehiculeDetails;
 
   const historiqueInMap = filteredVehicles
     ? Object.values(filteredVehicles)
@@ -188,6 +210,7 @@ function RapportPageDetails() {
       console.error("L'élément canvas avec l'ID 'myChart' n'existe pas.");
       return;
     }
+
     // Vérifiez si un graphique existe déjà, et détruisez-le
     const existingChart = Chart.getChart("myChart"); // Récupérer le graphique existant par ID
     if (existingChart) {
@@ -196,7 +219,7 @@ function RapportPageDetails() {
     const ctx = canvas.getContext("2d");
 
     // Exemple de données
-    const data = currentVehicule?.vehiculeDetails;
+    const data = filteredVehicles;
 
     const timestamps = data?.map((item) =>
       new Date(item.timestamp * 1000).toLocaleTimeString()
@@ -241,11 +264,104 @@ function RapportPageDetails() {
               display: true,
               text: "Vitesse (km/h)",
             },
+            ticks: {
+              stepSize: 1, // Augmente l'écart entre les valeurs de l'axe Y
+            },
           },
         },
       },
     });
   }, []); // Exécuter une seule fois au montage du composant
+
+  const data = filteredVehicles || [];
+
+  const timestamps = data.map((item) =>
+    new Date(item.timestamp * 1000).toLocaleTimeString()
+  );
+  const speeds = data.map((item) => parseFloat(item.speedKPH));
+
+  const options = {
+    title: {
+      text: "Diagramme des vitesses",
+      left: "center",
+      textStyle: {
+        fontSize: 16, // Taille de la police pour le titre
+        fontWeight: "bold",
+      },
+    },
+    tooltip: {
+      trigger: "axis",
+    },
+    xAxis: {
+      type: "category",
+      data: timestamps,
+      name: "Heures",
+      nameLocation: "middle",
+      nameTextStyle: {
+        fontSize: 14, // Taille du texte pour le nom
+        padding: 20, // Espace autour du texte
+      },
+    },
+    yAxis: {
+      type: "value",
+      name: "Vitesse (km/h)", // Nom de l'axe Y
+      nameLocation: "middle", // Place le nom au milieu de l'axe
+      nameTextStyle: {
+        fontSize: 14, // Taille de la police pour le nom
+        padding: 40, // Distance entre le texte et l'axe
+      },
+      axisLabel: {
+        fontSize: 12, // Taille des étiquettes des graduations
+      },
+    },
+    series: [
+      {
+        data: speeds,
+        type: "bar", // Type de graphique (ligne)
+        // type: "line", // Type de graphique (ligne)
+        itemStyle: {
+          color: "rgba(75, 192, 192, 0.8)", // Couleur des lignes ou barres
+        },
+        lineStyle: {
+          width: 2, // Épaisseur de la ligne
+        },
+      },
+    ],
+  };
+
+  // const options = {
+  //   title: {
+  //     text: "Diagramme des vitesses",
+  //     left: "center",
+  //   },
+  //   tooltip: {
+  //     trigger: "axis",
+  //   },
+  //   xAxis: {
+  //     type: "category",
+  //     data: timestamps,
+  //     name: "Heures",
+  //     nameLocation: "middle",
+  //     nameTextStyle: { padding: 20 },
+  //   },
+  //   yAxis: {
+  //     type: "value",
+  //     name: "Vitesse (km/h)",
+  //     nameLocation: "middle",
+  //     nameTextStyle: { padding: 30 },
+  //   },
+  //   series: [
+  //     {
+  //       data: speeds,
+  //       // type: "polarArea",
+  //       type: "line",
+  //       barWidth: "50%",
+  //       itemStyle: {
+  //         color: "rgba(75, 192, 192, 0.8)",
+  //       },
+  //     },
+  //   ],
+  // };
 
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -1233,10 +1349,7 @@ function RapportPageDetails() {
             //   "Search data fusionnee",
             //   searchdonneeFusionneeForRapport
             // );
-            // console.log(
-            //   "searchrapportvehicleDetails",
-            //   searchrapportvehicleDetails
-            // );
+    
             // console.log(
             //   "-------------Durée totale en mouvement :",
             //   result?.totalMovingTime
@@ -1312,7 +1425,7 @@ function RapportPageDetails() {
                 {chooseActifs && "Vehicule en déplacement"}
                 {chooseStationnement && "Véhicules en stationnement"}
                 {chooseInactifs && "Véhicules inactifs"} */}
-                {currentVehicule?.description || "---"}
+                {currentVehicule?.description || "Choisissez un vehicule"}
               </p>
 
               <div
@@ -1337,6 +1450,10 @@ function RapportPageDetails() {
                 <div
                   onClick={() => {
                     setShowOptions(!showOptions);
+                    setPersonnelDetails(false);
+
+                    // setShowListOption(true);
+
                     // setchooseALl(true);
                     // setchooseActifs(false);
                     // setchooseStationnement(false);
@@ -1677,13 +1794,17 @@ function RapportPageDetails() {
             </h2>
           </div>
 
-          <div className="transition-all w-full bg-gray-100 rounded-lg dark:bg-gray-900 dark:text-gray-100">
-            <div>
+          {/* <div className="transition-all w-full h-[30rem] bg-gray-100 rounded-lg dark:bg-gray-900 dark:text-gray-100">
+            <div className=" h-[30rem]">
               <canvas
-                className="w-full transition-all dark:bg-gray-900 rounded-lg"
+                className="w-full transition-all dark:bg-gray-900 rounded-lg  h-[30rem] border"
                 id="myChart"
               ></canvas>
             </div>
+          </div> */}
+
+          <div style={{ width: "100%", height: "400px" }}>
+            <ReactECharts option={options} style={{ height: "100%" }} />
           </div>
           {/* 
           <div className=" w-full- mt-20 overflow-auto ">
@@ -2058,12 +2179,16 @@ function RapportPageDetails() {
                     </td>
                     <td className="border py-3 px-2 dark:border-gray-600">
                       {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleTimeString()
+                        ? activePeriods[index].startTime
                         : "---"}
+
+                      {/* {activePeriods[index]?.startTime
+                        ? activePeriods[index].startTime.toLocaleTimeString()
+                        : "---"} */}
                     </td>
                     <td className="border py-3 px-2 dark:border-gray-600">
                       {activePeriods[index]?.endTime
-                        ? activePeriods[index].endTime.toLocaleTimeString()
+                        ? activePeriods[index].endTime
                         : "---"}
                     </td>
                     <td

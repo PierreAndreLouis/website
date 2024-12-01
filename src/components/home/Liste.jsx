@@ -39,6 +39,7 @@ function Liste() {
     fetchVehicleDetails,
     fetRapportchVehicleDetails,
     fonctionTest,
+    fonctionTest2,
   } = useContext(DataContext);
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
@@ -159,6 +160,18 @@ function Liste() {
         }}
       >
         test
+      </button>
+
+      <button
+        onClick={() => {
+          // console.log("mergedData...", mergedData);
+          // console.log("vehicleData", vehicleData);
+          // console.log("vehicleDetails", vehicleDetails);
+          fonctionTest2();
+          // reloadVehiculeDetails();
+        }}
+      >
+        test22
       </button> */}
       {isLoading ? (
         <p>Chargement des données...</p>

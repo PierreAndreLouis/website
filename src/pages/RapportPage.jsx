@@ -55,6 +55,8 @@ function RapportPage() {
     currentdataFusionnee,
     // setShowListOption,
     // showListeOption,
+    fonctionTest,
+    fonctionTest2,
   } = useContext(DataContext);
 
   const [showActiveVehiculeNow, setshowActiveVehiculeNow] = useState(false);
@@ -249,6 +251,33 @@ function RapportPage() {
               >
                 Test
               </button> */}
+
+              {/* <button
+                onClick={() => {
+                  // console.log("mergedData...", mergedData);
+                  // console.log("vehicleData", vehicleData);
+                  // console.log("vehicleDetails", vehicleDetails);
+                  fonctionTest();
+                  // reloadVehiculeDetails();
+                }}
+              >
+                test 30000
+              </button>
+              <br />
+
+              <button
+                onClick={() => {
+                  // console.log("mergedData...", mergedData);
+                  // console.log("vehicleData", vehicleData);
+                  // console.log("vehicleDetails", vehicleDetails);
+                  fonctionTest2();
+                  // reloadVehiculeDetails();
+                }}
+              >
+                test22 11111111
+              </button> */}
+
+              {/* //////////////////////////////////// */}
               <div className="flex gap-2 justify-end mb-4 ">
                 <button
                   className="bg-orange-50 dark:bg-gray-700 py-2 shadow-lg rounded-lg px-3"
