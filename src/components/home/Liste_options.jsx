@@ -11,6 +11,7 @@ import { FaEdit } from "react-icons/fa";
 import { MdErrorOutline } from "react-icons/md";
 import { TbLock } from "react-icons/tb";
 import { TbLockOpen } from "react-icons/tb";
+import { MdOutlineStickyNote2 } from "react-icons/md";
 
 function Liste_options({}) {
   const {
@@ -26,6 +27,7 @@ function Liste_options({}) {
     setSelectedVehicle,
     setVehiclueHistoriqueDetails,
     password,
+    currentdataFusionnee,
   } = useContext(DataContext); // fetchVehicleDetails importée du contexte
 
   const [showAccessCode, setAccessCode] = useState(false);
@@ -66,11 +68,42 @@ function Liste_options({}) {
     if (inputPassword === password) {
       setshowControlePupup(true);
       setshowVehiculeControle(false);
-      setInputPassword("")
-      setErrorMessage("")
+      setInputPassword("");
+      setErrorMessage("");
     } else {
       setErrorMessage("Mot de passe incorrect. Veuillez réessayer.");
     }
+  };
+
+  const rapportFonction = () => {
+    // setCurrentVehicule(vehicle);
+
+    const deviceID = currentVehicule?.deviceID;
+
+    // // Recherche du véhicule correspondant dans la liste
+    const foundVehicle = currentdataFusionnee?.find(
+      (v) => v.deviceID === deviceID
+    );
+
+    if (foundVehicle) {
+      setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
+      // console.log("current vehicule data", foundVehicle?.vehiculeDetails);
+      // setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
+      // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
+      // setShowListOption(false); // Affiche la liste d'options si nécessaire
+      // console.log("Véhicule sélectionné", foundVehicle);
+      setShowListOption(false);
+    } else {
+      console.error("Véhicule introuvable avec le deviceID :", deviceID);
+    }
+
+    // setShowListOption(false);
+
+    // setSelectedVehicle(vehicle.deviceID);
+    // setSelectedVehicle(vehicle);  // Ajouter cette ligne
+    // setShowListOption(true);
+    console.log("Véhicule en variable_________________", currentVehicule);
+    // console.log("Véhicule cliqué_____________________", vehicle);
   };
 
   return (
@@ -97,7 +130,7 @@ function Liste_options({}) {
                 onClick={() =>
                   envoyerSMS("1234567890", "Bonjour, ceci est un test.")
                 }
-                className="shadow-md cursor-pointer hover:bg-orange-100 dark:hover:bg-orange-900 bg-orange-50 dark:bg-orange-800 dark:text-white p-2 rounded-md flex items-center gap-4"
+                className="shadow-md cursor-pointer hover:bg-orange-100 dark:hover:bg-gray-900 bg-orange-50 dark:bg-gray-800 dark:text-white p-2 rounded-md flex items-center gap-4"
               >
                 <TbLock className="text-[1.82rem] text-orange-400 dark:text-orange-50" />
                 <h2 className="font-semibold text-orange-900 dark:text-orange-50">
@@ -112,11 +145,26 @@ function Liste_options({}) {
                     "Bonjour, ceci est un test."
                   )
                 }
-                className="shadow-md cursor-pointer hover:bg-orange-100 dark:hover:bg-orange-900 bg-orange-50 dark:bg-orange-800 p-2 rounded-md flex items-center gap-4"
+                className="shadow-md cursor-pointer hover:bg-orange-100 dark:hover:bg-gray-900 bg-orange-50 dark:bg-gray-800 p-2 rounded-md flex items-center gap-4"
               >
                 <TbLockOpen className="text-[2rem] min-w-8 text-orange-400 dark:text-orange-50" />
                 <h2 className="font-semibold text-orange-900 dark:text-orange-50">
                   Débloquer le véhicule
+                </h2>
+              </div>
+
+              <div
+                onClick={() =>
+                  envoyerSMS(
+                    currentVehicule.simPhoneNumber,
+                    "Bonjour, ceci est un test."
+                  )
+                }
+                className="shadow-md cursor-pointer hover:bg-orange-100 dark:hover:bg-gray-900 bg-orange-50 dark:bg-gray-800 p-2 rounded-md flex items-center gap-4"
+              >
+                <FaMicrophone className="text-[2rem] min-w-8 text-orange-400 dark:text-orange-50" />
+                <h2 className="font-semibold text-orange-900 dark:text-orange-50">
+                  Écouter
                 </h2>
               </div>
             </div>
@@ -172,15 +220,17 @@ function Liste_options({}) {
             <h3>Contrôle</h3>
           </div>
 
-          <div
+          <Link
             onClick={() => {
-              setAccessCode(true);
+              // setAccessCode(true);
+              rapportFonction();
             }}
+            to="/rapport_page_details"
             className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
           >
-            <FaMicrophone className="text-3xl" />
-            <h3>Écouter</h3>
-          </div>
+            <MdOutlineStickyNote2 className="text-3xl" />
+            <h3>Rapport</h3>
+          </Link>
 
           <Link
             onClick={() => {

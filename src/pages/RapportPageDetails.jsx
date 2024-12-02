@@ -8,6 +8,9 @@ import { GiPathDistance } from "react-icons/gi";
 import { IoMdInformationCircleOutline } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
+import { MdOutlineFullscreen } from "react-icons/md";
+
 // Enregistrement des composants nécessaires
 Chart.register(...registerables);
 import ReactECharts from "echarts-for-react";
@@ -34,6 +37,8 @@ L.Icon.Default.mergeOptions({
 
 function RapportPageDetails() {
   const [typeDeVue, setTypeDeVue] = useState(false);
+  const [zoomCart, setzoomCart] = useState(false);
+  const [zoomPosition, setzoomPosition] = useState(false);
 
   const {
     currentVehicule,
@@ -74,8 +79,10 @@ function RapportPageDetails() {
       // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
       // setShowListOption(false); // Affiche la liste d'options si nécessaire
       console.log("Véhicule sélectionné", foundVehicle);
+      setPersonnelDetails(true);
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
+      setPersonnelDetails(true);
     }
 
     // setSelectedVehicle(vehicle.deviceID);
@@ -1767,36 +1774,89 @@ function RapportPageDetails() {
             </h2>
           </div>
 
-          <div className="relative  rounded-lg  overflow-hidden mt-3 h-[40vh] md:h-[60vh] overflow-hidden w-full">
-            <button
-              className="absolute z-[999] top-[1rem] right-[1rem]"
-              onClick={centerOnFirstMarker}
-            >
-              <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
-                <MdCenterFocusStrong className="text-orange-500 text-[1.52rem]" />
-              </div>
-            </button>
-            <div className="absolute -top-[11rem] rounded-lg  w-full ">
-              <div>
-                <TrajetVehicule
-                  typeDeVue={typeDeVue}
-                  setTypeDeVue={setTypeDeVue}
-                  mapType={mapType}
-                  handleMapTypeChange={handleMapTypeChange}
-                  vehicles={vehicles}
-                  mapRef={mapRef}
-                  tileLayers={tileLayers}
-                  getMarkerIcon={getMarkerIcon}
-                  currentLocation={currentLocation}
-                  customMarkerIcon={customMarkerIcon}
-                  positions={positions}
-                  centerOnFirstMarker={centerOnFirstMarker}
-                  showHistoriqueInMap={showHistoriqueInMap}
-                  openGoogleMaps={openGoogleMaps}
-                />
+          {zoomCart ? (
+            <div className=" fixed inset-0 z-[999999999999999999] bg-black/50">
+              <div className="relative  rounded-lg  mt-3 h-[100vh]  overflow-hidden w-full">
+                <button
+                  className="absolute z-[999] top-[1rem] right-[1rem]"
+                  // onClick={centerOnFirstMarker}
+                  onClick={() => {
+                    setzoomCart(false);
+                  }}
+                >
+                  <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-red-600 shadow-xl">
+                    <IoClose className="text-white text-[1.52rem]" />
+                  </div>
+                </button>
+                <div className="absolute-- -top-[11rem]-- rounded-lg  w-full ">
+                  <div>
+                    <TrajetVehicule
+                      typeDeVue={typeDeVue}
+                      setTypeDeVue={setTypeDeVue}
+                      mapType={mapType}
+                      handleMapTypeChange={handleMapTypeChange}
+                      vehicles={vehicles}
+                      mapRef={mapRef}
+                      tileLayers={tileLayers}
+                      getMarkerIcon={getMarkerIcon}
+                      currentLocation={currentLocation}
+                      customMarkerIcon={customMarkerIcon}
+                      positions={positions}
+                      centerOnFirstMarker={centerOnFirstMarker}
+                      showHistoriqueInMap={showHistoriqueInMap}
+                      openGoogleMaps={openGoogleMaps}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="relative  rounded-lg  mt-3 h-[40vh] md:h-[60vh] overflow-hidden w-full">
+              <button
+                className="absolute z-[999] top-[1rem] right-[1rem]"
+                // onClick={centerOnFirstMarker}
+                onClick={() => {
+                  setzoomCart(true);
+                }}
+              >
+                <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
+                  <MdOutlineFullscreen className="text-orange-500 text-[2rem]" />
+                </div>
+              </button>
+              <button
+                className="absolute z-[999] top-[4rem] right-[1rem]"
+                onClick={centerOnFirstMarker}
+              >
+                <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
+                  <MdCenterFocusStrong className="text-orange-500 text-[1.52rem]" />
+                </div>
+              </button>
+              <div className="absolute -top-[11rem] rounded-lg  w-full ">
+                <div>
+                  <TrajetVehicule
+                    typeDeVue={typeDeVue}
+                    setTypeDeVue={setTypeDeVue}
+                    mapType={mapType}
+                    handleMapTypeChange={handleMapTypeChange}
+                    vehicles={vehicles}
+                    mapRef={mapRef}
+                    tileLayers={tileLayers}
+                    getMarkerIcon={getMarkerIcon}
+                    currentLocation={currentLocation}
+                    customMarkerIcon={customMarkerIcon}
+                    positions={positions}
+                    centerOnFirstMarker={centerOnFirstMarker}
+                    showHistoriqueInMap={showHistoriqueInMap}
+                    openGoogleMaps={openGoogleMaps}
+                  />
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* {zoomCart && ( */}
+
+          {/* )} */}
 
           <div className="shadow-md mt-20 mb-8  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
             <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
@@ -2168,11 +2228,45 @@ function RapportPageDetails() {
             </h2>
           </div>
 
-          <div className=" h-[40vh] md:max-h-[60vh] rounded-lg mt-3 overflow-hidden">
-            <div className=" -translate-y-[10rem]">
-              <MapComponent />
+          {zoomPosition ? (
+            <div className="fixed inset-0 z-[9999999999999999999999] bg-black/50">
+              <div className="relative  h-[100vh]  rounded-lg mt-3 overflow-hidden">
+                <button
+                  className="absolute z-[999] top-[1rem] right-[1rem]"
+                  // onClick={centerOnFirstMarker}
+                  onClick={() => {
+                    setzoomPosition(false);
+                  }}
+                >
+                  <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-red-600 shadow-xl">
+                    <IoClose className="text-white text-[1.52rem]" />
+                  </div>
+                </button>
+                <div className=" -translate-y-[10rem]---">
+                  <MapComponent />
+                </div>
+              </div>
             </div>
-          </div>
+          ) : (
+            <div className="relative h-[40vh] md:h-[60vh] rounded-lg mt-3 overflow-hidden">
+              <button
+                className="absolute shadow-lg shadow-gray-400 rounded-full z-[999] top-[1rem] right-[1rem]"
+                // onClick={centerOnFirstMarker}
+                onClick={() => {
+                  setzoomPosition(true);
+                }}
+              >
+                <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
+                  <MdOutlineFullscreen className="text-orange-500 text-[2rem]" />
+                </div>
+              </button>
+              <div className=" -translate-y-[10rem]">
+                <MapComponent />
+              </div>
+            </div>
+          )}
+
+          {/* zoomPosition */}
 
           <div className="w-full mt-20 overflow-auto">
             <table className="overflow-auto w-full text-left dark:bg-gray-800 dark:text-gray-200">
