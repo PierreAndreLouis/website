@@ -1767,7 +1767,7 @@ function RapportPageDetails() {
             </h2>
           </div>
 
-          <div className="relative mt-3 h-[40vh] md:h-[60vh] overflow-hidden w-full">
+          <div className="relative  rounded-lg  overflow-hidden mt-3 h-[40vh] md:h-[60vh] overflow-hidden w-full">
             <button
               className="absolute z-[999] top-[1rem] right-[1rem]"
               onClick={centerOnFirstMarker}
@@ -1776,7 +1776,7 @@ function RapportPageDetails() {
                 <MdCenterFocusStrong className="text-orange-500 text-[1.52rem]" />
               </div>
             </button>
-            <div className="absolute -top-[50%] w-full ">
+            <div className="absolute -top-[11rem] rounded-lg  w-full ">
               <div>
                 <TrajetVehicule
                   typeDeVue={typeDeVue}
@@ -2166,8 +2166,10 @@ function RapportPageDetails() {
             </h2>
           </div>
 
-          <div className=" h-[40vh] md:max-h-[60vh] mt-3 overflow-hidden">
-            <MapComponent />
+          <div className=" h-[40vh] md:max-h-[60vh] rounded-lg mt-3 overflow-hidden">
+            <div className=" -translate-y-[10rem]">
+              <MapComponent />
+            </div>
           </div>
 
           <div className="w-full mt-20 overflow-auto">
