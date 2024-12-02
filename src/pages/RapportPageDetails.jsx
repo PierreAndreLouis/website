@@ -1605,12 +1605,14 @@ function RapportPageDetails() {
             Rapport detaillee du vehicule
           </h1>
 
-          <div className="shadow-md dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-            <IoMdInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <div>
+          <div className="shadow-md dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <IoMdInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Info sur le vehicule
               </h2>
+            </div>
+            <div>
               <div className="text-gray-700 font-bold flex flex-col gap-2 dark:text-gray-300">
                 <p>
                   Véhicule :{" "}
@@ -1634,12 +1636,15 @@ function RapportPageDetails() {
             </div>
           </div>
 
-          <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-            <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <div>
+          <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Temps
               </h2>
+            </div>
+
+            <div>
               <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
                 <p>
                   Heure de départ:{" "}
@@ -1693,12 +1698,15 @@ function RapportPageDetails() {
             </div>
           </div>
 
-          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-            <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <div>
+          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Distance
               </h2>
+            </div>
+
+            <div>
               <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
                 <p>
                   Distance totale parcourue:
@@ -1720,12 +1728,15 @@ function RapportPageDetails() {
             </div>
           </div>
 
-          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-            <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <div>
+          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Vitesse
               </h2>
+            </div>
+
+            <div>
               <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
                 {/* <p>
                 Vitesse minimale:
@@ -1852,12 +1863,15 @@ function RapportPageDetails() {
             </table>
           </div> */}
 
-          <div className="shadow-md mt-20 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-            <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <div>
+          <div className="shadow-md mt-20 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold dark:text-orange-500 text-orange-900">
                 Tous les lieux fréquentés
               </h2>
+            </div>
+
+            <div>
               <div className="text-gray-600 flex flex-col gap-3">
                 {uniqueAddresses?.map((add, index) => {
                   return (
@@ -1873,12 +1887,15 @@ function RapportPageDetails() {
             </div>
           </div>
 
-          <div className="shadow-md mt-4 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex items-start gap-4">
-            <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <div>
+          <div className="shadow-md mt-4 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold dark:text-orange-500 text-orange-900">
                 Tous les lieux Stationnés
               </h2>
+            </div>
+
+            <div>
               <div className="text-gray-600 flex flex-col gap-3">
                 {uniqueAddressesZerroSpeed?.map((add, index) => {
                   return (
@@ -1923,12 +1940,15 @@ function RapportPageDetails() {
           <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
             Rapport detaillee en groupe
           </h1>
-          <div className="shadow-md dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-            <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <div>
+          <div className="shadow-md dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex-- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <IoMdInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Info sur le vehicule
               </h2>
+            </div>
+
+            <div>
               <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
                 <p>
                   Date :{" "}
@@ -1972,12 +1992,15 @@ function RapportPageDetails() {
               </div>
             </div>
           </div>
-          <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-            <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <div>
+          <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Temps
               </h2>
+            </div>
+
+            <div>
               <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
                 <p>
                   Heure du 1er mouvement:{" "}
@@ -2055,12 +2078,15 @@ function RapportPageDetails() {
               </div>
             </div>
           </div>
-          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-            <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <div>
+          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Distance
               </h2>
+            </div>
+
+            <div>
               <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
                 <p>
                   Distance totale parcourue:
@@ -2090,12 +2116,15 @@ function RapportPageDetails() {
               </div>
             </div>
           </div>
-          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex items-start gap-4">
-            <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <div>
+          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
               <h2 className="font-semibold dark:text-orange-50 text-orange-900">
                 Vitesse
               </h2>
+            </div>
+
+            <div>
               <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
                 {/* <p>
                   Vitesse minimale:
@@ -2145,7 +2174,7 @@ function RapportPageDetails() {
             <table className="overflow-auto w-full text-left dark:bg-gray-800 dark:text-gray-200">
               <thead>
                 <tr className="bg-orange-50 text-gray-700 border-- dark:bg-gray-700 dark:text-gray-100">
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[20rem]">
+                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[17rem]">
                     Véhicule
                   </th>
                   <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
@@ -2169,7 +2198,7 @@ function RapportPageDetails() {
                   <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
                     Temps actif
                   </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[20rem]">
+                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[30rem]">
                     Adresse actuelle
                   </th>
                 </tr>
