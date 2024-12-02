@@ -1805,6 +1805,7 @@ function RapportPageDetails() {
             </h2>
           </div>
 
+          {/* ///////////////////////////////////////// */}
           {/* <div className="transition-all w-full h-[30rem] bg-gray-100 rounded-lg dark:bg-gray-900 dark:text-gray-100">
             <div className=" h-[30rem]">
               <canvas
@@ -1813,6 +1814,7 @@ function RapportPageDetails() {
               ></canvas>
             </div>
           </div> */}
+          {/* ///////////////////////////////////////// */}
 
           <div
             className="dark:bg-gray-100 pt-5 rounded-lg"
