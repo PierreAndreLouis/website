@@ -2,9 +2,16 @@ import React from "react";
 import { IoSearch } from "react-icons/io5";
 import { IoMdClose } from "react-icons/io";
 
-
 function Search_bar({}) {
-  const { userData, search, setSearch, handleLogout,setShowSideBar, fetchVehicleData, setSearchQuery } = useContext(DataContext);
+  const {
+    userData,
+    search,
+    setSearch,
+    handleLogout,
+    setShowSideBar,
+    fetchVehicleData,
+    setSearchQuery,
+  } = useContext(DataContext);
 
   return (
     <div className="fixed top-0 left-0 right-0 bg-white">
@@ -15,9 +22,13 @@ function Search_bar({}) {
             type="text"
             placeholder="Rechercher"
           />
-          <IoSearch  className="text-3xl text-gray-500 cursor-pointer"/>
-          <IoMdClose onClick={() => {setSearch(false)}}  className="text-3xl text-red-500 cursor-pointer mr-4 "/>
-
+          <IoSearch className="text-3xl text-gray-500 cursor-pointer" />
+          <IoMdClose
+            onClick={() => {
+              setSearch(false);
+            }}
+            className="text-3xl text-red-500 cursor-pointer mr-4 "
+          />
         </div>
       </div>
     </div>
