@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { MdDateRange } from "react-icons/md";
 import { FaCarRear } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import { FaChevronDown } from "react-icons/fa6";
+import { MdOutlineStickyNote2 } from "react-icons/md";
+import { DataContext } from "../../context/DataContext";
+import { Link } from "react-router-dom";
 
 function ShowFilterComponent({
   showFilter,
@@ -12,8 +15,48 @@ function ShowFilterComponent({
   checkboxes,
   handleCheckboxChange,
   applyFilter,
-  setTypeDeVue
+  setTypeDeVue,
 }) {
+  const {
+    vehiclueHistoriqueDetails,
+    currentVehicule,
+    setCurrentVehicule,
+    currentdataFusionnee,
+  } = useContext(DataContext);
+
+  const updateRapportVehiculeDetails = () => {
+    setCurrentVehicule((prev) => ({
+      ...prev,
+      vehiclueHistoriqueDetails,
+    }));
+  };
+
+  // const handleClick = () => {
+  //   // setCurrentVehicule(vehicle);
+
+  //   const deviceID = currentVehicule?.deviceID;
+
+  //   // // Recherche du véhicule correspondant dans la liste
+  //   const foundVehicle = currentdataFusionnee?.find(
+  //     (v) => v.deviceID === deviceID
+  //   );
+
+  //   if (foundVehicle) {
+  //     setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
+  //     console.log("current vehicule data", foundVehicle.vehiculeDetails);
+  //     // setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
+  //     // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
+  //     // setShowListOption(false); // Affiche la liste d'options si nécessaire
+  //     console.log("Véhicule sélectionné", foundVehicle);
+  //   } else {
+  //     console.error("Véhicule introuvable avec le deviceID :", deviceID);
+  //   }
+
+  //   // setSelectedVehicle(vehicle.deviceID);
+  //   // setSelectedVehicle(vehicle);  // Ajouter cette ligne
+  //   // setShowListOption(true);
+  //   console.log("Véhicule en variable_________________", currentVehicule);
+  // };
   return (
     <>
       {showFilter && (
@@ -47,13 +90,17 @@ function ShowFilterComponent({
               className="flex my-3 p-2 rounded-md hover:bg-orange-100/50 cursor-pointer items-center gap-3 dark:hover:bg-gray-700"
             >
               <MdDateRange className="text-xl text-orange-600 dark:text-orange-400" />
-              <h3 className="text-gray-800 dark:text-gray-200">Filtrer par Date</h3>
+              <h3 className="text-gray-800 dark:text-gray-200">
+                Filtrer par Date
+              </h3>
             </div>
             <hr className="dark:border-gray-600" />
             <form action="" className="p-2">
-              <div className="flex mb-4 items-center gap-3">
+              <div className="flex pt-4 mb-4 items-center gap-3">
                 <FaCarRear className="text-xl text-orange-600/90 dark:text-orange-400" />
-                <h3 className="text-gray-800 dark:text-gray-200">Filtrer par statut</h3>
+                <h3 className="text-gray-800 dark:text-gray-200">
+                  Filtrer par statut
+                </h3>
               </div>
               <div>
                 <div className="flex flex-row mb-1.5 gap-4 ml-0.5">
@@ -64,7 +111,12 @@ function ShowFilterComponent({
                     onChange={() => handleCheckboxChange("en_marche")}
                     className="dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label htmlFor="en_marche" className="text-gray-800 dark:text-gray-200">En marche</label>
+                  <label
+                    htmlFor="en_marche"
+                    className="text-gray-800 dark:text-gray-200"
+                  >
+                    En marche
+                  </label>
                 </div>
                 <div className="flex flex-row mb-1.5 gap-4 ml-0.5">
                   <input
@@ -74,7 +126,12 @@ function ShowFilterComponent({
                     onChange={() => handleCheckboxChange("en_ralenti")}
                     className="dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label htmlFor="en_ralenti" className="text-gray-800 dark:text-gray-200">En ralenti</label>
+                  <label
+                    htmlFor="en_ralenti"
+                    className="text-gray-800 dark:text-gray-200"
+                  >
+                    En ralenti
+                  </label>
                 </div>
                 <div className="flex flex-row mb-1.5 gap-4 ml-0.5">
                   <input
@@ -84,7 +141,30 @@ function ShowFilterComponent({
                     onChange={() => handleCheckboxChange("en_arret")}
                     className="dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label htmlFor="en_arret" className="text-gray-800 dark:text-gray-200">En arrêt</label>
+                  <label
+                    htmlFor="en_arret"
+                    className="text-gray-800 dark:text-gray-200"
+                  >
+                    En arrêt
+                  </label>
+                </div>
+
+                <div className="pt-4">
+                  <hr className="dark:border-gray-600" />
+
+                  <Link
+                    onClick={() => {
+                      updateRapportVehiculeDetails();
+                    }}
+                    to="/rapport_page_details"
+                    // className="flex pt-4 mb-4 items-center gap-3"
+                    className="flex my-3 p-2 rounded-md hover:bg-orange-100/50 cursor-pointer items-center gap-3 dark:hover:bg-gray-700"
+                  >
+                    <MdOutlineStickyNote2 className="text-xl text-orange-600/90 dark:text-orange-400" />
+                    <h3 className="text-gray-800 dark:text-gray-200">
+                      Rapport du Vehicule
+                    </h3>
+                  </Link>
                 </div>
 
                 <p

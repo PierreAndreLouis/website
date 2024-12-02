@@ -4,6 +4,7 @@ import { FaPlus, FaRegEdit, FaCar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { DataContext } from "../../context/DataContext";
+import { MdOutlineStickyNote2 } from "react-icons/md";
 
 function NavigationBar() {
   const { handleTabClick, tab } = useContext(DataContext);
@@ -56,7 +57,9 @@ function NavigationBar() {
               : "text-gray-600 dark:text-gray-400"
           } flex flex-col cursor-pointer hover:text-orange-500 dark:hover:text-orange-300 justify-center items-center`}
         >
-          <FaCar className="text-xl" />
+          <MdOutlineStickyNote2 className="text-xl" />
+          {/* <FaCar className="text-xl" /> */}
+
           <h3 className="text-sm">Rapport</h3>
         </Link>
 
