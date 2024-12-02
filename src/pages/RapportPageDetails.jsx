@@ -10,6 +10,7 @@ import { FaChevronDown } from "react-icons/fa6";
 import { IoMdClose } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
 import { MdOutlineFullscreen } from "react-icons/md";
+import { BsTable } from "react-icons/bs";
 
 // Enregistrement des composants nécessaires
 Chart.register(...registerables);
@@ -26,6 +27,10 @@ import TrajetVehicule from "../components/historique_vehicule/TrajetVehicule";
 import MapComponent from "../components/location_vehicule/MapComponent";
 import RapportOptions from "../components/rapport_vehicule/RapportOptions";
 import Liste_options from "../components/home/Liste_options";
+import RapportPageDetailsHeader from "../components/rapport_page_details/RapportPageDetailsHeader";
+import RapportGroupe from "../components/rapport_page_details/RapportGroupe";
+import RapportPageDetailsOptions from "../components/rapport_page_details/RapportPageDetailsOptions";
+import RapportPersonnel from "../components/rapport_page_details/RapportPersonnel";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -479,56 +484,6 @@ function RapportPageDetails() {
     calculateActivePeriodsForAllVehicles(currentdataFusionnee);
   console.log(activePeriods);
 
-  // function calculateActivePeriodsForAllVehicles(vehicleData) {
-  //   // Tableau des résultats
-  //   const results = [];
-
-  //   vehicleData.forEach((vehicle) => {
-  //     const { description, vehiculeDetails } = vehicle; // Nom et détails du véhicule
-
-  //     // Filtrer les données pour les moments actifs (vitesse > 0)
-  //     const filteredList = vehiculeDetails?.filter(
-  //       (item) => parseFloat(item.speedKPH) > 0
-  //     );
-
-  //     if (filteredList && filteredList.length > 0) {
-  //       // Trouver l'élément avec le timestamp minimum
-  //       const startTimestamp = filteredList.reduce((minItem, currentItem) => {
-  //         return parseInt(currentItem.timestamp) < parseInt(minItem.timestamp)
-  //           ? currentItem
-  //           : minItem;
-  //       }, filteredList[0]);
-
-  //       // Trouver l'élément avec le timestamp maximum
-  //       const endTimestamp = filteredList.reduce((maxItem, currentItem) => {
-  //         return parseInt(currentItem.timestamp) > parseInt(maxItem.timestamp)
-  //           ? currentItem
-  //           : maxItem;
-  //       }, filteredList[0]);
-
-  //       // Ajouter au tableau des résultats
-  //       results.push({
-  //         description,
-  //         startTime: new Date(parseInt(startTimestamp.timestamp) * 1000), // Convertir en format lisible
-  //         endTime: new Date(parseInt(endTimestamp.timestamp) * 1000), // Convertir en format lisible
-  //       });
-  //     } else {
-  //       // Aucun moment actif pour ce véhicule
-  //       results.push({
-  //         description,
-  //         startTime: null,
-  //         endTime: null,
-  //       });
-  //     }
-  //   });
-
-  //   return results;
-  // }
-
-  // const activePeriods =
-  //   calculateActivePeriodsForAllVehicles(currentdataFusionnee);
-  // console.log(activePeriods);
-
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -608,19 +563,6 @@ function RapportPageDetails() {
 
   // Exemple d'utilisation :
   const result2 = calculateDistancesForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste
-  // console.log("Distance totale par véhicule :", result2?.distancesByVehicle);
-  // console.log(
-  //   "Distance totale pour tous les véhicules :",
-  //   result2?.totalDistanceAllVehicles.toFixed(2),
-  //   "km"
-  // );
-  // console.log(
-  //   "Véhicule ayant parcouru la plus grande distance :",
-  //   result2?.maxDistanceVehicle,
-  //   "avec",
-  //   result2?.maxDistance.toFixed(2),
-  //   "km"
-  // );
 
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -721,35 +663,6 @@ function RapportPageDetails() {
     currentVehicule?.vehiculeDetails
   );
 
-  // Fonction pour calculer les statistiques de vitesse (min, max, moyenne) pour tous les véhicules
-  // function calculateSpeedStatsForAllVehicles(vehicles) {
-  //   if (vehicles && vehicles.length > 0) {
-  //     let allSpeeds = []; // Stocker toutes les vitesses de tous les véhicules
-  //     let statsByVehicle = {}; // Stocker les statistiques par véhicule
-
-  //     vehicles.forEach((vehicle) => {
-  //       const data = filterVehicleData(vehicle?.vehiculeDetails); // Filtrer les données si nécessaire
-  //       const stats = calculateSpeedStats(data); // Obtenir les statistiques pour ce véhicule
-
-  //       statsByVehicle[vehicle.description] = stats; // Ajouter les stats de ce véhicule
-  //       allSpeeds = [
-  //         ...allSpeeds,
-  //         ...data
-  //           .map((item) => parseFloat(item.speedKPH))
-  //           .filter((speed) => speed > 0),
-  //       ];
-  //     });
-
-  //     // Calcul des statistiques globales pour tous les véhicules
-  //     const globalStats = calculateGlobalSpeedStats(allSpeeds);
-
-  //     return {
-  //       statsByVehicle, // Statistiques par véhicule
-  //       globalStats, // Statistiques globales
-  //     };
-  //   }
-  // }
-
   function calculateSpeedStatsForAllVehicles(vehicles) {
     if (vehicles && vehicles.length > 0) {
       let allSpeeds = []; // Stocker toutes les vitesses de tous les véhicules
@@ -813,17 +726,7 @@ function RapportPageDetails() {
   }
 
   // Exemple d'utilisation :
-  // const result4 = calculateSpeedStatsForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste
-  // console.log("Statistiques par véhicule :", result4?.statsByVehicle);
-  // console.log("Statistiques globales :", result4?.globalStats);
-
-  // Exemple d'utilisation :
   const result5 = calculateSpeedStatsForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste
-  // console.log("Statistiques par véhicule :", result5?.statsByVehicle);
-  // console.log("Statistiques globales :", result5?.globalStats);
-  // console.log(
-  //   `Véhicule avec la vitesse maximale la plus élevée : ${result5?.maxSpeedVehicle.description}, Vitesse : ${result5?.maxSpeedVehicle.maxSpeed} KPH`
-  // );
 
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -1126,50 +1029,6 @@ function RapportPageDetails() {
   const { filteredData2, earliestVehicle, latestVehicle } =
     processVehicleData(data2);
 
-  // console.log("Filtered Data:", filteredData2);
-  // console.log("Earliest Vehicle:", earliestVehicle);
-  // console.log("Latest Vehicle:", latestVehicle);
-
-  // const data2 = currentdataFusionnee;
-
-  // // Filtrer les vehiculeDetails avec speedKPH >= 1
-  // data2 &&
-  //   data2.length > 0 &&
-  //   data2?.forEach((vehicle) => {
-  //     vehicle.vehiculeDetails = vehicle.vehiculeDetails?.filter(
-  //       (detail) => parseFloat(detail.speedKPH) >= 1
-  //     );
-  //   });
-
-  // // Trouver le véhicule avec le timestamp le plus tôt et le plus tard
-  // let earliestVehicle = null;
-  // let latestVehicle = null;
-  // let earliestTimestamp = Infinity;
-  // let latestTimestamp = -Infinity;
-
-  // data2 &&
-  //   data2.length > 0 &&
-  //   data2?.forEach((vehicle) => {
-  //     // const lastDetail = vehicle.vehiculeDetails[0];
-  //     const lastDetail =
-  //       vehicle.vehiculeDetails[vehicle.vehiculeDetails?.length - 1];
-  //     if (lastDetail) {
-  //       const timestamp = parseInt(lastDetail.timestamp, 10);
-  //       if (timestamp < earliestTimestamp) {
-  //         earliestTimestamp = timestamp;
-  //         earliestVehicle = vehicle;
-  //       }
-  //       if (timestamp > latestTimestamp) {
-  //         latestTimestamp = timestamp;
-  //         latestVehicle = vehicle;
-  //       }
-  //     }
-  //   });
-
-  // Affichage des résultats
-  // console.log("Véhicule avec le timestamp le plus tôt:", earliestVehicle);
-  // console.log("Véhicule avec le timestamp le plus tard:", latestVehicle);
-
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
   ///////////////////////////////////////////////////////////////////////////////////////////
@@ -1273,1188 +1132,102 @@ function RapportPageDetails() {
   }
   // Exemple d'utilisation :
   const result = calculateDurationsForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste de véhicules
-  // const result = calculateDurationsForAllVehicles(allVehicles); // Remplacez "allVehicles" par votre liste de véhicules
-  // console.log("Durée totale en mouvement :", result?.totalMovingTime);
-  // console.log("Durée totale en arrêt :", result?.totalStopTime);
-  // console.log("Le plus long arrêt :", result?.longestStopTime);
-  // console.log("Le plus long déplacement :", result?.longestMovingTime);
-  // console.log(
-  //   "Véhicule avec le plus long arrêt :",
-  //   result?.vehicleWithLongestStop
-  // );
-  // console.log(
-  //   "Véhicule en mouvement le plus longtemps :",
-  //   result?.vehicleWithLongestMoving
-  // );
 
   return (
     <div className="flex pt-28 flex-col max-w-screen overflow-hidden justify-center items-center pb-20">
       <div className="fixed  px-4 z-[555555555] top-[3.4rem] left-0 right-0 bg-white py-3 dark:bg-gray-800">
         {showListeOption && <Liste_options />}
 
-        {/* <h2
-          onClick={() => {
-            console.log("Current vehicule", currentVehicule);
-
-            console.log(
-              "searchdonneeFusionneeForRapport",
-              searchdonneeFusionneeForRapport
-            );
-
-            console.log("donneeFusionneeForRapport", donneeFusionneeForRapport);
-            console.log("currentdataFusionnee", currentdataFusionnee);
-            // console.log("searchdonneeFusionneeForRapport", searchdonneeFusionneeForRapport);
-
-            // console.log("Statistiques par véhicule :", result5?.statsByVehicle);
-            // console.log("Statistiques globales :", result5?.globalStats);
-            // console.log(
-            //   `Véhicule avec la vitesse maximale la plus élevée : ${result5?.maxSpeedVehicle.description}, Vitesse : ${result5?.maxSpeedVehicle.maxSpeed} KPH`
-            // );
-            // console.log("Statistiques par véhicule :", result4?.statsByVehicle);
-            // console.log("Statistiques globales :", result4?.globalStats);
-            // console.log(
-
-            // console.log(
-            //   "Distance totale pour tous les véhicules :",
-            //   result2?.totalDistanceAllVehicles.toFixed(2),
-            //   "km"
-            // );
-            // console.log(
-            //   "Véhicule ayant parcouru la plus grande distance :",
-            //   result2?.maxDistanceVehicle,
-            //   "avec",
-            //   result2?.maxDistance.toFixed(2),
-            //   "km"
-            // );
-
-            // console.log(
-            //   "Véhicule ayant parcouru la plus grande distance :",
-            //   result2?.maxDistanceVehicle
-            // );
-            // console.log(
-            //   "Nombre d'arrêts par véhicule :",
-            //   result3.stopsByVehicle
-            // );
-            // console.log(
-            //   "Nombre total d'arrêts pour tous les véhicules :",
-            //   result3.totalStopsAllVehicles
-            // );
-            // console.log(
-            //   "Distance totale par véhicule :",
-            //   result2?.distancesByVehicle
-            // );
-
-            // console.log(
-            //   "Distance totale pour tous les véhicules :",
-            //   result2?.totalDistanceAllVehicles.toFixed(2),
-            //   "km"
-            // );
-
-            // setShowVehiculeListe(true);
-            // console.log("current Data fusionnee", currentdataFusionnee);
-            // console.log(
-            //   "Search data fusionnee",
-            //   searchdonneeFusionneeForRapport
-            // );
-    
-            // console.log(
-            //   "-------------Durée totale en mouvement :",
-            //   result?.totalMovingTime
-            // );
-            // console.log(
-            //   "---------------Durée totale en arrêt :",
-            //   result?.totalStopTime
-            // );
-            // console.log(
-            //   "--------------Le plus long arrêt :",
-            //   result?.longestStopTime
-            // );
-            // console.log(
-            //   "-----------Véhicule avec le plus long arrêt :",
-            //   result.vehicleWithLongestStop
-            // );
-            // console.log(
-            //   "Véhicule en mouvement le plus longtemps :",
-            //   result?.vehicleWithLongestMoving
-            // );
-
-            // console.log("Full data:", vehiclueHistoriqueRapportDetails);
-            // console.log("current vehicule", currentVehicule);
-            // console.log("vehicule parking :", vehiculeNotActiveAjourdhui);
-            // console.log(
-            //   "vehiclueHistoriqueDetails:",
-            //   vehiclueHistoriqueDetails
-            // );
-            // console.log(
-            //   "Véhicule avec le timestamp le plus tôt:",
-            //   earliestVehicle
-            // );
-            // console.log(
-            //   "Véhicule avec le timestamp le plus tard:",
-            //   latestVehicle
-            // );
-            // console.log(
-            //   "currentVehicule?.vehiculeDetails",
-            //   currentVehicule?.vehiculeDetails
-            // );
-            // console.log("vehiclueHistoriqueDetails", vehiclueHistoriqueDetails);
-            // console.log(
-            //   "vehiclueHistoriqueRapportDetails",
-            //   vehiclueHistoriqueRapportDetails
-            // );
-          }}
-          id="vehicule_actuel"
-          className="flex justify-between items-center border py-2 px-5 rounded-md w-full max-w-[40rem] mx-auto cursor-pointer bg-orange-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-300/40 "
-        >
-          <p className="w-full overflow-hidden whitespace-nowrap text-ellipsis">
-            Choisir un vehicule
-          </p>
-          <span>
-            <FaChevronDown />
-          </span>
-        </h2> */}
-
         <div className="fixed sm:px-[15vw] z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
-          <div
-            onClick={() => {
-              setShowOptions(!showOptions);
-            }}
-            className="relative pt-5  mx-4 mb-2"
-          >
-            <div
-              className="flex justify-between   cursor-pointer border rounded-md
-                 px-3 py-2 bg-orange-50 dark:bg-gray-900/50 dark:border-gray-500  dark:text-gray-300 text-center"
-            >
-              <p className="text-start w-[90%] dark:text-gray-200 overflow-hidden whitespace-nowrap text-ellipsis">
-                {/* {currentVehicule?.description || "Choisis un Véhicule"} */}
-                {/* Choisis un Categorie */}
-                {/* {chooseALl && "Tous les véhicules"}
-                {chooseActifs && "Vehicule en déplacement"}
-                {chooseStationnement && "Véhicules en stationnement"}
-                {chooseInactifs && "Véhicules inactifs"} */}
-                {currentVehicule?.description || "Choisissez un vehicule"}
-              </p>
+          {/* Header */}
 
-              <div
-                className={`${
-                  !showOptions ? "rotate-0" : "rotate-180"
-                } transition-all`}
-              >
-                {!showOptions ? (
-                  <FaChevronDown className="mt-1" />
-                ) : (
-                  <IoMdClose className="mt-1 text-xl text-red-500 -translate-y-[.2rem] -translate-x-[.1rem]" />
-                )}
-              </div>
-            </div>
-
-            {/* vehiculeActiveAjourdhui,
-    vehiculeNotActiveAjourdhui,
-    vehiculeNotActif, */}
-
-            {showOptions && (
-              <div className="absolute p-4 dark:bg-gray-900 dark:border dark:border-gray-500 dark:shadow-lg dark:shadow-gray-500 text-gray-500 top-20 rounded-lg bg-white right-0 left-0 min-h-20 shadow-lg shadow-gray-600">
-                <div
-                  onClick={() => {
-                    setShowOptions(!showOptions);
-                    setPersonnelDetails(false);
-
-                    // setShowListOption(true);
-
-                    // setchooseALl(true);
-                    // setchooseActifs(false);
-                    // setchooseStationnement(false);
-                    // setchooseInactifs(false);
-                  }}
-                  className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                >
-                  <div className="min-w-[2.5rem]">
-                    <img
-                      className="w-[2em] ml-2"
-                      src="/img/home_icon/total.png"
-                      alt=""
-                    />
-                  </div>
-
-                  <h3 className="dark:text-gray-200">Rapport en Groupe</h3>
-                </div>
-
-                {vehiculeActiveAjourdhui &&
-                  vehiculeActiveAjourdhui.map((vehicule, index) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setShowOptions(!showOptions);
-                          handleClick(vehicule);
-
-                          // setchooseALl(false);
-                          // setchooseActifs(true);
-                          // setchooseStationnement(false);
-                          // setchooseInactifs(false);
-                        }}
-                        className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                      >
-                        <div className="min-w-[2.5rem]">
-                          <img
-                            className="w-[2.5em] "
-                            src="/img/home_icon/active.png"
-                            alt=""
-                          />
-                        </div>
-                        <h3 className="dark:text-gray-200">
-                          {vehicule.description || "---"}
-                        </h3>
-                      </div>
-                    );
-                  })}
-
-                {vehiculeNotActiveAjourdhui &&
-                  vehiculeNotActiveAjourdhui.map((vehicule, index) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setShowOptions(!showOptions);
-                          handleClick(vehicule);
-
-                          // setchooseALl(false);
-                          // setchooseActifs(true);
-                          // setchooseStationnement(false);
-                          // setchooseInactifs(false);
-                        }}
-                        className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                      >
-                        <div className="min-w-[2.5rem]">
-                          <img
-                            className="w-[2em]  ml-2"
-                            src="/img/cars/parking.png"
-                            alt=""
-                          />
-                        </div>
-                        <h3 className="dark:text-gray-200">
-                          {vehicule.description || "---"}
-                        </h3>
-                      </div>
-                    );
-                  })}
-
-                {vehiculeNotActif &&
-                  vehiculeNotActif.map((vehicule, index) => {
-                    return (
-                      <div
-                        onClick={() => {
-                          setShowOptions(!showOptions);
-                          handleClick(vehicule);
-
-                          // setchooseALl(false);
-                          // setchooseActifs(true);
-                          // setchooseStationnement(false);
-                          // setchooseInactifs(false);
-                        }}
-                        className={` border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3`}
-                      >
-                        <div className="min-w-[2.5rem]">
-                          <img
-                            className="w-[1.72em]  ml-1"
-                            src="/img/home_icon/payer.png"
-                            alt=""
-                          />
-                        </div>
-                        <h3 className="dark:text-gray-200">
-                          {vehicule.description || "---"}
-                        </h3>
-                      </div>
-                    );
-                  })}
-              </div>
-            )}
-          </div>
+          <RapportPageDetailsHeader
+            setShowOptions={setShowOptions}
+            showOptions={showOptions}
+            currentVehicule={currentVehicule}
+            setPersonnelDetails={setPersonnelDetails}
+            vehiculeActiveAjourdhui={vehiculeActiveAjourdhui}
+            handleClick={handleClick}
+            vehiculeNotActiveAjourdhui={vehiculeNotActiveAjourdhui}
+            vehiculeNotActif={vehiculeNotActif}
+          />
         </div>
       </div>
+      {/* categorie Personnelle , groupe, et options */}
 
-      <div className="flex px-4 mb-10 w-full gap-3 justify-between max-w-[40rem] mx-auto mt-4 ">
-        <button
-          onClick={() => {
-            setPersonnelDetails(true);
-          }}
-          className={`${
-            personnelDetails
-              ? "dark:bg-orange-700 bg-orange-100"
-              : "dark:bg-gray-900/70 bg-gray-100"
-          } border border-gray-100   dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg   shadow-lg-- shadow-gray-200 w-full py-1 `}
-        >
-          Personnel
-        </button>
-        <button
-          onClick={() => {
-            setPersonnelDetails(false);
-          }}
-          className={`${
-            !personnelDetails
-              ? "dark:bg-orange-700 bg-orange-100"
-              : "dark:bg-gray-900/70 bg-gray-100"
-          } border border-gray-100   dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg   shadow-lg-- shadow-gray-200 w-full py-1 `}
-        >
-          En Groupe
-        </button>
-        <button
-          onClick={() => {
-            setShowListOption(true);
-          }}
-          className="border border-gray-100 dark:bg-gray-900/70 dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg bg-gray-100 shadow-lg-- shadow-gray-200 w-full py-1"
-        >
-          Options
-        </button>
-      </div>
+      <RapportPageDetailsOptions
+        setPersonnelDetails={setPersonnelDetails}
+        personnelDetails={personnelDetails}
+        setShowListOption={setShowListOption}
+      />
 
+      {/* Personnelle */}
       {personnelDetails && (
-        <div className=" px-4 md:max-w-[80vw] w-full">
-          <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
-            Rapport detaillee du vehicule
-          </h1>
-
-          <div className="shadow-md dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <IoMdInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Info sur le vehicule
-              </h2>
-            </div>
-            <div>
-              <div className="text-gray-700 font-bold flex flex-col gap-2 dark:text-gray-300">
-                <p>
-                  Véhicule :{" "}
-                  <span className=" dark:text-orange-500 font-normal text-gray-700 pl-3">
-                    {currentVehicule?.description || "---"}
-                  </span>
-                </p>
-                <p>
-                  Plaque :{" "}
-                  <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
-                    {currentVehicule?.licensePlate || "---"}
-                  </span>
-                </p>
-                <p>
-                  Date :{" "}
-                  <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
-                    {formattedDate || "---"}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Temps
-              </h2>
-            </div>
-
-            <div>
-              <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
-                <p>
-                  Heure de départ:{" "}
-                  <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
-                    {heureActiveDebut
-                      ? selectUTC
-                        ? formatTimestampToTimeWithTimezone(
-                            heureActiveDebut.timestamp,
-                            selectUTC
-                          )
-                        : formatTimestampToTime(heureActiveDebut.timestamp)
-                      : "0h 0m 0s"}{" "}
-                  </span>
-                </p>
-                <p>
-                  Heure d'arriver:{" "}
-                  <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
-                    {heureActiveFin
-                      ? selectUTC
-                        ? formatTimestampToTimeWithTimezone(
-                            heureActiveFin.timestamp,
-                            selectUTC
-                          )
-                        : formatTimestampToTime(heureActiveFin.timestamp)
-                      : "0h 0m 0s"}{" "}
-                  </span>
-                </p>
-                <p>
-                  Duree total en mouvement :{" "}
-                  <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
-                    {/* {formatTime(timeInMotion)}{" "} */}
-                    {totalMovingHours || "0"}h {totalMovingMinutes || "0"}m{" "}
-                    {totalMovingSeconds || "0"}s
-                  </span>
-                </p>
-                <p>
-                  Durée totale de tous les arrêts :
-                  <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
-                    {totalStopHours}h {totalStopMinutes}m {totalStopSeconds}s{" "}
-                  </span>
-                </p>
-                <p>
-                  Duree de l’arrêts le plus long :
-                  <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
-                    {`${longestHours || "0"}h ${longestMinutes || "0"}mn ${
-                      longestSeconds || "0"
-                    }s`}{" "}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Distance
-              </h2>
-            </div>
-
-            <div>
-              <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-                <p>
-                  Distance totale parcourue:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {calculateTotalDistance(
-                      currentVehicule?.vehiculeDetails
-                    ).toFixed(2)}
-                    Km{" "}
-                  </span>
-                </p>
-                <p>
-                  Nombre total d’arrêts :
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {nombreArret || "0"}
-                    {/* {stopSequences?.length || "---"} */}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Vitesse
-              </h2>
-            </div>
-
-            <div>
-              <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-                {/* <p>
-                Vitesse minimale:
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {minSpeed.toFixed(2) || "0"} Km/h
-                </span>
-              </p> */}
-                <p>
-                  Vitesse moyenne:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {(averageSpeed && averageSpeed.toFixed(2)) || "0"} Km/h/
-                  </span>
-                </p>
-                <p>
-                  Vitesse maximale:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {(maxSpeed && maxSpeed.toFixed(2)) || "0"} Km/h
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="shadow-md mt-20  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
-            <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Trajet du véhicule{" "}
-            </h2>
-          </div>
-
-          {zoomCart ? (
-            <div className=" fixed inset-0 z-[999999999999999999] bg-black/50">
-              <div className="relative  rounded-lg  mt-3 h-[100vh]  overflow-hidden w-full">
-                <button
-                  className="absolute z-[999] top-[1rem] right-[1rem]"
-                  // onClick={centerOnFirstMarker}
-                  onClick={() => {
-                    setzoomCart(false);
-                  }}
-                >
-                  <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-red-600 shadow-xl">
-                    <IoClose className="text-white text-[1.52rem]" />
-                  </div>
-                </button>
-                <div className="absolute-- -top-[11rem]-- rounded-lg  w-full ">
-                  <div>
-                    <TrajetVehicule
-                      typeDeVue={typeDeVue}
-                      setTypeDeVue={setTypeDeVue}
-                      mapType={mapType}
-                      handleMapTypeChange={handleMapTypeChange}
-                      vehicles={vehicles}
-                      mapRef={mapRef}
-                      tileLayers={tileLayers}
-                      getMarkerIcon={getMarkerIcon}
-                      currentLocation={currentLocation}
-                      customMarkerIcon={customMarkerIcon}
-                      positions={positions}
-                      centerOnFirstMarker={centerOnFirstMarker}
-                      showHistoriqueInMap={showHistoriqueInMap}
-                      openGoogleMaps={openGoogleMaps}
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="relative  rounded-lg  mt-3 h-[40vh] md:h-[60vh] overflow-hidden w-full">
-              <button
-                className="absolute z-[999] top-[1rem] right-[1rem]"
-                // onClick={centerOnFirstMarker}
-                onClick={() => {
-                  setzoomCart(true);
-                }}
-              >
-                <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
-                  <MdOutlineFullscreen className="text-orange-500 text-[2rem]" />
-                </div>
-              </button>
-              <button
-                className="absolute z-[999] top-[4rem] right-[1rem]"
-                onClick={centerOnFirstMarker}
-              >
-                <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
-                  <MdCenterFocusStrong className="text-orange-500 text-[1.52rem]" />
-                </div>
-              </button>
-              <div className="absolute -top-[11rem] rounded-lg  w-full ">
-                <div>
-                  <TrajetVehicule
-                    typeDeVue={typeDeVue}
-                    setTypeDeVue={setTypeDeVue}
-                    mapType={mapType}
-                    handleMapTypeChange={handleMapTypeChange}
-                    vehicles={vehicles}
-                    mapRef={mapRef}
-                    tileLayers={tileLayers}
-                    getMarkerIcon={getMarkerIcon}
-                    currentLocation={currentLocation}
-                    customMarkerIcon={customMarkerIcon}
-                    positions={positions}
-                    centerOnFirstMarker={centerOnFirstMarker}
-                    showHistoriqueInMap={showHistoriqueInMap}
-                    openGoogleMaps={openGoogleMaps}
-                  />
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* {zoomCart && ( */}
-
-          {/* )} */}
-
-          <div className="shadow-md mt-20 mb-8  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
-            <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Diagramme du vitesse{" "}
-            </h2>
-          </div>
-
-          {/* ///////////////////////////////////////// */}
-          {/* <div className="transition-all w-full h-[30rem] bg-gray-100 rounded-lg dark:bg-gray-900 dark:text-gray-100">
-            <div className=" h-[30rem]">
-              <canvas
-                className="w-full transition-all dark:bg-gray-900 rounded-lg  h-[30rem] border"
-                id="myChart"
-              ></canvas>
-            </div>
-          </div> */}
-          {/* ///////////////////////////////////////// */}
-
-          <div
-            className="dark:bg-gray-100 pt-5 rounded-lg"
-            style={{ width: "100%", height: "400px" }}
-          >
-            <ReactECharts option={options} style={{ height: "100%" }} />
-          </div>
-          {/* 
-          <div className=" w-full- mt-20 overflow-auto ">
-            <table
-              className="overflow-auto w-full"
-              style={{
-                // width: "100%",
-                // borderCollapse: "collapse",
-                textAlign: "left",
-              }}
-            >
-              <thead>
-                <tr className="bg-orange-50 text-gray-700 border">
-                  <th className="border py-3 px-2 min-w-[7rem]">Heure</th>
-                  <th className="border py-3 px-2 min-w-[10rem]">Événement</th>
-                  <th className="border py-3 px-2 min-w-[15rem]">
-                    Localisation
-                  </th>
-                  <th className="border py-3 px-2 min-w-[7rem]">
-                    Vitesse (km/h)
-                  </th>
-                  <th className="border py-3 px-2 min-w-[11rem]">
-                    Commentaire
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {rows.map((row, index) => (
-                  <tr
-                    key={index}
-                    className="border"
-                    //  style={{ borderBottom: "1px solid #ddd" }}
-                  >
-                    <td className="border py-3 px-2">{row.time}</td>
-                    <td className="border py-3 px-2">{row.event}</td>
-                    <td className="border py-3 px-2">{row.location}</td>
-                    <td className="border py-3 px-2">{row.speed} km/h</td>
-                    <td className="border py-3 px-2">{row.comment}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div> */}
-
-          <div className="shadow-md mt-20 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-500 text-orange-900">
-                Tous les lieux fréquentés
-              </h2>
-            </div>
-
-            <div>
-              <div className="text-gray-600 flex flex-col gap-3">
-                {uniqueAddresses?.map((add, index) => {
-                  return (
-                    <p className="dark:text-gray-300">
-                      <span className="font-bold dark:text-orange-500 text-black mr-3">
-                        *{" "}
-                      </span>
-                      {add}
-                    </p>
-                  );
-                })}{" "}
-              </div>
-            </div>
-          </div>
-
-          <div className="shadow-md mt-4 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70 bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-500 text-orange-900">
-                Tous les lieux Stationnés
-              </h2>
-            </div>
-
-            <div>
-              <div className="text-gray-600 flex flex-col gap-3">
-                {uniqueAddressesZerroSpeed?.map((add, index) => {
-                  return (
-                    <p className="dark:text-gray-300" key={index}>
-                      <span className="font-bold dark:text-orange-500 text-black mr-3">
-                        *{" "}
-                      </span>
-                      {add}
-                    </p>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
+        <RapportPersonnel
+          currentVehicule={currentVehicule}
+          formattedDate={formattedDate}
+          heureActiveDebut={heureActiveDebut}
+          heureActiveFin={heureActiveFin}
+          selectUTC={selectUTC}
+          formatTimestampToTimeWithTimezone={formatTimestampToTimeWithTimezone}
+          formatTimestampToTime={formatTimestampToTime}
+          totalMovingHours={totalMovingHours}
+          totalMovingMinutes={totalMovingMinutes}
+          totalMovingSeconds={totalMovingSeconds}
+          totalStopHours={totalStopHours}
+          totalStopMinutes={totalStopMinutes}
+          totalStopSeconds={totalStopSeconds}
+          longestHours={longestHours}
+          longestMinutes={longestMinutes}
+          longestSeconds={longestSeconds}
+          calculateTotalDistance={calculateTotalDistance}
+          nombreArret={nombreArret}
+          averageSpeed={averageSpeed}
+          maxSpeed={maxSpeed}
+          zoomCart={zoomCart}
+          setzoomCart={setzoomCart}
+          typeDeVue={typeDeVue}
+          setTypeDeVue={setTypeDeVue}
+          mapType={mapType}
+          handleMapTypeChange={handleMapTypeChange}
+          vehicles={vehicles}
+          mapRef={mapRef}
+          tileLayers={tileLayers}
+          getMarkerIcon={getMarkerIcon}
+          currentLocation={currentLocation}
+          positions={positions}
+          centerOnFirstMarker={centerOnFirstMarker}
+          showHistoriqueInMap={showHistoriqueInMap}
+          openGoogleMaps={openGoogleMaps}
+          options={options}
+          uniqueAddresses={uniqueAddresses}
+          uniqueAddressesZerroSpeed={uniqueAddressesZerroSpeed}
+        />
       )}
 
       {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
-      {/* ////////////////////////////////////////////////////////////////////////////////////// */}
+      {/* en groupe */}
       {!personnelDetails && (
-        <div className=" px-4 md:max-w-[80vw] w-full">
-          {/* <RapportOptions /> */}
-
-          <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
-            Rapport detaillee en groupe
-          </h1>
-          <div className="shadow-md dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex-- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <IoMdInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Info sur le vehicule
-              </h2>
-            </div>
-
-            <div>
-              <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
-                <p>
-                  Date :{" "}
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {formattedDate || "---"}
-                  </span>
-                </p>
-                <p>
-                  Nombre de Véhicule total :{" "}
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {currentdataFusionnee?.length || "---"}
-                  </span>
-                </p>
-                <p>
-                  Nombre de Véhicule actif aujourd'hui :{" "}
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {vehiculeActiveAjourdhui?.length || "0"}
-                  </span>
-                </p>
-                <p>
-                  Nombre de Véhicule en stationnement :{" "}
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {vehiculeNotActiveAjourdhui?.length || "0"}
-                  </span>
-                </p>
-                <p>
-                  Nombre de Véhicule hors service :{" "}
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {vehiculeNotActif?.length || "0"}
-                  </span>
-                </p>
-
-                <p>
-                  1er vehicule en mouvement :{" "}
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {earliestVehicle?.displayName ||
-                      earliestVehicle?.description ||
-                      "Pas de vehicule"}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Temps
-              </h2>
-            </div>
-
-            <div>
-              <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
-                <p>
-                  Heure du 1er mouvement:{" "}
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {earliestVehicle?.vehiculeDetails[
-                      earliestVehicle?.vehiculeDetails.length - 1
-                    ].timestamp
-                      ? selectUTC
-                        ? formatTimestampToTimeWithTimezone(
-                            earliestVehicle?.vehiculeDetails[
-                              earliestVehicle?.vehiculeDetails.length - 1
-                            ].timestamp,
-                            selectUTC
-                          )
-                        : formatTimestampToTime(
-                            earliestVehicle?.vehiculeDetails[
-                              earliestVehicle?.vehiculeDetails.length - 1
-                            ].timestamp
-                          )
-                      : "0h 0m 0s"}{" "}
-                  </span>
-                </p>
-                <p>
-                  Dernière heure de mouvement:{" "}
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {latestVehicle?.vehiculeDetails[0].timestamp
-                      ? selectUTC
-                        ? formatTimestampToTimeWithTimezone(
-                            latestVehicle?.vehiculeDetails[0].timestamp,
-                            selectUTC
-                          )
-                        : formatTimestampToTime(
-                            latestVehicle?.vehiculeDetails[0].timestamp
-                          )
-                      : "0h 0m 0s"}{" "}
-                  </span>
-                </p>
-                <p>
-                  Temps d'activite total :
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result?.totalMovingTime.hours}h{" "}
-                    {result?.totalMovingTime.minutes}m{" "}
-                    {result?.totalMovingTime.seconds}m{" "}
-                  </span>
-                </p>
-                <p>
-                  Temps d'activite total :
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result?.totalStopTime.hours}h{" "}
-                    {result?.totalStopTime.minutes}m{" "}
-                    {result?.totalStopTime.seconds}m{" "}
-                  </span>
-                </p>
-                <p>
-                  L'arret le plus longue :
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result?.longestStopTime.hours}h{" "}
-                    {result?.longestStopTime.minutes}m{" "}
-                    {result?.longestStopTime.seconds}m{" "}
-                  </span>
-                </p>
-
-                <p>
-                  Vehicule avec le plus grand arret:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result.vehicleWithLongestStop || "Pas de vehicule"}{" "}
-                  </span>
-                </p>
-                <p>
-                  Vehicule en mouvement plus longtemps
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result.vehicleWithLongestMoving || "Pas de vehicule"}{" "}
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Distance
-              </h2>
-            </div>
-
-            <div>
-              <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-                <p>
-                  Distance totale parcourue:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result2?.totalDistanceAllVehicles.toFixed(2) || "0"} km{" "}
-                  </span>
-                </p>
-                <p>
-                  Nombre total d’arrêts :
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result3.totalStopsAllVehicles}
-                  </span>
-                </p>
-                <p>
-                  Vehicule ayant parcourru la plus grande distance :
-                  {result2?.maxDistanceVehicle ? (
-                    <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                      {result2?.maxDistanceVehicle}, avec
-                      {result2?.maxDistance.toFixed(2)}, "km"
-                    </span>
-                  ) : (
-                    <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                      Pas de vehicule en mouvement
-                    </span>
-                  )}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Vitesse
-              </h2>
-            </div>
-
-            <div>
-              <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-                {/* <p>
-                  Vitesse minimale:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    Km/h
-                  </span>
-                </p> */}
-                <p>
-                  Vitesse moyenne:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result5?.globalStats.averageSpeed.toFixed(2) || "---"} Km/h
-                  </span>
-                </p>
-                <p>
-                  Vitesse maximale:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result5?.globalStats.maxSpeed.toFixed(2) || "---"} Km/h
-                    Km/h
-                  </span>
-                </p>
-                <p>
-                  Vehicule avec la vitesse maximale:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result5?.maxSpeedVehicle.description}, Vitesse :{" "}
-                  </span>
-                  avec une vitesse de :
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result5?.maxSpeedVehicle.maxSpeed.toFixed(2)} Km/h
-                  </span>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="shadow-md mt-20  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
-            <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Position des véhicules{" "}
-            </h2>
-          </div>
-
-          {zoomPosition ? (
-            <div className="fixed inset-0 z-[9999999999999999999999] bg-black/50">
-              <div className="relative  h-[100vh]  rounded-lg mt-3 overflow-hidden">
-                <button
-                  className="absolute z-[999] top-[1rem] right-[1rem]"
-                  // onClick={centerOnFirstMarker}
-                  onClick={() => {
-                    setzoomPosition(false);
-                  }}
-                >
-                  <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-red-600 shadow-xl">
-                    <IoClose className="text-white text-[1.52rem]" />
-                  </div>
-                </button>
-                <div className=" -translate-y-[10rem]---">
-                  <MapComponent />
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="relative h-[40vh] md:h-[60vh] rounded-lg mt-3 overflow-hidden">
-              <button
-                className="absolute shadow-lg shadow-gray-400 rounded-full z-[999] top-[1rem] right-[1rem]"
-                // onClick={centerOnFirstMarker}
-                onClick={() => {
-                  setzoomPosition(true);
-                }}
-              >
-                <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-white shadow-xl">
-                  <MdOutlineFullscreen className="text-orange-500 text-[2rem]" />
-                </div>
-              </button>
-              <div className=" -translate-y-[10rem]">
-                <MapComponent />
-              </div>
-            </div>
-          )}
-
-          {/* zoomPosition */}
-
-          <div className="w-full mt-20 overflow-auto">
-            <table className="overflow-auto w-full text-left dark:bg-gray-800 dark:text-gray-200">
-              <thead>
-                <tr className="bg-orange-50 text-gray-700 border-- dark:bg-gray-700 dark:text-gray-100">
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[17rem]">
-                    Véhicule
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Heure de départ
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Heure d'arrivée
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Vitesse moyenne
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Vitesse maximale
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Distance totale
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Nombre d'arrêts
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                    Temps actif
-                  </th>
-                  <th className="border dark:border-gray-600 py-3 px-2 min-w-[30rem]">
-                    Adresse actuelle
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentdataFusionnee?.map((vehicule, index) => (
-                  <tr key={index} className="border dark:border-gray-600">
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {vehicule.description}
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime
-                        : "---"}
-
-                      {/* {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleTimeString()
-                        : "---"} */}
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {activePeriods[index]?.endTime
-                        ? activePeriods[index].endTime
-                        : "---"}
-                    </td>
-                    <td
-                      onClick={() => {
-                        console.log(vehicule.vehiculeDetails[0]?.address);
-                      }}
-                      className="border py-3 px-2 dark:border-gray-600"
-                    >
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].averageSpeed.toFixed(2)}{" "}
-                      km/h
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].maxSpeed.toFixed(2)}{" "}
-                      km/h
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {Object.entries(result2.distancesByVehicle)[
-                        index
-                      ][1].toFixed(2)}{" "}
-                      km
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {Object.entries(result3.stopsByVehicle)[index][1]} arrêts
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {movingTimes[index].totalMovingDuration.hours}h{" "}
-                      {movingTimes[index].totalMovingDuration.minutes}m{" "}
-                      {movingTimes[index].totalMovingDuration.seconds}s
-                    </td>
-                    <td className="border py-3 px-2 dark:border-gray-600">
-                      {vehicule.vehiculeDetails[0]?.address || "---"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* <div className=" w-full- mt-20 overflow-auto ">
-            <table
-              className="overflow-auto w-full"
-              style={{
-                textAlign: "left",
-              }}
-            >
-              <thead>
-                <tr className="bg-orange-50 text-gray-700 border">
-                  <th className="border py-3 px-2 min-w-[20rem]">Véhicule</th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Heure de départ
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Heure d'arrivée
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Vitesse moyenne
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Vitesse maximale
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Distance Totale
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Nombre d'arrêts
-                  </th>
-                  <th className="border py-3 px-2 min-w-[10rem]">
-                    Temps actif
-                  </th>
-                  <th className="border py-3 px-2 min-w-[20rem]">
-                    Adresse actuelle
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentdataFusionnee?.map((vehicule, index) => (
-                  <tr key={index} className="border">
-                    <td className="border py-3 px-2">{vehicule.description}</td>
-                    <td className="border py-3 px-2">
-                      {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleString()
-                        : "---"}
-                    </td>
-                    <td className="border py-3 px-2">
-                      {activePeriods[index]?.endTime
-                        ? activePeriods[index].endTime.toLocaleString()
-                        : "---"}{" "}
-                    </td>
-
-                    <td
-                      onClick={() => {
-                        console.log(vehicule.vehiculeDetails[0]?.address);
-                      }}
-                      className="border py-3 px-2"
-                    >
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].averageSpeed.toFixed(2)}{" "}
-                      km/h
-                    </td>
-                    <td className="border py-3 px-2">
-                      {Object.entries(result5.statsByVehicle)[
-                        index
-                      ][1].maxSpeed.toFixed(2)}{" "}
-                      km/h
-                    </td>
-                    <td className="border py-3 px-2">
-                      {Object.entries(result2.distancesByVehicle)[
-                        index
-                      ][1].toFixed(2)}{" "}
-                      Km
-                    </td>
-
-                    <td className="border py-3 px-2">
-                      {Object.entries(result3.stopsByVehicle)[index][1]} arrets
-                    </td>
-
-                    <td className="border py-3 px-2">
-                      {movingTimes[index].totalMovingDuration.hours}h{" "}
-                      {movingTimes[index].totalMovingDuration.minutes}m{" "}
-                      {movingTimes[index].totalMovingDuration.seconds}s
-                    </td>
-
-                    <td className="border py-3 px-2">
-                      {vehicule.vehiculeDetails[0]?.address || "---"}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div> */}
-        </div>
+        <RapportGroupe
+          formattedDate={formattedDate}
+          currentdataFusionnee={currentdataFusionnee}
+          vehiculeActiveAjourdhui={vehiculeActiveAjourdhui}
+          vehiculeNotActiveAjourdhui={vehiculeNotActiveAjourdhui}
+          vehiculeNotActif={vehiculeNotActif}
+          earliestVehicle={earliestVehicle}
+          latestVehicle={latestVehicle}
+          selectUTC={selectUTC}
+          formatTimestampToTime={formatTimestampToTime}
+          formatTimestampToTimeWithTimezone={formatTimestampToTimeWithTimezone}
+          result={result}
+          result2={result2}
+          result3={result3}
+          result5={result5}
+          zoomPosition={zoomPosition}
+          setzoomPosition={setzoomPosition}
+          activePeriods={activePeriods}
+          movingTimes={movingTimes}
+        />
       )}
     </div>
   );

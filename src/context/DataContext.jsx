@@ -10,7 +10,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
   // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [search, setSearch] = useState(false);
   const [selectedVehicle, setSelectedVehicle] = useState(null);
 
@@ -47,6 +46,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // HOME PAGE
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // loding pour la page home apres log in
+  const [isLoading, setIsLoading] = useState(false);
 
   // search data in the header
   const [searchQuery, setSearchQuery] = useState(""); // État pour stocker le terme de recherche
@@ -274,7 +275,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         const errorMessage =
           xmlDoc.getElementsByTagName("Message")[0].textContent;
         setError(errorMessage || "Erreur lors de la connexion.");
-        setIsLoading(false);
+        // setIsLoading(false);
       }
     } catch (error) {
       setError("Erreur lors de la connexion à l'API.");

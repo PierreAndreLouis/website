@@ -28,6 +28,7 @@ function Liste_options({}) {
     setVehiclueHistoriqueDetails,
     password,
     currentdataFusionnee,
+    setShowHistoriqueInMap,
   } = useContext(DataContext); // fetchVehicleDetails importée du contexte
 
   const [showAccessCode, setAccessCode] = useState(false);
@@ -236,6 +237,7 @@ function Liste_options({}) {
             onClick={() => {
               {
                 handleClick();
+                setShowHistoriqueInMap(false);
               }
             }}
             to="/voiture_historique"
