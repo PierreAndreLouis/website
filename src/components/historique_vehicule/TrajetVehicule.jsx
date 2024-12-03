@@ -26,7 +26,7 @@ function TrajetVehicule({
   positions,
   centerOnFirstMarker,
   showHistoriqueInMap,
-  openGoogleMaps
+  openGoogleMaps,
 }) {
   return (
     <div className="relative ">
@@ -112,7 +112,10 @@ function TrajetVehicule({
                       </p>
                       <p>
                         <strong>Vitesse :</strong>{" "}
-                        {speedKPH || "Non disponible"} Km/h
+                        {speedKPH && !isNaN(Number(speedKPH))
+                          ? Number(speedKPH).toFixed(2)
+                          : "Non disponible"}
+                        Km/h
                       </p>
 
                       <p>

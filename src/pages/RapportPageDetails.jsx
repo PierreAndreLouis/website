@@ -61,6 +61,7 @@ function RapportPageDetails() {
     showListeOption,
     setShowListOption,
     setCurrentVehicule,
+    setVehiclueHistoriqueDetails,
   } = useContext(DataContext);
 
   const mapRef = useRef(); // Référence de la carte
@@ -1159,6 +1160,8 @@ function RapportPageDetails() {
         setPersonnelDetails={setPersonnelDetails}
         personnelDetails={personnelDetails}
         setShowListOption={setShowListOption}
+        setVehiclueHistoriqueDetails={setVehiclueHistoriqueDetails}
+        currentVehicule={currentVehicule}
       />
 
       {/* Personnelle */}

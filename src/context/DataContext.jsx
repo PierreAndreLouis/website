@@ -593,6 +593,10 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     setMergedData(dataFusionne);
     setIsLoading(false);
 
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 15000); // 10 000 millisecondes = 10 secondes
+
     return dataFusionne;
   };
 
@@ -835,27 +839,19 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       vehicleData.forEach((vehicle) => {
         fetRapportchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
         console.log("call the fonction.........");
-        // fetRapportchVehicleDetails(
-        //   vehicle.deviceID,
-        //   // "2024-11-30 00:00:00",
-        //   // "2024-11-30 23:40:45"
-        //   /////////////////////////
-        //   "2024-10-01 00:00:00",
-        //   "2024-10-01 23:40:45"
-        // );
       });
     }
   };
 
   // Mise a jour les donnee de rapport page tous les 1 minutes
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      firstCallRapportData();
-      console.log("okkkkkkkkkk");
-    }, 60000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     firstCallRapportData();
+  //     console.log("okkkkkkkkkk");
+  //   }, 60000);
 
-    return () => clearInterval(intervalId);
-  }, []);
+  //   return () => clearInterval(intervalId);
+  // }, []);
 
   //
   //
@@ -1268,6 +1264,9 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       console.log("End fetching.........");
 
       setLoadingHistoriqueFilter(false);
+      setTimeout(() => {
+        setLoadingHistoriqueFilter(false);
+      }, 15000); // 10 000 millisecondes = 10 secondes
     } catch (error) {
       setError("Erreur lors de la récupération des détails du véhicule.");
       console.error(
@@ -1276,7 +1275,10 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       );
     }
   };
-
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   // Pour la rehcerhce de donnee dans Historique page apres avoir choisi une date
   const handleDateChange = (TimeFrom, TimeTo) => {
     if (vehicleData && vehicleData.length > 0) {
@@ -1619,7 +1621,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
             "Impossible d'ouvrir l'application de messagerie. Veuillez vérifier que votre appareil supporte les SMS."
           );
         }
-      }, 1000); // Délai d'attente de 1 seconde (ajuster si nécessaire)
+      }, 3000); // Délai d'attente de 1 seconde (ajuster si nécessaire)
     } catch (error) {
       setSmsError("Une erreur est survenue lors de l'envoi du SMS.");
     }

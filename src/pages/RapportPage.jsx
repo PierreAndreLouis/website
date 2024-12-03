@@ -48,6 +48,7 @@ function RapportPage() {
     firstCallHistoriqueData,
     setShowHistoriqueInMap,
     setVehiclueHistoriqueDetails,
+    vehiclueHistoriqueDetails,
     searchdonneeFusionneeForRapport,
     fetSearchRapportchVehicleDetails,
     setSearchdonneeFusionneeForRapport,
@@ -128,7 +129,8 @@ function RapportPage() {
 
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-      console.log("current vehicule data", foundVehicle.vehiculeDetails);
+      // setVehiclueHistoriqueDetails(foundVehicle?.vehiculeDetails);
+      // console.log("current vehicule data", foundVehicle.vehiculeDetails);
       // setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
       // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
       // setShowListOption(false); // Affiche la liste d'options si nécessaire

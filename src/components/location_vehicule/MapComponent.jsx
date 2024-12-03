@@ -25,17 +25,37 @@ L.Icon.Default.mergeOptions({
 });
 
 function MapComponent() {
-  const { mergedData, currentVehicule, selectedVehicle, setSelectedVehicle } =
-    useContext(DataContext);
+  const {
+    mergedData,
+    currentVehicule,
+    currentdataFusionnee,
+    selectedVehicle,
+    setSelectedVehicle,
+    searchdonneeFusionneeForRapport,
+    donneeFusionneeForRapport,
+  } = useContext(DataContext);
 
   const [showVehiculeListe, setShowVehiculeListe] = useState(false);
 
   const [typeDeVue, setTypeDeVue] = useState(false);
+  // const dataFusionee = [];
+  const dataFusionee = currentdataFusionnee;
 
-  const dataFusionee = mergedData ? Object.values(mergedData) : [];
+  // const dataFusionee =
+  // searchdonneeFusionneeForRapport &&
+  // searchdonneeFusionneeForRapport.length > 0
+  //   ? searchdonneeFusionneeForRapport
+  //   : donneeFusionneeForRapport;
+
+  // const dataFusionee = donneeFusionneeForRapport;
+
+  // const dataFusionee = currentdataFusionnee
+  //   ? Object.values(currentdataFusionnee)
+  //   : [];
+  // const dataFusionee = mergedData ? Object.values(mergedData) : [];
   // const vehiculeActive = dataFusionee.filter((vehicule) =>  !vehicule.vehiculeDetails || vehicule.vehiculeDetails.length === 0 )
 
-  const vehiculeActive = dataFusionee.filter(
+  const vehiculeActive = dataFusionee?.filter(
     (vehicule) =>
       vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
   );

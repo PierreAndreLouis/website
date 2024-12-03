@@ -14,6 +14,7 @@ function Inactifs_Vehicules() {
     selectUTC,
     setCurrentVehicule,
     setShowListOption,
+    setSearchdonneeFusionneeForRapport,
   } = useContext(DataContext);
 
   const vehicleArray = mergedData ? Object.values(mergedData) : [];
@@ -100,14 +101,17 @@ function Inactifs_Vehicules() {
         >
           {filteredVehiclesInactifs?.length > 0 ? (
             filteredVehiclesInactifs?.map((vehicule, index) => {
-
-          {/* {vehicleArray?.length > 0 ? (
-            vehicleArray?.map((vehicule, index) => { */}
+              {
+                /* {vehicleArray?.length > 0 ? (
+            vehicleArray?.map((vehicule, index) => { */
+              }
               return (
                 <div
                   onClick={() => {
                     // handleClick(vehicule);
                     // setshowRapportPupup(true);
+                    setSearchdonneeFusionneeForRapport([]);
+
                     setCurrentVehicule(vehicule);
                     setShowListOption(true);
                   }}
@@ -141,7 +145,10 @@ function Inactifs_Vehicules() {
                         </h2>
                         <div className="flex mb-2 gap-4 text-gray-600 text-md">
                           <div className="flex gap-3 items-center dark:text-gray-300">
-                            <FaRegCalendarAlt  id="date-icon" className="text-gray-500/80 dark:text-gray-300" />
+                            <FaRegCalendarAlt
+                              id="date-icon"
+                              className="text-gray-500/80 dark:text-gray-300"
+                            />
                             <h3 className="text-sm sm:text-sm md:text-md">
                               {vehicule.vehiculeDetails?.[0]?.timestamp
                                 ? selectUTC
@@ -158,7 +165,10 @@ function Inactifs_Vehicules() {
 
                           {vehicule.vehiculeDetails?.[0]?.timestamp && (
                             <div className="flex items-center gap-1 dark:text-gray-300">
-                              <IoMdTime id="time-icon" className="text-gray-500/80 dark:text-gray-300 text-xl" />
+                              <IoMdTime
+                                id="time-icon"
+                                className="text-gray-500/80 dark:text-gray-300 text-xl"
+                              />
                               <h3 className="text-sm sm:text-sm md:text-md">
                                 {selectUTC
                                   ? formatTimestampToTimeWithTimezone(
@@ -173,9 +183,15 @@ function Inactifs_Vehicules() {
                           )}
                         </div>
 
-                        <div id="statut-box" className="flex gap-2 items-center">
+                        <div
+                          id="statut-box"
+                          className="flex gap-2 items-center"
+                        >
                           <div>
-                            <FaCar id="car-icon" className="text-gray-500/80 dark:text-gray-300" />
+                            <FaCar
+                              id="car-icon"
+                              className="text-gray-500/80 dark:text-gray-300"
+                            />
                           </div>
                           <span
                             className={` bg-purple-300/50 ml-1 dark:text-purple-100 text-purple-800 pb-[.2rem] px-2 py-0 text-sm rounded-md `}
@@ -186,7 +202,7 @@ function Inactifs_Vehicules() {
 
                         <div className="hidden sm:flex gap-1">
                           <div>
-                            <MdLocationPin  className="text-xl text-gray-500/80 dark:text-gray-300 -translate-x-0.5 mt-3" />
+                            <MdLocationPin className="text-xl text-gray-500/80 dark:text-gray-300 -translate-x-0.5 mt-3" />
                           </div>
 
                           <p className="text-md felx sm:flex text-gray-600 dark:text-gray-200 mt-2 md:text-lg">

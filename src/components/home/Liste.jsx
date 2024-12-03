@@ -40,6 +40,7 @@ function Liste() {
     fetRapportchVehicleDetails,
     fonctionTest,
     fonctionTest2,
+    setSearchdonneeFusionneeForRapport,
   } = useContext(DataContext);
 
   const dataFusionee = mergedData ? Object.values(mergedData) : [];
@@ -66,6 +67,8 @@ function Liste() {
     setCurrentVehicule(vehicle);
     setSelectedVehicle(vehicle.deviceID);
     setShowListOption(true);
+    setSearchdonneeFusionneeForRapport([]);
+
     console.log("Véhicule sélectionné", vehicle);
   };
 

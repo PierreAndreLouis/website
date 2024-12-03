@@ -26,6 +26,7 @@ function Stationnement_Vehicules({
     setCurrentVehicule,
     setShowListOption,
     selectUTC,
+    setSearchdonneeFusionneeForRapport,
   } = useContext(DataContext);
 
   const vehicleArray = mergedData ? Object.values(mergedData) : [];
@@ -137,6 +138,8 @@ function Stationnement_Vehicules({
                   onClick={() => {
                     setCurrentVehicule(vehicule);
                     setShowListOption(true);
+                    setSearchdonneeFusionneeForRapport([]);
+
                     // handleClick(vehicule);
                     // setshowRapportPupup(true);
                   }}

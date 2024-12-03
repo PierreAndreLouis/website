@@ -4,6 +4,8 @@ function RapportPageDetailsOptions({
   setPersonnelDetails,
   personnelDetails,
   setShowListOption,
+  setVehiclueHistoriqueDetails,
+  currentVehicule,
 }) {
   return (
     <>
@@ -35,6 +37,7 @@ function RapportPageDetailsOptions({
         <button
           onClick={() => {
             setShowListOption(true);
+            // setVehiclueHistoriqueDetails(currentVehicule?.vehiculeDetails);
           }}
           className="border border-gray-100 dark:bg-gray-900/70 dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg bg-gray-100 shadow-lg-- shadow-gray-200 w-full py-1"
         >

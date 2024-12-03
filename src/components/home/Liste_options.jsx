@@ -40,7 +40,7 @@ function Liste_options({}) {
     const deviceID = currentVehicule.deviceID;
 
     // Recherche du véhicule correspondant dans la liste
-    const foundVehicle = donneeFusionneeForRapport.find(
+    const foundVehicle = currentdataFusionnee.find(
       (v) => v.deviceID === deviceID
     );
 
