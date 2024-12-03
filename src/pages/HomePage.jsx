@@ -6,17 +6,7 @@ import Liste_options from "../components/home/Liste_options";
 import { DataContext } from "../context/DataContext";
 import { RiWifiOffLine } from "react-icons/ri";
 
-// ok
-// ok
-// ok
-// ok
-// ok
-// dark
-// dark
-// dark
-// dark
-// dark
-// dark
+
 
 const Home = () => {
   const { vehicleData, isLoading, showListeOption, setShowListOption } =

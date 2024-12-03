@@ -1,31 +1,15 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { MdCenterFocusStrong } from "react-icons/md";
-import { TfiMapAlt } from "react-icons/tfi";
-import { FaCar } from "react-icons/fa";
+
 import { Chart, registerables } from "chart.js";
-import { IoTimeOutline } from "react-icons/io5";
-import { GiPathDistance } from "react-icons/gi";
-import { IoMdInformationCircleOutline } from "react-icons/io";
-import { FaChevronDown } from "react-icons/fa6";
-import { IoMdClose } from "react-icons/io";
-import { IoClose } from "react-icons/io5";
-import { MdOutlineFullscreen } from "react-icons/md";
-import { BsTable } from "react-icons/bs";
 
 // Enregistrement des composants nécessaires
 Chart.register(...registerables);
-import ReactECharts from "echarts-for-react";
 
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import customMarkerIcon from "/img/cars/localisation.png";
 import { DataContext } from "../context/DataContext";
-import { RiPinDistanceLine } from "react-icons/ri";
-import { SlSpeedometer } from "react-icons/sl";
 
-import TrajetVehicule from "../components/historique_vehicule/TrajetVehicule";
-import MapComponent from "../components/location_vehicule/MapComponent";
-import RapportOptions from "../components/rapport_vehicule/RapportOptions";
 import Liste_options from "../components/home/Liste_options";
 import RapportPageDetailsHeader from "../components/rapport_page_details/RapportPageDetailsHeader";
 import RapportGroupe from "../components/rapport_page_details/RapportGroupe";
@@ -80,22 +64,11 @@ function RapportPageDetails() {
 
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-      console.log("current vehicule data", foundVehicle.vehiculeDetails);
-      // setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
-      // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
-      // setShowListOption(false); // Affiche la liste d'options si nécessaire
-      console.log("Véhicule sélectionné", foundVehicle);
       setPersonnelDetails(true);
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
       setPersonnelDetails(true);
     }
-
-    // setSelectedVehicle(vehicle.deviceID);
-    // setSelectedVehicle(vehicle);  // Ajouter cette ligne
-    // setShowListOption(true);
-    console.log("Véhicule en variable_________________", currentVehicule);
-    console.log("Véhicule cliqué_____________________", vehicle);
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -342,40 +315,6 @@ function RapportPageDetails() {
     ],
   };
 
-  // const options = {
-  //   title: {
-  //     text: "Diagramme des vitesses",
-  //     left: "center",
-  //   },
-  //   tooltip: {
-  //     trigger: "axis",
-  //   },
-  //   xAxis: {
-  //     type: "category",
-  //     data: timestamps,
-  //     name: "Heures",
-  //     nameLocation: "middle",
-  //     nameTextStyle: { padding: 20 },
-  //   },
-  //   yAxis: {
-  //     type: "value",
-  //     name: "Vitesse (km/h)",
-  //     nameLocation: "middle",
-  //     nameTextStyle: { padding: 30 },
-  //   },
-  //   series: [
-  //     {
-  //       data: speeds,
-  //       // type: "polarArea",
-  //       type: "line",
-  //       barWidth: "50%",
-  //       itemStyle: {
-  //         color: "rgba(75, 192, 192, 0.8)",
-  //       },
-  //     },
-  //   ],
-  // };
-
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////
@@ -483,7 +422,6 @@ function RapportPageDetails() {
 
   const activePeriods =
     calculateActivePeriodsForAllVehicles(currentdataFusionnee);
-  console.log(activePeriods);
 
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////
@@ -614,11 +552,6 @@ function RapportPageDetails() {
 
   // Exemple d'utilisation :
   const result3 = countStopsForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste
-  // console.log("Nombre d'arrêts par véhicule :", result3.stopsByVehicle);
-  // console.log(
-  //   "Nombre total d'arrêts pour tous les véhicules :",
-  //   result3.totalStopsAllVehicles
-  // );
 
   ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////
@@ -927,7 +860,6 @@ function RapportPageDetails() {
   }
 
   const movingTimes = calculateTotalMovingTimePerVehicle(currentdataFusionnee);
-  console.log(movingTimes);
 
   ////////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////////

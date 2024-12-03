@@ -2,18 +2,7 @@ import React, { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import { Link } from "react-router-dom";
 
-// okk
-// okk
-// okk
-// okk
-// okk
-// dark
-// dark
-// dark
-// dark
-// dark
-// dark
-// dark
+
 
 function Statistics() {
   const {

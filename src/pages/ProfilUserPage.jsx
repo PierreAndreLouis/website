@@ -1,8 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-// import { DataContext } from "../../context/DataContext";
 
-import { FaUserCircle } from "react-icons/fa";
-// import Logout from "../login/Logout";
 import { useNavigate } from "react-router-dom";
 import Logout from "../components/login/Logout";
 import { DataContext } from "../context/DataContext";
@@ -48,7 +45,6 @@ function ProfilUserPage() {
     }
   };
 
-  console.log(currentVehicule?.description || "no data");
 
   return (
     <div className="px-4 pb-20">

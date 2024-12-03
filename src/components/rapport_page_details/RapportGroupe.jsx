@@ -1,14 +1,10 @@
 import React from "react";
 
-import { MdCenterFocusStrong } from "react-icons/md";
-import { TfiMapAlt } from "react-icons/tfi";
-import { FaCar } from "react-icons/fa";
-import { Chart, registerables } from "chart.js";
+
 import { IoTimeOutline } from "react-icons/io5";
 import { GiPathDistance } from "react-icons/gi";
 import { IoMdInformationCircleOutline } from "react-icons/io";
-import { FaChevronDown } from "react-icons/fa6";
-import { IoMdClose } from "react-icons/io";
+
 import { IoClose } from "react-icons/io5";
 import { MdOutlineFullscreen } from "react-icons/md";
 import { BsTable } from "react-icons/bs";
@@ -229,12 +225,7 @@ function RapportGroupe({
 
           <div>
             <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-              {/* <p>
-                  Vitesse minimale:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    Km/h
-                  </span>
-                </p> */}
+        
               <p>
                 Vitesse moyenne:
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">

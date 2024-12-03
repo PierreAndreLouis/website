@@ -69,7 +69,6 @@ function Liste() {
     setShowListOption(true);
     setSearchdonneeFusionneeForRapport([]);
 
-    console.log("Véhicule sélectionné", vehicle);
   };
 
   // Fonctions pour formater le temps et la date
@@ -143,39 +142,14 @@ function Liste() {
       vehicleData?.forEach((vehicle) => {
         fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
         fetRapportchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
-        console.log(
-          "lancement des requette de details.....iiiiiiiiiiiiiiiiiiiiiiiiiiiiii"
-        );
-        // firstCallRapportData();
+      
       });
     }
   };
 
   return (
     <div className="p-2 flex flex-col gap-4 mt-4 mb-32 dark:text-white">
-      {/* <button
-        onClick={() => {
-          // console.log("mergedData...", mergedData);
-          // console.log("vehicleData", vehicleData);
-          // console.log("vehicleDetails", vehicleDetails);
-          fonctionTest();
-          // reloadVehiculeDetails();
-        }}
-      >
-        test
-      </button>
-
-      <button
-        onClick={() => {
-          // console.log("mergedData...", mergedData);
-          // console.log("vehicleData", vehicleData);
-          // console.log("vehicleDetails", vehicleDetails);
-          fonctionTest2();
-          // reloadVehiculeDetails();
-        }}
-      >
-        test22
-      </button> */}
+   
       {isLoading ? (
         <p>Chargement des données...</p>
       ) : filteredData.length > 0 ? (

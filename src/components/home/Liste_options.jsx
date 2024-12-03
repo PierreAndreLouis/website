@@ -46,14 +46,10 @@ function Liste_options({}) {
 
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-      console.log(
-        "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-        foundVehicle.vehiculeDetails
-      );
+   
       setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
       setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
       setShowListOption(false); // Affiche la liste d'options si nécessaire
-      console.log("Véhicule sélectionné", foundVehicle);
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
     }
@@ -88,23 +84,13 @@ function Liste_options({}) {
 
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-      // console.log("current vehicule data", foundVehicle?.vehiculeDetails);
-      // setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
-      // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
-      // setShowListOption(false); // Affiche la liste d'options si nécessaire
-      // console.log("Véhicule sélectionné", foundVehicle);
+  
       setShowListOption(false);
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
     }
 
-    // setShowListOption(false);
-
-    // setSelectedVehicle(vehicle.deviceID);
-    // setSelectedVehicle(vehicle);  // Ajouter cette ligne
-    // setShowListOption(true);
-    console.log("Véhicule en variable_________________", currentVehicule);
-    // console.log("Véhicule cliqué_____________________", vehicle);
+    
   };
 
   return (

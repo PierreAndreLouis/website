@@ -31,32 +31,7 @@ function ShowFilterComponent({
     }));
   };
 
-  // const handleClick = () => {
-  //   // setCurrentVehicule(vehicle);
 
-  //   const deviceID = currentVehicule?.deviceID;
-
-  //   // // Recherche du véhicule correspondant dans la liste
-  //   const foundVehicle = currentdataFusionnee?.find(
-  //     (v) => v.deviceID === deviceID
-  //   );
-
-  //   if (foundVehicle) {
-  //     setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-  //     console.log("current vehicule data", foundVehicle.vehiculeDetails);
-  //     // setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
-  //     // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
-  //     // setShowListOption(false); // Affiche la liste d'options si nécessaire
-  //     console.log("Véhicule sélectionné", foundVehicle);
-  //   } else {
-  //     console.error("Véhicule introuvable avec le deviceID :", deviceID);
-  //   }
-
-  //   // setSelectedVehicle(vehicle.deviceID);
-  //   // setSelectedVehicle(vehicle);  // Ajouter cette ligne
-  //   // setShowListOption(true);
-  //   console.log("Véhicule en variable_________________", currentVehicule);
-  // };
   return (
     <>
       {showFilter && (

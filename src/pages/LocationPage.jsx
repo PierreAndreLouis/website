@@ -1,23 +1,12 @@
 import React, { useState, useEffect, useContext, useRef } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  ScaleControl,
-  AttributionControl,
-} from "react-leaflet";
+
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import customMarkerIcon from "/img/cars/localisation.png";
 import iconLowSpeed from "/pin/ping_red.png";
 import iconMediumSpeed from "/pin/ping_yellow.png";
 import iconHighSpeed from "/pin/ping_green.png";
-// import { DataContext } from "../../context/DataContext";
 
-import { IoClose } from "react-icons/io5";
-import { IoMdClose } from "react-icons/io";
-import { FaCar } from "react-icons/fa";
 
 import { DataContext } from "../context/DataContext";
 import HeaderLocation from "../components/location_vehicule/HeaderLocation";
@@ -66,7 +55,6 @@ const LocationPage = () => {
     setSelectedVehicle(vehicle.deviceID);
     setShowVehiculeListe(!showVehiculeListe);
 
-    console.log("Vehicule dans map", vehicle);
   };
 
   const showAllVehicles = () => {
@@ -108,7 +96,6 @@ const LocationPage = () => {
     const timeoutId = setTimeout(() => {
       if (mapRef.current && vehicles.length) {
         if (selectedVehicle) {
-          console.log("------------------", selectedVehicle);
           // Si un véhicule est sélectionné, centrer sur lui
           const selectedVehicleData = vehicles.find(
             (vehicle) => vehicle.deviceID === selectedVehicle
@@ -139,16 +126,8 @@ const LocationPage = () => {
     setTypeDeVue(false);
   };
 
-  const getMarkerIcon = (speedKPH) => {
-    if (speedKPH < 1) return iconLowSpeed;
-    if (speedKPH >= 1 && speedKPH <= 20) return iconMediumSpeed;
-    return iconHighSpeed;
-  };
 
-  const openGoogleMaps = (latitude, longitude) => {
-    const googleMapsUrl = `https://www.google.com/maps?q=${latitude},${longitude}`;
-    window.open(googleMapsUrl, "_blank");
-  };
+
 
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -156,8 +135,6 @@ const LocationPage = () => {
     setSearchQuery(e.target.value);
   };
 
-  // const vehiculeActive = dataFusionee.filter((vehicule) =>  vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0 )
-  // const vehiculeActive = dataFusionee.filter((vehicule) =>  !vehicule.vehiculeDetails || vehicule.vehiculeDetails.length === 0 )
 
   const filteredVehicles = vehiculeActive?.filter((vehicule) =>
     vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -195,82 +172,7 @@ const LocationPage = () => {
 
 
 <MapComponent />
-        {/* <MapContainer
-          center={[0, 0]}
-          zoom={15}
-          style={{ height: "100vh", width: "100%" }}
-          ref={mapRef}
-        >
-          <TileLayer
-            url={tileLayers[mapType].url}
-            attribution={tileLayers[mapType].attribution}
-          />
-          <ScaleControl position="bottomright" />
-          <AttributionControl position="bottomleft" />
 
-          {vehicles.map((vehicle, index) => (
-            <Marker
-              key={index}
-              position={[
-                vehicle.lastValidLatitude || 0,
-                vehicle.lastValidLongitude || 0,
-              ]}
-              icon={L.icon({
-                iconUrl: getMarkerIcon(vehicle.speedKPH),
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowUrl:
-                  "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
-                shadowSize: [41, 41],
-              })}
-            >
-              <Popup>
-                <div className="w-[70vw] max-w-[20rem]">
-                  <p>
-                    <strong>Description :</strong>{" "}
-                    {vehicle.description || "Non disponible"}
-                  </p>
-                  <p>
-                    <strong>Adresse :</strong>{" "}
-                    {vehicle.address || "Non disponible"}
-                  </p>
-                  <p>
-                    <strong>IMEI Number :</strong>{" "}
-                    {vehicle.imeiNumber || "Chargement..."}
-                  </p>
-                  <p>
-                    <strong>Vitesse :</strong>{" "}
-                    {vehicle.speedKPH || "Non disponible"} Km/h
-                  </p>
-                  <p>
-                    <strong>Statut :</strong>
-                    {vehicle.speedKPH < 1 && "en arret"}
-                    {vehicle.speedKPH > 20 && "en deplacement"}
-                    {vehicle.speedKPH >= 1 &&
-                      vehicle.speedKPH <= 20 &&
-                      "en ralenti"}
-                  </p>
-                  <p>
-                    <strong>Plaque d'immatriculation :</strong>{" "}
-                    {vehicle.licensePlate || "Chargement..."}
-                  </p>
-                  <button
-                    onClick={() =>
-                      openGoogleMaps(
-                        vehicle.lastValidLatitude,
-                        vehicle.lastValidLongitude
-                      )
-                    }
-                    className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md"
-                  >
-                    Voir sur Google Maps
-                  </button>
-                </div>
-              </Popup>
-            </Marker>
-          ))}
-        </MapContainer> */}
 
 
 

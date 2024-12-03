@@ -106,20 +106,6 @@ function Stationnement_Vehicules({
   return (
     <div>
       <div className="transition-all">
-        {/* <div
-          onClick={() => {
-            // setshowParkingVehicule(!showParkingVehicule);
-          }}
-          className="flex gap-4 dark:text-gray-200 dark:bg-gray-900/50 dark:shadow-lg dark:shadow-gray-700 justify-between items-center px-4 cursor-pointer bg-gray-100 text-gray-700 p-2 mb-3 font-semibold rounded-md"
-        >
-          <h2 className="text-lg">En Stationnement aujourd'hui:</h2>
-          <FaChevronDown
-            className={`${
-              showParkingVehicule ? "rotate-180" : "rotate-0"
-            } transition-all`}
-          />
-        </div> */}
-
         <div
           onClick={() => {
             // setshowRapportPupup(true);

@@ -219,6 +219,9 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   /////
   /////
   /////
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // Log in, log out...
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // Fonction to log in
   const handleLogin = async (account, user, password) => {
@@ -293,6 +296,20 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     setUsername(localStorage.getItem("username") || "");
     setPassword(localStorage.getItem("password") || "");
   }, []);
+
+  // Fonction pour se deconnecter de l'applicaton
+  const handleLogout = () => {
+    setShowSideBar(true);
+    setLogOut(false);
+    localStorage.removeItem("userData");
+    localStorage.removeItem("vehicleData");
+    localStorage.removeItem("vehicleDetails");
+    setUserData(null);
+    setVehicleData(null);
+    setVehicleDetails([]);
+    setrapportVehicleDetails([]);
+    navigate("/login");
+  };
   //
   //
   //
@@ -1044,6 +1061,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       ? searchdonneeFusionneeForRapport
       : donneeFusionneeForRapport;
 
+  //  Pour filtrer les donnees dans la page rapport
   useEffect(() => {
     if (
       searchdonneeFusionneeForRapport.length > 0 &&
@@ -1304,6 +1322,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  // pour lancer le premier fetch des donne de l'hitorique (N'est pas utiliser pour le moment)
   const firstCallHistoriqueData = () => {
     setShowListOption(false);
 
@@ -1349,20 +1368,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   // Ajouter / Modifier / Supprimer
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // Fonction pour se deconnecter de l'applicaton
-  const handleLogout = () => {
-    setShowSideBar(true);
-    setLogOut(false);
-    localStorage.removeItem("userData");
-    localStorage.removeItem("vehicleData");
-    localStorage.removeItem("vehicleDetails");
-    setUserData(null);
-    setVehicleData(null);
-    setVehicleDetails([]);
-    setrapportVehicleDetails([]);
-    navigate("/login");
-  };
-
+  // Fonction pour ajouter un nouveau vehicule
   const createVehicle = async (
     deviceID,
     imeiNumber,
@@ -1439,6 +1445,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     }
   };
 
+  // Fonction pour supprimer un vehicule
   const deleteVehicle = async (deviceID) => {
     // console.log("Start Deleting.........");
     setCrud_loading(true);
@@ -1493,6 +1500,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     }
   };
 
+  // Fonction pour modifier un vehicule
   const updateVehicle = async (
     deviceID,
     imeiNumber,
@@ -1591,12 +1599,9 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   // Envoyer un SMS
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  // function envoyerSMS(numero, message) {
-  //   window.location.href = `sms:${numero}?body=${encodeURIComponent(message)}`;
-  // }
-
   const [smsError, setSmsError] = useState(""); // Utilisation du useState pour l'erreur
 
+  // Fonction pour la gestion de l'envoie des sms
   const envoyerSMS = (numero, message) => {
     const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); // Vérification de la plateforme
 
@@ -1662,10 +1667,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     );
   }, [donneeFusionneeForRapport, vehicleDetails, rapportvehicleDetails]);
 
-  const updateCurrentVehicule = (vehicle) => {
-    setCurrentVehicule(vehicle);
-    firstCallHistoriqueData();
-  };
   //
   //
   //
@@ -1675,7 +1676,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   //
   //
   //
-
+  // Pour definir les boutton active en fonction du lien dans le navigateur
   const location = useLocation();
   const [tab, setTab] = useState("");
 
@@ -1758,7 +1759,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         handleLogin,
         handleLogout,
         currentVehicule,
-        updateCurrentVehicule,
         handleDateChange,
         loadingHistoriqueFilter,
         setLoadingHistoriqueFilter,
@@ -1859,10 +1859,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         setchooseInactifs,
         chooseALl,
         setchooseALl,
-        // vehiclueHistoriqueRapportDetails,
-        // setVehiclueHistoriqueRapportDetails,
+
         currentdataFusionnee,
-        // searchrapportvehicleDetails,
       }}
     >
       {children}

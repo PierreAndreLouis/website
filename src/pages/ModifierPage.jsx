@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { CiEdit } from "react-icons/ci";
 import { FaChevronDown } from "react-icons/fa6";
 import { DataContext } from "../context/DataContext";
 import ShowConfirModifyVehiculePupup from "../components/modifier_vehicule/ShowConfirModifyVehiculePupup";
@@ -131,7 +130,6 @@ function Modifier() {
         equipmentType,
         simPhoneNumber
       );
-      console.log(addvehicleData);
 
       setshowConfirmAddVehiculePupup(false);
       setErrorMessage("");
@@ -149,8 +147,7 @@ function Modifier() {
     setCurrentVehicule(vehicule);
     setShowVehiculeListe(!showVehiculeListe);
 
-    console.log("Véhicule en variable", currentVehicule);
-    console.log("Véhicule cliqué", vehicule);
+
     // firstCallHistoriqueData();
   };
 

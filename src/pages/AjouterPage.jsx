@@ -1,14 +1,9 @@
 import React, { useContext, useState } from "react";
-import { FaCar } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { MdErrorOutline } from "react-icons/md";
 import { DataContext } from "../context/DataContext";
-// import SuccessAddvehiculePupupComponent from "../components/ajouter_vehicule/successAddvehiculePupupComponent";
 import ShowConfirmAddVehiculePupupComponent from "../components/ajouter_vehicule/ShowConfirmAddVehiculePupupComponent";
 import ErrorAddvehiculePupupComponent from "../components/ajouter_vehicule/ErrorAddvehiculePupupComponent";
 import FormAjouterVehicule from "../components/ajouter_vehicule/FormAjouterVehicule";
 import SuccessAjoutervehiculePupupComponent from "../components/ajouter_vehicule/SuccessAjoutervehiculePupupComponent";
-// import SuccessAddvehiculePupupComponent from "../components/ajouter_vehicule/SuccessAddvehiculePupupComponent";
 
 function AjouterPage() {
   const {
@@ -24,8 +19,10 @@ function AjouterPage() {
     crud_loading,
     username,
   } = useContext(DataContext);
+
   const [showConfirmAddVehiculePupup, setshowConfirmAddVehiculePupup] =
     useState(false);
+
   const [inputPassword, setInputPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -113,7 +110,6 @@ function AjouterPage() {
         equipmentType,
         simPhoneNumber
       );
-      console.log(addvehicleData);
 
       setshowConfirmAddVehiculePupup(false);
       setErrorMessage("");
@@ -160,7 +156,7 @@ function AjouterPage() {
             <div className="flex justify-center items-center w-full mb-10 pt-10 ">
               {/* <FaCar className="text-2xl mr-2 text-orange-500" /> */}
               <h3 className="text-center font-semibold text-gray-600 dark:text-gray-100 text-xl">
-              Enregistrer un nouveau véhicule
+                Enregistrer un nouveau véhicule
               </h3>
             </div>
 

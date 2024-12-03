@@ -28,9 +28,9 @@ function MapComponent() {
   const {
     mergedData,
     currentVehicule,
-    currentdataFusionnee,
     selectedVehicle,
     setSelectedVehicle,
+    currentdataFusionnee,
     searchdonneeFusionneeForRapport,
     donneeFusionneeForRapport,
   } = useContext(DataContext);
@@ -39,19 +39,26 @@ function MapComponent() {
 
   const [typeDeVue, setTypeDeVue] = useState(false);
   // const dataFusionee = [];
+  // const dataFusionee = donneeFusionneeForRapport;
   const dataFusionee = currentdataFusionnee;
 
   // const dataFusionee =
-  // searchdonneeFusionneeForRapport &&
-  // searchdonneeFusionneeForRapport.length > 0
-  //   ? searchdonneeFusionneeForRapport
-  //   : donneeFusionneeForRapport;
+  //   searchdonneeFusionneeForRapport &&
+  //   searchdonneeFusionneeForRapport.length > 0
+  //     ? donneeFusionneeForRapport
+  //     : searchdonneeFusionneeForRapport;
+
+  // const dataFusionee = searchdonneeFusionneeForRapport;
 
   // const dataFusionee = donneeFusionneeForRapport;
 
   // const dataFusionee = currentdataFusionnee
   //   ? Object.values(currentdataFusionnee)
   //   : [];
+
+  // const dataFusionee = currentdataFusionnee
+  // ? Object.values(currentdataFusionnee)
+  // : [];
   // const dataFusionee = mergedData ? Object.values(mergedData) : [];
   // const vehiculeActive = dataFusionee.filter((vehicule) =>  !vehicule.vehiculeDetails || vehicule.vehiculeDetails.length === 0 )
 
@@ -77,7 +84,6 @@ function MapComponent() {
     setSelectedVehicle(vehicle.deviceID);
     setShowVehiculeListe(!showVehiculeListe);
 
-    console.log("Vehicule dans map", vehicle);
   };
 
   const showAllVehicles = () => {
@@ -119,7 +125,6 @@ function MapComponent() {
     const timeoutId = setTimeout(() => {
       if (mapRef.current && vehicles.length) {
         if (selectedVehicle) {
-          console.log("------------------", selectedVehicle);
           // Si un véhicule est sélectionné, centrer sur lui
           const selectedVehicleData = vehicles.find(
             (vehicle) => vehicle.deviceID === selectedVehicle
@@ -175,6 +180,7 @@ function MapComponent() {
   );
   return (
     <div>
+      adfasdfasdf
       <MapContainer
         center={[0, 0]}
         zoom={3}

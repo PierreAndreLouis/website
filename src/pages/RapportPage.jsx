@@ -129,21 +129,12 @@ function RapportPage() {
 
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-      // setVehiclueHistoriqueDetails(foundVehicle?.vehiculeDetails);
-      // console.log("current vehicule data", foundVehicle.vehiculeDetails);
-      // setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
-      // setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
-      // setShowListOption(false); // Affiche la liste d'options si nécessaire
-      console.log("Véhicule sélectionné", foundVehicle);
+     
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
     }
 
-    // setSelectedVehicle(vehicle.deviceID);
-    // setSelectedVehicle(vehicle);  // Ajouter cette ligne
-    // setShowListOption(true);
-    console.log("Véhicule en variable_________________", currentVehicule);
-    console.log("Véhicule cliqué_____________________", vehicle);
+
   };
 
   const [selectedDate, setSelectedDate] = useState(""); // Date sélectionnée
@@ -195,7 +186,6 @@ function RapportPage() {
     if (vehicleData && vehicleData.length > 0) {
       vehicleData.forEach((vehicle) => {
         fetSearchRapportchVehicleDetails(vehicle.deviceID, timeFrom, timeTo);
-        console.log("Call the function with:", timeFrom, timeTo);
       });
     }
   };
@@ -229,55 +219,14 @@ function RapportPage() {
             {/* Rapport des vehicule */}
             <div className=" w-full sm:px-6 md:px-20 px-2">
               <h1
-                // onClick={() => {
-                //   firstCallRapportData();
-                // }}
+           
                 className="font-semibold dark:text-gray-200 text-center mx-4 mb-10 text-xl"
               >
                 {formatDate(selectedDate)}
               </h1>
-              {/* <button
-                onClick={() => {
-                  console.log(
-                    "searchdonneeFusionneeForRapport",
-                    searchdonneeFusionneeForRapport
-                  );
+           
 
-                  console.log(
-                    "donneeFusionneeForRapport",
-                    donneeFusionneeForRapport
-                  );
-                  console.log("currentdataFusionnee", currentdataFusionnee);
-                  console.log("currentVehicule", currentVehicule);
-                }}
-              >
-                Test
-              </button> */}
-
-              {/* <button
-                onClick={() => {
-                  // console.log("mergedData...", mergedData);
-                  // console.log("vehicleData", vehicleData);
-                  // console.log("vehicleDetails", vehicleDetails);
-                  fonctionTest();
-                  // reloadVehiculeDetails();
-                }}
-              >
-                test 30000
-              </button>
-              <br />
-
-              <button
-                onClick={() => {
-                  // console.log("mergedData...", mergedData);
-                  // console.log("vehicleData", vehicleData);
-                  // console.log("vehicleDetails", vehicleDetails);
-                  fonctionTest2();
-                  // reloadVehiculeDetails();
-                }}
-              >
-                test22 11111111
-              </button> */}
+          
 
               {/* //////////////////////////////////// */}
               <div className="flex gap-2 justify-end mb-4 ">
@@ -398,6 +347,3 @@ function RapportPage() {
 
 export default RapportPage;
 
-// je veux le length de chaque sequence.
-// je veux aussi voir les donnees de chaque sequence.
-// afficher le timestamp du premier et du dernier object de chaque sequence.

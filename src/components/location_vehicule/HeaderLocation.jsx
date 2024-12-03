@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaChevronDown } from "react-icons/fa6";
+import { DataContext } from "../../context/DataContext";
 
 function HeaderLocation({
   setShowVehiculeListe,
@@ -8,6 +9,15 @@ function HeaderLocation({
   setTypeDeVue,
   showAllVehicles,
 }) {
+  const {
+    mergedData,
+    currentVehicule,
+    // selectedVehicle,
+    setSelectedVehicle,
+    currentdataFusionnee,
+    searchdonneeFusionneeForRapport,
+    donneeFusionneeForRapport,
+  } = useContext(DataContext);
   return (
     <>
       <div className="fixed bg-white dark:bg-gray-800 md:bg-white/0 top-12  left-0 right-0 z-[1200] flex flex-col gap-2 p-4">
@@ -50,6 +60,7 @@ function HeaderLocation({
           >
             Tous les vehicules
           </h3>
+         
         </div>
       </div>
     </>

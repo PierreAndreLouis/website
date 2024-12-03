@@ -11,19 +11,7 @@ import { FaMoon, FaSun } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 
 // ok
-// ok
-// ok
-// ok
-// ok
-// ok
-// ok
-// ok
-// dark
-// dark
-// dark
-// dark
-// dark
-// dark
+
 
 function Header() {
   // Récupère des données utilisateur et des fonctions utiles via le contexte DataContext

@@ -56,29 +56,6 @@ function VehiculeNotActiveAjourdhuiComponent({
     return `${hours}:${minutes}:${seconds}`;
   }
 
-  // const handleClick = () => {
-  //   setShowListOption(false);
-  //   const deviceID = currentVehicule.deviceID;
-
-  //   // Recherche du véhicule correspondant dans la liste
-  //   const foundVehicle = donneeFusionneeForRapport.find(
-  //     (v) => v.deviceID === deviceID
-  //   );
-
-  //   if (foundVehicle) {
-  //     setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-  //     console.log(
-  //       "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
-  //       foundVehicle.vehiculeDetails
-  //     );
-  //     setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
-  //     setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
-  //     setShowListOption(false); // Affiche la liste d'options si nécessaire
-  //     console.log("Véhicule sélectionné", foundVehicle);
-  //   } else {
-  //     console.error("Véhicule introuvable avec le deviceID :", deviceID);
-  //   }
-  // };
   return (
     <div>
       <div className="transition-all">
