@@ -77,9 +77,7 @@ function FormModifierVehicule({
 
         {/* Gestion des erreurs */}
         {error && (
-          <p className="text-red-500 text-sm mt-1 dark:text-red-400">
-            {error}
-          </p>
+          <p className="text-red-500 text-sm mt-1 dark:text-red-400">{error}</p>
         )}
         {errorID && (
           <p className="flex items-start gap-3 bg-red-100 text-red-700 text-md translate-y-4 px-4 py-1 rounded-md text-center dark:bg-red-900 dark:text-red-400">
@@ -110,6 +108,9 @@ function FormModifierVehicule({
               </p>
             )}
             <div className="relative grid grid-cols-2 gap-2 pt-5 pb-8">
+              {!currentVehicule?.description && (
+                <div className="absolute inset-0 bg-black/0 "></div>
+              )}
               <button
                 onClick={() => setError("")}
                 type="submit"
@@ -132,7 +133,8 @@ function FormModifierVehicule({
               <span>
                 <MdErrorOutline className="text-2xl mt-0.5" />
               </span>
-              Vous n'avez pas les autorisations nécessaires pour modifier ce véhicule.
+              Vous n'avez pas les autorisations nécessaires pour modifier ce
+              véhicule.
             </p>
           </div>
         )}

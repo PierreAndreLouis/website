@@ -60,7 +60,6 @@ function HeaderLocation({
           >
             Tous les vehicules
           </h3>
-         
         </div>
       </div>
     </>

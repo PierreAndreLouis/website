@@ -68,7 +68,6 @@ function Liste() {
     setSelectedVehicle(vehicle.deviceID);
     setShowListOption(true);
     setSearchdonneeFusionneeForRapport([]);
-
   };
 
   // Fonctions pour formater le temps et la date
@@ -142,14 +141,12 @@ function Liste() {
       vehicleData?.forEach((vehicle) => {
         fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
         fetRapportchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
-      
       });
     }
   };
 
   return (
     <div className="p-2 flex flex-col gap-4 mt-4 mb-32 dark:text-white">
-   
       {isLoading ? (
         <p>Chargement des données...</p>
       ) : filteredData.length > 0 ? (
@@ -164,7 +161,36 @@ function Liste() {
             activeTextColor,
             statut,
             vitess_img;
-          if (speed < 1) {
+
+          ////////////////////////////////////////////////////////////////////////
+
+          // Calculer les 20 heures en millisecondes
+          const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
+          const currentTime = Date.now(); // Heure actuelle en millisecondes
+
+          const noDetails =
+            !vehicle.vehiculeDetails || vehicle.vehiculeDetails.length <= 0;
+
+          // Vérifier si le véhicule est inactif
+          const lastUpdateTime = vehicle?.lastUpdateTime;
+          const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
+          const isInactive =
+            lastUpdateTimeMs > 0 &&
+            currentTime - lastUpdateTimeMs >= twentyHoursInMs;
+
+          // /////////////////////////////////////////////////////
+
+          if (noDetails || isInactive) {
+            // if (!noDetails || isInactive) {
+            main_text_color = "text-purple-900 dark:text-purple-300";
+            statut = "En arrêt";
+            lite_bg_color =
+              "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-xl shadow-gray-950/20";
+            activeTextColor = "text-purple-900 dark:text-purple-200";
+            active_bg_color = "bg-purple-200/50 dark:bg-purple-600/50";
+            vitess_img = "/img/home_icon/payer.png";
+            imgClass = "w-14 sm:w-16 md:w-24";
+          } else if (speed < 1) {
             main_text_color = "text-red-900 dark:text-red-300";
             statut = "En arrêt";
             lite_bg_color =
@@ -173,7 +199,9 @@ function Liste() {
             active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
             vitess_img = "img/cars/orange_vitess.png";
             imgClass = "w-14 sm:w-16 md:w-24";
-          } else if (speed >= 1 && speed <= 20) {
+          }
+          //
+          else if (speed >= 1 && speed <= 20) {
             main_text_color = "text-[#555b03] dark:text-yellow-300";
             statut = "En ralenti";
             lite_bg_color =
@@ -182,7 +210,9 @@ function Liste() {
             active_bg_color = "bg-yellow-400/20 dark:bg-yellow-600/20";
             vitess_img = "img/cars/yellow_vitess.png";
             imgClass = "w-12 sm:w-14 md:w-20";
-          } else {
+          }
+          //
+          else {
             main_text_color = "text-green-700 dark:text-green-400";
             statut = "En marche";
             lite_bg_color =
