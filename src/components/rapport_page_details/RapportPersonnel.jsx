@@ -64,6 +64,15 @@ function RapportPersonnel({
   uniqueAddresses,
   uniqueAddressesZerroSpeed,
 }) {
+  const formatTime = (hours, minutes, seconds) => {
+    if (hours > 0 || minutes > 0 || seconds > 0) {
+      return `${hours > 0 ? hours + "h " : ""}${
+        minutes > 0 ? minutes + "m " : ""
+      }${seconds > 0 ? seconds + "s" : ""}`;
+    }
+    return "0h 0m 0s";
+  };
+
   return (
     <>
       <div className=" px-4 md:max-w-[80vw] w-full">
@@ -141,23 +150,47 @@ function RapportPersonnel({
               <p>
                 Durée total en mouvement :{" "}
                 <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
-                  {/* {formatTime(timeInMotion)}{" "} */}
-                  {totalMovingHours || "0"}h {totalMovingMinutes || "0"}m{" "}
-                  {totalMovingSeconds || "0"}s
+                  {/* {totalMovingHours || "0"}h {totalMovingMinutes || "0"}m{" "}
+                  {totalMovingSeconds || "0"}s */}
+                  {formatTime(
+                    totalMovingHours,
+                    totalMovingMinutes,
+                    totalMovingSeconds
+                  )}
                 </span>
               </p>
               <p>
                 Durée totale de tous les arrêts :
                 <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
-                  {totalStopHours}h {totalStopMinutes}m {totalStopSeconds}s{" "}
+                  {/* {(() => {
+                    if (
+                      totalStopHours > 0 ||
+                      totalStopMinutes > 0 ||
+                      totalStopSeconds > 0
+                    ) {
+                      return `${
+                        totalStopHours > 0 ? totalStopHours + "h " : ""
+                      }${totalStopMinutes > 0 ? totalStopMinutes + "m " : ""}${
+                        totalStopSeconds > 0 ? totalStopSeconds + "s" : ""
+                      }`;
+                    }
+                    return "0h 0m 0s";
+                  })()} */}
+
+                  {formatTime(
+                    totalStopHours,
+                    totalStopMinutes,
+                    totalStopSeconds
+                  )}
                 </span>
               </p>
               <p>
                 Duree de l’arrêts le plus long :
                 <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
-                  {`${longestHours || "0"}h ${longestMinutes || "0"}mn ${
+                  {/* {`${longestHours || "0"}h ${longestMinutes || "0"}mn ${
                     longestSeconds || "0"
-                  }s`}{" "}
+                  }s`}{" "} */}
+                  {formatTime(longestHours, longestMinutes, longestSeconds)}
                 </span>
               </p>
             </div>

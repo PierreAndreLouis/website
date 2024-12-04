@@ -1,6 +1,5 @@
 import React from "react";
 
-
 import { IoTimeOutline } from "react-icons/io5";
 import { GiPathDistance } from "react-icons/gi";
 import { IoMdInformationCircleOutline } from "react-icons/io";
@@ -32,6 +31,14 @@ function RapportGroupe({
   activePeriods,
   movingTimes,
 }) {
+  const formatTime = (hours, minutes, seconds) => {
+    if (hours > 0 || minutes > 0 || seconds > 0) {
+      return `${hours > 0 ? hours + "h " : ""}${
+        minutes > 0 ? minutes + "m " : ""
+      }${seconds > 0 ? seconds + "s" : ""}`;
+    }
+    return "0h 0m 0s";
+  };
   return (
     <>
       <div className=" px-4 md:max-w-[80vw] w-full">
@@ -141,24 +148,40 @@ function RapportGroupe({
               <p>
                 Temps d'activité total :
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {result?.totalMovingTime.hours}h{" "}
+                  {/* {result?.totalMovingTime.hours}h{" "}
                   {result?.totalMovingTime.minutes}m{" "}
-                  {result?.totalMovingTime.seconds}m{" "}
+                  {result?.totalMovingTime.seconds}m{" "} */}
+
+                  {formatTime(
+                    result?.totalMovingTime.hours,
+                    result?.totalMovingTime.minutes,
+                    result?.totalMovingTime.seconds
+                  )}
                 </span>
               </p>
               <p>
-                Temps d'activité total :
+                Temps d'arrêt total :
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {result?.totalStopTime.hours}h {result?.totalStopTime.minutes}
-                  m {result?.totalStopTime.seconds}m{" "}
+                  {/* {result?.totalStopTime.hours}h {result?.totalStopTime.minutes}
+                  m {result?.totalStopTime.seconds}m{" "} */}
+                  {formatTime(
+                    result?.totalStopTime.hours,
+                    result?.totalStopTime.minutes,
+                    result?.totalStopTime.seconds
+                  )}
                 </span>
               </p>
               <p>
                 L'arrêt le plus long :
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {result?.longestStopTime.hours}h{" "}
+                  {/* {result?.longestStopTime.hours}h{" "}
                   {result?.longestStopTime.minutes}m{" "}
-                  {result?.longestStopTime.seconds}m{" "}
+                  {result?.longestStopTime.seconds}m{" "} */}
+                  {formatTime(
+                    result?.longestStopTime.hours,
+                    result?.longestStopTime.minutes,
+                    result?.longestStopTime.seconds
+                  )}
                 </span>
               </p>
 
@@ -225,7 +248,6 @@ function RapportGroupe({
 
           <div>
             <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300">
-        
               <p>
                 Vitesse moyenne:
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
@@ -392,9 +414,15 @@ function RapportGroupe({
                     {Object.entries(result3.stopsByVehicle)[index][1]} arrêts
                   </td>
                   <td className="border py-3 px-2 dark:border-gray-600">
-                    {movingTimes[index].totalMovingDuration.hours}h{" "}
+                    {/* {movingTimes[index].totalMovingDuration.hours}h{" "}
                     {movingTimes[index].totalMovingDuration.minutes}m{" "}
-                    {movingTimes[index].totalMovingDuration.seconds}s
+                    {movingTimes[index].totalMovingDuration.seconds}s */}
+
+                    {formatTime(
+                      movingTimes[index].totalMovingDuration.hours,
+                      movingTimes[index].totalMovingDuration.minutes,
+                      movingTimes[index].totalMovingDuration.seconds
+                    )}
                   </td>
                   <td className="border py-3 px-2 dark:border-gray-600">
                     {vehicule.vehiculeDetails[0]?.address || "---"}
