@@ -129,12 +129,9 @@ function RapportPage() {
 
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-     
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
     }
-
-
   };
 
   const [selectedDate, setSelectedDate] = useState(""); // Date sélectionnée
@@ -218,15 +215,9 @@ function RapportPage() {
 
             {/* Rapport des vehicule */}
             <div className=" w-full sm:px-6 md:px-20 px-2">
-              <h1
-           
-                className="font-semibold dark:text-gray-200 text-center mx-4 mb-10 text-xl"
-              >
+              <h1 className="font-semibold dark:text-gray-200 text-center mx-4 mb-10 text-xl">
                 {formatDate(selectedDate)}
               </h1>
-           
-
-          
 
               {/* //////////////////////////////////// */}
               <div className="flex gap-2 justify-end mb-4 ">
@@ -292,7 +283,7 @@ function RapportPage() {
                   </div>
                 </form>
               )}
-              <VehiculeActiveMaintenantComponent
+              {/* <VehiculeActiveMaintenantComponent
                 showActiveVehiculeNow={showActiveVehiculeNow}
                 setshowActiveVehiculeNow={setshowActiveVehiculeNow}
                 vehiculeActiveMaintenant={vehiculeActiveMaintenant}
@@ -301,7 +292,7 @@ function RapportPage() {
                 formatTimestampToTime={formatTimestampToTime}
                 handleClick={handleClick}
                 selectUTC={selectUTC}
-              />
+              /> */}
               {/* ----------------------------------- */}
               <VehiculeActiveAjourdhuiComponent
                 showActiveVehicule={showActiveVehicule}
@@ -346,4 +337,3 @@ function RapportPage() {
 }
 
 export default RapportPage;
-

@@ -1073,16 +1073,29 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
       );
       setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
-
+      //
+      //
+      //
+      //
+      //
+      //
+      //
       // 3. Met à jour l'état avec tous les véhicules n'ayant aucun événement avec `speedKPH >= 1`
       const vehiculeNotActiveAjourdhui = currentdataFusionnee?.filter(
         (vehicle) =>
-          vehicle.vehiculeDetails?.length > 0 && // Exclure les véhicules sans détails
-          vehicle.vehiculeDetails?.every((detail) => detail.speedKPH < 1)
+          vehicle.vehiculeDetails?.length > 0 && // Vérifie que des détails existent
+          vehicle.vehiculeDetails.every((detail) => detail.speedKPH <= 0) // Tous les détails doivent avoir speedKPH <= 0
       );
 
       setVehiculeNotActiveAjourdhui(vehiculeNotActiveAjourdhui);
-
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
       // 4. Met à jour l'état avec tous les véhicules dont `vehiculeDetails[0].speedKPH >= 1`
       const vehiculeActiveMaintenant = currentdataFusionnee?.filter(
         (vehicle) =>
@@ -1091,7 +1104,14 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
           vehicle?.vehiculeDetails[0]?.speedKPH >= 1
       );
       setVehiculeActiveMaintenant(vehiculeActiveMaintenant);
-
+      //
+      //
+      //
+      //
+      //
+      //
+      //
+      //
       // 5. Met à jour l'état avec tous les véhicules dont `lastUpdateTime` est supérieur à 24h par rapport à l'heure actuelle
       const vehiculeNotActif = currentdataFusionnee?.filter((vehicle) => {
         const lastUpdate = new Date(vehicle.lastUpdateTime);
@@ -1121,14 +1141,33 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
       const currentTime = Date.now(); // Heure actuelle en millisecondes
 
+      // const vehiculeNotActiveAjourdhui = currentdataFusionnee.filter(
+      //   (vehicle) => {
+      //     // Vérifie si le véhicule a des détails
+      //     const hasDetails =
+      //       vehicle.vehiculeDetails && vehicle.vehiculeDetails.length > 0;
+
+      //     // Vérifie la vitesse (noSpeed)
+      //     const noSpeed = vehicle.vehiculeDetails?.[0]?.speedKPH < 1;
+
+      //     // Vérifie si le véhicule est actif (mise à jour dans les 20 dernières heures)
+      //     const lastUpdateTimeMs = vehicle.lastUpdateTime
+      //       ? vehicle.lastUpdateTime * 1000
+      //       : 0;
+      //     const isActive = currentTime - lastUpdateTimeMs < twentyHoursInMs;
+
+      //     // Inclure seulement les véhicules qui ont des détails, qui sont actifs, et qui ont noSpeed
+      //     return hasDetails && isActive && noSpeed;
+      //   }
+      // );
+
       const vehiculeNotActiveAjourdhui = currentdataFusionnee.filter(
         (vehicle) => {
           // Vérifie si le véhicule a des détails
-          const hasDetails =
-            vehicle.vehiculeDetails && vehicle.vehiculeDetails.length > 0;
+          const hasDetails = vehicle.vehiculeDetails?.length > 0;
 
-          // Vérifie la vitesse (noSpeed)
-          const noSpeed = vehicle.vehiculeDetails?.[0]?.speedKPH < 1;
+          // Vérifie si la vitesse est inférieure ou égale à 0
+          const noSpeed = vehicle.vehiculeDetails?.[0]?.speedKPH <= 0;
 
           // Vérifie si le véhicule est actif (mise à jour dans les 20 dernières heures)
           const lastUpdateTimeMs = vehicle.lastUpdateTime
@@ -1136,7 +1175,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
             : 0;
           const isActive = currentTime - lastUpdateTimeMs < twentyHoursInMs;
 
-          // Inclure seulement les véhicules qui ont des détails, qui sont actifs, et qui ont noSpeed
+          // Retourne les véhicules qui remplissent toutes les conditions
           return hasDetails && isActive && noSpeed;
         }
       );
