@@ -83,7 +83,6 @@ function MapComponent() {
   const handleVehicleClick = (vehicle) => {
     setSelectedVehicle(vehicle.deviceID);
     setShowVehiculeListe(!showVehiculeListe);
-
   };
 
   const showAllVehicles = () => {
@@ -180,7 +179,6 @@ function MapComponent() {
   );
   return (
     <div>
-      adfasdfasdf
       <MapContainer
         center={[0, 0]}
         zoom={3}

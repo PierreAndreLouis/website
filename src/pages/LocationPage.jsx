@@ -7,7 +7,6 @@ import iconLowSpeed from "/pin/ping_red.png";
 import iconMediumSpeed from "/pin/ping_yellow.png";
 import iconHighSpeed from "/pin/ping_green.png";
 
-
 import { DataContext } from "../context/DataContext";
 import HeaderLocation from "../components/location_vehicule/HeaderLocation";
 import ShowVehiculeListeComponent from "../components/location_vehicule/ShowVehiculeListeComponent";
@@ -54,7 +53,6 @@ const LocationPage = () => {
   const handleVehicleClick = (vehicle) => {
     setSelectedVehicle(vehicle.deviceID);
     setShowVehiculeListe(!showVehiculeListe);
-
   };
 
   const showAllVehicles = () => {
@@ -126,15 +124,11 @@ const LocationPage = () => {
     setTypeDeVue(false);
   };
 
-
-
-
   const [searchQuery, setSearchQuery] = useState("");
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
-
 
   const filteredVehicles = vehiculeActive?.filter((vehicule) =>
     vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
@@ -168,15 +162,7 @@ const LocationPage = () => {
           handleMapTypeChange={handleMapTypeChange}
         />
 
-
-
-
-<MapComponent />
-
-
-
-
-
+        <MapComponent />
       </div>
     </div>
   );
