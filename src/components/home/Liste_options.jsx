@@ -148,7 +148,9 @@ function Liste_options({}) {
               {/*  */}
               {/*  */}
               <div
-                onClick={() => lancerAppel(currentVehicule?.simPhoneNumber)}
+                onClick={() =>
+                  lancerAppel("+" + currentVehicule?.simPhoneNumber)
+                }
                 className="shadow-md cursor-pointer hover:bg-orange-100 dark:hover:bg-gray-900 bg-orange-50 dark:bg-gray-800 p-2 rounded-md flex items-center gap-4"
               >
                 <FaMicrophone className="text-[2rem] min-w-8 text-orange-400 dark:text-orange-50" />
