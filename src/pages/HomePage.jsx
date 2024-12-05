@@ -35,9 +35,11 @@ const Home = () => {
     };
   }, []);
 
-  setTimeout(() => {
-    setIsLoading(false);
-  }, 5000); // 10 000 millisecondes = 10 secondes
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 5000); // 10 000 millisecondes = 10 secondes
+  }, [isLoading]);
 
   return (
     <div className="sm:px-10 pt-16 md:px-14 lg:px-20 min-h-screen">

@@ -620,6 +620,12 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     return dataFusionne;
   };
 
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 5000); // 10 000 millisecondes = 10 secondes
+  }, [isLoading]);
+
   // Pour fusionner les donnes des vehicule dans la page Home
   useEffect(() => {
     if (
