@@ -154,13 +154,22 @@ function Liste() {
           // const speed = 0;
           const speed = vehicle.vehiculeDetails?.[0]?.speedKPH || 0;
 
-          let main_text_color,
-            lite_bg_color,
-            active_bg_color,
-            imgClass,
-            activeTextColor,
-            statut,
-            vitess_img;
+          // let main_text_color,
+          // lite_bg_color,
+          //   active_bg_color,
+          //   imgClass,
+          //   activeTextColor,
+          //   statut,
+          //   vitess_img;
+
+          let main_text_color = "text-red-900 dark:text-red-300";
+          let statut = "";
+          let lite_bg_color =
+            "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-xl shadow-gray-950/20";
+          let activeTextColor = "text-red-900 dark:text-red-200";
+          let active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
+          let vitess_img = "";
+          let imgClass = "w-14 sm:w-16 md:w-24";
 
           ////////////////////////////////////////////////////////////////////////
 
@@ -190,9 +199,7 @@ function Liste() {
             active_bg_color = "bg-purple-200/50 dark:bg-purple-600/50";
             vitess_img = "/img/home_icon/payer.png";
             imgClass = "w-14 sm:w-16 md:w-24";
-          }
-
-          if (speed < 1) {
+          } else if (speed < 1) {
             main_text_color = "text-red-900 dark:text-red-300";
             statut = "En arrêt";
             lite_bg_color =
@@ -224,6 +231,18 @@ function Liste() {
             vitess_img = "img/cars/green_vitess.png";
             imgClass = "w-12 sm:w-14 md:w-20";
           }
+
+          // if (noDetails || isInactive) {
+          //   // if (!noDetails || isInactive) {
+          //   main_text_color = "text-purple-900 dark:text-purple-300";
+          //   statut = "En arrêt";
+          //   lite_bg_color =
+          //     "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-xl shadow-gray-950/20";
+          //   activeTextColor = "text-purple-900 dark:text-purple-200";
+          //   active_bg_color = "bg-purple-200/50 dark:bg-purple-600/50";
+          //   vitess_img = "/img/home_icon/payer.png";
+          //   imgClass = "w-14 sm:w-16 md:w-24";
+          // }
 
           return (
             <div className="bg-white dark:bg-gray-800">

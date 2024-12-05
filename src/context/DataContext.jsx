@@ -1161,13 +1161,37 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       //   }
       // );
 
+      // const vehiculeNotActiveAjourdhui = currentdataFusionnee.filter(
+      //   (vehicle) => {
+      //     // Vérifie si le véhicule a des détails
+      //     const hasDetails = vehicle.vehiculeDetails?.length > 0;
+
+      //     // Vérifie si la vitesse est inférieure ou égale à 0
+      //     // const noSpeed = vehicle.vehiculeDetails?.[0]?.speedKPH <= 0;
+      //     const noSpeed = vehicle.vehiculeDetails?.filter(
+      //       (detail) => detail.speedKPH >= 1
+      //     );
+
+      //     // Vérifie si le véhicule est actif (mise à jour dans les 20 dernières heures)
+      //     const lastUpdateTimeMs = vehicle.lastUpdateTime
+      //       ? vehicle.lastUpdateTime * 1000
+      //       : 0;
+      //     const isActive = currentTime - lastUpdateTimeMs < twentyHoursInMs;
+
+      //     // Retourne les véhicules qui remplissent toutes les conditions
+      //     return hasDetails && isActive && noSpeed;
+      //   }
+      // );
+
       const vehiculeNotActiveAjourdhui = currentdataFusionnee.filter(
         (vehicle) => {
           // Vérifie si le véhicule a des détails
           const hasDetails = vehicle.vehiculeDetails?.length > 0;
 
-          // Vérifie si la vitesse est inférieure ou égale à 0
-          const noSpeed = vehicle.vehiculeDetails?.[0]?.speedKPH <= 0;
+          // Vérifie que tous les objets de vehiculeDetails ont speedKPH <= 0
+          const noSpeed = vehicle.vehiculeDetails?.every(
+            (detail) => detail.speedKPH <= 0
+          );
 
           // Vérifie si le véhicule est actif (mise à jour dans les 20 dernières heures)
           const lastUpdateTimeMs = vehicle.lastUpdateTime
@@ -1176,7 +1200,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
           const isActive = currentTime - lastUpdateTimeMs < twentyHoursInMs;
 
           // Retourne les véhicules qui remplissent toutes les conditions
-          return hasDetails && isActive && noSpeed;
+          return hasDetails && noSpeed && isActive;
         }
       );
 

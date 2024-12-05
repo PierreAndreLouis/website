@@ -2,8 +2,6 @@ import React, { useContext } from "react";
 import { DataContext } from "../../context/DataContext";
 import { Link } from "react-router-dom";
 
-
-
 function Statistics() {
   const {
     mergedData,
@@ -20,6 +18,7 @@ function Statistics() {
   } = useContext(DataContext);
 
   const vehicleArray = mergedData ? Object.values(mergedData) : [];
+
   const totalVehicleCount = vehicleArray.length;
 
   const activeVehicleCount =
@@ -73,12 +72,15 @@ function Statistics() {
       lastUpdateTimeMs > 0 && currentTime - lastUpdateTimeMs >= twentyHoursInMs;
 
     // Retourne true si l'une des conditions est satisfaite
+    // return isInactive;
+    // return noDetails || isInactive;
     return noDetails || isInactive;
   });
 
   // Nombre de véhicules filtrés
+  // const notActiveVehicleCount = "0";
   const notActiveVehicleCount = filteredVehiclesInactifs.length || "0";
-
+  //
   return (
     <div className="mt-2 ">
       {/* ------------------------------- */}

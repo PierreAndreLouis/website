@@ -88,9 +88,11 @@ function TrajetVehicule({
                   position={[lastValidLatitude || 0, lastValidLongitude || 0]}
                   icon={L.icon({
                     iconUrl: markerIcon, // Utiliser l'icône basée sur la vitesse
-                    iconSize: [22, 35],
+                    iconSize: [17, 25],
+                    // iconSize: [22, 35],
                     // iconSize: [25, 41],
-                    iconAnchor: [12, 35],
+                    iconAnchor: [9, 25],
+                    // iconAnchor: [12, 35],
                     popupAnchor: [-1, -30],
                     shadowUrl:
                       "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
