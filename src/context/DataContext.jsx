@@ -70,7 +70,10 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   });
 
   // userdata and vehiculedata together
-  const [mergedData, setMergedData] = useState([]);
+  const [mergedData, setMergedData] = useState(() => {
+    const storedmergedData = localStorage.getItem("mergedData");
+    return storedmergedData ? JSON.parse(storedmergedData) : null;
+  });
 
   // vehicule actuelle
   const [currentVehicule, setCurrentVehicule] = useState(null); // 1. Déclaration de currentVehicule
@@ -606,7 +609,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       }
     });
 
-    // localStorage.setItem("mergedData", JSON.stringify(dataFusionne));
+    localStorage.setItem("mergedData", JSON.stringify(dataFusionne));
     setMergedData(dataFusionne);
     setIsLoading(false);
 
@@ -1719,6 +1722,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   // Sauvegarde des données dans localStorage à chaque mise à jour des états
   useEffect(() => {
     localStorage.setItem("vehicleDetails", JSON.stringify(vehicleDetails));
+    localStorage.setItem("mergedData", JSON.stringify(mergedData));
+
     localStorage.setItem(
       "rapportvehicleDetails",
       JSON.stringify(rapportvehicleDetails)
@@ -1728,7 +1733,12 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       "donneeFusionneeForRapport",
       JSON.stringify(donneeFusionneeForRapport)
     );
-  }, [donneeFusionneeForRapport, vehicleDetails, rapportvehicleDetails]);
+  }, [
+    donneeFusionneeForRapport,
+    vehicleDetails,
+    rapportvehicleDetails,
+    mergedData,
+  ]);
 
   //
   //
