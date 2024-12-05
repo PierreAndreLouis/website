@@ -198,7 +198,7 @@ function Liste() {
 
           if (noDetails || isInactive) {
             // if (!noDetails || isInactive) {
-            main_text_color = "text-purple-900 dark:text-purple-300 hidden";
+            main_text_color = "text-purple-900 dark:text-purple-300 md:hidden";
             statut = "En arrêt";
             lite_bg_color =
               "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-xl shadow-gray-950/20";
