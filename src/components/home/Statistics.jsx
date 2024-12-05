@@ -28,7 +28,20 @@ function Statistics() {
         vehicle.vehiculeDetails[0] &&
         vehicle.vehiculeDetails[0].speedKPH > 0
     ).length || "0";
-
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   // Calculer les 20 heures en millisecondes
   const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
   const currentTime = Date.now(); // Heure actuelle en millisecondes
@@ -49,12 +62,29 @@ function Statistics() {
     const isActive = currentTime - lastUpdateTimeMs < twentyHoursInMs;
 
     // Inclure seulement les véhicules qui ont des détails, qui sont actifs, et qui ont noSpeed
-    return hasDetails && isActive && noSpeed;
+    return hasDetails && noSpeed && isActive;
+    // return hasDetails && isActive && noSpeed;
   });
 
   // Nombre de véhicules inactifs
+  // const inactiveVehicleCount = "0";
   const inactiveVehicleCount = filteredVehicles.length || "0";
-
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   // Calculer les 20 heures en millisecondes
   // const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
   // const currentTime = Date.now(); // Heure actuelle en millisecondes
@@ -80,6 +110,20 @@ function Statistics() {
   // Nombre de véhicules filtrés
   // const notActiveVehicleCount = "0";
   const notActiveVehicleCount = filteredVehiclesInactifs.length || "0";
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   //
   return (
     <div className="mt-2 ">
@@ -226,6 +270,13 @@ function Statistics() {
             </div>
           </div>
         </Link>
+        {/* <button
+          onClick={() => {
+            console.log(vehicleArray);
+          }}
+        >
+          test
+        </button> */}
         {/*  */}
       </div>
       {/* Fin des statistiques */}

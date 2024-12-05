@@ -147,6 +147,13 @@ function Liste() {
 
   return (
     <div className="p-2 flex flex-col gap-4 mt-4 mb-32 dark:text-white">
+      {/* <button
+        onClick={() => {
+          console.log(filteredData);
+        }}
+      >
+        test
+      </button> */}
       {isLoading ? (
         <p>Chargement des données...</p>
       ) : filteredData.length > 0 ? (
@@ -199,7 +206,9 @@ function Liste() {
             active_bg_color = "bg-purple-200/50 dark:bg-purple-600/50";
             vitess_img = "/img/home_icon/payer.png";
             imgClass = "w-14 sm:w-16 md:w-24";
-          } else if (speed < 1) {
+          }
+          //
+          else if (speed < 1) {
             main_text_color = "text-red-900 dark:text-red-300";
             statut = "En arrêt";
             lite_bg_color =
