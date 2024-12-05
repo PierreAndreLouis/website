@@ -50,7 +50,9 @@ function ShowVehiculeListeComponent({
                   className="cursor-pointer flex gap-4 py-4 items-center border-b border-gray-300 px-3 hover:bg-orange-50 dark:border-gray-600 dark:hover:bg-gray-700"
                 >
                   <FaCar className="text-orange-600/80 min-w-8 text-lg dark:text-orange-400" />
-                  <p className="text-gray-700 dark:text-white">{vehicule.description}</p>
+                  <p className="text-gray-700 dark:text-white">
+                    {vehicule.displayName || vehicule.description || "---"}
+                  </p>
                 </div>
               ))}
             </div>

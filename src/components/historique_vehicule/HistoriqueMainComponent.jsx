@@ -50,7 +50,9 @@ function HistoriqueMainComponent({
             Historique
           </h2>
           <h2 className="text-gray-800 dark:text-gray-50 font-semibold text-lg md:text-xl mb-2 ">
-            {currentVehicule?.description || "Pas de véhicule sélectionné"}
+            {currentVehicule?.displayName ||
+              currentVehicule?.description ||
+              "Pas de véhicule sélectionné"}
           </h2>
         </div>
 
@@ -149,7 +151,10 @@ function HistoriqueMainComponent({
                               </h3>
                             </div>
                             <div className="flex items-center gap-1">
-                              <IoMdTime id="time-icon" className="text-gray-500/80 text-xl dark:text-gray-300" />
+                              <IoMdTime
+                                id="time-icon"
+                                className="text-gray-500/80 text-xl dark:text-gray-300"
+                              />
                               <h3 className="text-sm sm:text-sm md:text-md">
                                 {/* {formatTimestampToTime(vehicle.timestamp)} */}
                                 {selectUTC

@@ -69,7 +69,7 @@ function MapComponent() {
 
   const vehicleData = vehiculeActive.map((vehicule) => ({
     deviceID: vehicule.deviceID || "",
-    description: vehicule.description || "Véhicule",
+    description: vehicule.displayName || vehicule.description || "Véhicule",
     lastValidLatitude: vehicule.vehiculeDetails?.[0]?.latitude || "",
     lastValidLongitude: vehicule.vehiculeDetails?.[0]?.longitude || "",
     address: vehicule.vehiculeDetails?.[0]?.address || "",
@@ -174,8 +174,10 @@ function MapComponent() {
   // const vehiculeActive = dataFusionee.filter((vehicule) =>  vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0 )
   // const vehiculeActive = dataFusionee.filter((vehicule) =>  !vehicule.vehiculeDetails || vehicule.vehiculeDetails.length === 0 )
 
-  const filteredVehicles = vehiculeActive?.filter((vehicule) =>
-    vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredVehicles = vehiculeActive?.filter(
+    (vehicule) =>
+      vehicule.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
   return (
     <div>
@@ -213,8 +215,10 @@ function MapComponent() {
             <Popup>
               <div className="w-[70vw] max-w-[20rem]">
                 <p>
-                  <strong>Description :</strong>{" "}
-                  {vehicle.description || "Non disponible"}
+                  <strong>Nom : :</strong>{" "}
+                  {vehicle.displayName ||
+                    vehicle.description ||
+                    "Non disponible"}
                 </p>
                 <p>
                   <strong>Adresse :</strong>{" "}

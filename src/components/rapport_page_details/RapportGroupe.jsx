@@ -263,9 +263,12 @@ function RapportGroupe({
               <p>
                 Véhicule avec la vitesse maximale:
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {result5?.maxSpeedVehicle.description || "Pas de vehicule"}{" "}
+                  {result5?.maxSpeedVehicle.displayName ||
+                    result5?.maxSpeedVehicle.description ||
+                    "Pas de vehicule"}{" "}
                 </span>
-                {result5?.maxSpeedVehicle.description ? (
+                {result5?.maxSpeedVehicle.displayName ||
+                result5?.maxSpeedVehicle.description ? (
                   <p>
                     avec une vitesse de :
                     <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
@@ -371,7 +374,7 @@ function RapportGroupe({
               {currentdataFusionnee?.map((vehicule, index) => (
                 <tr key={index} className="border dark:border-gray-600">
                   <td className="border py-3 px-2 dark:border-gray-600">
-                    {vehicule.description}
+                    {vehicule.displayName || vehicule.description || "---"}
                   </td>
                   <td className="border py-3 px-2 dark:border-gray-600">
                     {activePeriods[index]?.startTime

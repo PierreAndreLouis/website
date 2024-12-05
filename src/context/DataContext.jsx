@@ -1698,6 +1698,44 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     }
   };
 
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  // const [callError, setCallError] = useState(""); // Utilisation du useState pour l'erreur
+
+  // Fonction pour la gestion des appels
+  const lancerAppel = (numero) => {
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); // Vérification de la plateforme
+
+    if (!isMobile) {
+      setSmsError(
+        "Les appels téléphoniques ne sont pas pris en charge sur cette plateforme."
+      );
+      return;
+    }
+
+    try {
+      const callLink = `tel:${numero}`;
+
+      // Essayer de rediriger vers le lien d'appel
+      window.location.href = callLink;
+
+      // Vérifier après un délai si l'action a échoué
+      setTimeout(() => {
+        if (window.location.href === callLink) {
+          // Si l'URL n'a pas changé, il y a probablement un problème
+          setSmsError(
+            "Impossible d'ouvrir l'application d'appel. Veuillez vérifier que votre appareil supporte les appels."
+          );
+        }
+      }, 3000); // Délai d'attente de 3 secondes
+    } catch (error) {
+      setSmsError("Une erreur est survenue lors de la tentative d'appel.");
+    }
+  };
+
   //
   //
   //
@@ -1934,6 +1972,9 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         setchooseALl,
 
         currentdataFusionnee,
+        // callError,
+        // setCallError,
+        lancerAppel,
       }}
     >
       {children}

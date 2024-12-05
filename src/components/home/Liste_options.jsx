@@ -29,6 +29,9 @@ function Liste_options({}) {
     password,
     currentdataFusionnee,
     setShowHistoriqueInMap,
+    callError,
+    setCallError,
+    lancerAppel,
   } = useContext(DataContext); // fetchVehicleDetails importée du contexte
 
   const [showAccessCode, setAccessCode] = useState(false);
@@ -46,7 +49,7 @@ function Liste_options({}) {
 
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-   
+
       setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
       setSelectedVehicle(foundVehicle.deviceID); // Met à jour la sélection
       setShowListOption(false); // Affiche la liste d'options si nécessaire
@@ -84,13 +87,11 @@ function Liste_options({}) {
 
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-  
+
       setShowListOption(false);
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
     }
-
-    
   };
 
   return (
@@ -103,7 +104,11 @@ function Liste_options({}) {
               className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500 dark:text-red-600"
             />
             <div className="h-20  bg-orange-100 dark:bg-gray-800 dark:shadow-gray-500 shadow-md text-gray-800 dark:text-gray-200 text-xl font-semibold text-center flex flex-col justify-center items-center px-2">
-              <h1 className="px-3">{currentVehicule?.description}</h1>
+              <h1 className="px-3">
+                {currentVehicule?.displayName ||
+                  currentVehicule?.description ||
+                  "---"}
+              </h1>
             </div>
             <div className="p-4 flex flex-col gap-4 py-6 pb-10">
               {smsError && (
@@ -112,10 +117,9 @@ function Liste_options({}) {
                   {smsError}
                 </p>
               )}
-
               <div
                 onClick={() =>
-                  envoyerSMS("1234567890", "Bonjour, ceci est un test.")
+                  envoyerSMS(currentVehicule?.simPhoneNumber, "Stop123456")
                 }
                 className="shadow-md cursor-pointer hover:bg-orange-100 dark:hover:bg-gray-900 bg-orange-50 dark:bg-gray-800 dark:text-white p-2 rounded-md flex items-center gap-4"
               >
@@ -124,13 +128,13 @@ function Liste_options({}) {
                   Bloquer le véhicule
                 </h2>
               </div>
-
+              {/*  */}
+              {/*  */}
+              {/*  */}
+              {/*  */}
               <div
                 onClick={() =>
-                  envoyerSMS(
-                    currentVehicule.simPhoneNumber,
-                    "Bonjour, ceci est un test."
-                  )
+                  envoyerSMS(currentVehicule?.simPhoneNumber, "Resume123456")
                 }
                 className="shadow-md cursor-pointer hover:bg-orange-100 dark:hover:bg-gray-900 bg-orange-50 dark:bg-gray-800 p-2 rounded-md flex items-center gap-4"
               >
@@ -139,14 +143,12 @@ function Liste_options({}) {
                   Débloquer le véhicule
                 </h2>
               </div>
-
+              {/*  */}
+              {/*  */}
+              {/*  */}
+              {/*  */}
               <div
-                onClick={() =>
-                  envoyerSMS(
-                    currentVehicule.simPhoneNumber,
-                    "Bonjour, ceci est un test."
-                  )
-                }
+                onClick={() => lancerAppel(currentVehicule?.simPhoneNumber)}
                 className="shadow-md cursor-pointer hover:bg-orange-100 dark:hover:bg-gray-900 bg-orange-50 dark:bg-gray-800 p-2 rounded-md flex items-center gap-4"
               >
                 <FaMicrophone className="text-[2rem] min-w-8 text-orange-400 dark:text-orange-50" />
@@ -154,6 +156,7 @@ function Liste_options({}) {
                   Écouter
                 </h2>
               </div>
+              {/* callError, setCallError, lancerAppel, */}
             </div>
           </div>
         </div>
@@ -164,7 +167,9 @@ function Liste_options({}) {
       <div className="border min-w-[90vw] sm:min-w-[30rem] bg-white dark:border-gray-50/10 dark:shadow-lg dark:shadow-gray-900 dark:shadow-lg-- dark:bg-gray-800 mx-4 rounded-xl overflow-hidden">
         <div className="p-4 py-6 pt-10 bg-orange-200/50 dark:bg-gray-900 dark:text-gray-50 dark:shadow-lg  dark:shadow-gray-700/50 relative">
           <h2 className="text-xl text-center font-semibold">
-            {currentVehicule?.description}
+            {currentVehicule?.displayName ||
+              currentVehicule?.description ||
+              "---"}
           </h2>
           <IoMdClose
             onClick={() => {

@@ -6,11 +6,14 @@ import Liste_options from "../components/home/Liste_options";
 import { DataContext } from "../context/DataContext";
 import { RiWifiOffLine } from "react-icons/ri";
 
-
-
 const Home = () => {
-  const { vehicleData, isLoading, showListeOption, setShowListOption } =
-    useContext(DataContext);
+  const {
+    vehicleData,
+    isLoading,
+    showListeOption,
+    setIsLoading,
+    setShowListOption,
+  } = useContext(DataContext);
 
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
 
@@ -31,6 +34,10 @@ const Home = () => {
       window.removeEventListener("online", handleOnline);
     };
   }, []);
+
+  setTimeout(() => {
+    setIsLoading(false);
+  }, 5000); // 10 000 millisecondes = 10 secondes
 
   return (
     <div className="sm:px-10 pt-16 md:px-14 lg:px-20 min-h-screen">

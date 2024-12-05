@@ -48,10 +48,11 @@ function ListeVehicule({
                   className="cursor-pointer flex gap-4 py-4 items-center border-b border-gray-300 px-3 hover:bg-orange-50 dark:border-gray-600 dark:hover:bg-orange-600/60"
                 >
                   <FaCar className="text-orange-600/80 min-w-8 text-lg dark:text-orange-400" />
-                  <p className="dark:text-gray-200">{vehicule.description}</p>
+                  <p className="dark:text-gray-200">
+                    {vehicule.displayName || vehicule.description || "---"}
+                  </p>
                 </div>
               ))}
-           
             </div>
           </div>
         </div>

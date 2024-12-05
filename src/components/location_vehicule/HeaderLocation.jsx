@@ -32,7 +32,11 @@ function HeaderLocation({
             {selectedVehicle
               ? vehicleData?.find(
                   (vehicle) => vehicle.deviceID === selectedVehicle
-                )?.description || "Véhicule non disponible"
+                )?.displayName ||
+                vehicleData?.find(
+                  (vehicle) => vehicle.deviceID === selectedVehicle
+                )?.description ||
+                "Véhicule non disponible"
               : "Tous les véhicules"}
           </p>
           <span>

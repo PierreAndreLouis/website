@@ -75,9 +75,9 @@ function FormAjouterVehicule({
         ))}
 
         {/* Gestion des erreurs */}
-        {error && (
+        {/* {error && (
           <p className="text-red-500 text-sm mt-1 dark:text-red-400">{error}</p>
-        )}
+        )} */}
         {errorImei && (
           <p className="flex items-start gap-3 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-100 text-md translate-y-4 px-4 py-1 rounded-md text-center">
             <MdErrorOutline className="text-2xl mt-0.5" />

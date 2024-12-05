@@ -92,7 +92,9 @@ function RapportPersonnel({
               <p>
                 Véhicule :{" "}
                 <span className=" dark:text-orange-500 font-normal text-gray-700 pl-3">
-                  {currentVehicule?.description || "---"}
+                  {currentVehicule.displayName ||
+                    currentVehicule?.description ||
+                    "---"}
                 </span>
               </p>
               <p>

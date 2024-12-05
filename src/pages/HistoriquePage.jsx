@@ -1,10 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 
-
-
-
-
-
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import customMarkerIcon from "/img/cars/localisation.png";
@@ -92,7 +87,10 @@ function HistoriquePage() {
     ? Object.values(filteredVehicles)
     : [];
   const vehicleData = historiqueInMap?.map((vehicule) => ({
-    description: currentVehicule?.description || "Véhicule",
+    description:
+      currentVehicule?.displayName ||
+      currentVehicule?.description ||
+      "Véhicule",
     lastValidLatitude: vehicule?.latitude || "",
     lastValidLongitude: vehicule?.longitude || "",
     address: vehicule?.address || "",
@@ -180,7 +178,7 @@ function HistoriquePage() {
 
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
-    
+
       setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
@@ -212,10 +210,10 @@ function HistoriquePage() {
     setSearchQuery(e.target.value);
   };
 
-
-
-  const filteredVehiclesPupup = dataFusionee?.filter((vehicule) =>
-    vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredVehiclesPupup = dataFusionee?.filter(
+    (vehicule) =>
+      vehicule.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   // Récupérer les positions successives pour les lignes rouges
@@ -256,8 +254,6 @@ function HistoriquePage() {
 
       <div className="mb-6 mt-8 md:mt-16">
         <div className="fixed flex justify-center z-20 top-[3.5rem] bg-white dark:bg-gray-800 md:bg-white/0 py-2 pt-3 left-0 right-0">
-
-
           <HistoriqueHeader
             setShowHistoriqueInMap={setShowHistoriqueInMap}
             showHistoriqueInMap={showHistoriqueInMap}
@@ -326,7 +322,6 @@ function HistoriquePage() {
               openGoogleMaps={openGoogleMaps}
             />
           </div>
-         
         </div>
       )}
     </div>
