@@ -49,10 +49,10 @@ function Liste() {
   const filteredData = searchQuery
     ? dataFusionee.filter(
         (vehicle) =>
-          vehicle.description
+          vehicle?.description
             .toLowerCase()
             .includes(searchQuery.toLowerCase()) ||
-          vehicle.displayName
+          vehicle?.displayName
             .toLowerCase()
             .includes(searchQuery.toLowerCase()) ||
           (vehicle.vehiculeDetails?.[0]?.address &&
@@ -286,20 +286,20 @@ function Liste() {
                     <h2
                       className={`${activeTextColor} text-gray-800 dark:text-gray-100 font-semibold text-md md:text-xl mb-2 `}
                     >
-                      {vehicle.displayName || vehicle.description || "---"}
+                      {vehicle?.displayName || vehicle?.description || "---"}
                     </h2>
                     <div className="flex mb-2 gap-4 text-gray-600 text-md dark:text-gray-300">
                       <div className="flex gap-3 items-center">
                         <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
                         <h3 className="text-sm sm:text-sm md:text-md">
-                          {vehicle.vehiculeDetails?.[0]?.timestamp
+                          {vehicle?.vehiculeDetails?.[0]?.timestamp
                             ? selectUTC
                               ? formatTimestampToDateWithTimezone(
-                                  vehicle.vehiculeDetails[0].timestamp,
+                                  vehicle?.vehiculeDetails[0].timestamp,
                                   selectUTC
                                 )
                               : formatTimestampToDate(
-                                  vehicle.vehiculeDetails?.[0]?.timestamp
+                                  vehicle?.vehiculeDetails?.[0]?.timestamp
                                 )
                             : "Pas de date disponible"}
                         </h3>
@@ -311,7 +311,7 @@ function Liste() {
                           <h3 className="text-sm sm:text-sm md:text-md">
                             {selectUTC
                               ? formatTimestampToTimeWithTimezone(
-                                  vehicle.vehiculeDetails[0].timestamp,
+                                  vehicle.vehiculeDetails[0]?.timestamp,
                                   selectUTC
                                 )
                               : formatTimestampToTime(
