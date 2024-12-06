@@ -37,7 +37,7 @@ function RapportGroupe({
         minutes > 0 ? minutes + "m " : ""
       }${seconds > 0 ? seconds + "s" : ""}`;
     }
-    return "0h 0m 0s";
+    return "0s";
   };
   return (
     <>
@@ -127,7 +127,7 @@ function RapportGroupe({
                             earliestVehicle?.vehiculeDetails.length - 1
                           ].timestamp
                         )
-                    : "0h 0m 0s"}{" "}
+                    : "---"}{" "}
                 </span>
               </p>
               <p>
@@ -142,7 +142,7 @@ function RapportGroupe({
                       : formatTimestampToTime(
                           latestVehicle?.vehiculeDetails[0].timestamp
                         )
-                    : "0h 0m 0s"}{" "}
+                    : "---"}{" "}
                 </span>
               </p>
               <p>

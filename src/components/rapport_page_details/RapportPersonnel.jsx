@@ -70,7 +70,7 @@ function RapportPersonnel({
         minutes > 0 ? minutes + "m " : ""
       }${seconds > 0 ? seconds + "s" : ""}`;
     }
-    return "0h 0m 0s";
+    return "0s";
   };
 
   return (
@@ -133,7 +133,7 @@ function RapportPersonnel({
                           selectUTC
                         )
                       : formatTimestampToTime(heureActiveDebut.timestamp)
-                    : "0h 0m 0s"}{" "}
+                    : "---"}{" "}
                 </span>
               </p>
               <p>
@@ -146,7 +146,7 @@ function RapportPersonnel({
                           selectUTC
                         )
                       : formatTimestampToTime(heureActiveFin.timestamp)
-                    : "0h 0m 0s"}{" "}
+                    : "---"}{" "}
                 </span>
               </p>
               <p>
@@ -176,7 +176,7 @@ function RapportPersonnel({
                         totalStopSeconds > 0 ? totalStopSeconds + "s" : ""
                       }`;
                     }
-                    return "0h 0m 0s";
+                    return "0s";
                   })()} */}
 
                   {formatTime(

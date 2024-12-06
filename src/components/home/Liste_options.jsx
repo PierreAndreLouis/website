@@ -103,8 +103,8 @@ function Liste_options({}) {
               onClick={() => setshowControlePupup(false)}
               className="absolute cursor-pointer top-3 right-3 text-2xl text-red-500 dark:text-red-600"
             />
-            <div className="h-20  bg-orange-100 dark:bg-gray-800 dark:shadow-gray-500 shadow-md text-gray-800 dark:text-gray-200 text-xl font-semibold text-center flex flex-col justify-center items-center px-2">
-              <h1 className="px-3">
+            <div className="h-20--  bg-orange-100 dark:bg-gray-800 dark:shadow-gray-500 shadow-md text-gray-800 dark:text-gray-200 text-xl font-semibold text-center flex flex-col justify-center items-center px-2">
+              <h1 className="px-3 mt-8 mb-2">
                 {currentVehicule?.displayName ||
                   currentVehicule?.description ||
                   "---"}

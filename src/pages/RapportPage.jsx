@@ -101,12 +101,27 @@ function RapportPage() {
   ]);
 
   // Fonctions pour formater le temps et la date
+  // function formatTimestampToTime(timestamp) {
+  //   const date = new Date(timestamp * 1000);
+  //   const hours = date.getUTCHours().toString().padStart(2, "0");
+  //   const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+  //   const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+  //   return `${hours}:${minutes}:${seconds}`;
+  // }
+
   function formatTimestampToTime(timestamp) {
     const date = new Date(timestamp * 1000);
-    const hours = date.getUTCHours().toString().padStart(2, "0");
+    let hours = date.getUTCHours();
     const minutes = date.getUTCMinutes().toString().padStart(2, "0");
     const seconds = date.getUTCSeconds().toString().padStart(2, "0");
-    return `${hours}:${minutes}:${seconds}`;
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert to 12-hour format
+    hours = hours % 12 || 12; // Convert 0 to 12 for midnight
+    hours = hours.toString().padStart(2, "0");
+
+    return `${hours}:${minutes} ${period}`;
+    // return `${hours}:${minutes}:${seconds} ${period}`;
   }
 
   function formatTimestampToDate(timestamp) {
