@@ -51,7 +51,7 @@ const Home = () => {
       <Statistics />
 
       {/* Chargement quand on login */}
-      {(isLoading && !isOffline) || (
+      {isLoading && (
         // (!vehicleData && (
         <div className="fixed inset-0 bg-gray-200/50 dark:bg-gray-900/50">
           <div className="w-full h-full flex justify-center items-center">
