@@ -81,6 +81,7 @@ function App() {
             }
           />
           <Route path="/login" element={<Login2 />} />
+          {/* ///////////////////////////////////////////////////// */}
           <Route
             path="/home"
             element={<PrivateRoute element={<HomePage />} />}
@@ -94,6 +95,16 @@ function App() {
             element={<PrivateRoute element={<ModifierPage />} />}
           />
 
+          <Route
+            path="/rapport_vehicule"
+            element={<PrivateRoute element={<RapportPage />} />}
+          />
+
+          <Route
+            path="/User_Profile"
+            element={<PrivateRoute element={<ProfilUserPage />} />}
+          />
+          {/* //////////////////////////////////////////////////////////// */}
           <Route
             path="/paiement"
             element={<PrivateRoute element={<Paiement_methode />} />}
@@ -110,16 +121,6 @@ function App() {
           <Route
             path="/voiture_historique"
             element={<PrivateRoute element={<HistoriquePage />} />}
-          />
-
-          <Route
-            path="/User_Profile"
-            element={<PrivateRoute element={<ProfilUserPage />} />}
-          />
-
-          <Route
-            path="/rapport_vehicule"
-            element={<PrivateRoute element={<RapportPage />} />}
           />
 
           <Route

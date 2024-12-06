@@ -38,7 +38,7 @@ const Home = () => {
   useEffect(() => {
     if (isLoading) {
       const timer = setTimeout(() => {
-        setIsLoading(false);
+        setIsLoading(!isLoading);
       }, 5000); // 5000 millisecondes = 5 secondes
 
       return () => clearTimeout(timer); // Nettoyage pour éviter les effets secondaires
