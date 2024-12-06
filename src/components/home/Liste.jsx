@@ -175,7 +175,7 @@ function Liste() {
           let main_text_color = "text-red-900 dark:text-red-300";
           let statut = "";
           let lite_bg_color =
-            "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-xl shadow-gray-950/20";
+            "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-lg shadow-gray-950/20";
           let activeTextColor = "text-red-900 dark:text-red-200";
           let active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
           let vitess_img = "";
@@ -204,7 +204,7 @@ function Liste() {
             main_text_color = "text-purple-900 dark:text-purple-300 md:hidden";
             statut = "En arrêt";
             lite_bg_color =
-              "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-xl shadow-gray-950/20";
+              "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-lg shadow-gray-950/20";
             activeTextColor = "text-purple-900 dark:text-purple-200";
             active_bg_color = "bg-purple-200/50 dark:bg-purple-600/50";
             vitess_img = "/img/home_icon/payer.png";
@@ -215,7 +215,7 @@ function Liste() {
             main_text_color = "text-red-900 dark:text-red-300";
             statut = "En arrêt";
             lite_bg_color =
-              "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-xl shadow-gray-950/20";
+              "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-lg shadow-gray-900/20";
             activeTextColor = "text-red-900 dark:text-red-200";
             active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
             vitess_img = "img/cars/orange_vitess.png";
@@ -226,7 +226,7 @@ function Liste() {
             main_text_color = "text-[#555b03] dark:text-yellow-300";
             statut = "En ralenti";
             lite_bg_color =
-              "bg-[#ffff001b] dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-yellow-400/80  shadow-xl shadow-gray-950/20";
+              "bg-[#ffff001b] dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-yellow-400/80  shadow-lg shadow-gray-950/20";
             activeTextColor = "text-[#555b03] dark:text-yellow-100";
             active_bg_color = "bg-yellow-400/20 dark:bg-yellow-600/20";
             vitess_img = "img/cars/yellow_vitess.png";
@@ -237,7 +237,7 @@ function Liste() {
             main_text_color = "text-green-700 dark:text-green-400";
             statut = "En marche";
             lite_bg_color =
-              "bg-green-100/50 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-green-600/80  shadow-xl shadow-gray-950/20";
+              "bg-green-100/50 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-green-600/80  shadow-lg shadow-gray-950/20";
             activeTextColor = "text-green-800 dark:text-green-200";
             active_bg_color = "bg-green-300/50 dark:bg-green-500/50";
             vitess_img = "img/cars/green_vitess.png";
@@ -249,7 +249,7 @@ function Liste() {
           //   main_text_color = "text-purple-900 dark:text-purple-300";
           //   statut = "En arrêt";
           //   lite_bg_color =
-          //     "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-xl shadow-gray-950/20";
+          //     "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-lg shadow-gray-950/20";
           //   activeTextColor = "text-purple-900 dark:text-purple-200";
           //   active_bg_color = "bg-purple-200/50 dark:bg-purple-600/50";
           //   vitess_img = "/img/home_icon/payer.png";

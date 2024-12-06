@@ -2014,6 +2014,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         // callError,
         // setCallError,
         lancerAppel,
+        setIsLoading,
       }}
     >
       {children}

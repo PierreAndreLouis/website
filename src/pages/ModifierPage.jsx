@@ -253,7 +253,7 @@ function Modifier() {
                  px-3 py-2 bg-orange-50 dark:bg-gray-900/50 dark:border-gray-500  dark:text-gray-300 text-center"
               >
                 <p className="text-start w-[90%] overflow-hidden whitespace-nowrap text-ellipsis">
-                  {currentVehicule.displayName ||
+                  {currentVehicule?.displayName ||
                     currentVehicule?.description ||
                     "Choisis un Véhicule"}
                 </p>
