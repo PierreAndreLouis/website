@@ -215,7 +215,7 @@ function MapComponent() {
             <Popup>
               <div className="w-[70vw] max-w-[20rem]">
                 <p>
-                  <strong>Nom : :</strong>{" "}
+                  <strong>Nom :</strong>{" "}
                   {vehicle.displayName ||
                     vehicle.description ||
                     "Non disponible"}
@@ -233,7 +233,7 @@ function MapComponent() {
                   {vehicle.speedKPH || "Non disponible"} Km/h
                 </p>
                 <p>
-                  <strong>Statut :</strong>
+                  <strong>Statut : </strong>
                   {vehicle.speedKPH < 1 && "en arret"}
                   {vehicle.speedKPH > 20 && "en deplacement"}
                   {vehicle.speedKPH >= 1 &&

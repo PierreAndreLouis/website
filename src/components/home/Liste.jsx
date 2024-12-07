@@ -166,14 +166,14 @@ function Liste() {
 
   return (
     <div className="p-2 flex flex-col gap-4 mt-4 mb-32 dark:text-white">
-      <button
+      {/* <button
         onClick={() => {
           // Debug test - VehicleAddress
           fonctionTest();
         }}
       >
         test
-      </button>
+      </button> */}
       {isLoading ? (
         <p>Chargement des données...</p>
       ) : filteredData.length > 0 ? (
@@ -396,7 +396,9 @@ function Liste() {
                   </div>
                   {/* /////////////////////////////////////////////////////// */}
                   <p className="sm:hidden border-t pt-2 border-t-orange-200 dark:border-t-orange-600/30 text-md felx  text-gray-600 mt-2 md:text-lg dark:text-gray-300">
-                    <span className="font-bold dark:text-orange-500">
+                    <span
+                      className={`${main_text_color} font-semibold dark:text-orange-500--"`}
+                    >
                       Adresse :{" "}
                     </span>
                     {vehicle.vehiculeDetails?.[0]?.backupAddress ||
