@@ -12,6 +12,12 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
+      '/other-api': {
+  target: 'http://31.207.33.96',
+  changeOrigin: true,
+  rewrite: (path) => path.replace(/^\/other-api/, ''),
+},
+
     },
   },
   plugins: [

@@ -506,7 +506,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
         if (latitude && longitude) {
           // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-          const url = `http://31.207.33.96/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+          const url = `/other-api/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
           // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=-23.4797785&lon=-46.76839450000001`;
           try {
             const addressResponse = await fetch(url);
@@ -750,7 +750,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
         if (latitude && longitude) {
           // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-          const url = `http://31.207.33.96/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+          const url = `/other-api/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
           // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=-23.4797785&lon=-46.76839450000001`;
           try {
             const addressResponse = await fetch(url);
@@ -1005,7 +1005,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
         if (latitude && longitude) {
           // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-          const url = `http://31.207.33.96/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+          const url = `/other-api/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
           // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=-23.4797785&lon=-46.76839450000001`;
           try {
             const addressResponse = await fetch(url);
@@ -1407,7 +1407,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
         if (latitude && longitude) {
           // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-          const url = `http://31.207.33.96/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+          const url = `/other-api/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
           // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=-23.4797785&lon=-46.76839450000001`;
           try {
             const addressResponse = await fetch(url);
