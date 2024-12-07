@@ -178,7 +178,7 @@ function Liste() {
         <p>Chargement des données...</p>
       ) : filteredData.length > 0 ? (
         filteredData.map((vehicle, index) => {
-          // const speed = 0;
+          // const speed = 100;
           const speed = vehicle.vehiculeDetails?.[0]?.speedKPH || 0;
 
           // let main_text_color,
@@ -197,6 +197,8 @@ function Liste() {
           let active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
           let vitess_img = "";
           let imgClass = "w-14 sm:w-16 md:w-24";
+          let border_top =
+            "border-t border-t-red-200 dark:border-t-red-600/30 ";
 
           ////////////////////////////////////////////////////////////////////////
 
@@ -216,9 +218,9 @@ function Liste() {
 
           // /////////////////////////////////////////////////////
 
+          // if (true) {
           if (noDetails || isInactive) {
-            // if (!noDetails || isInactive) {
-            main_text_color = "text-purple-900 dark:text-purple-300 md:hidden";
+            main_text_color = "text-purple-900 dark:text-purple-300 hidden";
             statut = "En Stationnement";
             lite_bg_color =
               "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-lg shadow-gray-950/20";
@@ -226,6 +228,8 @@ function Liste() {
             active_bg_color = "bg-purple-200/50 dark:bg-purple-600/50";
             vitess_img = "/img/home_icon/payer.png";
             imgClass = "w-14 sm:w-16 md:w-24";
+            border_top =
+              "border-t border-t-purple-200 dark:border-t-purple-600/30 ";
           }
           //
           else if (speed < 1) {
@@ -237,6 +241,7 @@ function Liste() {
             active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
             vitess_img = "img/cars/orange_vitess.png";
             imgClass = "w-14 sm:w-16 md:w-24";
+            border_top = "border-t border-t-red-200 dark:border-t-red-600/30 ";
           }
           //
           else if (speed >= 1 && speed <= 20) {
@@ -248,6 +253,8 @@ function Liste() {
             active_bg_color = "bg-yellow-400/20 dark:bg-yellow-600/20";
             vitess_img = "img/cars/yellow_vitess.png";
             imgClass = "w-12 sm:w-14 md:w-20";
+            border_top =
+              "border-t border-t-yellow-200 dark:border-t-yellow-600/30 ";
           }
           //
           else {
@@ -259,6 +266,8 @@ function Liste() {
             active_bg_color = "bg-green-300/50 dark:bg-green-500/50";
             vitess_img = "img/cars/green_vitess.png";
             imgClass = "w-12 sm:w-14 md:w-20";
+            border_top =
+              "border-t border-t-green-200 dark:border-t-green-600/30 ";
           }
 
           // if (noDetails || isInactive) {
@@ -395,9 +404,11 @@ function Liste() {
                     </div>
                   </div>
                   {/* /////////////////////////////////////////////////////// */}
-                  <p className="sm:hidden border-t pt-2 border-t-orange-200 dark:border-t-orange-600/30 text-[.9rem] felx  text-gray-600 mt-2 md:text-lg dark:text-gray-300">
+                  <p
+                    className={`${border_top} sm:hidden  pt-2 text-[.9rem] felx  text-gray-600 mt-2 md:text-lg dark:text-gray-300 `}
+                  >
                     <span
-                      className={`${main_text_color} font-semibold dark:text-orange-500--"`}
+                      className={`${activeTextColor} font-semibold dark:text-orange-500--"`}
                     >
                       Adresse :{" "}
                     </span>
