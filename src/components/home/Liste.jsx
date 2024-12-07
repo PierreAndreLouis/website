@@ -165,15 +165,15 @@ function Liste() {
   };
 
   return (
-    <div className="p-2 flex flex-col gap-4 mt-4 mb-32 dark:text-white">
-      <button
+    <div className="p-2 flex flex-col gap-4 mt-4 mb-[10rem]-- pb-[6rem] dark:text-white">
+      {/* <button
         onClick={() => {
           // Debug test - VehicleAddress
           fonctionTest();
         }}
       >
         test
-      </button>
+      </button> */}
       {isLoading ? (
         <p>Chargement des données...</p>
       ) : filteredData.length > 0 ? (
@@ -371,11 +371,11 @@ function Liste() {
                       </div>
 
                       <div className="flex gap-2">
-                        <div>
-                          <FaCar className="text-gray-500/80 dark:text-gray-300" />
+                        <div className="">
+                          <FaCar className="text-gray-500/80 dark:text-gray-300 mt-0.5" />
                         </div>
                         <span
-                          className={` ${active_bg_color} ml-1  ${activeTextColor} pb-[.2rem] px-2 py-0 text-sm rounded-md `}
+                          className={` ${active_bg_color} ml-1  ${activeTextColor} pb-[.1rem] px-2 py-0 text-[.87rem] rounded-md `}
                         >
                           {statut}
                         </span>

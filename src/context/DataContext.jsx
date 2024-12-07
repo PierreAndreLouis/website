@@ -304,13 +304,43 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   const handleLogout = () => {
     setShowSideBar(true);
     setLogOut(false);
+
     localStorage.removeItem("userData");
-    localStorage.removeItem("vehicleData");
-    localStorage.removeItem("vehicleDetails");
     setUserData(null);
+
+    localStorage.removeItem("vehicleData");
     setVehicleData(null);
+
+    localStorage.removeItem("vehicleDetails");
     setVehicleDetails([]);
+
+    localStorage.removeItem("mergedData");
+    setMergedData(null);
+
+    localStorage.removeItem("donneeFusionneeForRapport");
+    setdonneeFusionneeForRapport([]);
+
+    localStorage.removeItem("rapportvehicleDetails");
     setrapportVehicleDetails([]);
+
+    localStorage.removeItem("selectedTimeZone");
+    setSelectedTimeZone("");
+
+    localStorage.removeItem("selectUTC");
+    setselectUTC("");
+
+    localStorage.removeItem("selectTime");
+    setselectTime("");
+
+    localStorage.removeItem("account");
+    setAccount("");
+
+    localStorage.removeItem("username");
+    setUsername("");
+
+    localStorage.removeItem("password");
+    setPassword("");
+
     navigate("/login");
   };
   //
