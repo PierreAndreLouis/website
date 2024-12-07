@@ -395,7 +395,7 @@ function Liste() {
                     </div>
                   </div>
                   {/* /////////////////////////////////////////////////////// */}
-                  <p className="sm:hidden border-t pt-2 border-t-orange-200 dark:border-t-orange-600/30 text-md felx  text-gray-600 mt-2 md:text-lg dark:text-gray-300">
+                  <p className="sm:hidden border-t pt-2 border-t-orange-200 dark:border-t-orange-600/30 text-[.9rem] felx  text-gray-600 mt-2 md:text-lg dark:text-gray-300">
                     <span
                       className={`${main_text_color} font-semibold dark:text-orange-500--"`}
                     >
