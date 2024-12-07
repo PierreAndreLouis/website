@@ -140,8 +140,8 @@ function Statistics() {
           to="/Statistics_Page"
           className="bg-white dark:bg-gray-800 rounded-lg"
         >
-          <div className="border overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-blue-300/50 dark:bg-blue-700/40 flex justify-between items-start rounded-lg shadow-md p-3">
-            {/* <div className="border overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-blue-300/50 dark:bg-blue-700/30 flex justify-between items-start rounded-lg shadow-md p-3"> */}
+          <div className="border overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-blue-300/50 dark:bg-blue-700/40 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-blue-300/50 dark:bg-blue-700/30 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-700 dark:text-gray-300 md:font-semibold md:text-xl ">
                 Total
@@ -176,8 +176,8 @@ function Statistics() {
           to="/Statistics_Page"
           className="bg-white dark:bg-gray-800 rounded-lg"
         >
-          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-green-300/50 dark:bg-green-600/40 flex justify-between items-start rounded-lg shadow-md p-3">
-            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-green-300/50 dark:bg-green-700/30 flex justify-between items-start rounded-lg shadow-md p-3"> */}
+          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-green-300/50 dark:bg-green-600/40 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-green-300/50 dark:bg-green-700/30 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-700 dark:text-gray-300 md:font-semibold md:text-xl ">
                 Actifs
@@ -211,8 +211,8 @@ function Statistics() {
           to="/Statistics_Page"
           className="bg-white dark:bg-gray-800 rounded-lg"
         >
-          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-red-300/50 dark:bg-red-800/50 flex justify-between items-start rounded-lg shadow-md p-3">
-            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-red-300/50 dark:bg-red-900/40 flex justify-between items-start rounded-lg shadow-md p-3"> */}
+          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-red-300/50 dark:bg-red-800/50 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-red-300/50 dark:bg-red-900/40 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-700 dark:text-gray-300 md:font-semibold md:text-xl ">
                 Parking
@@ -246,8 +246,8 @@ function Statistics() {
           to="/Statistics_Page"
           className="bg-white dark:bg-gray-400/10 rounded-lg"
         >
-          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-purple-300/50 dark:bg-purple-700/30 flex justify-between items-start rounded-lg shadow-md p-3">
-            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-8 bg-purple-300/50 dark:bg-purple-950/50 flex justify-between items-start rounded-lg shadow-md p-3"> */}
+          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-purple-300/50 dark:bg-purple-700/30 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-purple-300/50 dark:bg-purple-950/50 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-900 dark:text-gray-300 md:font-semibold md:text-xl ">
                 Inactifs

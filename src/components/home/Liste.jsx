@@ -310,7 +310,7 @@ function Liste() {
                 <div className="----">
                   <div
                     onClick={() => handleClick(vehicle)}
-                    className="flex relative gap-3 md:py-6 border-2-- border-green-500--"
+                    className="flex relative gap-3 md:py-2 border-2-- border-green-500--"
                   >
                     <div className="flex flex-col items-center md:min-w-32">
                       <div className={`${imgClass} mb-2`}>
@@ -337,7 +337,7 @@ function Liste() {
                       <div className="flex mb-2 gap-4 text-gray-600 text-md dark:text-gray-300">
                         <div className="flex gap-3 items-center">
                           <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
-                          <h3 className="text-sm sm:text-sm md:text-md">
+                          <h3 className="text-sm sm:text-sm md:text-[1rem]  lg:text-lg--">
                             {vehicle?.vehiculeDetails?.[0]?.timestamp
                               ? selectUTC
                                 ? formatTimestampToDateWithTimezone(
@@ -354,7 +354,7 @@ function Liste() {
                         {vehicle.vehiculeDetails?.[0]?.timestamp ? (
                           <div className="flex items-center gap-1">
                             <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl" />
-                            <h3 className="text-sm sm:text-sm md:text-md">
+                            <h3 className="text-sm sm:text-sm md:text-[1rem] lg:text-lg--">
                               {selectUTC
                                 ? formatTimestampToTimeWithTimezone(
                                     vehicle.vehiculeDetails[0]?.timestamp,
@@ -386,7 +386,7 @@ function Liste() {
                           <MdLocationPin className="text-xl text-gray-500/80 dark:text-gray-300 -translate-x-0.5 mt-3" />
                         </div>
 
-                        <p className=" text-md felx sm:flex text-gray-600 mt-2 md:text-lg dark:text-gray-300">
+                        <p className=" text-md felx sm:flex text-gray-600 mt-2 md:text-[1.1rem] dark:text-gray-300">
                           {vehicle.vehiculeDetails?.[0]?.backupAddress ||
                             vehicle.vehiculeDetails?.[0]?.address ||
                             "Adresse non disponible"}
