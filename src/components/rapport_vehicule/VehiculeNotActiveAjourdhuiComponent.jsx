@@ -194,7 +194,8 @@ function VehiculeNotActiveAjourdhuiComponent({
                           </div>
 
                           <p className="text-md felx sm:flex text-gray-600 dark:text-gray-200 mt-2 md:text-lg">
-                            {vehicule.vehiculeDetails[0]?.address ||
+                            {vehicule?.vehiculeDetails[0]?.backupAddress ||
+                              vehicule.vehiculeDetails[0]?.address ||
                               "adresse non disponible"}
                           </p>
                         </div>
@@ -205,7 +206,8 @@ function VehiculeNotActiveAjourdhuiComponent({
                         <span className="text-red-700 font-bold dark:text-red-200">
                           Adresse :{" "}
                         </span>
-                        {vehicule.vehiculeDetails[0]?.address ||
+                        {vehicule?.vehiculeDetails[0]?.backupAddress ||
+                          vehicule.vehiculeDetails[0]?.address ||
                           "adresse non disponible"}
                       </p>
                     </div>

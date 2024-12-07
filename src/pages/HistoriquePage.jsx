@@ -93,7 +93,7 @@ function HistoriquePage() {
       "Véhicule",
     lastValidLatitude: vehicule?.latitude || "",
     lastValidLongitude: vehicule?.longitude || "",
-    address: vehicule?.address || "",
+    address: vehicule?.backupAddress || vehicule?.address || "",
     imeiNumber: currentVehicule?.imeiNumber || "",
     isActive: currentVehicule?.isActive || "",
     licensePlate: currentVehicule?.licensePlate || "",

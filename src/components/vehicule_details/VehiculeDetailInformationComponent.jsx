@@ -89,7 +89,9 @@ function VehiculeDetailInformationComponent({ currentVehicule }) {
             Adresse du véhicule
           </h3>
           <p className="pl-3 text-gray-500 dark:text-gray-400">
-            {currentVehicule?.vehiculeDetails[0]?.address || ""}
+            {currentVehicule?.vehiculeDetails[0]?.backupAddress ||
+              currentVehicule?.vehiculeDetails[0]?.address ||
+              ""}
           </p>
         </div>
 

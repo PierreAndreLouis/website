@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import { IoMdTime } from "react-icons/io";
 // import { DataContext } from "../../context/DataContext";
@@ -42,6 +42,7 @@ function HistoriqueMainComponent({
     const seconds = date.getSeconds().toString().padStart(2, "0");
     return `${hours}:${minutes}:${seconds}`;
   }
+
   return (
     <>
       <div>
@@ -181,7 +182,9 @@ function HistoriqueMainComponent({
                               <MdLocationPin className="text-xl dark:text-gray-300 text-gray-500/80 -translate-x-0.5 mt-3" />
                             </div>
                             <p className="text-md flex text-gray-600 dark:text-gray-300 mt-2 md:text-lg">
-                              {vehicle.address || "Adresse non disponible"}
+                              {vehicle?.backupAddress ||
+                                vehicle.address ||
+                                "Adresse non disponible"}
                             </p>
                           </div>
                         </div>

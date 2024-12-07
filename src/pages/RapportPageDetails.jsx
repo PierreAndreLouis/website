@@ -114,7 +114,7 @@ function RapportPageDetails() {
     description: currentVehicule?.description || "Véhicule",
     lastValidLatitude: vehicule?.latitude || "",
     lastValidLongitude: vehicule?.longitude || "",
-    address: vehicule?.address || "",
+    address: vehicule?.backupAddress || vehicule?.address || "",
     imeiNumber: currentVehicule?.imeiNumber || "",
     isActive: currentVehicule?.isActive || "",
     licensePlate: currentVehicule?.licensePlate || "",
@@ -887,7 +887,9 @@ function RapportPageDetails() {
 
   function getUniqueAddresses(dataList) {
     // Extraire toutes les adresses de la liste
-    const addresses = dataList?.map((item) => item.address);
+    const addresses = dataList?.map(
+      (item) => item.backupAddress || item.address
+    );
 
     // Utiliser un Set pour éliminer les doublons
     const uniqueAddresses = [...new Set(addresses)];
@@ -904,7 +906,9 @@ function RapportPageDetails() {
     );
 
     // Extraire les adresses de ces éléments filtrés
-    const addresses = filteredData?.map((item) => item.address);
+    const addresses = filteredData?.map(
+      (item) => item.backupAddress || item.address
+    );
 
     // Utiliser un Set pour éliminer les doublons
     const uniqueAddresses = [...new Set(addresses)];

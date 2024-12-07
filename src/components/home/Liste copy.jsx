@@ -164,12 +164,40 @@ function Liste() {
     }
   };
 
+  /////////////////////////////////////////////////////////////////
+  function VehicleAddress({ longitude, latitude }) {
+    const [address, setAddress] = useState("");
+
+    useEffect(() => {
+      const fetchAddress = async () => {
+        const url = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json&addressdetails=1`;
+        try {
+          const response = await fetch(url);
+          const data = await response.json();
+          if (data.address) {
+            const { road, suburb, city, country } = data.address;
+            setAddress(
+              `${road || ""}, ${suburb || ""}, ${city || ""}, ${country || ""}`
+            );
+          } else {
+            setAddress("Adresse non disponible");
+          }
+        } catch (error) {
+          setAddress("Erreur de récupération de l'adresse");
+        }
+      };
+
+      fetchAddress();
+    }, [longitude, latitude]);
+
+    return <p>Adresse: {address}</p>;
+  }
+
   return (
     <div className="p-2 flex flex-col gap-4 mt-4 mb-32 dark:text-white">
       <button
         onClick={() => {
           // Debug test - VehicleAddress
-          fonctionTest();
         }}
       >
         test
@@ -219,7 +247,7 @@ function Liste() {
           if (noDetails || isInactive) {
             // if (!noDetails || isInactive) {
             main_text_color = "text-purple-900 dark:text-purple-300 md:hidden";
-            statut = "En Stationnement";
+            statut = "En arrêt";
             lite_bg_color =
               "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-lg shadow-gray-950/20";
             activeTextColor = "text-purple-900 dark:text-purple-200";
@@ -230,7 +258,7 @@ function Liste() {
           //
           else if (speed < 1) {
             main_text_color = "text-red-900 dark:text-red-300";
-            statut = "En Stationnement";
+            statut = "En arrêt";
             lite_bg_color =
               "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-lg shadow-gray-900/20";
             activeTextColor = "text-red-900 dark:text-red-200";
@@ -264,7 +292,7 @@ function Liste() {
           // if (noDetails || isInactive) {
           //   // if (!noDetails || isInactive) {
           //   main_text_color = "text-purple-900 dark:text-purple-300";
-          //   statut = "En Stationnement";
+          //   statut = "En arrêt";
           //   lite_bg_color =
           //     "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-lg shadow-gray-950/20";
           //   activeTextColor = "text-purple-900 dark:text-purple-200";
@@ -273,136 +301,103 @@ function Liste() {
           //   imgClass = "w-14 sm:w-16 md:w-24";
           // }
 
-          // const [address, setAddress] = useState("Chargement de l'adresse...");
-
-          // const [backupAddress, setBackupAddress] = useState("Chargement de l'adresse...");
-          // const latitude = vehicle?.vehiculeDetails[0]?.latitude;
-          // const longitude = vehicle?.vehiculeDetails[0]?.longitude;
-
-          // async function fetchAddress() {
-          //   const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-          //   try {
-          //     const response = await fetch(url);
-          //     const data = await response.json();
-          //     if (data && data.display_name) {
-          //       setBackupAddress(data.display_name);
-          //     } else {
-          //       setBackupAddress("Adresse introuvable");
-          //     }
-          //   } catch (error) {
-          //     console.error("Erreur réseau :", error);
-          //   }
-          // }
-
-          // fetchAddress();
-          // useEffect(() => {
-          //   fetchAddress();
-          // }, [latitude, longitude]);
-
-          // console.log("Adresse:", address);
-
           return (
             <div className="bg-white dark:bg-gray-800">
               <div
                 key={vehicle.deviceID}
-                className={` ${lite_bg_color} shadow-md rounded-lg p-3 border-2-- border-red-500--`}
+                className={` ${lite_bg_color} shadow-md rounded-lg p-3`}
               >
-                <div className="----">
-                  <div
-                    onClick={() => handleClick(vehicle)}
-                    className="flex relative gap-3 md:py-6 border-2-- border-green-500--"
-                  >
-                    <div className="flex flex-col items-center md:min-w-32">
-                      <div className={`${imgClass} mb-2`}>
-                        <img src={vitess_img} alt="" />
+                <div
+                  onClick={() => handleClick(vehicle)}
+                  className="flex relative gap-3 md:py-6"
+                >
+                  <div className="flex flex-col items-center md:min-w-32">
+                    <div className={`${imgClass} mb-2`}>
+                      <img src={vitess_img} alt="" />
+                    </div>
+
+                    <h2
+                      className={`${main_text_color} sm:text-lg md:text-xl font-semibold whitespace-nowrap`}
+                    >
+                      {parseFloat(speed).toFixed(0)}
+                    </h2>
+                    <h2
+                      className={`${main_text_color} text-[1rem] sm:text-lg md:text-xl font-semibold whitespace-nowrap`}
+                    >
+                      Km/h
+                    </h2>
+                  </div>
+                  <div>
+                    <h2
+                      className={`${activeTextColor} text-gray-800 dark:text-gray-100 font-semibold text-md md:text-xl mb-2 `}
+                    >
+                      {vehicle?.displayName || vehicle?.description || "---"}
+                    </h2>
+                    <div className="flex mb-2 gap-4 text-gray-600 text-md dark:text-gray-300">
+                      <div className="flex gap-3 items-center">
+                        <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
+                        <h3 className="text-sm sm:text-sm md:text-md">
+                          {vehicle?.vehiculeDetails?.[0]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToDateWithTimezone(
+                                  vehicle?.vehiculeDetails[0].timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToDate(
+                                  vehicle?.vehiculeDetails?.[0]?.timestamp
+                                )
+                            : "Pas de date disponible"}
+                        </h3>
                       </div>
 
-                      <h2
-                        className={`${main_text_color} sm:text-lg md:text-xl leading font-semibold whitespace-nowrap`}
-                      >
-                        {parseFloat(speed).toFixed(0)}
-                      </h2>
-                      <h2
-                        className={`${main_text_color} text-[1rem] sm:text-lg md:text-xl leading-3 font-semibold whitespace-nowrap`}
-                      >
-                        Km/h
-                      </h2>
-                    </div>
-                    <div>
-                      <h2
-                        className={`${activeTextColor} text-gray-800 dark:text-gray-100 font-semibold text-md md:text-xl mb-2 `}
-                      >
-                        {vehicle?.displayName || vehicle?.description || "---"}
-                      </h2>
-                      <div className="flex mb-2 gap-4 text-gray-600 text-md dark:text-gray-300">
-                        <div className="flex gap-3 items-center">
-                          <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300" />
+                      {vehicle.vehiculeDetails?.[0]?.timestamp ? (
+                        <div className="flex items-center gap-1">
+                          <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl" />
                           <h3 className="text-sm sm:text-sm md:text-md">
-                            {vehicle?.vehiculeDetails?.[0]?.timestamp
-                              ? selectUTC
-                                ? formatTimestampToDateWithTimezone(
-                                    vehicle?.vehiculeDetails[0].timestamp,
-                                    selectUTC
-                                  )
-                                : formatTimestampToDate(
-                                    vehicle?.vehiculeDetails?.[0]?.timestamp
-                                  )
-                              : "Pas de date disponible"}
+                            {selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehicle.vehiculeDetails[0]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehicle.vehiculeDetails?.[0]?.timestamp
+                                )}
                           </h3>
                         </div>
+                      ) : (
+                        <div></div>
+                      )}
+                    </div>
 
-                        {vehicle.vehiculeDetails?.[0]?.timestamp ? (
-                          <div className="flex items-center gap-1">
-                            <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl" />
-                            <h3 className="text-sm sm:text-sm md:text-md">
-                              {selectUTC
-                                ? formatTimestampToTimeWithTimezone(
-                                    vehicle.vehiculeDetails[0]?.timestamp,
-                                    selectUTC
-                                  )
-                                : formatTimestampToTime(
-                                    vehicle.vehiculeDetails?.[0]?.timestamp
-                                  )}
-                            </h3>
-                          </div>
-                        ) : (
-                          <div></div>
-                        )}
+                    <div className="flex gap-2">
+                      <div>
+                        <FaCar className="text-gray-500/80 dark:text-gray-300" />
+                      </div>
+                      <span
+                        className={` ${active_bg_color} ml-1  ${activeTextColor} pb-[.2rem] px-2 py-0 text-sm rounded-md `}
+                      >
+                        {statut}
+                      </span>
+                    </div>
+
+                    <div className="flex gap-1">
+                      <div>
+                        <MdLocationPin className="text-xl text-gray-500/80 dark:text-gray-300 -translate-x-0.5 mt-3" />
                       </div>
 
-                      <div className="flex gap-2">
-                        <div>
-                          <FaCar className="text-gray-500/80 dark:text-gray-300" />
-                        </div>
-                        <span
-                          className={` ${active_bg_color} ml-1  ${activeTextColor} pb-[.2rem] px-2 py-0 text-sm rounded-md `}
-                        >
-                          {statut}
-                        </span>
-                      </div>
+                      <p className="text-md felx sm:flex text-gray-600 mt-2 md:text-lg dark:text-gray-300">
+                        {vehicle.vehiculeDetails?.[0]?.address ||
+                          "Adresse non disponible"}
 
-                      <div className="sm:flex gap-1 hidden ">
-                        <div>
-                          <MdLocationPin className="text-xl text-gray-500/80 dark:text-gray-300 -translate-x-0.5 mt-3" />
-                        </div>
+                        {/* <VehicleAddress
+                          latitude={vehicle.vehiculeDetails?.[0]?.latitude}
+                          longitude={vehicle.vehiculeDetails?.[0]?.longitude}
+                        /> */}
 
-                        <p className=" text-md felx sm:flex text-gray-600 mt-2 md:text-lg dark:text-gray-300">
-                          {vehicle.vehiculeDetails?.[0]?.backupAddress ||
-                            vehicle.vehiculeDetails?.[0]?.address ||
-                            "Adresse non disponible"}
-                        </p>
-                      </div>
+                        {/* <p>Adresse: {calculerAdresse(vehicule.longitude, vehicule.latitude)}</p> */}
+                      </p>
                     </div>
                   </div>
-                  {/* /////////////////////////////////////////////////////// */}
-                  <p className="sm:hidden border-t pt-2 border-t-orange-200 dark:border-t-orange-600/30 text-md felx  text-gray-600 mt-2 md:text-lg dark:text-gray-300">
-                    <span className="font-bold dark:text-orange-500">
-                      Adresse :{" "}
-                    </span>
-                    {vehicle.vehiculeDetails?.[0]?.backupAddress ||
-                      vehicle.vehiculeDetails?.[0]?.address ||
-                      "Adresse non disponible"}
-                  </p>
                 </div>
               </div>
             </div>

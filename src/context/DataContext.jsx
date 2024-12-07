@@ -388,8 +388,10 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         vehicleData.push(vehicleRecord);
       }
 
-      // localStorage.setItem("vehicleData", JSON.stringify(vehicleData));
       setVehicleData(vehicleData);
+
+      // localStorage.setItem("vehicleData", JSON.stringify(vehicleData));
+
       // console.log("******** Données des véhicules ********** ", vehicleData);
       // ---------------------------------------------------------------------
 
@@ -483,7 +485,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       const xmlDoc = parser.parseFromString(data, "application/xml");
       const records = xmlDoc.getElementsByTagName("Record");
 
-      console.log("data brut:---------", data);
+      console.log("data en xml:---------", data);
 
       const newVehicleDetails = [];
       for (let i = 0; i < records.length; i++) {
@@ -496,13 +498,34 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
           details[fieldName] = fieldValue;
         }
 
+        // Ajout du backupAddress pour chaque enregistrement
+        // const latitude = -23.4797785;
+        // const longitude = -46.76839450000001;
+        const latitude = details.latitude;
+        const longitude = details.longitude;
+
+        if (latitude && longitude) {
+          // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+          const url = `http://31.207.33.96/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+          // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=-23.4797785&lon=-46.76839450000001`;
+          try {
+            const addressResponse = await fetch(url);
+            const addressData = await addressResponse.json();
+            details.backupAddress =
+              addressData?.display_name || "Adresse introuvable";
+          } catch (error) {
+            console.error(
+              "Erreur lors de la récupération de l'adresse :",
+              error
+            );
+            details.backupAddress = "";
+          }
+        } else {
+          details.backupAddress = "Coordonnées non disponibles";
+        }
+
         newVehicleDetails.push(details);
       }
-
-      // setVehicleDetails((prevDetails) => [
-      //   ...prevDetails.filter((detail) => detail.Device !== Device),
-      //   ...newVehicleDetails,
-      // ]);
 
       setVehicleDetails((prevDetails) => {
         const updatedDetails = prevDetails?.map((detail) => {
@@ -522,11 +545,10 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
           });
         }
 
-        // Sauvegarde les données dans localStorage
-        // localStorage.setItem("vehicleDetails", JSON.stringify(updatedDetails));
-
         return [...updatedDetails];
       });
+
+      console.log("xxxxxxxxxxxxxxxxxxxxxxx", newVehicleDetails);
     } catch (error) {
       setError("Erreur lors de la récupération des détails du véhicule.");
       console.error(
@@ -658,7 +680,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   const fetRapportchVehicleDetails = async (Device, TimeFrom, TimeTo) => {
     if (!userData) return;
     // setRapportDataLoading(true);
-    console.log("Rapport start fetching............");
+    // console.log("Rapport start fetching............");
 
     const { accountID, userID, password } = userData;
     const xmlData = `<GTSRequest command="eventdata">
@@ -692,7 +714,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       </EventData>
     </GTSRequest>`;
 
-    console.log("wait 1111.......");
+    // console.log("wait 1111.......");
 
     try {
       const response = await fetch("/api/track/Service", {
@@ -700,14 +722,14 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         headers: { "Content-Type": "application/xml" },
         body: xmlData,
       });
-      console.log("wait 22222.......");
+      // console.log("wait 22222.......");
 
       const data = await response.text();
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(data, "application/xml");
       const records = xmlDoc.getElementsByTagName("Record");
 
-      console.log("Data brut rapport details.....", data);
+      // console.log("Data brut rapport details.....", data);
 
       const newVehicleDetails = [];
       for (let i = 0; i < records.length; i++) {
@@ -718,6 +740,32 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
           const fieldName = fields[j].getAttribute("name");
           const fieldValue = fields[j].textContent;
           details[fieldName] = fieldValue;
+        }
+
+        // Ajout du backupAddress pour chaque enregistrement
+        // const latitude = -23.4797785;
+        // const longitude = -46.76839450000001;
+        const latitude = details.latitude;
+        const longitude = details.longitude;
+
+        if (latitude && longitude) {
+          // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+          const url = `http://31.207.33.96/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+          // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=-23.4797785&lon=-46.76839450000001`;
+          try {
+            const addressResponse = await fetch(url);
+            const addressData = await addressResponse.json();
+            details.backupAddress =
+              addressData?.display_name || "Adresse introuvable";
+          } catch (error) {
+            console.error(
+              "Erreur lors de la récupération de l'adresse :",
+              error
+            );
+            details.backupAddress = "";
+          }
+        } else {
+          details.backupAddress = "Coordonnées non disponibles";
         }
 
         newVehicleDetails.push(details);
@@ -746,14 +794,14 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       //   ...newVehicleDetails,
       // ]);
 
-      console.log("...............newVehicleDetails", newVehicleDetails);
-      console.log("...............newVehicleDetails", newVehicleDetails);
-      console.log(
-        "...............rapportvehicleDetails",
-        rapportvehicleDetails
-      );
-      console.log("...............xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-      console.log("...............End.....");
+      // console.log("...............newVehicleDetails", newVehicleDetails);
+      // console.log("...............newVehicleDetails", newVehicleDetails);
+      // console.log(
+      //   "...............rapportvehicleDetails",
+      //   rapportvehicleDetails
+      // );
+      // console.log("...............xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+      // console.log("...............End.....");
 
       setTimeout(() => {
         setRapportDataLoading(false);
@@ -864,7 +912,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     if (vehicleData && vehicleData.length > 0) {
       vehicleData.forEach((vehicle) => {
         fetRapportchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
-        console.log("call the fonction.........");
+        // console.log("call the fonction.........");
       });
     }
   };
@@ -897,7 +945,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   const fetSearchRapportchVehicleDetails = async (Device, TimeFrom, TimeTo) => {
     if (!userData) return;
     // setRapportDataLoading(true);
-    console.log("starttttttttttttt..............");
+    // console.log("starttttttttttttt..............");
 
     const { accountID, userID, password } = userData;
     const xmlData = `<GTSRequest command="eventdata">
@@ -947,6 +995,32 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
           const fieldName = fields[j].getAttribute("name");
           const fieldValue = fields[j].textContent;
           details[fieldName] = fieldValue;
+        }
+
+        // Ajout du backupAddress pour chaque enregistrement
+        // const latitude = -23.4797785;
+        // const longitude = -46.76839450000001;
+        const latitude = details.latitude;
+        const longitude = details.longitude;
+
+        if (latitude && longitude) {
+          // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+          const url = `http://31.207.33.96/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+          // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=-23.4797785&lon=-46.76839450000001`;
+          try {
+            const addressResponse = await fetch(url);
+            const addressData = await addressResponse.json();
+            details.backupAddress =
+              addressData?.display_name || "Adresse introuvable";
+          } catch (error) {
+            console.error(
+              "Erreur lors de la récupération de l'adresse :",
+              error
+            );
+            details.backupAddress = "";
+          }
+        } else {
+          details.backupAddress = "Coordonnées non disponibles";
         }
 
         newVehicleDetails.push(details);
@@ -1312,7 +1386,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       const xmlDoc = parser.parseFromString(data, "application/xml");
       const records = xmlDoc.getElementsByTagName("Record");
 
-      console.log("Data brut:", data);
+      // console.log("Data brut:", data);
 
       const newVehicleDetails = [];
       for (let i = 0; i < records.length; i++) {
@@ -1323,6 +1397,32 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
           const fieldName = fields[j].getAttribute("name");
           const fieldValue = fields[j].textContent;
           details[fieldName] = fieldValue;
+        }
+
+        // Ajout du backupAddress pour chaque enregistrement
+        // const latitude = -23.4797785;
+        // const longitude = -46.76839450000001;
+        const latitude = details.latitude;
+        const longitude = details.longitude;
+
+        if (latitude && longitude) {
+          // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+          const url = `http://31.207.33.96/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+          // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=-23.4797785&lon=-46.76839450000001`;
+          try {
+            const addressResponse = await fetch(url);
+            const addressData = await addressResponse.json();
+            details.backupAddress =
+              addressData?.display_name || "Adresse introuvable";
+          } catch (error) {
+            console.error(
+              "Erreur lors de la récupération de l'adresse :",
+              error
+            );
+            details.backupAddress = "";
+          }
+        } else {
+          details.backupAddress = "Coordonnées non disponibles";
         }
 
         newVehicleDetails.push(details);
@@ -1346,12 +1446,12 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       // setVehiclueHistoriqueDetails(newVehicleDetails);
       // setVehiclueHistoriqueRapportDetails(newVehicleDetails);
 
-      console.log("newVehicleDetails.......>>>", newVehicleDetails);
-      console.log(
-        "newVehicleDetails.lenght.......>>>",
-        newVehicleDetails.length
-      );
-      console.log("End fetching.........");
+      // console.log("newVehicleDetails.......>>>", newVehicleDetails);
+      // console.log(
+      //   "newVehicleDetails.lenght.......>>>",
+      //   newVehicleDetails.length
+      // );
+      // console.log("End fetching.........");
 
       setLoadingHistoriqueFilter(false);
       setTimeout(() => {
@@ -1858,16 +1958,39 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   const fonctionTest = () => {
     console.log("Start test11111111.....................");
 
+    const now = new Date();
+    const TimeTo = `${now.getFullYear()}-${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${now.getDate().toString().padStart(2, "0")} ${now
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${now.getMinutes().toString().padStart(2, "0")}:${now
+      .getSeconds()
+      .toString()
+      .padStart(2, "0")}`;
+
+    const startOfDay = new Date();
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const TimeFrom = `${startOfDay.getFullYear()}-${(startOfDay.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}-${startOfDay
+      .getDate()
+      .toString()
+      .padStart(2, "0")} 00:00:00`;
+
     if (vehicleData && vehicleData.length > 0) {
       vehicleData.forEach((vehicle) => {
-        fetRapportchVehicleDetails(
-          vehicle.deviceID,
-          "2024-11-30 00:00:00",
-          "2024-11-30 23:40:45"
-          /////////////////////////
-          // "2024-10-01 00:00:00",
-          // "2024-10-01 23:40:45"
-        );
+        // fetRapportchVehicleDetails(
+        //   vehicle.deviceID,
+        //   "2024-11-30 00:00:00",
+        //   "2024-11-30 23:40:45"
+        //   /////////////////////////
+        //   // "2024-10-01 00:00:00",
+        //   // "2024-10-01 23:40:45"
+        // );
+        // fetchVehicleDetails()
+        fetchVehicleDetails(vehicle.deviceID, TimeFrom, TimeTo);
       });
     }
   };

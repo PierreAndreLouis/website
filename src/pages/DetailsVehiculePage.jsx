@@ -30,6 +30,7 @@ function DetailsVehiculePage() {
   const filteredVehicles = dataFusionee?.filter(
     (vehicule) =>
       vehicule.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      vehicule.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
