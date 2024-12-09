@@ -1434,31 +1434,33 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
           details[fieldName] = fieldValue;
         }
 
+        details.backupAddress = "";
+
         // Ajout du backupAddress pour chaque enregistrement
         // const latitude = -23.4797785;
         // const longitude = -46.76839450000001;
         const latitude = details.latitude;
         const longitude = details.longitude;
 
-        if (latitude && longitude) {
-          // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
-          const url = `/other-api/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
-          // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=-23.4797785&lon=-46.76839450000001`;
-          try {
-            const addressResponse = await fetch(url);
-            const addressData = await addressResponse.json();
-            details.backupAddress =
-              addressData?.display_name || "Adresse introuvable";
-          } catch (error) {
-            console.error(
-              "Erreur lors de la récupération de l'adresse :",
-              error
-            );
-            details.backupAddress = "";
-          }
-        } else {
-          details.backupAddress = "Coordonnées non disponibles";
-        }
+        // if (latitude && longitude) {
+        //   // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+        //   const url = `/other-api/nominatim/reverse.php?format=json&lat=${latitude}&lon=${longitude}&zoom=18&addressdetails=1`;
+        //   // const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=-23.4797785&lon=-46.76839450000001`;
+        //   try {
+        //     const addressResponse = await fetch(url);
+        //     const addressData = await addressResponse.json();
+        //     details.backupAddress =
+        //       addressData?.display_name || "Adresse introuvable";
+        //   } catch (error) {
+        //     console.error(
+        //       "Erreur lors de la récupération de l'adresse :",
+        //       error
+        //     );
+        //     details.backupAddress = "";
+        //   }
+        // } else {
+        //   details.backupAddress = "Coordonnées non disponibles";
+        // }
 
         newVehicleDetails.push(details);
       }
