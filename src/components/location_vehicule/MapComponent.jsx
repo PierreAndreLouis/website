@@ -72,7 +72,10 @@ function MapComponent() {
     description: vehicule.displayName || vehicule.description || "Véhicule",
     lastValidLatitude: vehicule.vehiculeDetails?.[0]?.latitude || "",
     lastValidLongitude: vehicule.vehiculeDetails?.[0]?.longitude || "",
-    address: vehicule.vehiculeDetails?.[0]?.address || "",
+    address:
+      vehicule.vehiculeDetails?.[0]?.backupAddress ||
+      vehicule.vehiculeDetails?.[0]?.address ||
+      "",
     imeiNumber: vehicule?.imeiNumber || "",
     isActive: vehicule?.isActive || "",
     licensePlate: vehicule?.licensePlate || "",

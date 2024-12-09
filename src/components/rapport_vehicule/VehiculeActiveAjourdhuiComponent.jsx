@@ -185,18 +185,20 @@ function VehiculeActiveAjourdhuiComponent({
                           </div>
 
                           <p className="text-md felx sm:flex text-gray-600 dark:text-gray-200 mt-2 md:text-lg">
-                            {vehicule?.vehiculeDetails[0]?.backupAddress || vehicule.vehiculeDetails[0]?.address ||
+                            {vehicule?.vehiculeDetails[0]?.backupAddress ||
+                              vehicule.vehiculeDetails[0]?.address ||
                               "adresse non disponible"}
                           </p>
                         </div>
                       </div>
                     </div>
                     <div className="flex gap-1 sm:hidden">
-                      <p className="text-md felx sm:flex dark:text-gray-300 text-gray-600 mt-2 md:text-lg">
+                      <p className="text-[.85rem] felx sm:flex dark:text-gray-300 text-gray-600 mt-2 md:text-lg">
                         <span className="text-green-700 font-bold dark:text-green-200">
                           Adresse :{" "}
                         </span>
-                        {vehicule?.vehiculeDetails[0]?.backupAddress || vehicule.vehiculeDetails[0]?.address ||
+                        {vehicule?.vehiculeDetails[0]?.backupAddress ||
+                          vehicule.vehiculeDetails[0]?.address ||
                           "adresse non disponible"}
                       </p>
                     </div>

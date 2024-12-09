@@ -428,7 +428,9 @@ function RapportGroupe({
                     )}
                   </td>
                   <td className="border py-3 px-2 dark:border-gray-600">
-                    {vehicule.vehiculeDetails[0]?.address || "---"}
+                    {vehicule.vehiculeDetails[0]?.backupAddress ||
+                      vehicule.vehiculeDetails[0]?.address ||
+                      "---"}
                   </td>
                 </tr>
               ))}

@@ -313,14 +313,12 @@ function Liste() {
           return (
             <div className="bg-white dark:bg-gray-800">
               <div
+                onClick={() => handleClick(vehicle)}
                 key={vehicle.deviceID}
                 className={` ${lite_bg_color} shadow-md rounded-lg p-3 border-2-- border-red-500--`}
               >
                 <div className="----">
-                  <div
-                    onClick={() => handleClick(vehicle)}
-                    className="flex relative gap-3 md:py-2 border-2-- border-green-500--"
-                  >
+                  <div className="flex relative gap-3 md:py-2 border-2-- border-green-500--">
                     <div className="flex flex-col items-center md:min-w-32">
                       <div className={`${imgClass} mb-2`}>
                         <img src={vitess_img} alt="" />
@@ -405,7 +403,7 @@ function Liste() {
                   </div>
                   {/* /////////////////////////////////////////////////////// */}
                   <p
-                    className={`${border_top} sm:hidden  pt-2 text-[.9rem] felx  text-gray-600 mt-2 md:text-lg dark:text-gray-300 `}
+                    className={`${border_top} sm:hidden  pt-2 text-[.85rem] xs:text-[.9rem]-- felx  text-gray-600 mt-2 md:text-lg dark:text-gray-300 `}
                   >
                     <span
                       className={`${activeTextColor} font-semibold dark:text-orange-500--"`}
