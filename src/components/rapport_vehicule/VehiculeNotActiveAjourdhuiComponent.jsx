@@ -202,7 +202,7 @@ function VehiculeNotActiveAjourdhuiComponent({
                       </div>
                     </div>
                     <div className="flex gap-1 sm:hidden">
-                      <p className="text-[.9rem] dark:text-[.9rem] felx sm:flex dark:text-gray-300 text-gray-600 mt-2 md:text-lg">
+                      <p className="text-[.95rem] dark:text-[.95rem] felx sm:flex dark:text-gray-300 text-gray-600 mt-2 md:text-lg">
                         <span className="text-red-700 font-bold dark:text-red-200">
                           Adresse :{" "}
                         </span>

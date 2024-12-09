@@ -203,7 +203,7 @@ function RapportPage() {
   };
 
   return (
-    <div className="mb-56 mt-[8rem]">
+    <div className="pb-56 pt-[8rem] min-h-screen">
       {showRapportPupup && (
         <RapportOptions
           setshowRapportPupup={setshowRapportPupup}

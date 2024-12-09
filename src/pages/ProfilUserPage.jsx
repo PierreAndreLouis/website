@@ -17,7 +17,7 @@ function ProfilUserPage() {
     setIsPasswordConfirmed,
     showChangePasswordPupup,
     setShowChangePasswordPupup,
-    selectUTC
+    selectUTC,
   } = useContext(DataContext);
   const [logOut, setLogOut] = useState(false);
   const [inputPassword, setInputPassword] = useState("");
@@ -45,9 +45,8 @@ function ProfilUserPage() {
     }
   };
 
-
   return (
-    <div className="px-4 pb-20">
+    <div className="px-4 pb-20 min-h-screen">
       {logOut && <Logout setLogOut={setLogOut} />}
 
       <ConfirmPasswordComponent
