@@ -298,6 +298,15 @@ function RapportPage() {
                   </div>
                 </form>
               )}
+
+              <button
+                onClick={() => {
+                  fonctionTest();
+                }}
+              >
+                {" "}
+                test
+              </button>
               {/* <VehiculeActiveMaintenantComponent
                 showActiveVehiculeNow={showActiveVehiculeNow}
                 setshowActiveVehiculeNow={setshowActiveVehiculeNow}
