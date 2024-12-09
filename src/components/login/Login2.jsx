@@ -65,10 +65,10 @@ function Login2({ setShowLogin }) {
 
   return (
     <div>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 pb-12 lg:px-8 ">
+      <div className="flex min-h-screen flex-1 flex-col justify-center px-6 pb-12 lg:px-8 ">
         <div className="flex justify-end">
           <div className="relative inline-block text-left  mt-4  mb-12 md:mb-0">
-            <div>
+            {/* <div>
               <button
                 type="button"
                 onClick={toggleMenu} // Ouvre/ferme le menu
@@ -97,7 +97,7 @@ function Login2({ setShowLogin }) {
                   />
                 </svg>
               </button>
-            </div>
+            </div> */}
 
             {isOpen && ( // Affiche le menu si `isOpen` est vrai
               <div className="origin-top-right  absolute right-0 mt-2 w-full rounded-lg shadow-lg bg-white dark:bg-gray-900/70 ring-1 ring-black ring-opacity-5 -----focus:outline-none z-10">
@@ -130,8 +130,6 @@ function Login2({ setShowLogin }) {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-       
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label
