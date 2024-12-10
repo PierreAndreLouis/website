@@ -268,7 +268,8 @@ function RapportPageDetails() {
 
   const options = {
     title: {
-      text: "Diagramme des vitesses",
+      // text: "Diagramme des vitesses",
+      text: "",
       left: "center",
       textStyle: {
         fontSize: 16, // Taille de la police pour le titre

@@ -346,10 +346,10 @@ function RapportPersonnel({
 
         {/* )} */}
 
-        <div className="shadow-md mt-20 mb-8  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
+        <div className="shadow-md mt-20 mb-2  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
           <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
           <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-            Diagramme du vitesse{" "}
+            Diagramme des vitesses{" "}
           </h2>
         </div>
 
