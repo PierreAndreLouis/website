@@ -49,7 +49,7 @@ function NavigationBar() {
         </div>
 
         <Link
-          to="/rapport_vehicule?tab=rapport"
+          to="/rapport_page_details?tab=rapport"
           onClick={() => handleTabClick("rapport")}
           className={`${
             tab === "rapport"

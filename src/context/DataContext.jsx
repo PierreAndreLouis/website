@@ -320,6 +320,12 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     localStorage.removeItem("donneeFusionneeForRapport");
     setdonneeFusionneeForRapport([]);
 
+    setVehiculeActiveAjourdhui([]);
+    setVehiculeNotActiveAjourdhui([]);
+    setVehiculeNotActif([]);
+    setVehiculeActiveMaintenant([]);
+    setSearchdonneeFusionneeForRapport([]);
+
     localStorage.removeItem("rapportvehicleDetails");
     setrapportVehicleDetails([]);
 

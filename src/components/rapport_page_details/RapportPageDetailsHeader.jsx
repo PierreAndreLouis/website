@@ -16,6 +16,7 @@ function RapportPageDetailsHeader({
   handleClick,
   vehiculeNotActiveAjourdhui,
   vehiculeNotActif,
+  personnelDetails,
 }) {
   return (
     <>
@@ -27,7 +28,13 @@ function RapportPageDetailsHeader({
       >
         <div className="flex justify-between cursor-pointer border rounded-md px-3 py-2 bg-orange-50 dark:bg-gray-900/50 dark:border-gray-500 dark:text-gray-300 text-center">
           <p className="text-start w-[90%] dark:text-gray-200 overflow-hidden whitespace-nowrap text-ellipsis">
-            {currentVehicule?.description || "Choisissez un véhicule"}
+            {personnelDetails &&
+              !currentVehicule?.description &&
+              "Choisissez un véhicule"}
+
+            {personnelDetails && currentVehicule?.description}
+
+            {!personnelDetails && "Rapport en groupe"}
           </p>
 
           <div
@@ -45,7 +52,7 @@ function RapportPageDetailsHeader({
 
         {showOptions && (
           <div className="absolute p-4 dark:bg-gray-900 dark:border dark:border-gray-500 dark:shadow-lg dark:shadow-gray-500 text-gray-500 top-20 rounded-lg bg-white right-0 left-0 min-h-20 shadow-lg shadow-gray-600">
-            <div
+            {/* <div
               onClick={() => {
                 setShowOptions(!showOptions);
                 setPersonnelDetails(false);
@@ -61,7 +68,7 @@ function RapportPageDetailsHeader({
               </div>
 
               <h3 className="dark:text-gray-200">Rapport de groupe</h3>
-            </div>
+            </div> */}
 
             {vehiculeActiveAjourdhui &&
               vehiculeActiveAjourdhui.map((vehicule, index) => {
@@ -81,6 +88,8 @@ function RapportPageDetailsHeader({
                       />
                     </div>
                     <h3 className="dark:text-gray-200">
+                      {/* {!personnelDetails || "Rapport en groupe"}
+                      {(personnelDetails && vehicule.description) || "---"} */}
                       {vehicule.description || "---"}
                     </h3>
                   </div>
@@ -137,8 +146,6 @@ function RapportPageDetailsHeader({
           </div>
         )}
       </div>
-
-  
     </>
   );
 }

@@ -9,7 +9,7 @@ function RapportPageDetailsOptions({
 }) {
   return (
     <>
-      <div className="flex px-4 mb-10 w-full gap-3 justify-between max-w-[40rem] mx-auto mt-4">
+      <div className="flex px-4 mb-2 w-full gap-2 justify-between max-w-[40rem] mx-auto mt-2">
         <button
           onClick={() => {
             setPersonnelDetails(true);
@@ -20,7 +20,7 @@ function RapportPageDetailsOptions({
               : "dark:bg-gray-900/70 bg-gray-100"
           } border border-gray-100 dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg shadow-lg-- shadow-gray-200 w-full py-1`}
         >
-          Personnel
+          Unité
         </button>
         <button
           onClick={() => {
@@ -32,9 +32,9 @@ function RapportPageDetailsOptions({
               : "dark:bg-gray-900/70 bg-gray-100"
           } border border-gray-100 dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg shadow-lg-- shadow-gray-200 w-full py-1`}
         >
-          En groupe
+          Groupe
         </button>
-        <button
+        {/* <button
           onClick={() => {
             setShowListOption(true);
             // setVehiclueHistoriqueDetails(currentVehicule?.vehiculeDetails);
@@ -42,7 +42,7 @@ function RapportPageDetailsOptions({
           className="border border-gray-100 dark:bg-gray-900/70 dark:text-gray-50 dark:border-gray-50/0 dark:shadow-gray-700 dark:shadow-lg rounded-lg bg-gray-100 shadow-lg-- shadow-gray-200 w-full py-1"
         >
           Options
-        </button>
+        </button> */}
       </div>
     </>
   );

@@ -108,7 +108,7 @@ function SideBar() {
         </Link>
 
         <Link
-          to="/rapport_vehicule?tab=rapport"
+          to="/rapport_page_details?tab=rapport"
           onClick={() => {
             setShowSideBar(true);
             handleTabClick("rapport");

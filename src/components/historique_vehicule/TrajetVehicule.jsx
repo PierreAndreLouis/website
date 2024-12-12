@@ -80,24 +80,58 @@ function TrajetVehicule({
                 heading,
               } = vehicule;
 
-              const markerIcon = getMarkerIcon(vehicule); // Récupérer l'icône en fonction de la vitesse
+              // const markerIcon = getMarkerIcon(vehicule); // Récupérer l'icône en fonction de la vitesse
+
+              const firstMarkerIcon = L.icon({
+                iconUrl: "/pin/start.png", // Remplacez par le chemin de votre icône
+                iconSize: [50, 60], // Taille plus grande
+                iconAnchor: [4, 61], // Point d'ancrage
+              });
+
+              const lastMarkerIcon = L.icon({
+                iconUrl: "/pin/end.png", // Remplacez par le chemin de votre icône
+                iconSize: [50, 60],
+                iconAnchor: [4, 61],
+              });
+
+              let markerIcon;
+              if (index === 0) {
+                // Première position
+                markerIcon = firstMarkerIcon;
+              } else if (index === vehicles.length - 1) {
+                // Dernière position
+                markerIcon = lastMarkerIcon;
+              } else {
+                // Autres positions
+                markerIcon = L.icon({
+                  iconUrl: getMarkerIcon(vehicule),
+                  iconSize: [17, 25],
+                  iconAnchor: [9, 25],
+                  popupAnchor: [-1, -30],
+                  shadowUrl:
+                    "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
+                  shadowSize: [5, 5],
+                });
+              }
 
               return (
                 <Marker
                   key={index}
                   position={[lastValidLatitude || 0, lastValidLongitude || 0]}
-                  icon={L.icon({
-                    iconUrl: markerIcon, // Utiliser l'icône basée sur la vitesse
-                    iconSize: [17, 25],
-                    // iconSize: [22, 35],
-                    // iconSize: [25, 41],
-                    iconAnchor: [9, 25],
-                    // iconAnchor: [12, 35],
-                    popupAnchor: [-1, -30],
-                    shadowUrl:
-                      "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
-                    shadowSize: [5, 5],
-                  })}
+                  icon={markerIcon}
+
+                  // icon={L.icon({
+                  //   iconUrl: markerIcon, // Utiliser l'icône basée sur la vitesse
+                  //   iconSize: [17, 25],
+                  //   // iconSize: [22, 35],
+                  //   // iconSize: [25, 41],
+                  //   iconAnchor: [9, 25],
+                  //   // iconAnchor: [12, 35],
+                  //   popupAnchor: [-1, -30],
+                  //   shadowUrl:
+                  //     "https://unpkg.com/leaflet/dist/images/marker-shadow.png",
+                  //   shadowSize: [5, 5],
+                  // })}
                 >
                   <Popup className="">
                     <div className="--w-[70vw] ---max-w-[20rem]">

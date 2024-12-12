@@ -65,6 +65,7 @@ function RapportPageDetails() {
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
       setPersonnelDetails(true);
+      setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
       setPersonnelDetails(true);
@@ -583,6 +584,9 @@ function RapportPageDetails() {
       ?.map((item) => parseFloat(item.speedKPH))
       .filter((speed) => speed > 0);
 
+    let minSpeed;
+    let maxSpeed;
+
     if (speeds?.length === 0) {
       return {
         minSpeed: 0,
@@ -590,9 +594,6 @@ function RapportPageDetails() {
         averageSpeed: 0,
       };
     }
-
-    let minSpeed;
-    let maxSpeed;
 
     if (speeds) {
       // Calcul de la vitesse minimale, maximale et moyenne
@@ -1087,13 +1088,12 @@ function RapportPageDetails() {
   const result = calculateDurationsForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste de véhicules
 
   return (
-    <div className="flex pt-28 flex-col max-w-screen overflow-hidden justify-center items-center pb-20">
+    <div className="flex pt-44 flex-col max-w-screen overflow-hidden justify-center items-center pb-20">
       <div className="fixed  px-4 z-[555555555] top-[3.4rem] left-0 right-0 bg-white py-3 dark:bg-gray-800">
         {showListeOption && <Liste_options />}
 
         <div className="fixed sm:px-[15vw] z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
           {/* Header */}
-
           <RapportPageDetailsHeader
             setShowOptions={setShowOptions}
             showOptions={showOptions}
@@ -1103,18 +1103,18 @@ function RapportPageDetails() {
             handleClick={handleClick}
             vehiculeNotActiveAjourdhui={vehiculeNotActiveAjourdhui}
             vehiculeNotActif={vehiculeNotActif}
+            personnelDetails={personnelDetails}
+          />
+          <RapportPageDetailsOptions
+            setPersonnelDetails={setPersonnelDetails}
+            personnelDetails={personnelDetails}
+            setShowListOption={setShowListOption}
+            setVehiclueHistoriqueDetails={setVehiclueHistoriqueDetails}
+            currentVehicule={currentVehicule}
           />
         </div>
       </div>
       {/* categorie Personnelle , groupe, et options */}
-
-      <RapportPageDetailsOptions
-        setPersonnelDetails={setPersonnelDetails}
-        personnelDetails={personnelDetails}
-        setShowListOption={setShowListOption}
-        setVehiclueHistoriqueDetails={setVehiclueHistoriqueDetails}
-        currentVehicule={currentVehicule}
-      />
 
       {/* Personnelle */}
       {personnelDetails && (
@@ -1137,6 +1137,7 @@ function RapportPageDetails() {
           longestSeconds={longestSeconds}
           calculateTotalDistance={calculateTotalDistance}
           nombreArret={nombreArret}
+          minSpeed={minSpeed}
           averageSpeed={averageSpeed}
           maxSpeed={maxSpeed}
           zoomCart={zoomCart}
@@ -1157,6 +1158,7 @@ function RapportPageDetails() {
           options={options}
           uniqueAddresses={uniqueAddresses}
           uniqueAddressesZerroSpeed={uniqueAddressesZerroSpeed}
+          setShowOptions={setShowOptions}
         />
       )}
 

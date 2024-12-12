@@ -12,7 +12,6 @@ import { useSelector, useDispatch } from "react-redux";
 
 // ok
 
-
 function Header() {
   // Récupère des données utilisateur et des fonctions utiles via le contexte DataContext
   const {
@@ -145,7 +144,7 @@ function Header() {
             Localisation
           </Link>
           <Link
-            to="/rapport_vehicule?tab=rapport"
+            to="/rapport_page_details?tab=rapport"
             onClick={() => handleTabClick("rapport")}
             className={`${
               tab === "rapport" && "text-orange-500"
@@ -165,7 +164,11 @@ function Header() {
             className="text-gray-500 dark:text-gray-200"
             onClick={() => dispatch(toggleTheme())} // Permet de basculer entre les thèmes
           >
-            {theme === "light" ? <FaSun className="text-lg"/> : <FaMoon className="text-lg"/>}
+            {theme === "light" ? (
+              <FaSun className="text-lg" />
+            ) : (
+              <FaMoon className="text-lg" />
+            )}
           </button>
           <Link
             className="hidden lg:block"
