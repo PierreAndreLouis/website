@@ -15,6 +15,7 @@ import RapportPageDetailsHeader from "../components/rapport_page_details/Rapport
 import RapportGroupe from "../components/rapport_page_details/RapportGroupe";
 import RapportPageDetailsOptions from "../components/rapport_page_details/RapportPageDetailsOptions";
 import RapportPersonnel from "../components/rapport_page_details/RapportPersonnel";
+import RapportPage from "./RapportPage";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -52,6 +53,8 @@ function RapportPageDetails() {
 
   const [showOptions, setShowOptions] = useState(false);
 
+  const [pageSection, setpageSection] = useState("unite");
+
   const handleClick = (vehicle) => {
     // setCurrentVehicule(vehicle);
 
@@ -66,6 +69,12 @@ function RapportPageDetails() {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
       setPersonnelDetails(true);
       setVehiclueHistoriqueDetails(foundVehicle.vehiculeDetails);
+      setpageSection("unite");
+      window.scrollTo({
+        top: 0,
+        behavior: "auto", // Défilement fluide
+        // behavior: "smooth", // Défilement fluide
+      });
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
       setPersonnelDetails(true);
@@ -887,36 +896,115 @@ function RapportPageDetails() {
   ////////////////////////////////////////////////////////////////////////////////////////
   // section pour savoir tous les lieux frequentes et stationnes
 
+  // function getUniqueAddresses(dataList) {
+  //   // Extraire toutes les adresses de la liste
+  //   const addresses = dataList?.map(
+  //     (item) => item.backupAddress || item.address
+  //   );
+
+  //   // Utiliser un Set pour éliminer les doublons
+  //   const uniqueAddresses = [...new Set(addresses)];
+
+  //   return uniqueAddresses;
+  // }
+
+  // const uniqueAddresses = getUniqueAddresses(currentVehicule?.vehiculeDetails);
+
   function getUniqueAddresses(dataList) {
-    // Extraire toutes les adresses de la liste
-    const addresses = dataList?.map(
-      (item) => item.backupAddress || item.address
-    );
+    // Vérifier si dataList est défini
+    if (!dataList) return [];
 
-    // Utiliser un Set pour éliminer les doublons
-    const uniqueAddresses = [...new Set(addresses)];
+    // Utiliser un Map pour conserver les informations uniques par adresse
+    const uniqueMap = new Map();
 
-    return uniqueAddresses;
+    dataList.forEach((item) => {
+      const address = item.backupAddress || item.address;
+      if (address && !uniqueMap.has(address)) {
+        uniqueMap.set(address, {
+          address,
+          speedKPH: item.speedKPH || 0, // Ajouter la vitesse (0 par défaut si manquante)
+          timestamp: item.timestamp || 0, // Ajouter le timestamp (0 par défaut si manquant)
+        });
+      }
+    });
+
+    // Retourner un tableau des valeurs uniques
+    return Array.from(uniqueMap.values());
   }
 
   const uniqueAddresses = getUniqueAddresses(currentVehicule?.vehiculeDetails);
+  console.log("Unique addresssssssssss", uniqueAddresses);
+
+  // function getUniqueAddressesWhenSpeedZeroOrLess(dataList) {
+  //   // Filtrer les éléments où la vitesse est <= 0
+  //   const filteredData = dataList?.filter(
+  //     (item) => parseFloat(item.speedKPH) <= 0
+  //   );
+
+  //   // Extraire les adresses de ces éléments filtrés
+  //   const addresses = filteredData?.map(
+  //     (item) => item.backupAddress || item.address
+  //   );
+
+  //   // Utiliser un Set pour éliminer les doublons
+  //   const uniqueAddresses = [...new Set(addresses)];
+
+  //   return uniqueAddresses;
+  // }
+
+  // function getUniqueAddressesWhenSpeedZeroOrLess(dataList) {
+  //   // Vérifier si dataList est défini
+  //   if (!dataList) return [];
+
+  //   // Utiliser un Map pour conserver les informations uniques par adresse
+  //   const uniqueMap = new Map();
+
+  //   // Filtrer les éléments où la vitesse est <= 0
+  //   const filteredData = dataList.filter(
+  //     (item) => parseFloat(item.speedKPH) <= 0
+  //   );
+
+  //   filteredData.forEach((item) => {
+  //     const address = item.backupAddress || item.address;
+  //     if (address && !uniqueMap.has(address)) {
+  //       uniqueMap.set(address, {
+  //         address,
+  //         speedKPH: item.speedKPH || 0, // Ajouter la vitesse (0 par défaut si manquante)
+  //         timestamp: item.timestamp || 0, // Ajouter le timestamp (0 par défaut si manquant)
+  //       });
+  //     }
+  //   });
+
+  //   // Retourner un tableau des valeurs uniques
+  //   return Array.from(uniqueMap.values());
+  // }
 
   function getUniqueAddressesWhenSpeedZeroOrLess(dataList) {
-    // Filtrer les éléments où la vitesse est <= 0
-    const filteredData = dataList?.filter(
-      (item) => parseFloat(item.speedKPH) <= 0
-    );
+    // Vérifier si dataList est défini
+    if (!dataList) return [];
 
-    // Extraire les adresses de ces éléments filtrés
-    const addresses = filteredData?.map(
-      (item) => item.backupAddress || item.address
-    );
+    // Utiliser un Map pour conserver les informations uniques par adresse avec vitesse <= 0
+    const uniqueMap = new Map();
 
-    // Utiliser un Set pour éliminer les doublons
-    const uniqueAddresses = [...new Set(addresses)];
+    dataList.forEach((item) => {
+      const address = item.backupAddress || item.address;
+      if (
+        address &&
+        !uniqueMap.has(address) &&
+        parseFloat(item.speedKPH || 0) <= 0 // Vérifier si la vitesse est <= 0
+      ) {
+        uniqueMap.set(address, {
+          address,
+          speedKPH: item.speedKPH || 0, // Ajouter la vitesse (0 par défaut si manquante)
+          timestamp: item.timestamp || 0, // Ajouter le timestamp (0 par défaut si manquant)
+        });
+      }
+    });
 
-    return uniqueAddresses;
+    // Retourner un tableau des valeurs uniques
+    return Array.from(uniqueMap.values());
   }
+
   const uniqueAddressesZerroSpeed = getUniqueAddressesWhenSpeedZeroOrLess(
     currentVehicule?.vehiculeDetails
   );
@@ -1092,7 +1180,7 @@ function RapportPageDetails() {
       <div className="fixed  px-4 z-[555555555] top-[3.4rem] left-0 right-0 bg-white py-3 dark:bg-gray-800">
         {showListeOption && <Liste_options />}
 
-        <div className="fixed sm:px-[15vw] z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
+        <div className="fixed sm:px-[10vw] z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
           {/* Header */}
           <RapportPageDetailsHeader
             setShowOptions={setShowOptions}
@@ -1104,20 +1192,30 @@ function RapportPageDetails() {
             vehiculeNotActiveAjourdhui={vehiculeNotActiveAjourdhui}
             vehiculeNotActif={vehiculeNotActif}
             personnelDetails={personnelDetails}
-          />
-          <RapportPageDetailsOptions
-            setPersonnelDetails={setPersonnelDetails}
-            personnelDetails={personnelDetails}
-            setShowListOption={setShowListOption}
-            setVehiclueHistoriqueDetails={setVehiclueHistoriqueDetails}
-            currentVehicule={currentVehicule}
+            formatTimestampToTimeWithTimezone={
+              formatTimestampToTimeWithTimezone
+            }
+            formatTimestampToTime={formatTimestampToTime}
+            pageSection={pageSection}
+            setpageSection={setpageSection}
           />
         </div>
       </div>
+      <RapportPageDetailsOptions
+        setPersonnelDetails={setPersonnelDetails}
+        personnelDetails={personnelDetails}
+        setShowListOption={setShowListOption}
+        setVehiclueHistoriqueDetails={setVehiclueHistoriqueDetails}
+        currentVehicule={currentVehicule}
+        formatTimestampToTimeWithTimezone={formatTimestampToTimeWithTimezone}
+        formatTimestampToTime={formatTimestampToTime}
+        pageSection={pageSection}
+        setpageSection={setpageSection}
+      />
       {/* categorie Personnelle , groupe, et options */}
 
       {/* Personnelle */}
-      {personnelDetails && (
+      {pageSection === "unite" && (
         <RapportPersonnel
           currentVehicule={currentVehicule}
           formattedDate={formattedDate}
@@ -1164,7 +1262,7 @@ function RapportPageDetails() {
 
       {/* ////////////////////////////////////////////////////////////////////////////////////// */}
       {/* en groupe */}
-      {!personnelDetails && (
+      {pageSection === "groupe" && (
         <RapportGroupe
           formattedDate={formattedDate}
           currentdataFusionnee={currentdataFusionnee}
@@ -1185,6 +1283,10 @@ function RapportPageDetails() {
           activePeriods={activePeriods}
           movingTimes={movingTimes}
         />
+      )}
+
+      {pageSection === "search" && (
+        <RapportPage setpageSection={setpageSection} />
       )}
     </div>
   );

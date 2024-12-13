@@ -19,7 +19,7 @@ import VehiculeNotActifComponent from "../components/rapport_vehicule/VehiculeNo
 import { IoClose } from "react-icons/io5";
 import { BsFillCalendar2DateFill } from "react-icons/bs";
 
-function RapportPage() {
+function RapportPage({ setpageSection }) {
   const {
     vehicleData,
     rapportvehicleDetails,
@@ -132,6 +132,14 @@ function RapportPage() {
     return `${day}-${month}-${year}`;
   }
 
+  // Fonction pour défiler vers le haut
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth", // Défilement fluide
+    });
+  };
+
   const handleClick = (vehicle) => {
     // setCurrentVehicule(vehicle);
 
@@ -144,6 +152,12 @@ function RapportPage() {
 
     if (foundVehicle) {
       setCurrentVehicule(foundVehicle); // Définit le véhicule actuel
+      setpageSection("unite");
+      window.scrollTo({
+        top: 0,
+        behavior: "auto", // Défilement fluide
+        // behavior: "smooth", // Défilement fluide
+      });
     } else {
       console.error("Véhicule introuvable avec le deviceID :", deviceID);
     }
@@ -202,8 +216,42 @@ function RapportPage() {
     }
   };
 
+  //////////////////////////////////////////////////////////////////
+
+  // Trouver la date du rapport
+  const timestampInSecondsDebut =
+    vehiculeActiveAjourdhui[0]?.vehiculeDetails[
+      vehiculeActiveAjourdhui[0]?.vehiculeDetails.length - 1
+    ]?.timestamp ||
+    vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[
+      vehiculeNotActiveAjourdhui[0]?.vehiculeDetails.length - 1
+    ]?.timestamp ||
+    vehiculeNotActif[0]?.vehiculeDetails[
+      vehiculeNotActif[0]?.vehiculeDetails.length - 1
+    ]?.timestamp;
+
+  const dateObjectDebut = new Date(timestampInSecondsDebut * 1000);
+
+  // Récupérer le jour, le mois et l'année séparément
+  const jourDebut = dateObjectDebut.getDate(); // Obtenir le jour
+  const moisDebut = dateObjectDebut.toLocaleString("fr-FR", { month: "long" }); // Obtenir le mois en toutes lettres
+  const anneeDebut = dateObjectDebut.getFullYear(); // Obtenir l'année
+
+  // Trouver la date du rapport
+  const timestampInSecondsFin =
+    vehiculeActiveAjourdhui[0]?.vehiculeDetails[0]?.timestamp ||
+    vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[0]?.timestamp ||
+    vehiculeNotActif[0]?.vehiculeDetails[0]?.timestamp;
+
+  const dateObjectFin = new Date(timestampInSecondsFin * 1000);
+
+  // Récupérer le jour, le mois et l'année séparément
+  const jourFin = dateObjectFin.getDate(); // Obtenir le jour
+  const moisFin = dateObjectFin.toLocaleString("fr-FR", { month: "long" }); // Obtenir le mois en toutes lettres
+  const anneeFin = dateObjectFin.getFullYear(); // Obtenir l'année
+
   return (
-    <div className="pb-56 pt-[8rem] min-h-screen">
+    <div className="pb-56 pt-[8rem]-- min-h-screen">
       {showRapportPupup && (
         <RapportOptions
           setshowRapportPupup={setshowRapportPupup}
@@ -223,15 +271,61 @@ function RapportPage() {
           </div>
         </div>
       )}
-      <div className="mt-[4.5rem]">
+      <div className="mt-[2.5rem]">
         <div className=" overflow-hidden">
           <div className={` transition-all `}>
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
+            {/* ------------------- */}
             {/* ------------------- */}
 
             {/* Rapport des vehicule */}
             <div className=" w-full sm:px-6 md:px-20 px-2">
+              <h1 className=" dark:text-gray-200 text-center mx-4 text-lg text-orange-600">
+                Resultat de recherche
+              </h1>
               <h1 className="font-semibold dark:text-gray-200 text-center mx-4 mb-10 text-xl">
-                {formatDate(selectedDate)}
+                {/* {formatDate(selectedDate)} */}
+                {
+                  // true ||
+                  jourDebut === jourFin &&
+                  moisDebut === moisFin &&
+                  anneeDebut === anneeFin ? (
+                    <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                      <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                        Le {jourDebut || ""} {moisDebut || ""}{" "}
+                        {anneeDebut || ""}
+                      </span>{" "}
+                    </span>
+                  ) : (
+                    <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                      Du{" "}
+                      <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                        {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
+                        {anneeDebut === anneeFin ? "" : anneeDebut}
+                      </span>{" "}
+                      au{" "}
+                      <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                        {jourFin} {moisFin} {anneeFin}
+                      </span>
+                    </span>
+                  )
+                }
               </h1>
 
               {/* //////////////////////////////////// */}
@@ -321,6 +415,7 @@ function RapportPage() {
               <VehiculeActiveAjourdhuiComponent
                 showActiveVehicule={showActiveVehicule}
                 setshowActiveVehicule={setshowActiveVehicule}
+                
                 vehiculeActiveAjourdhui={vehiculeActiveAjourdhui}
                 setshowRapportPupup={setshowRapportPupup}
                 formatTimestampToDate={formatTimestampToDate}

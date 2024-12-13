@@ -84,6 +84,7 @@ function RapportPersonnel({
     vehiclueHistoriqueDetails,
     setVehiclueHistoriqueDetails,
   } = useContext(DataContext); // const { currentVehicule } = useContext(DataContext);
+
   const formatTime = (hours, minutes, seconds) => {
     if (hours > 0 || minutes > 0 || seconds > 0) {
       return `${hours > 0 ? hours + "h " : ""}${
@@ -115,7 +116,7 @@ function RapportPersonnel({
   const anneeFin = dateObjectFin.getFullYear(); // Obtenir l'année
 
   const [showHistoriquePupup, setshowHistoriquePupup] = useState(false);
-  const [ordreCroissant, setordreCroissant] = useState(true);
+  const [ordreCroissant, setordreCroissant] = useState(false);
   // const [searchTerm, setSearchTerm] = useState(""); // Gère le terme de recherche de véhicule
 
   const [lieuxFrequentePupup, setlieuxFrequentePupup] = useState(false);
@@ -136,17 +137,43 @@ function RapportPersonnel({
     return `${day}-${month}-${year}`;
   }
 
+  function formatTimestampToDateWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
   const [searchTerm, setSearchTerm] = useState("");
 
   // Filtrer les adresses en fonction du terme de recherche
-  const filteredAddresses = uniqueAddresses?.filter((adresse) =>
-    adresse.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+
+  // uniqueAddressesZerroSpeed
+
+  const [addressType, setaddressType] = useState(true);
+
+  const [croissantOrDecroissant, setcroissantOrDecroissant] =
+    useState("croissant");
+
+  // let filteredAddresses = uniqueAddresses?.filter((item) =>
+  //   item?.address?.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
+
+  let filteredAddresses;
+  if (addressType) {
+    filteredAddresses = uniqueAddresses?.filter((item) =>
+      item?.address?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  } else {
+    filteredAddresses = uniqueAddressesZerroSpeed?.filter((item) =>
+      item?.address?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }
 
   return (
     <>
       {currentVehicule ? (
-        <div className=" px-4 md:max-w-[80vw] w-full">
+        <div className=" px-4 pb-20 md:max-w-[80vw] w-full">
           <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
             Rapport détaillé du véhicule
           </h1>
@@ -306,7 +333,7 @@ function RapportPersonnel({
                 </p>
 
                 <p>
-                  Plaque d'imatriculation:{" "}
+                  Plaque d'immatriculation:{" "}
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
                     {currentVehicule?.licensePlate || "---"}
                   </span>
@@ -398,7 +425,7 @@ function RapportPersonnel({
 
             <div>
               <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
-                <p>
+                {/* <p>
                   Date de Recherche :
                   <span className="font-semibold dark:text-orange-500 text-gray-700 pl-3">
                     {
@@ -459,12 +486,12 @@ function RapportPersonnel({
                           )}
                     </span>{" "}
                   </span>
-                </p>
+                </p> */}
 
                 {/*  */}
                 {/*  */}
                 {/*  */}
-                <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+                {/* <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" /> */}
                 {/*  */}
                 {/*  */}
                 {/*  */}
@@ -515,7 +542,7 @@ function RapportPersonnel({
                   </span>
                 </p>
                 <p>
-                  Durée totale de tous les arrêts :
+                  Durée des arrêts lors du deplacement :
                   <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
                     {/* {(() => {
                     if (
@@ -830,14 +857,16 @@ function RapportPersonnel({
           {/*  */}
           {/*  */}
 
-          <div className="shadow-md relative mt-20 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70-- bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-            <div className="flex flex-col border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              <div className="flex gap-4 items-center border-b-- border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+          <div className="shadow-md-- relative mt-20 pb-[10rem] cursor-pointer dark:bg-gray-800-- dark:shadow-lg-- dark:shadow-gray-900 py-4 hover:bg-orange-100/70-- bg-orange-50-- p-2- rounded-md flex--- items-start gap-4">
+            <div className="flex dark:bg-gray-800 bg-orange-50 flex-col border-b-- border-orange-600/30 dark:border-gray-600 p-3 rounded-lg mb-3 pb-2-- mb-3--">
+              <div className="flex gap-4 items-center border-b-- border-orange-600/30 dark:border-gray-600 pb-2-- mb-3--">
                 <TfiMapAlt className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
 
-                <div className="flex  items-center justify-between gap-2 w-full">
+                <div className="flex   items-center justify-between gap-2 w-full">
                   <h2 className="font-semibold dark:text-orange-500 text-orange-900">
-                    Tous les lieux fréquentés
+                    {addressType
+                      ? "Tous les lieux fréquentés"
+                      : "Tous les lieux Stationnés"}{" "}
                   </h2>
 
                   {lieuxFrequentePupup ? (
@@ -856,7 +885,7 @@ function RapportPersonnel({
                 </div>
 
                 {lieuxFrequentePupup && (
-                  <div className="absolute hidden-- top-[3.5rem] rounded-lg p-4 bg-white shadow-lg shadow-gray-600 left-0 right-0">
+                  <div className="absolute hidden-- top-[5rem] rounded-lg p-4 bg-white shadow-lg shadow-gray-600 left-0 right-0">
                     <div
                       onClick={() => {
                         setlieuxFrequentePupupSearch(true);
@@ -887,13 +916,54 @@ function RapportPersonnel({
                     {/*  */}
                     {/*  */}
                     {/*  */}
+                    <div
+                      onClick={() => {
+                        setlieuxFrequentePupup(false);
+                        // setshowHistoriquePupup(true);
+                        setaddressType(true);
+                        // setfrequenterOrStationnee("frequente");
+                      }}
+                      className={`${
+                        addressType && "bg-orange-50"
+                      } flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg `}
+                    >
+                      <TfiMapAlt className="text-orange-500 text-xl" />
+
+                      <h4 className="">Tous les lieux fréquentés</h4>
+                    </div>
+                    {/*  */}
+                    {/*  */}
+                    {/*  */}
+                    {/*  */}
+                    <div
+                      onClick={() => {
+                        setlieuxFrequentePupup(false);
+                        // setshowHistoriquePupup(true);
+                        setaddressType(false);
+                        // setfrequenterOrStationnee("stationne");
+                      }}
+                      className={`${
+                        !addressType && "bg-orange-50"
+                      }  flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg `}
+                    >
+                      <FaCar className="text-orange-500 text-xl" />
+
+                      <h4 className="">Tous les lieux Stationnés</h4>
+                    </div>
+                    {/*  */}
+                    {/*  */}
+                    {/*  */}
+                    {/*  */}
 
                     <div
                       onClick={() => {
                         setlieuxFrequentePupup(false);
-                        setordreCroissant(true);
+                        setordreCroissant(false);
+                        setcroissantOrDecroissant("croissant");
                       }}
-                      className="flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg "
+                      className={`${
+                        croissantOrDecroissant === "croissant" && "bg-orange-50"
+                      }  flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg `}
                     >
                       <FaArrowUp19 className="text-orange-500 text-xl" />
 
@@ -910,9 +980,13 @@ function RapportPersonnel({
                     <div
                       onClick={() => {
                         setlieuxFrequentePupup(false);
-                        setordreCroissant(false);
+                        setordreCroissant(true);
+                        setcroissantOrDecroissant("decroissant");
                       }}
-                      className="flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg "
+                      className={`${
+                        croissantOrDecroissant === "decroissant" &&
+                        "bg-orange-50"
+                      }  flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg `}
                     >
                       <FaArrowUp91 className="text-orange-500 text-xl" />
 
@@ -923,11 +997,11 @@ function RapportPersonnel({
               </div>
 
               {lieuxFrequentePupupSearch && (
-                <div className="border flex bg-white justify-between border-gray-400 rounded-lg p-2 py-1">
+                <div className="border flex  mt-3 bg-white justify-between border-gray-400 rounded-lg p-2 py-1">
                   <input
                     type="text"
                     placeholder="Recherche"
-                    className="w-full bg-transparent focus:outline-none"
+                    className="w-full bg-transparent  focus:outline-none"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
                   />
@@ -942,7 +1016,7 @@ function RapportPersonnel({
               )}
             </div>
 
-            <div className="sm:flex gap-10">
+            <div className="sm:flex gap-10 px-2">
               <div className="flex gap-0 items-center">
                 <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
                 <p className="text-[.9rem]">
@@ -1020,37 +1094,127 @@ function RapportPersonnel({
             {/*  */}
 
             <div>
-              <div className="text-gray-600 flex flex-col gap-3">
+              <div className="text-gray-600  flex flex-col gap-4">
                 {ordreCroissant ? (
                   filteredAddresses?.length > 0 ? (
-                    filteredAddresses?.map((adresse, index) => {
+                    filteredAddresses?.map((item, index) => {
+                      const numero = filteredAddresses.length - index;
+
                       return (
-                        <p className="dark:text-gray-300">
-                          <span className="font-bold dark:text-orange-500 text-black mr-3">
-                            {index + 1} {") "}
-                          </span>
-                          {adresse}
-                        </p>
+                        <div
+                          className="bg-orange-50 p-3 rounded-lg  shadow-lg "
+                          key={index}
+                        >
+                          <p className="dark:text-gray-500">
+                            <span className="font-bold dark:text-orange-500 text-black mr-3">
+                              {numero} {") "}
+                            </span>
+                            {item.address}
+                          </p>
+                          <div className="grid grid-cols-2 items-center gap-4 border-t mt-1 pt-1">
+                            <p>
+                              <span className="font-bold">Date : </span>
+                              {item.timestamp
+                                ? selectUTC
+                                  ? formatTimestampToDateWithTimezone(
+                                      item.timestamp,
+                                      selectUTC
+                                    )
+                                  : formatTimestampToDate(item.timestamp)
+                                : "Pas de date disponible"}{" "}
+                            </p>
+                            <p>
+                              <span className="font-bold">Heure : </span>
+                              {selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    item.timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(item.timestamp)}{" "}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-2 items-center gap-4 border-t mt-1 pt-1">
+                            <p>
+                              <span className="font-bold">Vitesse : </span>
+                              {item.speedKPH && !isNaN(Number(item.speedKPH))
+                                ? Number(item.speedKPH).toFixed(2) + " km"
+                                : "Non disponible"}
+                            </p>
+                            <p>
+                              <span className="font-bold">Statut : </span>
+                              {item.speedKPH <= 0 && "en arret"}
+                              {item.speedKPH >= 1 &&
+                                item.speedKPH < 20 &&
+                                "en ralentit"}
+                              {item.speedKPH >= 20 && "en deplacement"}
+                            </p>
+                          </div>
+                        </div>
                       );
                     })
                   ) : (
-                    <p className="px-4 text-center py-10">Pas de Resultat</p>
+                    <p className="px-4 dark:text-gray-200 text-center py-10">
+                      Pas de Resultat
+                    </p>
                   )
                 ) : filteredAddresses?.length > 0 ? (
                   filteredAddresses
                     ?.slice() // Crée une copie du tableau pour ne pas modifier l'original
                     .reverse() // Inverse l'ordre des éléments
-                    .map((adresse, index) => {
+                    .map((item, index) => {
                       // Calculer le numéro basé sur la position inversée
                       const numero = filteredAddresses.length - index;
 
                       return (
-                        <p className="dark:text-gray-300" key={index}>
-                          <span className="font-bold dark:text-orange-500 text-black mr-3">
-                            {numero} {") "}
-                          </span>
-                          {adresse}
-                        </p>
+                        <div
+                          className="bg-orange-50 p-3 rounded-lg  shadow-lg "
+                          key={index}
+                        >
+                          <p className="dark:text-gray-500">
+                            <span className="font-bold dark:text-orange-500 text-black mr-3">
+                              {index + 1} {") "}
+                            </span>
+                            {item.address}
+                          </p>
+                          <div className="grid grid-cols-2 items-center gap-4 border-t mt-1 pt-1">
+                            <p>
+                              <span className="font-bold">Date : </span>
+                              {item.timestamp
+                                ? selectUTC
+                                  ? formatTimestampToDateWithTimezone(
+                                      item.timestamp,
+                                      selectUTC
+                                    )
+                                  : formatTimestampToDate(item.timestamp)
+                                : "Pas de date disponible"}{" "}
+                            </p>
+                            <p>
+                              <span className="font-bold">Heure : </span>
+                              {selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    item.timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(item.timestamp)}{" "}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-2 items-center gap-4 border-t mt-1 pt-1">
+                            <p>
+                              <span className="font-bold">Vitesse : </span>
+                              {item.speedKPH && !isNaN(Number(item.speedKPH))
+                                ? Number(item.speedKPH).toFixed(2) + " km"
+                                : "Non disponible"}
+                            </p>
+                            <p>
+                              <span className="font-bold">Statut : </span>
+                              {item.speedKPH <= 0 && "en arret"}
+                              {item.speedKPH >= 1 &&
+                                item.speedKPH < 20 &&
+                                "en ralentit"}
+                              {item.speedKPH >= 20 && "en deplacement"}
+                            </p>
+                          </div>
+                        </div>
                       );
                     })
                 ) : (
@@ -1060,7 +1224,7 @@ function RapportPersonnel({
             </div>
           </div>
 
-          <div className="shadow-md mt-4 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70-- bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
+          {/* <div className="shadow-md mt-4 cursor-pointer dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4 hover:bg-orange-100/70-- bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
             <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
               <FaCar className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
 
@@ -1138,13 +1302,7 @@ function RapportPersonnel({
                 </p>
               </div>
             </div>
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
-            {/*  */}
-            {/*  */}
-            {/*  */}
+         
 
             <div>
               <div className="text-gray-600 flex flex-col gap-3">
@@ -1160,7 +1318,7 @@ function RapportPersonnel({
                 })}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       ) : (
         <div className="w-full flex flex-col justify-center items-center">
