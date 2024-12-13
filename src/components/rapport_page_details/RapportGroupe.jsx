@@ -110,8 +110,8 @@ function RapportGroupe({
     <>
       <div className=" px-4 pb-20 md:max-w-[80vw] w-full">
         {voirVehiculeListePupup && (
-          <div className="fixed z-[9999999999] inset-0 px-4 flex justify-center items-center bg-black/50">
-            <div className="bg-white rounded-lg pt-3 w-[90vw]  px-4">
+          <div className="fixed z-[9999999999] inset-0 px-2 flex justify-center items-center bg-black/50">
+            <div className="bg-white rounded-lg pt-3 w-[97vw]  px-2">
               <div className="flex justify-end ">
                 <IoClose
                   onClick={() => {
