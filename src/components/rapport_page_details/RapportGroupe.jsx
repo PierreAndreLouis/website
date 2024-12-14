@@ -352,7 +352,7 @@ function RapportGroupe({
 
               <div
                 className={`${
-                  voirPlus ? "max-h-[30rem]" : "max-h-[0rem]"
+                  voirPlus ? "max-h-[40rem]" : "max-h-[0rem]"
                 } transition-all overflow-hidden `}
               >
                 {/*  */}
@@ -611,7 +611,7 @@ function RapportGroupe({
           <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
             <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
             <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Informations sur le trajet dues vehicules
+              Informations sur le trajet des vehicules
             </h2>
           </div>
 
