@@ -54,7 +54,7 @@ function App() {
   );
 
   return (
-    <div className="dark:bg-gray-700">
+    <div className="dark:bg-gray-700 min-h-screen">
       <div className="dark:bg-slate-800/70 dark:border dark:border-slate-800">
         {/* Pupup qui Permet a l'utilisateur de refraich la page quand il y a mise a jour */}
         <div className="z-50 ">{/* <ReloadPrompt /> */}</div>

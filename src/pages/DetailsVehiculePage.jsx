@@ -34,7 +34,7 @@ function DetailsVehiculePage() {
   );
 
   return (
-    <div className="px-4 mt-20 pb-20">
+    <div className="px-4 mt-20 pb-20 min-h-screen">
       <div>
         <div
           onClick={() => {

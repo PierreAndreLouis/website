@@ -242,17 +242,6 @@ function RapportPage({
 
   return (
     <div className="pb-56 min-h-screen">
-      {/* <div>
-        <DatePupup
-          showChooseDate={showChooseDate}
-          handleApply={handleApply}
-          setShowChooseDate={setShowChooseDate}
-          setShowDatePicker2={setShowDatePicker2}
-          selectedDate={selectedDate}
-          setSelectedDate={setSelectedDate}
-        />
-      </div> */}
-
       {showRapportPupup && (
         <RapportOptions
           setshowRapportPupup={setshowRapportPupup}
@@ -297,7 +286,7 @@ function RapportPage({
 
             {/* Rapport des vehicule */}
             <div className=" w-full sm:px-6 md:px-20 px-2">
-              <h1 className=" dark:text-gray-200 text-center mx-4 text-lg text-orange-600">
+              <h1 className=" dark:text-orange-400 text-center mx-4 text-lg text-orange-600">
                 Resultat de recherche
               </h1>
               <h1 className="font-semibold dark:text-gray-200 text-center mx-4 mb-10 text-xl">
@@ -316,12 +305,12 @@ function RapportPage({
                   ) : (
                     <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
                       Du{" "}
-                      <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                      <span className="dark:text-gray-50 dark:font-normal font-semibold- text-gray-950">
                         {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                         {anneeDebut === anneeFin ? "" : anneeDebut}
                       </span>{" "}
                       au{" "}
-                      <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                      <span className="dark:text-gray-50 dark:font-normal font-semibold- text-gray-950">
                         {jourFin} {moisFin} {anneeFin}
                       </span>
                     </span>

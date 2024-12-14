@@ -211,6 +211,8 @@ function Liste_options({}) {
             <Link
               to="/voiture_historique"
               onClick={() => {
+                handleClick();
+
                 setShowListOption(false);
                 setShowHistoriqueInMap(true);
               }}

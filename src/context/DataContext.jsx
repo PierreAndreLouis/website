@@ -2188,6 +2188,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
         // setCallError,
         lancerAppel,
         setIsLoading,
+        setUsername,
       }}
     >
       {children}

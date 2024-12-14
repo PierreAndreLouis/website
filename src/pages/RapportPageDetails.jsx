@@ -1239,8 +1239,8 @@ function RapportPageDetails() {
   return (
     <div
       className={`${
-        pageSection === "search" ? "pt-36" : " pt-44 "
-      } flex flex-col max-w-screen overflow-hidden justify-center items-center pb-20 `}
+        pageSection === "search" ? "pt-20" : " pt-44 "
+      } flex flex-col max-w-screen min-h-[100vh]  overflow-hidden justify-center-- items-center pb-20 `}
     >
       <div>
         <DatePupup
@@ -1284,24 +1284,26 @@ function RapportPageDetails() {
 
         <div className="fixed sm:px-[10vw] z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
           {/* Header */}
-          <RapportPageDetailsHeader
-            setShowOptions={setShowOptions}
-            showOptions={showOptions}
-            currentVehicule={currentVehicule}
-            setPersonnelDetails={setPersonnelDetails}
-            vehiculeActiveAjourdhui={vehiculeActiveAjourdhui}
-            handleClick={handleClick}
-            vehiculeNotActiveAjourdhui={vehiculeNotActiveAjourdhui}
-            vehiculeNotActif={vehiculeNotActif}
-            personnelDetails={personnelDetails}
-            formatTimestampToTimeWithTimezone={
-              formatTimestampToTimeWithTimezone
-            }
-            formatTimestampToTime={formatTimestampToTime}
-            pageSection={pageSection}
-            setpageSection={setpageSection}
-            setShowChooseDate={setShowChooseDate}
-          />
+          {pageSection != "search" && (
+            <RapportPageDetailsHeader
+              setShowOptions={setShowOptions}
+              showOptions={showOptions}
+              currentVehicule={currentVehicule}
+              setPersonnelDetails={setPersonnelDetails}
+              vehiculeActiveAjourdhui={vehiculeActiveAjourdhui}
+              handleClick={handleClick}
+              vehiculeNotActiveAjourdhui={vehiculeNotActiveAjourdhui}
+              vehiculeNotActif={vehiculeNotActif}
+              personnelDetails={personnelDetails}
+              formatTimestampToTimeWithTimezone={
+                formatTimestampToTimeWithTimezone
+              }
+              formatTimestampToTime={formatTimestampToTime}
+              pageSection={pageSection}
+              setpageSection={setpageSection}
+              setShowChooseDate={setShowChooseDate}
+            />
+          )}
         </div>
       </div>
       <RapportPageDetailsOptions

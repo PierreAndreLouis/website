@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import { DataContext } from "../../context/DataContext";
 
 function InfoUserComponent({
   account,
@@ -10,15 +11,27 @@ function InfoUserComponent({
   selectUTC,
   setChangeTimeZone,
 }) {
+  const { setUsername } = useContext(DataContext);
+  // setUsername
   return (
     <div>
       {/* Section de l'icône utilisateur */}
-      <div className="flex mt-24 md:mt-28 justify-center items-center">
+      <div
+        onClick={() => {
+          // setUsername("xxxxxxx");
+        }}
+        className="flex mt-24 md:mt-28 justify-center items-center"
+      >
         <FaUserCircle className="text-gray-300 dark:text-gray-300 w-[25rem] h-24" />
       </div>
 
       {/* Titre principal */}
-      <h1 className="text-center font-bold text-xl mt-4 text-gray-700 dark:text-gray-100">
+      <h1
+        onClick={() => {
+          // setUsername("admin");
+        }}
+        className="text-center font-bold text-xl mt-4 text-gray-700 dark:text-gray-100"
+      >
         Mon Profil
       </h1>
 

@@ -195,7 +195,7 @@ function Liste() {
             "bg-red-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-red-600/80 shadow-lg shadow-gray-950/20";
           let activeTextColor = "text-red-900 dark:text-red-200";
           let active_bg_color = "bg-red-200/50 dark:bg-red-600/50";
-          let vitess_img = "";
+          let vitess_img = "img/cars/orange_vitess.png";
           let imgClass = "w-14 sm:w-16 md:w-24";
           let border_top =
             "border-t border-t-red-200 dark:border-t-red-600/30 ";

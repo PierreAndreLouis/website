@@ -134,7 +134,9 @@ function VehiculeDetailInformationComponent({
         </div>
       ) : (
         <div className="flex justify-center flex-col">
-          <p className="text-center text-lg">Veuillez choisir un vehicule</p>
+          <p className="text-center text-lg dark:text-gray-100">
+            Veuillez choisir un vehicule
+          </p>
           <button
             onClick={() => {
               setShowVehiculeListe(true);

@@ -26,7 +26,7 @@ function RapportPageDetailsHeader({
   setShowChooseDate,
   pageSection,
 }) {
-  const { selectUTC } = useContext(DataContext); // const { currentVehicule } = useContext(DataContext);
+  const { selectUTC, currentdataFusionnee } = useContext(DataContext); // const { currentVehicule } = useContext(DataContext);
   const formatTime = (hours, minutes, seconds) => {
     if (hours > 0 || minutes > 0 || seconds > 0) {
       return `${hours > 0 ? hours + "h " : ""}${
@@ -37,9 +37,20 @@ function RapportPageDetailsHeader({
   };
 
   // Trouver la date du rapport
+  // const timestampInSecondsDebut =
+  //   currentVehicule?.vehiculeDetails[
+  //     currentVehicule?.vehiculeDetails.length - 1
+  //   ]?.timestamp;
+
   const timestampInSecondsDebut =
-    currentVehicule?.vehiculeDetails[
-      currentVehicule?.vehiculeDetails.length - 1
+    vehiculeActiveAjourdhui[0]?.vehiculeDetails[
+      vehiculeActiveAjourdhui[0]?.vehiculeDetails.length - 1
+    ]?.timestamp ||
+    vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[
+      vehiculeNotActiveAjourdhui[0]?.vehiculeDetails.length - 1
+    ]?.timestamp ||
+    vehiculeNotActif[0]?.vehiculeDetails[
+      vehiculeNotActif[0]?.vehiculeDetails.length - 1
     ]?.timestamp;
   const dateObjectDebut = new Date(timestampInSecondsDebut * 1000);
 
@@ -49,7 +60,12 @@ function RapportPageDetailsHeader({
   const anneeDebut = dateObjectDebut.getFullYear(); // Obtenir l'année
 
   // Trouver la date du rapport
-  const timestampInSecondsFin = currentVehicule?.vehiculeDetails[0]?.timestamp;
+  // const timestampInSecondsFin = currentVehicule?.vehiculeDetails[0]?.timestamp;
+  const timestampInSecondsFin =
+    vehiculeActiveAjourdhui[0]?.vehiculeDetails[0]?.timestamp ||
+    vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[0]?.timestamp ||
+    vehiculeNotActif[0]?.vehiculeDetails[0]?.timestamp;
+
   const dateObjectFin = new Date(timestampInSecondsFin * 1000);
 
   // Récupérer le jour, le mois et l'année séparément
@@ -118,7 +134,7 @@ function RapportPageDetailsHeader({
         </div>
 
         {showOptions && (
-          <div className="absolute p-4 dark:bg-gray-900 dark:border dark:border-gray-500 dark:shadow-lg dark:shadow-gray-500 text-gray-500 top-20 rounded-lg bg-white right-0 left-0 min-h-20 shadow-lg shadow-gray-600">
+          <div className="absolute p-4 dark:bg-gray-700 dark:border dark:border-gray-500 dark:shadow-lg dark:shadow-gray-950 text-gray-500 top-20 rounded-lg bg-white right-0 left-0 min-h-20 shadow-lg shadow-gray-600/80">
             {/* <div
               onClick={() => {
                 setShowOptions(!showOptions);
@@ -213,13 +229,13 @@ function RapportPageDetailsHeader({
           </div>
         )}
       </div>
-      {currentVehicule && pageSection != "search" && (
+      {currentdataFusionnee.length > 0 && (
         <div className="flex gap-3 px-4 ">
           <div className="sm:flex w-full  gap-10 max-w-[50rem] mx-4-- justify-center items-center ">
             <div className="flex gap-0 items-center">
               <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
               <p className="text-[.9rem]">
-                <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
+                <span className="font-normal dark:text-orange-400 text-gray-700 pl-3">
                   {
                     // true ||
                     jourDebut === jourFin &&
@@ -253,31 +269,55 @@ function RapportPageDetailsHeader({
               <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
 
               <p className="text-[.9rem]">
-                <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
+                <span className="font-normal dark:text-orange-400 text-gray-700 pl-3">
                   De{" "}
                   <span className="dark:text-orange-400 mx-1 dark:font-normal font-semibold text-gray-950">
                     {selectUTC
                       ? formatTimestampToTimeWithTimezone(
-                          currentVehicule?.vehiculeDetails[
-                            currentVehicule?.vehiculeDetails?.length - 1
-                          ]?.timestamp,
+                          vehiculeActiveAjourdhui[0]?.vehiculeDetails[
+                            vehiculeActiveAjourdhui[0]?.vehiculeDetails.length -
+                              1
+                          ]?.timestamp ||
+                            vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[
+                              vehiculeNotActiveAjourdhui[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp ||
+                            vehiculeNotActif[0]?.vehiculeDetails[
+                              vehiculeNotActif[0]?.vehiculeDetails.length - 1
+                            ]?.timestamp,
                           selectUTC
                         )
                       : formatTimestampToTime(
-                          currentVehicule?.vehiculeDetails?.[
-                            currentVehicule?.vehiculeDetails?.length - 1
-                          ]?.timestamp
+                          vehiculeActiveAjourdhui[0]?.vehiculeDetails[
+                            vehiculeActiveAjourdhui[0]?.vehiculeDetails.length -
+                              1
+                          ]?.timestamp ||
+                            vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[
+                              vehiculeNotActiveAjourdhui[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp ||
+                            vehiculeNotActif[0]?.vehiculeDetails[
+                              vehiculeNotActif[0]?.vehiculeDetails.length - 1
+                            ]?.timestamp
                         )}
                   </span>{" "}
                   a{" "}
                   <span className="dark:text-orange-400 ml-1 dark:font-normal font-semibold text-gray-950">
                     {selectUTC
                       ? formatTimestampToTimeWithTimezone(
-                          currentVehicule?.vehiculeDetails[0]?.timestamp,
+                          vehiculeActiveAjourdhui[0]?.vehiculeDetails[0]
+                            ?.timestamp ||
+                            vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[0]
+                              ?.timestamp ||
+                            vehiculeNotActif[0]?.vehiculeDetails[0]?.timestamp,
                           selectUTC
                         )
                       : formatTimestampToTime(
-                          currentVehicule?.vehiculeDetails?.[0]?.timestamp
+                          vehiculeActiveAjourdhui[0]?.vehiculeDetails[0]
+                            ?.timestamp ||
+                            vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[0]
+                              ?.timestamp ||
+                            vehiculeNotActif[0]?.vehiculeDetails[0]?.timestamp
                         )}
                   </span>{" "}
                 </span>

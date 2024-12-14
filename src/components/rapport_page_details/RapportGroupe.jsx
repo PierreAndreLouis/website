@@ -112,7 +112,7 @@ function RapportGroupe({
       <div className=" px-4 pb-20 md:max-w-[80vw] w-full">
         {voirVehiculeListePupup && (
           <div className="fixed z-[9999999999] inset-0 px-2 flex justify-center items-center bg-black/50">
-            <div className="bg-white rounded-lg pt-3 w-[97vw]  px-2">
+            <div className="bg-white dark:bg-gray-800 rounded-lg pt-3 w-[97vw]  px-2">
               <div className="flex justify-end ">
                 <IoClose
                   onClick={() => {
@@ -121,7 +121,7 @@ function RapportGroupe({
                   className="cursor-pointer text-3xl text-red-500"
                 />
               </div>
-              <div className="relative h-[80vh] pt-6 rounded-lg overflow-auto bg-white md:px-[10vw]">
+              <div className="relative h-[80vh] pt-6 rounded-lg overflow-auto bg-white-- md:px-[10vw]">
                 {defineVehiculeListePupup === "active" && (
                   <VehiculeActiveAjourdhuiComponent
                     showActiveVehicule={showActiveVehicule}
@@ -220,7 +220,7 @@ function RapportGroupe({
                     moisDebut === moisFin &&
                     anneeDebut === anneeFin ? (
                       <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                        <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                           Le {jourDebut || ""} {moisDebut || ""}{" "}
                           {anneeDebut || ""}
                         </span>{" "}
@@ -228,12 +228,12 @@ function RapportGroupe({
                     ) : (
                       <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
                         Du{" "}
-                        <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                           {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                           {anneeDebut === anneeFin ? "" : anneeDebut}
                         </span>{" "}
                         au{" "}
-                        <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                           {jourFin} {moisFin} {anneeFin}
                         </span>
                       </span>
@@ -254,7 +254,7 @@ function RapportGroupe({
                 Heure du Recherche :
                 <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
                   De{" "}
-                  <span className="dark:text-orange-400 mx-1 dark:font-normal font-semibold- text-gray-950">
+                  <span className="dark:text-orange-500 mx-1 dark:font-normal font-semibold- text-gray-950">
                     {selectUTC
                       ? formatTimestampToTimeWithTimezone(
                           currentVehicule?.vehiculeDetails[
@@ -269,7 +269,7 @@ function RapportGroupe({
                         )}
                   </span>{" "}
                   a{" "}
-                  <span className="dark:text-orange-400 ml-1 dark:font-normal font-semibold- text-gray-950">
+                  <span className="dark:text-orange-500 ml-1 dark:font-normal font-semibold- text-gray-950">
                     {selectUTC
                       ? formatTimestampToTimeWithTimezone(
                           currentVehicule?.vehiculeDetails[0]?.timestamp,
@@ -626,7 +626,7 @@ function RapportGroupe({
                     moisDebut === moisFin &&
                     anneeDebut === anneeFin ? (
                       <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                        <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                           Le {jourDebut || ""} {moisDebut || ""}{" "}
                           {anneeDebut || ""}
                         </span>{" "}
@@ -634,12 +634,12 @@ function RapportGroupe({
                     ) : (
                       <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
                         Du{" "}
-                        <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                           {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                           {anneeDebut === anneeFin ? "" : anneeDebut}
                         </span>{" "}
                         au{" "}
-                        <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                           {jourFin} {moisFin} {anneeFin}
                         </span>
                       </span>
@@ -658,7 +658,7 @@ function RapportGroupe({
                 Heure du Recherche :
                 <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
                   De{" "}
-                  <span className="dark:text-orange-400 mx-1 dark:font-normal font-semibold- text-gray-950">
+                  <span className="dark:text-orange-500 mx-1 dark:font-normal font-semibold- text-gray-950">
                     {selectUTC
                       ? formatTimestampToTimeWithTimezone(
                           currentVehicule?.vehiculeDetails[
@@ -673,7 +673,7 @@ function RapportGroupe({
                         )}
                   </span>{" "}
                   a{" "}
-                  <span className="dark:text-orange-400 ml-1 dark:font-normal font-semibold- text-gray-950">
+                  <span className="dark:text-orange-500 ml-1 dark:font-normal font-semibold- text-gray-950">
                     {selectUTC
                       ? formatTimestampToTimeWithTimezone(
                           currentVehicule?.vehiculeDetails[0]?.timestamp,

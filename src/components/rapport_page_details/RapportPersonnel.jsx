@@ -173,7 +173,7 @@ function RapportPersonnel({
   return (
     <>
       {currentVehicule ? (
-        <div className=" px-4 pb-20 md:max-w-[80vw] w-full">
+        <div className=" px-4 min-h-screen-- pb-20 md:max-w-[80vw] w-full">
           <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
             Rapport détaillé du véhicule
           </h1>
@@ -202,19 +202,19 @@ function RapportPersonnel({
               moisDebut === moisFin &&
               anneeDebut === anneeFin ? (
                 <h3 className="text-[.85rem] sm:text-sm md:text-[1rem]  lg:text-lg--">
-                  <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                  <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                     Le {jourDebut || ""} {moisDebut || ""} {anneeDebut || ""}
                   </span>{" "}
                 </h3>
               ) : (
                 <h3 className="text-[.85rem] sm:text-sm md:text-[1rem]  lg:text-lg--">
                   Du{" "}
-                  <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                  <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                     {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                     {anneeDebut === anneeFin ? "" : anneeDebut}
                   </span>{" "}
                   au{" "}
-                  <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                  <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                     {jourFin} {moisFin} {anneeFin}
                   </span>
                 </h3>
@@ -227,7 +227,7 @@ function RapportPersonnel({
               <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4" />
               <h3 className="text-[.85rem] sm:text-sm md:text-[1rem] lg:text-lg-- ml-0.5">
                 De{" "}
-                <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                   {" "}
                   {selectUTC
                     ? formatTimestampToTimeWithTimezone(
@@ -243,7 +243,7 @@ function RapportPersonnel({
                       )}{" "}
                 </span>{" "}
                 a{" "}
-                <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                   {" "}
                   {selectUTC
                     ? formatTimestampToTimeWithTimezone(
@@ -269,7 +269,7 @@ function RapportPersonnel({
                       moisDebut === moisFin &&
                       anneeDebut === anneeFin ? (
                         <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                             Le {jourDebut || ""} {moisDebut || ""}{" "}
                             {anneeDebut || ""}
                           </span>{" "}
@@ -277,12 +277,12 @@ function RapportPersonnel({
                       ) : (
                         <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
                           Du{" "}
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                             {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                             {anneeDebut === anneeFin ? "" : anneeDebut}
                           </span>{" "}
                           au{" "}
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                             {jourFin} {moisFin} {anneeFin}
                           </span>
                         </span>
@@ -295,7 +295,7 @@ function RapportPersonnel({
                   Heure du Recherche :
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
                     De{" "}
-                    <span className="dark:text-orange-400 mx-1 dark:font-normal font-semibold- text-gray-950">
+                    <span className="dark:text-orange-500 mx-1 dark:font-normal font-semibold- text-gray-950">
                       {selectUTC
                         ? formatTimestampToTimeWithTimezone(
                             currentVehicule?.vehiculeDetails[
@@ -310,7 +310,7 @@ function RapportPersonnel({
                           )}
                     </span>{" "}
                     a{" "}
-                    <span className="dark:text-orange-400 ml-1 dark:font-normal font-semibold- text-gray-950">
+                    <span className="dark:text-orange-500 ml-1 dark:font-normal font-semibold- text-gray-950">
                       {selectUTC
                         ? formatTimestampToTimeWithTimezone(
                             currentVehicule?.vehiculeDetails[0]?.timestamp,
@@ -367,19 +367,19 @@ function RapportPersonnel({
               moisDebut === moisFin &&
               anneeDebut === anneeFin ? (
                 <h3 className="text-[.9rem] sm:text-sm md:text-[1rem]  lg:text-lg--">
-                  <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                  <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                     Le {jourDebut || ""} {moisDebut || ""} {anneeDebut || ""}
                   </span>{" "}
                 </h3>
               ) : (
                 <h3 className="text-[.9rem] sm:text-sm md:text-[1rem]  lg:text-lg--">
                   Du{" "}
-                  <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                  <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                     {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                     {anneeDebut === anneeFin ? "" : anneeDebut}
                   </span>{" "}
                   au{" "}
-                  <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                  <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                     {jourFin} {moisFin} {anneeFin}
                   </span>
                 </h3>
@@ -392,7 +392,7 @@ function RapportPersonnel({
               <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4" />
               <h3 className="text-[.9rem] sm:text-sm md:text-[1rem] lg:text-lg-- ml-0.5">
                 De{" "}
-                <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                   {" "}
                   {selectUTC
                     ? formatTimestampToTimeWithTimezone(
@@ -408,7 +408,7 @@ function RapportPersonnel({
                       )}{" "}
                 </span>{" "}
                 a{" "}
-                <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                   {" "}
                   {selectUTC
                     ? formatTimestampToTimeWithTimezone(
@@ -434,7 +434,7 @@ function RapportPersonnel({
                       moisDebut === moisFin &&
                       anneeDebut === anneeFin ? (
                         <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                             Le {jourDebut || ""} {moisDebut || ""}{" "}
                             {anneeDebut || ""}
                           </span>{" "}
@@ -442,12 +442,12 @@ function RapportPersonnel({
                       ) : (
                         <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
                           Du{" "}
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                             {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                             {anneeDebut === anneeFin ? "" : anneeDebut}
                           </span>{" "}
                           au{" "}
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                             {jourFin} {moisFin} {anneeFin}
                           </span>
                         </span>
@@ -460,7 +460,7 @@ function RapportPersonnel({
                   Heure du Recherche :
                   <span className="font-normal-- font-semibold dark:text-orange-500 text-gray-700 pl-3">
                     De{" "}
-                    <span className="dark:text-orange-400 mx-1 dark:font-normal font-semibold- text-gray-950">
+                    <span className="dark:text-orange-500 mx-1 dark:font-normal font-semibold- text-gray-950">
                       {selectUTC
                         ? formatTimestampToTimeWithTimezone(
                             currentVehicule?.vehiculeDetails[
@@ -475,7 +475,7 @@ function RapportPersonnel({
                           )}
                     </span>{" "}
                     a{" "}
-                    <span className="dark:text-orange-400 ml-1 dark:font-normal font-semibold- text-gray-950">
+                    <span className="dark:text-orange-500 ml-1 dark:font-normal font-semibold- text-gray-950">
                       {selectUTC
                         ? formatTimestampToTimeWithTimezone(
                             currentVehicule?.vehiculeDetails[0]?.timestamp,
@@ -1022,7 +1022,7 @@ function RapportPersonnel({
                       moisDebut === moisFin &&
                       anneeDebut === anneeFin ? (
                         <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                             Le {jourDebut || ""} {moisDebut || ""}{" "}
                             {anneeDebut || ""}
                           </span>{" "}
@@ -1030,12 +1030,12 @@ function RapportPersonnel({
                       ) : (
                         <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
                           Du{" "}
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                             {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                             {anneeDebut === anneeFin ? "" : anneeDebut}
                           </span>{" "}
                           au{" "}
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                             {jourFin} {moisFin} {anneeFin}
                           </span>
                         </span>
@@ -1051,7 +1051,7 @@ function RapportPersonnel({
                 <p className="text-[.9rem]">
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
                     De{" "}
-                    <span className="dark:text-orange-400 mx-1 dark:font-normal font-semibold text-gray-950">
+                    <span className="dark:text-orange-500 mx-1 dark:font-normal font-semibold text-gray-950">
                       {selectUTC
                         ? formatTimestampToTimeWithTimezone(
                             currentVehicule?.vehiculeDetails[
@@ -1066,7 +1066,7 @@ function RapportPersonnel({
                           )}
                     </span>{" "}
                     a{" "}
-                    <span className="dark:text-orange-400 ml-1 dark:font-normal font-semibold text-gray-950">
+                    <span className="dark:text-orange-500 ml-1 dark:font-normal font-semibold text-gray-950">
                       {selectUTC
                         ? formatTimestampToTimeWithTimezone(
                             currentVehicule?.vehiculeDetails[0]?.timestamp,
@@ -1097,7 +1097,7 @@ function RapportPersonnel({
 
                       return (
                         <div
-                          className="bg-orange-50 p-3 rounded-lg  shadow-lg "
+                          className="bg-orange-50 dark:bg-gray-800 p-3 rounded-lg  shadow-lg "
                           key={index}
                         >
                           <p className="dark:text-gray-500">
@@ -1148,7 +1148,7 @@ function RapportPersonnel({
                       );
                     })
                   ) : (
-                    <p className="px-4 dark:text-gray-200 text-center py-10">
+                    <p className="px-4 dark:text-gray-200 dark:bg-gray-800 text-center py-10">
                       Pas de Resultat
                     </p>
                   )
@@ -1162,10 +1162,10 @@ function RapportPersonnel({
 
                       return (
                         <div
-                          className="bg-orange-50 p-3 rounded-lg  shadow-lg "
+                          className="bg-orange-50 dark:bg-gray-900/40 dark:text-gray-300 p-3 rounded-lg  shadow-lg  dark:shadow-gray-700"
                           key={index}
                         >
-                          <p className="dark:text-gray-500">
+                          <p className="dark:text-gray-200 pb-4">
                             <span className="font-bold dark:text-orange-500 text-black mr-3">
                               {index + 1} {") "}
                             </span>
@@ -1173,7 +1173,9 @@ function RapportPersonnel({
                           </p>
                           <div className="grid grid-cols-2 items-center gap-4 border-t mt-1 pt-1">
                             <p>
-                              <span className="font-bold">Date : </span>
+                              <span className="font-bold dark:text-orange-400">
+                                Date :{" "}
+                              </span>
                               {item.timestamp
                                 ? selectUTC
                                   ? formatTimestampToDateWithTimezone(
@@ -1184,7 +1186,9 @@ function RapportPersonnel({
                                 : "Pas de date disponible"}{" "}
                             </p>
                             <p>
-                              <span className="font-bold">Heure : </span>
+                              <span className="font-bold  dark:text-orange-400">
+                                Heure :{" "}
+                              </span>
                               {selectUTC
                                 ? formatTimestampToTimeWithTimezone(
                                     item.timestamp,
@@ -1195,13 +1199,17 @@ function RapportPersonnel({
                           </div>
                           <div className="grid grid-cols-2 items-center gap-4 border-t mt-1 pt-1">
                             <p>
-                              <span className="font-bold">Vitesse : </span>
+                              <span className="font-bold  dark:text-orange-400">
+                                Vitesse :{" "}
+                              </span>
                               {item.speedKPH && !isNaN(Number(item.speedKPH))
                                 ? Number(item.speedKPH).toFixed(2) + " km"
                                 : "Non disponible"}
                             </p>
                             <p>
-                              <span className="font-bold">Statut : </span>
+                              <span className="font-bold  dark:text-orange-400">
+                                Statut :{" "}
+                              </span>
                               {item.speedKPH <= 0 && "en arret"}
                               {item.speedKPH >= 1 &&
                                 item.speedKPH < 20 &&
@@ -1239,7 +1247,7 @@ function RapportPersonnel({
                       moisDebut === moisFin &&
                       anneeDebut === anneeFin ? (
                         <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                             Le {jourDebut || ""} {moisDebut || ""}{" "}
                             {anneeDebut || ""}
                           </span>{" "}
@@ -1247,12 +1255,12 @@ function RapportPersonnel({
                       ) : (
                         <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
                           Du{" "}
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                             {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                             {anneeDebut === anneeFin ? "" : anneeDebut}
                           </span>{" "}
                           au{" "}
-                          <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                          <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
                             {jourFin} {moisFin} {anneeFin}
                           </span>
                         </span>
@@ -1268,7 +1276,7 @@ function RapportPersonnel({
                 <p className="text-[.9rem]">
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
                     De{" "}
-                    <span className="dark:text-orange-400 mx-1 dark:font-normal font-semibold text-gray-950">
+                    <span className="dark:text-orange-500 mx-1 dark:font-normal font-semibold text-gray-950">
                       {selectUTC
                         ? formatTimestampToTimeWithTimezone(
                             currentVehicule?.vehiculeDetails[
@@ -1283,7 +1291,7 @@ function RapportPersonnel({
                           )}
                     </span>{" "}
                     a{" "}
-                    <span className="dark:text-orange-400 ml-1 dark:font-normal font-semibold text-gray-950">
+                    <span className="dark:text-orange-500 ml-1 dark:font-normal font-semibold text-gray-950">
                       {selectUTC
                         ? formatTimestampToTimeWithTimezone(
                             currentVehicule?.vehiculeDetails[0]?.timestamp,
@@ -1316,7 +1324,7 @@ function RapportPersonnel({
           </div> */}
         </div>
       ) : (
-        <div className="w-full flex flex-col justify-center items-center">
+        <div className="w-full h-screen-- flex flex-col justify-center items-center">
           <button
             onClick={() => {
               setShowOptions(true);
