@@ -1324,12 +1324,12 @@ function RapportPersonnel({
           </div> */}
         </div>
       ) : (
-        <div className="w-full h-screen-- flex flex-col justify-center items-center">
+        <div className="w-full h-screen-- pt-20 flex flex-col justify-center items-center">
           <button
             onClick={() => {
               setShowOptions(true);
             }}
-            className="bg-orange-100 px-4 py-1 mt-5 cursor-pointer rounded-lg"
+            className="bg-orange-100  px-4 py-1 mt-5 cursor-pointer rounded-lg"
           >
             Choisissez un vehicule
           </button>
