@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { DataContext } from "../../context/DataContext";
 import { MdOutlineStickyNote2 } from "react-icons/md";
+import { FaLocationDot } from "react-icons/fa6";
+import { MdLocationPin } from "react-icons/md";
 
 function NavigationBar() {
-  const { handleTabClick, tab } = useContext(DataContext);
+  const { handleTabClick, tab, username } = useContext(DataContext);
 
   return (
     <div className="bg-red fixed bottom-0 left-0 right-0 dark:bg-slate-800 lg:hidden z-[1] ">
@@ -24,29 +26,55 @@ function NavigationBar() {
           <IoMdHome className="text-xl" />
           <h3 className="text-sm">Accueil</h3>
         </Link>
-
-        <Link
-          to="/modifier_vehicule?tab=modifier"
-          onClick={() => handleTabClick("modifier")}
-          className={`${
-            tab === "modifier"
-              ? "text-orange-500 dark:text-orange-300"
-              : "text-gray-600 dark:text-gray-400"
-          } flex flex-col cursor-pointer hover:text-orange-500 dark:hover:text-orange-300 justify-center items-center`}
-        >
-          <FaRegEdit className="text-xl" />
-          <h3 className="text-sm">Modifier</h3>
-        </Link>
-
-        <div className="flex justify-center items-center">
+        {username === "admin" ? (
           <Link
-            to="/ajouter_vehicule?tab=ajouter"
-            onClick={() => handleTabClick("ajouter")}
-            className="min-w-14 h-14 cursor-pointer -translate-y-3 border-4 border-gray-200 dark:border-slate-800 bg-orange-500 dark:bg-orange-600 flex justify-center items-center rounded-full"
+            to="/modifier_vehicule?tab=modifier"
+            onClick={() => handleTabClick("modifier")}
+            className={`${
+              tab === "modifier"
+                ? "text-orange-500 dark:text-orange-300"
+                : "text-gray-600 dark:text-gray-400"
+            } flex flex-col cursor-pointer hover:text-orange-500 dark:hover:text-orange-300 justify-center items-center`}
           >
-            <FaPlus className="text-white text-xl" />
+            <FaRegEdit className="text-xl" />
+            <h3 className="text-sm">Modifier</h3>
           </Link>
-        </div>
+        ) : (
+          <Link
+            to="/voiture_details?tab=voiture_details"
+            onClick={() => handleTabClick("voiture_details")}
+            className={`${
+              tab === "voiture_details"
+                ? "text-orange-500 dark:text-orange-300"
+                : "text-gray-600 dark:text-gray-400"
+            } flex flex-col cursor-pointer hover:text-orange-500 dark:hover:text-orange-300 justify-center items-center`}
+          >
+            <FaCar className="text-xl" />
+            <h3 className="text-sm">Details</h3>
+          </Link>
+        )}
+
+        {username === "admin" ? (
+          <div className="flex justify-center items-center">
+            <Link
+              to="/ajouter_vehicule?tab=ajouter"
+              onClick={() => handleTabClick("ajouter")}
+              className="min-w-14 h-14 cursor-pointer -translate-y-3 border-4 border-gray-200 dark:border-slate-800 bg-orange-500 dark:bg-orange-600 flex justify-center items-center rounded-full"
+            >
+              <FaPlus className="text-white text-xl" />
+            </Link>
+          </div>
+        ) : (
+          <div className="flex justify-center items-center">
+            <Link
+              to="/Groupe_vehicule_location?tab=location"
+              onClick={() => handleTabClick("location")}
+              className="min-w-14 h-14 cursor-pointer -translate-y-3 border-4 border-gray-200 dark:border-slate-800 bg-orange-500 dark:bg-orange-600 flex justify-center items-center rounded-full"
+            >
+              <MdLocationPin className="text-white text-[1.7rem]" />
+            </Link>
+          </div>
+        )}
 
         <Link
           to="/rapport_page_details?tab=rapport"

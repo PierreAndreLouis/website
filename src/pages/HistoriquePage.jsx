@@ -22,7 +22,6 @@ L.Icon.Default.mergeOptions({
 });
 
 function HistoriquePage() {
-  const [showDatePicker, setShowDatePicker] = useState(false);
   const [showFilter, setshowFilter] = useState(false);
   const [typeDeVue, setTypeDeVue] = useState(false);
 
@@ -245,6 +244,29 @@ function HistoriquePage() {
     }
   };
 
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  // Formatage de la date actuelle
+  const getCurrentDate = () => new Date().toISOString().split("T")[0];
+  const getCurrentTime = () => new Date().toTimeString().slice(0, 5);
+
+  // Initialisation de la date et de l'heure actuelles par défaut
+  const [startDate, setStartDate] = useState(getCurrentDate());
+  const [startTime, setStartTime] = useState("00:00"); // Heure de début fixée à minuit
+  const [endDate, setEndDate] = useState(getCurrentDate());
+  const [endTime, setEndTime] = useState(getCurrentTime());
+
+  const handleApply = (e) => {
+    e.preventDefault();
+    const timeFrom = `${startDate} ${startTime}:00`;
+    const timeTo = `${endDate} ${endTime}:00`;
+    // handleDateChange(timeFrom, timeTo);
+    fetchHistoriqueVehicleDetails(currentVehicule.deviceID, timeFrom, timeTo);
+
+    setShowDatePicker(false);
+    // setLoadingHistoriqueFilter(true);
+  };
+
   return (
     <div className="p-4 min-h-screen flex flex-col gap-4 mt-16 mb-32 px-4 sm:px-12 md:px-20 lg:px-40">
       <div className="z-50"></div>
@@ -255,7 +277,19 @@ function HistoriquePage() {
       )}
       {showDatePicker && (
         <div className="z-30">
-          <DateTimePicker setShowDatePicker={setShowDatePicker} />
+          <DateTimePicker
+            setShowDatePicker={setShowDatePicker}
+            // fetchHistoriqueVehicleDetails ={fetchHistoriqueVehicleDetails}
+            handleApply={handleApply}
+            setStartDate={setStartDate}
+            setStartTime={setStartTime}
+            setEndDate={setEndDate}
+            setEndTime={setEndTime}
+            startDate={startDate}
+            startTime={startTime}
+            endDate={endDate}
+            endTime={endTime}
+          />
         </div>
       )}
 

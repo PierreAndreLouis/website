@@ -18,8 +18,20 @@ import VehiculeNotActifComponent from "../components/rapport_vehicule/VehiculeNo
 // import { IoReload } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import { BsFillCalendar2DateFill } from "react-icons/bs";
+import DatePupup from "../components/rapport_vehicule/DatePupup";
 
-function RapportPage({ setpageSection }) {
+function RapportPage({
+  setpageSection,
+  showChooseDate,
+  setShowChooseDate,
+  handleApply,
+  showDatePicker2,
+  setShowDatePicker2,
+  selectedDate,
+  setSelectedDate,
+  showDatePicker,
+  setShowDatePicker,
+}) {
   const {
     vehicleData,
     rapportvehicleDetails,
@@ -64,10 +76,9 @@ function RapportPage({ setpageSection }) {
   const [showActiveVehicule, setshowActiveVehicule] = useState(false);
   const [showParkingVehicule, setshowParkingVehicule] = useState(false);
   const [showInactiveVehicule, setshowInactiveVehicule] = useState(false);
-  const [showChooseDate, setShowChooseDate] = useState(false);
+  // const [showChooseDate, setShowChooseDate] = useState(false);
   //
   const [showRapportPupup, setshowRapportPupup] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
     if (vehiculeActiveAjourdhui.length === 0) {
@@ -163,8 +174,6 @@ function RapportPage({ setpageSection }) {
     }
   };
 
-  const [selectedDate, setSelectedDate] = useState(""); // Date sélectionnée
-
   // Fonction pour formater la date sélectionnée
   const formatDate = (dateInput) => {
     if (!dateInput) {
@@ -195,25 +204,6 @@ function RapportPage({ setpageSection }) {
       month: "long",
       year: "numeric",
     });
-  };
-
-  // Gestion de la soumission
-  const handleApply = (e) => {
-    e.preventDefault();
-    setShowChooseDate(false);
-    setRapportDataLoading(true);
-
-    const startTime = "00:00:00";
-    const endTime = "23:59:59";
-
-    const timeFrom = `${selectedDate} ${startTime}`;
-    const timeTo = `${selectedDate} ${endTime}`;
-
-    if (vehicleData && vehicleData.length > 0) {
-      vehicleData.forEach((vehicle) => {
-        fetSearchRapportchVehicleDetails(vehicle.deviceID, timeFrom, timeTo);
-      });
-    }
   };
 
   //////////////////////////////////////////////////////////////////
@@ -251,7 +241,18 @@ function RapportPage({ setpageSection }) {
   const anneeFin = dateObjectFin.getFullYear(); // Obtenir l'année
 
   return (
-    <div className="pb-56 pt-[8rem]-- min-h-screen">
+    <div className="pb-56 min-h-screen">
+      {/* <div>
+        <DatePupup
+          showChooseDate={showChooseDate}
+          handleApply={handleApply}
+          setShowChooseDate={setShowChooseDate}
+          setShowDatePicker2={setShowDatePicker2}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+      </div> */}
+
       {showRapportPupup && (
         <RapportOptions
           setshowRapportPupup={setshowRapportPupup}
@@ -350,48 +351,8 @@ function RapportPage({ setpageSection }) {
                   <BsFillCalendar2DateFill className="text-orange-600 dark:text-gray-50 text-xl" />
                 </button>
               </div>
-              {showChooseDate && (
-                <form
-                  onSubmit={handleApply}
-                  className="fixed z-10 inset-0 flex justify-center items-center bg-black/50"
-                >
-                  <div className="border relative flex-col bg-orange-50 dark:bg-gray-800 w-full max-w-[25rem] mx-4 rounded-lg px-4 pl-2 py-1 flex gap-4 shadow-lg">
-                    <IoClose
-                      onClick={() => {
-                        setShowChooseDate(false);
-                      }}
-                      className="absolute top-4 right-4 text-xl text-red-500 dark:text-red-400 cursor-pointer"
-                    />
 
-                    <h2 className="pt-4 pl-4 text-gray-900 dark:text-gray-100">
-                      Choisissez une date :
-                    </h2>
-                    {/* <p> {formatDate(selectedDate)}</p> */}
-                    <label className="px-4">
-                      <input
-                        className="focus:outline-none bg-black/0 border p-2 rounded-lg w-full bg-gray-50 dark:bg-gray-400  dark:border-gray-600 dark:text-gray-200--"
-                        type="date"
-                        value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
-                      />
-                    </label>
-                    <div className="flex mx-4 mb-4">
-                      {selectedDate ? (
-                        <button
-                          className="cursor-pointer font-semibold text-gray-100 px-8 py-1 rounded-md bg-orange-500 dark:bg-orange-600"
-                          type="submit"
-                        >
-                          Rechercher
-                        </button>
-                      ) : (
-                        <div className="cursor-default font-semibold text-gray-100 px-8 py-1 rounded-md bg-gray-400 dark:bg-gray-600">
-                          Rechercher
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </form>
-              )}
+              {/* //////////////////////////////// */}
 
               {/* <button
                 onClick={() => {
@@ -415,7 +376,6 @@ function RapportPage({ setpageSection }) {
               <VehiculeActiveAjourdhuiComponent
                 showActiveVehicule={showActiveVehicule}
                 setshowActiveVehicule={setshowActiveVehicule}
-                
                 vehiculeActiveAjourdhui={vehiculeActiveAjourdhui}
                 setshowRapportPupup={setshowRapportPupup}
                 formatTimestampToDate={formatTimestampToDate}

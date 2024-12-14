@@ -33,6 +33,7 @@ function MapComponent() {
     currentdataFusionnee,
     searchdonneeFusionneeForRapport,
     donneeFusionneeForRapport,
+    selectUTC,
   } = useContext(DataContext);
 
   const [showVehiculeListe, setShowVehiculeListe] = useState(false);
@@ -80,6 +81,7 @@ function MapComponent() {
     isActive: vehicule?.isActive || "",
     licensePlate: vehicule?.licensePlate || "",
     simPhoneNumber: vehicule?.simPhoneNumber || "",
+    timestamp: vehicule.vehiculeDetails?.[0]?.timestamp || "",
     speedKPH: vehicule.vehiculeDetails?.[0]?.speedKPH || 0,
   }));
 
@@ -182,6 +184,58 @@ function MapComponent() {
       vehicule.displayName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       vehicule.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  function formatTimestampToTime(timestamp) {
+    const date = new Date(timestamp * 1000);
+    let hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert to 12-hour format
+    hours = hours % 12 || 12; // Convert 0 to 12 for midnight
+    hours = hours.toString().padStart(2, "0");
+
+    return `${hours}:${minutes}  ${period}`;
+    // return `${hours}:${minutes}:${seconds} ${period}`;
+  }
+
+  function formatTimestampToDate(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const year = date.getUTCFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  function convertToTimezone(timestamp, offset) {
+    const date = new Date(timestamp * 1000); // Convertir le timestamp en millisecondes
+    const [sign, hours, minutes] = offset
+      .match(/([+-])(\d{2}):(\d{2})/)
+      .slice(1);
+    const totalOffsetMinutes =
+      (parseInt(hours) * 60 + parseInt(minutes)) * (sign === "+" ? 1 : -1);
+
+    date.setMinutes(date.getMinutes() + totalOffsetMinutes); // Appliquer le décalage
+    return date;
+  }
+
+  function formatTimestampToDateWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  function formatTimestampToTimeWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
   return (
     <div>
       <MapContainer
@@ -234,6 +288,29 @@ function MapComponent() {
                 <p>
                   <strong>Vitesse :</strong>{" "}
                   {vehicle.speedKPH || "Non disponible"} Km/h
+                </p>
+
+                <p>
+                  <strong>Date :</strong>{" "}
+                  {vehicle.timestamp || "Non disponible"}
+                </p>
+                <p>
+                  <strong>Date :</strong>{" "}
+                  {vehicle.timestamp
+                    ? selectUTC
+                      ? formatTimestampToDateWithTimezone(
+                          vehicle.timestamp,
+                          selectUTC
+                        )
+                      : formatTimestampToDate(vehicle.timestamp)
+                    : "Pas de date disponible"}
+                  <span className="px-3">/</span>
+                  {selectUTC
+                    ? formatTimestampToTimeWithTimezone(
+                        vehicle.timestamp,
+                        selectUTC
+                      )
+                    : formatTimestampToTime(vehicle.timestamp)}
                 </p>
                 <p>
                   <strong>Statut : </strong>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import TypeDeVue from "./TypeDeVue";
 import { MdCenterFocusStrong } from "react-icons/md";
 import { Polyline } from "react-leaflet"; // 1. Import Polyline
@@ -11,6 +11,7 @@ import {
   ScaleControl,
   AttributionControl,
 } from "react-leaflet";
+import { DataContext } from "../../context/DataContext";
 
 function TrajetVehicule({
   typeDeVue,
@@ -28,6 +29,58 @@ function TrajetVehicule({
   showHistoriqueInMap,
   openGoogleMaps,
 }) {
+  const { selectUTC } = useContext(DataContext);
+  function formatTimestampToTime(timestamp) {
+    const date = new Date(timestamp * 1000);
+    let hours = date.getUTCHours();
+    const minutes = date.getUTCMinutes().toString().padStart(2, "0");
+    const seconds = date.getUTCSeconds().toString().padStart(2, "0");
+    const period = hours >= 12 ? "PM" : "AM";
+
+    // Convert to 12-hour format
+    hours = hours % 12 || 12; // Convert 0 to 12 for midnight
+    hours = hours.toString().padStart(2, "0");
+
+    return `${hours}:${minutes}  ${period}`;
+    // return `${hours}:${minutes}:${seconds} ${period}`;
+  }
+
+  function formatTimestampToDate(timestamp) {
+    const date = new Date(timestamp * 1000);
+    const day = date.getUTCDate().toString().padStart(2, "0");
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, "0");
+    const year = date.getUTCFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  function convertToTimezone(timestamp, offset) {
+    const date = new Date(timestamp * 1000); // Convertir le timestamp en millisecondes
+    const [sign, hours, minutes] = offset
+      .match(/([+-])(\d{2}):(\d{2})/)
+      .slice(1);
+    const totalOffsetMinutes =
+      (parseInt(hours) * 60 + parseInt(minutes)) * (sign === "+" ? 1 : -1);
+
+    date.setMinutes(date.getMinutes() + totalOffsetMinutes); // Appliquer le décalage
+    return date;
+  }
+
+  function formatTimestampToDateWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
+  }
+
+  function formatTimestampToTimeWithTimezone(timestamp, offset) {
+    const date = convertToTimezone(timestamp, offset);
+    const hours = date.getHours().toString().padStart(2, "0");
+    const minutes = date.getMinutes().toString().padStart(2, "0");
+    const seconds = date.getSeconds().toString().padStart(2, "0");
+    return `${hours}:${minutes}:${seconds}`;
+  }
+
   return (
     <div className="relative ">
       <button
@@ -78,6 +131,7 @@ function TrajetVehicule({
                 address,
                 speedKPH,
                 heading,
+                timestamp,
               } = vehicule;
 
               // const markerIcon = getMarkerIcon(vehicule); // Récupérer l'icône en fonction de la vitesse
@@ -95,10 +149,12 @@ function TrajetVehicule({
               });
 
               let markerIcon;
-              if (index === 0) {
+              if (index === vehicles.length - 1) {
+                // if (index === 0) {
                 // Première position
                 markerIcon = firstMarkerIcon;
-              } else if (index === vehicles.length - 1) {
+              } else if (index === 0) {
+                // } else if (index === vehicles.length - 1) {
                 // Dernière position
                 markerIcon = lastMarkerIcon;
               } else {
@@ -152,6 +208,25 @@ function TrajetVehicule({
                           ? Number(speedKPH).toFixed(2)
                           : "Non disponible"}
                         Km/h
+                      </p>
+
+                      <p>
+                        <strong>Date :</strong>{" "}
+                        {timestamp
+                          ? selectUTC
+                            ? formatTimestampToDateWithTimezone(
+                                timestamp,
+                                selectUTC
+                              )
+                            : formatTimestampToDate(timestamp)
+                          : "Pas de date disponible"}
+                        <span className="px-3">/</span>
+                        {selectUTC
+                          ? formatTimestampToTimeWithTimezone(
+                              timestamp,
+                              selectUTC
+                            )
+                          : formatTimestampToTime(timestamp)}
                       </p>
 
                       <p>

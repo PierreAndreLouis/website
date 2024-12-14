@@ -79,7 +79,10 @@ function DetailsVehiculePage() {
           {currentVehicule?.displayName || ""}
         </h1>
 
-        <VehiculeDetailInformationComponent currentVehicule={currentVehicule} />
+        <VehiculeDetailInformationComponent
+          currentVehicule={currentVehicule}
+          setShowVehiculeListe={setShowVehiculeListe}
+        />
       </div>
     </div>
   );

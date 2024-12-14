@@ -16,6 +16,8 @@ import RapportGroupe from "../components/rapport_page_details/RapportGroupe";
 import RapportPageDetailsOptions from "../components/rapport_page_details/RapportPageDetailsOptions";
 import RapportPersonnel from "../components/rapport_page_details/RapportPersonnel";
 import RapportPage from "./RapportPage";
+import DatePupup from "../components/rapport_vehicule/DatePupup";
+import DateTimePicker from "../components/home/DateTimePicker";
 
 // Configurer les icônes de Leaflet
 delete L.Icon.Default.prototype._getIconUrl;
@@ -47,6 +49,9 @@ function RapportPageDetails() {
     setShowListOption,
     setCurrentVehicule,
     setVehiclueHistoriqueDetails,
+    rapportDataLoading,
+    fetSearchRapportchVehicleDetails,
+    setRapportDataLoading,
   } = useContext(DataContext);
 
   const mapRef = useRef(); // Référence de la carte
@@ -129,6 +134,7 @@ function RapportPageDetails() {
     isActive: currentVehicule?.isActive || "",
     licensePlate: currentVehicule?.licensePlate || "",
     simPhoneNumber: currentVehicule?.simPhoneNumber || "",
+    timestamp: vehicule?.timestamp || "",
     speedKPH: vehicule?.speedKPH || 0, // Ajout de la vitesse
     heading: vehicule?.heading || "",
   }));
@@ -1175,8 +1181,104 @@ function RapportPageDetails() {
   // Exemple d'utilisation :
   const result = calculateDurationsForAllVehicles(currentdataFusionnee); // Remplacez "allVehicles" par votre liste de véhicules
 
+  const [showChooseDate, setShowChooseDate] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const [showDatePicker2, setShowDatePicker2] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(""); // Date sélectionnée
+
+  // Gestion de la soumission
+  const handleApply = (e) => {
+    e.preventDefault();
+    setShowChooseDate(false);
+    setRapportDataLoading(true);
+    setShowDatePicker2(false);
+    setpageSection("search");
+
+    const startTime = "00:00:00";
+    const endTime = "23:59:59";
+
+    const timeFrom = `${selectedDate} ${startTime}`;
+    const timeTo = `${selectedDate} ${endTime}`;
+
+    if (vehicleData && vehicleData.length > 0) {
+      vehicleData.forEach((vehicle) => {
+        fetSearchRapportchVehicleDetails(vehicle.deviceID, timeFrom, timeTo);
+      });
+    }
+  };
+
+  // Formatage de la date actuelle
+  const getCurrentDate = () => new Date().toISOString().split("T")[0];
+  const getCurrentTime = () => new Date().toTimeString().slice(0, 5);
+
+  // Initialisation de la date et de l'heure actuelles par défaut
+  const [startDate, setStartDate] = useState(getCurrentDate());
+  const [startTime, setStartTime] = useState("00:00"); // Heure de début fixée à minuit
+  const [endDate, setEndDate] = useState(getCurrentDate());
+  const [endTime, setEndTime] = useState(getCurrentTime());
+
+  const handleApply2 = (e) => {
+    e.preventDefault();
+    const timeFrom = `${startDate} ${startTime}:00`;
+    const timeTo = `${endDate} ${endTime}:00`;
+    setShowDatePicker2(false);
+    setRapportDataLoading(true);
+    setpageSection("search");
+
+    // handleDateChange(timeFrom, timeTo);
+    fetSearchRapportchVehicleDetails(
+      currentVehicule.deviceID,
+      timeFrom,
+      timeTo
+    );
+
+    setShowDatePicker(false);
+    // setLoadingHistoriqueFilter(true);
+  };
   return (
-    <div className="flex pt-44 flex-col max-w-screen overflow-hidden justify-center items-center pb-20">
+    <div
+      className={`${
+        pageSection === "search" ? "pt-36" : " pt-44 "
+      } flex flex-col max-w-screen overflow-hidden justify-center items-center pb-20 `}
+    >
+      <div>
+        <DatePupup
+          showChooseDate={showChooseDate}
+          handleApply={handleApply}
+          setShowChooseDate={setShowChooseDate}
+          setShowDatePicker2={setShowDatePicker2}
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+        />
+      </div>
+
+      {showDatePicker2 && (
+        <div className="absolute z-[99999909999999]">
+          <DateTimePicker
+            setShowDatePicker={setShowDatePicker2}
+            fetchHistoriqueVehicleDetails={fetSearchRapportchVehicleDetails}
+            handleApply={handleApply2}
+            setStartDate={setStartDate}
+            setStartTime={setStartTime}
+            setEndDate={setEndDate}
+            setEndTime={setEndTime}
+            startDate={startDate}
+            startTime={startTime}
+            endDate={endDate}
+            endTime={endTime}
+          />
+        </div>
+      )}
+
+      {rapportDataLoading && (
+        <div className="fixed z-30 inset-0 bg-gray-200/50 dark:bg-gray-900/50">
+          <div className="w-full h-full flex justify-center items-center">
+            <div className="border-blue-500 h-20 w-20 animate-spin rounded-full border-8 border-t-gray-100/0" />
+          </div>
+        </div>
+      )}
+
       <div className="fixed  px-4 z-[555555555] top-[3.4rem] left-0 right-0 bg-white py-3 dark:bg-gray-800">
         {showListeOption && <Liste_options />}
 
@@ -1198,6 +1300,7 @@ function RapportPageDetails() {
             formatTimestampToTime={formatTimestampToTime}
             pageSection={pageSection}
             setpageSection={setpageSection}
+            setShowChooseDate={setShowChooseDate}
           />
         </div>
       </div>
@@ -1286,7 +1389,14 @@ function RapportPageDetails() {
       )}
 
       {pageSection === "search" && (
-        <RapportPage setpageSection={setpageSection} />
+        <RapportPage
+          setpageSection={setpageSection}
+          showChooseDate={showChooseDate}
+          setShowChooseDate={setShowChooseDate}
+          handleApply={handleApply}
+          showDatePicker2={showDatePicker2}
+          setShowDatePicker2={setShowDatePicker2}
+        />
       )}
     </div>
   );

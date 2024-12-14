@@ -3,35 +3,27 @@ import { IoClose } from "react-icons/io5";
 import { DataContext } from "../../context/DataContext";
 import { MdErrorOutline } from "react-icons/md";
 
-const DateTimePicker = ({ setShowDatePicker }) => {
+const DateTimePicker = ({
+  setShowDatePicker,
+
+  fetchHistoriqueVehicleDetails,
+  handleApply,
+  setStartDate,
+  setStartTime,
+  setEndDate,
+  setEndTime,
+  startDate,
+  startTime,
+  endDate,
+  endTime,
+}) => {
   const {
     handleDateChange,
     fetchVehicleDetails,
-    fetchHistoriqueVehicleDetails,
+    // fetchHistoriqueVehicleDetails,
     currentVehicule,
     setLoadingHistoriqueFilter,
   } = useContext(DataContext);
-
-  // Formatage de la date actuelle
-  const getCurrentDate = () => new Date().toISOString().split("T")[0];
-  const getCurrentTime = () => new Date().toTimeString().slice(0, 5);
-
-  // Initialisation de la date et de l'heure actuelles par défaut
-  const [startDate, setStartDate] = useState(getCurrentDate());
-  const [startTime, setStartTime] = useState("00:00"); // Heure de début fixée à minuit
-  const [endDate, setEndDate] = useState(getCurrentDate());
-  const [endTime, setEndTime] = useState(getCurrentTime());
-
-  const handleApply = (e) => {
-    e.preventDefault();
-    const timeFrom = `${startDate} ${startTime}:00`;
-    const timeTo = `${endDate} ${endTime}:00`;
-    // handleDateChange(timeFrom, timeTo);
-    fetchHistoriqueVehicleDetails(currentVehicule.deviceID, timeFrom, timeTo);
-
-    setShowDatePicker(false);
-    // setLoadingHistoriqueFilter(true);
-  };
 
   return (
     <div className="fixed inset-0 z-10 flex justify-center items-center bg-black/50 dark:bg-black/80">

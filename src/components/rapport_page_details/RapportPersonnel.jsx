@@ -487,7 +487,6 @@ function RapportPersonnel({
                     </span>{" "}
                   </span>
                 </p> */}
-
                 {/*  */}
                 {/*  */}
                 {/*  */}
@@ -495,7 +494,6 @@ function RapportPersonnel({
                 {/*  */}
                 {/*  */}
                 {/*  */}
-
                 <p>
                   Heure de départ:{" "}
                   <span className="font-bold whitespace-nowrap dark:text-orange-500 text-gray-700 pl-3">
@@ -582,7 +580,6 @@ function RapportPersonnel({
                 {/*  */}
                 {/*  */}
                 {/*  */}
-
                 <p>
                   Distance totale parcourue:
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
@@ -599,29 +596,27 @@ function RapportPersonnel({
                     {/* {stopSequences?.length || "---"} */}
                   </span>
                 </p>
-
                 {/*  */}
                 {/*  */}
                 <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
                 {/*  */}
                 {/*  */}
-
                 <p>
                   Vitesse minimale:
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                     {(minSpeed && minSpeed.toFixed(2)) || "0"} Km/h/
+                  </span>
+                </p>{" "}
+                <p>
+                  Vitesse maximale:
+                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                    {(maxSpeed && maxSpeed.toFixed(2)) || "0"} Km/h
                   </span>
                 </p>
                 <p>
                   Vitesse moyenne:
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                     {(averageSpeed && averageSpeed.toFixed(2)) || "0"} Km/h/
-                  </span>
-                </p>
-                <p>
-                  Vitesse maximale:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {(maxSpeed && maxSpeed.toFixed(2)) || "0"} Km/h
                   </span>
                 </p>
               </div>

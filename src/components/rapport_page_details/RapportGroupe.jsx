@@ -3,6 +3,7 @@ import React, { useContext, useState } from "react";
 import { IoTimeOutline } from "react-icons/io5";
 import { GiPathDistance } from "react-icons/gi";
 import { IoMdInformationCircleOutline } from "react-icons/io";
+import { MdLocationPin } from "react-icons/md";
 
 import { IoClose } from "react-icons/io5";
 import { MdOutlineFullscreen } from "react-icons/md";
@@ -133,7 +134,7 @@ function RapportGroupe({
                     selectUTC={selectUTC}
                   />
                 )}
-{/*  */}
+                {/*  */}
                 {defineVehiculeListePupup === "notactive" && (
                   <VehiculeNotActiveAjourdhuiComponent
                     showParkingVehicule={showParkingVehicule}
@@ -349,19 +350,19 @@ function RapportGroupe({
                 </p>
               </div>
 
-              {/*  */}
-              {/*  */}
-              {/*  */}
-              <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
-              {/*  */}
-              {/*  */}
-              {/*  */}
-
               <div
                 className={`${
                   voirPlus ? "max-h-[30rem]" : "max-h-[0rem]"
                 } transition-all overflow-hidden `}
               >
+                {/*  */}
+                {/*  */}
+                {/*  */}
+                <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+                {/*  */}
+                {/*  */}
+                {/*  */}
+
                 <div className="">
                   {earliestVehicle?.displayName != latestVehicle?.displayName ||
                   earliestVehicle?.description != latestVehicle?.description ? (
@@ -373,8 +374,8 @@ function RapportGroupe({
                             earliestVehicle?.description ||
                             "Pas de véhicule"}
                         </span>
-                        a
                         <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                          ({" "}
                           {earliestVehicle?.vehiculeDetails[
                             earliestVehicle?.vehiculeDetails.length - 1
                           ].timestamp
@@ -391,6 +392,7 @@ function RapportGroupe({
                                   ].timestamp
                                 )
                             : "---"}{" "}
+                          )
                         </span>
                       </p>
                       {/*  */}
@@ -416,8 +418,8 @@ function RapportGroupe({
                             latestVehicle?.description ||
                             "Pas de véhicule"}
                         </span>
-                        a
                         <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                          ({" "}
                           {latestVehicle?.vehiculeDetails[
                             latestVehicle?.vehiculeDetails.length - 1
                           ].timestamp
@@ -434,19 +436,21 @@ function RapportGroupe({
                                   ].timestamp
                                 )
                             : "---"}{" "}
+                          )
                         </span>
                       </p>
                     </div>
                   ) : (
                     <div>
                       <p>
-                        La seule véhicule en mouvement : <br />
+                        Véhicule en mouvement en 1er :<br />
                         <span className="font-bold dark:text-orange-500 text-gray-700 pl-5 pr-2">
                           {earliestVehicle?.displayName ||
                             earliestVehicle?.description ||
                             "Pas de véhicule"}
                         </span>
-                        a
+                        {(earliestVehicle?.displayName && " a ") ||
+                          (earliestVehicle?.description && " a ")}
                         <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
                           {earliestVehicle?.vehiculeDetails[
                             earliestVehicle?.vehiculeDetails.length - 1
@@ -463,7 +467,7 @@ function RapportGroupe({
                                     earliestVehicle?.vehiculeDetails.length - 1
                                   ].timestamp
                                 )
-                            : "---"}{" "}
+                            : " "}{" "}
                         </span>
                       </p>
                     </div>
@@ -477,7 +481,7 @@ function RapportGroupe({
                 {/*  */}
                 {/*  */}
                 <p className="mt-4--">
-                  Véhicule en mouvement le plus longtemps
+                  Véhicule en mouvement le plus longtemps :
                   <br />
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-5">
                     {result.vehicleWithLongestMoving || "Pas de vehicule"}{" "}
@@ -494,7 +498,13 @@ function RapportGroupe({
                   Véhicule avec le plus grand arrêt:
                   <br />
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-5">
-                    {result.vehicleWithLongestStop || "Pas de vehicule"}{" "}
+                    {result.vehicleWithLongestStop || "Pas de vehicule"} ({" "}
+                    {formatTime(
+                      result?.longestStopTime.hours,
+                      result?.longestStopTime.minutes,
+                      result?.longestStopTime.seconds
+                    )}{" "}
+                    )
                   </span>
                 </p>
 
@@ -510,8 +520,8 @@ function RapportGroupe({
                   Véhicule ayant parcouru la plus grande distance : <br />
                   {result2?.maxDistanceVehicle ? (
                     <span className="font-bold dark:text-orange-500 text-gray-700 pl-5">
-                      {result2?.maxDistanceVehicle}, avec
-                      {result2?.maxDistance.toFixed(2)}, "km"
+                      {result2?.maxDistanceVehicle}, ({" "}
+                      {result2?.maxDistance.toFixed(2)}, km )
                     </span>
                   ) : (
                     <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
@@ -537,9 +547,9 @@ function RapportGroupe({
                   {result5?.maxSpeedVehicle?.displayName ||
                   result5?.maxSpeedVehicle?.description ? (
                     <span>
-                      avec une vitesse de :
+                      {/* avec une vitesse de : */}
                       <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                        {result5?.maxSpeedVehicle.maxSpeed.toFixed(2)} Km/h
+                        ( {result5?.maxSpeedVehicle.maxSpeed.toFixed(2)} Km/h )
                       </span>
                     </span>
                   ) : (
@@ -547,7 +557,13 @@ function RapportGroupe({
                   )}
                 </p>
               </div>
-
+              {/*  */}
+              {/*  */}
+              {/*  */}
+              <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+              {/*  */}
+              {/*  */}
+              {/*  */}
               <div
                 onClick={() => {
                   setvoirPlus(!voirPlus);
@@ -593,9 +609,9 @@ function RapportGroupe({
         {/*  */}
         <div className="shadow-md mt-10 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex-- items-start gap-4">
           <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-            <IoMdInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+            <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
             <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Informations sur les véhicules
+              Informations sur le trajet dues vehicules
             </h2>
           </div>
 
@@ -631,7 +647,6 @@ function RapportGroupe({
                   }
                 </span>
               </p>
-
               {/*  */}
               {/*  */}
               {/*  */}
@@ -639,7 +654,6 @@ function RapportGroupe({
               {/*  */}
               {/*  */}
               {/*  */}
-
               {/* <p>
                 Heure du Recherche :
                 <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
@@ -671,7 +685,6 @@ function RapportGroupe({
                   </span>{" "}
                 </span>
               </p> */}
-
               <p>
                 Temps d'activité total :
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
@@ -707,7 +720,6 @@ function RapportGroupe({
                   )}
                 </span>
               </p>
-
               {/*  */}
               {/*  */}
               {/*  */}
@@ -727,7 +739,6 @@ function RapportGroupe({
                   {result3.totalStopsAllVehicles}
                 </span>
               </p>
-
               {/*  */}
               {/*  */}
               {/*  */}
@@ -736,15 +747,21 @@ function RapportGroupe({
               {/*  */}
               {/*  */}
               <p>
-                Vitesse moyenne:
+                Vitesse minimale:
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {result5?.globalStats.averageSpeed.toFixed(2) || "---"} Km/h
+                  {result5?.globalStats.minSpeed.toFixed(2) || "---"} Km/h
                 </span>
-              </p>
+              </p>{" "}
               <p>
                 Vitesse maximale:
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                   {result5?.globalStats.maxSpeed.toFixed(2) || "---"} Km/h Km/h
+                </span>
+              </p>
+              <p>
+                Vitesse moyenne:
+                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                  {result5?.globalStats.averageSpeed.toFixed(2) || "---"} Km/h
                 </span>
               </p>
             </div>
@@ -788,7 +805,7 @@ function RapportGroupe({
         </div> */}
 
         <div className="shadow-md mt-20  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
-          <GiPathDistance className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
+          <MdLocationPin className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
           <h2 className="font-semibold dark:text-orange-50 text-orange-900">
             Position des véhicules{" "}
           </h2>

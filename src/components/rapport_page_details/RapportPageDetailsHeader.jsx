@@ -23,6 +23,8 @@ function RapportPageDetailsHeader({
   formatTimestampToTimeWithTimezone,
   formatTimestampToTime,
   setpageSection,
+  setShowChooseDate,
+  pageSection,
 }) {
   const { selectUTC } = useContext(DataContext); // const { currentVehicule } = useContext(DataContext);
   const formatTime = (hours, minutes, seconds) => {
@@ -211,7 +213,7 @@ function RapportPageDetailsHeader({
           </div>
         )}
       </div>
-      {currentVehicule && (
+      {currentVehicule && pageSection != "search" && (
         <div className="flex gap-3 px-4 ">
           <div className="sm:flex w-full  gap-10 max-w-[50rem] mx-4-- justify-center items-center ">
             <div className="flex gap-0 items-center">
@@ -282,7 +284,12 @@ function RapportPageDetailsHeader({
               </p>
             </div>
           </div>
-          <div className="flex gap-2 items-center cursor-pointer">
+          <div
+            onClick={() => {
+              setShowChooseDate(true);
+            }}
+            className="flex gap-2 items-center cursor-pointer"
+          >
             <FaRegCalendarAlt className="text-xl mt-2- text-orange-500" />
           </div>
         </div>

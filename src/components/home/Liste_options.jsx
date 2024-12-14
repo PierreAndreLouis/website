@@ -12,6 +12,7 @@ import { MdErrorOutline } from "react-icons/md";
 import { TbLock } from "react-icons/tb";
 import { TbLockOpen } from "react-icons/tb";
 import { MdOutlineStickyNote2 } from "react-icons/md";
+import { GiPathDistance } from "react-icons/gi";
 
 function Liste_options({}) {
   const {
@@ -32,6 +33,7 @@ function Liste_options({}) {
     callError,
     setCallError,
     lancerAppel,
+    username,
   } = useContext(DataContext); // fetchVehicleDetails importée du contexte
 
   const [showAccessCode, setAccessCode] = useState(false);
@@ -191,16 +193,34 @@ function Liste_options({}) {
             <h3>Localisation</h3>
           </Link>
 
-          <Link
-            to="/modifier_vehicule"
-            onClick={() => {
-              setShowListOption(false);
-            }}
-            className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
-          >
-            <FaEdit className="text-3xl" />
-            <h3>Modifier</h3>
-          </Link>
+          {/* ------------------------------- */}
+
+          {username === "admin" ? (
+            <Link
+              to="/modifier_vehicule"
+              onClick={() => {
+                setShowListOption(false);
+              }}
+              className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
+            >
+              <FaEdit className="text-3xl" />
+              {/* GiPathDistance */}
+              <h3>Modifier</h3>
+            </Link>
+          ) : (
+            <Link
+              to="/voiture_historique"
+              onClick={() => {
+                setShowListOption(false);
+                setShowHistoriqueInMap(true);
+              }}
+              className="dark:text-gray-100 dark:shadow-gray-900 dark:shadow-lg  row-start-2--- rounded-md shadow-md hover:text-orange-600 dark:hover:text-orange-400 cursor-pointer p-3 flex flex-col items-center"
+            >
+              <GiPathDistance className="text-[2rem]" />
+              {/* GiPathDistance */}
+              <h3>Trajet</h3>
+            </Link>
+          )}
 
           <div
             onClick={() => {
