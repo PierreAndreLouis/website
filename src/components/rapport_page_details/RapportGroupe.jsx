@@ -570,7 +570,7 @@ function RapportGroupe({
                 }}
                 className="text-orange-600 cursor-pointer"
               >
-                {voirPlus ? "Vois moins" : "Vois plus"}
+                {voirPlus ? "Voir moins" : "Voir plus"}
               </div>
 
               {/*  */}
