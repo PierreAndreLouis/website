@@ -185,7 +185,7 @@ function RapportPage({
     const selected = new Date(dateInput + "T00:00:00");
     const today = new Date();
     const yesterday = new Date(today);
-    yesterday.setDate(today.getDate() - 1);
+    yesterday.setDate(today.getUTCDate() - 1);
 
     // Vérifier si la date correspond à Aujourd'hui
     if (selected.toDateString() === today.toDateString()) {
@@ -208,35 +208,36 @@ function RapportPage({
 
   //////////////////////////////////////////////////////////////////
 
+  const donneeVehiculeDetails = currentdataFusionnee.find(
+    (vehicule) =>
+      vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
+  )?.vehiculeDetails;
+
+  const premierDetail =
+    donneeVehiculeDetails[donneeVehiculeDetails.length - 1].timestamp;
+  const dernierDetails = donneeVehiculeDetails[0].timestamp;
   // Trouver la date du rapport
-  const timestampInSecondsDebut =
-    vehiculeActiveAjourdhui[0]?.vehiculeDetails[
-      vehiculeActiveAjourdhui[0]?.vehiculeDetails.length - 1
-    ]?.timestamp ||
-    vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[
-      vehiculeNotActiveAjourdhui[0]?.vehiculeDetails.length - 1
-    ]?.timestamp ||
-    vehiculeNotActif[0]?.vehiculeDetails[
-      vehiculeNotActif[0]?.vehiculeDetails.length - 1
-    ]?.timestamp;
+  const timestampInSecondsDebut = premierDetail;
 
   const dateObjectDebut = new Date(timestampInSecondsDebut * 1000);
 
   // Récupérer le jour, le mois et l'année séparément
-  const jourDebut = dateObjectDebut.getDate(); // Obtenir le jour
+  const jourDebut = dateObjectDebut.getUTCDate(); // Obtenir le jour
   const moisDebut = dateObjectDebut.toLocaleString("fr-FR", { month: "long" }); // Obtenir le mois en toutes lettres
   const anneeDebut = dateObjectDebut.getFullYear(); // Obtenir l'année
 
+  // const date = new Date(timestampInSecondsDebut * 1000);
+  // const day = date.getUTCDate();
+  // const month = date.toLocaleString("fr", { month: "long" }); // Mois en toutes lettres en français
+  // const year = date.getUTCFullYear();
+
   // Trouver la date du rapport
-  const timestampInSecondsFin =
-    vehiculeActiveAjourdhui[0]?.vehiculeDetails[0]?.timestamp ||
-    vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[0]?.timestamp ||
-    vehiculeNotActif[0]?.vehiculeDetails[0]?.timestamp;
+  const timestampInSecondsFin = dernierDetails;
 
   const dateObjectFin = new Date(timestampInSecondsFin * 1000);
 
   // Récupérer le jour, le mois et l'année séparément
-  const jourFin = dateObjectFin.getDate(); // Obtenir le jour
+  const jourFin = dateObjectFin.getUTCDate(); // Obtenir le jour
   const moisFin = dateObjectFin.toLocaleString("fr-FR", { month: "long" }); // Obtenir le mois en toutes lettres
   const anneeFin = dateObjectFin.getFullYear(); // Obtenir l'année
 
@@ -286,7 +287,12 @@ function RapportPage({
 
             {/* Rapport des vehicule */}
             <div className=" w-full sm:px-6 md:px-20 px-2">
-              <h1 className=" dark:text-orange-400 text-center mx-4 text-lg text-orange-600">
+              <h1
+                onClick={() => {
+                  console.log(day, month);
+                }}
+                className=" dark:text-orange-400 text-center mx-4 text-lg text-orange-600"
+              >
                 Resultat de recherche
               </h1>
               <h1 className="font-semibold dark:text-gray-200 text-center mx-4 mb-10 text-xl">

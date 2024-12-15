@@ -102,7 +102,7 @@ function RapportPersonnel({
   const dateObjectDebut = new Date(timestampInSecondsDebut * 1000);
 
   // Récupérer le jour, le mois et l'année séparément
-  const jourDebut = dateObjectDebut.getDate(); // Obtenir le jour
+  const jourDebut = dateObjectDebut.getUTCDate(); // Obtenir le jour
   const moisDebut = dateObjectDebut.toLocaleString("fr-FR", { month: "long" }); // Obtenir le mois en toutes lettres
   const anneeDebut = dateObjectDebut.getFullYear(); // Obtenir l'année
 
@@ -111,7 +111,7 @@ function RapportPersonnel({
   const dateObjectFin = new Date(timestampInSecondsFin * 1000);
 
   // Récupérer le jour, le mois et l'année séparément
-  const jourFin = dateObjectFin.getDate(); // Obtenir le jour
+  const jourFin = dateObjectFin.getUTCDate(); // Obtenir le jour
   const moisFin = dateObjectFin.toLocaleString("fr-FR", { month: "long" }); // Obtenir le mois en toutes lettres
   const anneeFin = dateObjectFin.getFullYear(); // Obtenir l'année
 
@@ -139,7 +139,7 @@ function RapportPersonnel({
 
   function formatTimestampToDateWithTimezone(timestamp, offset) {
     const date = convertToTimezone(timestamp, offset);
-    const day = date.getDate().toString().padStart(2, "0");
+    const day = date.getUTCDate().toString().padStart(2, "0");
     const month = (date.getMonth() + 1).toString().padStart(2, "0");
     const year = date.getFullYear();
     return `${day}-${month}-${year}`;
@@ -813,8 +813,8 @@ function RapportPersonnel({
           {/*  */}
           {showHistoriquePupup && (
             <div className="fixed hidden- z-[10000000000] inset-0 bg-black/50 flex justify-center items-center">
-              <div className="relative mx-2 rounded-lg overflow-hidden bg-white ">
-                <div className="absolute z-[111111111111111111111] bg-white p-4 top-0 left-0 right-0 flex flex-col justify-center items-center">
+              <div className="relative mx-2 rounded-lg overflow-hidden bg-white dark:bg-gray-800">
+                <div className="absolute z-[111111111111111111111] bg-white dark:bg-gray-900 p-4 top-0 left-0 right-0 flex flex-col justify-center items-center">
                   <IoClose
                     onClick={() => {
                       setshowHistoriquePupup(false);
@@ -822,7 +822,7 @@ function RapportPersonnel({
                     className="absolute z-[22222222222] top-3 right-4 cursor-pointer text-2xl text-red-500"
                   />
                   <h3 className="text-orange-500">Historique</h3>
-                  <h2>
+                  <h2 className="text-gray-700 dark:text-gray-200">
                     {currentVehicule?.displayName ||
                       currentVehicule?.description ||
                       ""}
@@ -880,17 +880,17 @@ function RapportPersonnel({
                 </div>
 
                 {lieuxFrequentePupup && (
-                  <div className="absolute hidden-- top-[5rem] rounded-lg p-4 bg-white shadow-lg shadow-gray-600 left-0 right-0">
+                  <div className="absolute hidden-- top-[4.3rem] rounded-lg p-4 bg-white  dark:border dark:bg-gray-900 shadow-lg shadow-gray-600 left-0 right-0">
                     <div
                       onClick={() => {
                         setlieuxFrequentePupupSearch(true);
                         setlieuxFrequentePupup(false);
                       }}
-                      className="flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg "
+                      className="flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 dark:hover:bg-gray-800 hover:rounded-lg "
                     >
                       <IoSearchSharp className="text-orange-500 text-xl" />
 
-                      <h4 className="">Recherche</h4>
+                      <h4 className="dark:text-gray-200">Recherche</h4>
                     </div>
                     {/*  */}
                     {/*  */}
@@ -901,11 +901,11 @@ function RapportPersonnel({
                         setlieuxFrequentePupup(false);
                         setshowHistoriquePupup(true);
                       }}
-                      className="flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg "
+                      className="flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 dark:hover:bg-gray-800 hover:rounded-lg "
                     >
                       <IoStatsChart className="text-orange-500 text-xl" />
 
-                      <h4 className="">Voir l'Histoirque</h4>
+                      <h4 className="dark:text-gray-200">Voir l'Histoirque</h4>
                     </div>
                     {/*  */}
                     {/*  */}
@@ -919,12 +919,14 @@ function RapportPersonnel({
                         // setfrequenterOrStationnee("frequente");
                       }}
                       className={`${
-                        addressType && "bg-orange-50"
-                      } flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg `}
+                        addressType && "bg-orange-50 "
+                      } flex items-center  dark:bg-gray-800 dark:rounded-lg gap-4 border-b  p-2 mb-2 hover:bg-orange-50 dark:hover:bg-gray-800  hover:rounded-lg `}
                     >
                       <TfiMapAlt className="text-orange-500 text-xl" />
 
-                      <h4 className="">Tous les lieux fréquentés</h4>
+                      <h4 className="dark:text-gray-200">
+                        Tous les lieux fréquentés
+                      </h4>
                     </div>
                     {/*  */}
                     {/*  */}
@@ -939,11 +941,13 @@ function RapportPersonnel({
                       }}
                       className={`${
                         !addressType && "bg-orange-50"
-                      }  flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg `}
+                      }  flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 dark:hover:bg-gray-800 hover:rounded-lg `}
                     >
                       <FaCar className="text-orange-500 text-xl" />
 
-                      <h4 className="">Tous les lieux Stationnés</h4>
+                      <h4 className="dark:text-gray-200">
+                        Tous les lieux Stationnés
+                      </h4>
                     </div>
                     {/*  */}
                     {/*  */}
@@ -958,11 +962,13 @@ function RapportPersonnel({
                       }}
                       className={`${
                         croissantOrDecroissant === "croissant" && "bg-orange-50"
-                      }  flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg `}
+                      }  dark:bg-gray-800 dark:rounded-lg  flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 dark:hover:bg-gray-800 hover:rounded-lg `}
                     >
                       <FaArrowUp19 className="text-orange-500 text-xl" />
 
-                      <h4 className="">Filtre en ordre croissant</h4>
+                      <h4 className="dark:text-gray-200">
+                        Filtre en ordre croissant
+                      </h4>
                     </div>
                     {/*  */}
                     {/*  */}
@@ -981,18 +987,20 @@ function RapportPersonnel({
                       className={`${
                         croissantOrDecroissant === "decroissant" &&
                         "bg-orange-50"
-                      }  flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 hover:rounded-lg `}
+                      }  flex items-center gap-4 border-b  p-2 mb-2 hover:bg-orange-50 dark:hover:bg-gray-800 hover:rounded-lg `}
                     >
                       <FaArrowUp91 className="text-orange-500 text-xl" />
 
-                      <h4 className="">Filtre en ordre decroissant</h4>
+                      <h4 className="dark:text-gray-200">
+                        Filtre en ordre decroissant
+                      </h4>
                     </div>
                   </div>
                 )}
               </div>
 
               {lieuxFrequentePupupSearch && (
-                <div className="border flex  mt-3 bg-white justify-between border-gray-400 rounded-lg p-2 py-1">
+                <div className="border flex  max-w-[30rem]-- max-auto w-full dark:bg-gray-900 mt-3 bg-white justify-between border-gray-400 rounded-lg p-2 py-1">
                   <input
                     type="text"
                     placeholder="Recherche"

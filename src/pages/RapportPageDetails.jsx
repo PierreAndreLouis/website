@@ -52,7 +52,10 @@ function RapportPageDetails() {
     rapportDataLoading,
     fetSearchRapportchVehicleDetails,
     setRapportDataLoading,
+    mergedData,
   } = useContext(DataContext);
+
+  const dataFusionee = mergedData ? Object.values(mergedData) : [];
 
   const mapRef = useRef(); // Référence de la carte
 
@@ -939,7 +942,7 @@ function RapportPageDetails() {
   }
 
   const uniqueAddresses = getUniqueAddresses(currentVehicule?.vehiculeDetails);
-  console.log("Unique addresssssssssss", uniqueAddresses);
+  // console.log("Unique addresssssssssss", uniqueAddresses);
 
   // function getUniqueAddressesWhenSpeedZeroOrLess(dataList) {
   //   // Filtrer les éléments où la vitesse est <= 0
@@ -1193,6 +1196,8 @@ function RapportPageDetails() {
     setShowChooseDate(false);
     setRapportDataLoading(true);
     setShowDatePicker2(false);
+    console.log("okk");
+    console.log("vehiculeDate", dataFusionee);
     setpageSection("search");
 
     const startTime = "00:00:00";
@@ -1201,8 +1206,9 @@ function RapportPageDetails() {
     const timeFrom = `${selectedDate} ${startTime}`;
     const timeTo = `${selectedDate} ${endTime}`;
 
-    if (vehicleData && vehicleData.length > 0) {
-      vehicleData.forEach((vehicle) => {
+    if (dataFusionee && dataFusionee.length > 0) {
+      dataFusionee?.forEach((vehicle) => {
+        // console.log("Readyyyyyyyyyyyyyyyy");
         fetSearchRapportchVehicleDetails(vehicle.deviceID, timeFrom, timeTo);
       });
     }
@@ -1219,6 +1225,7 @@ function RapportPageDetails() {
   const [endTime, setEndTime] = useState(getCurrentTime());
 
   const handleApply2 = (e) => {
+    console.log("Startt...................");
     e.preventDefault();
     const timeFrom = `${startDate} ${startTime}:00`;
     const timeTo = `${endDate} ${endTime}:00`;
@@ -1226,12 +1233,22 @@ function RapportPageDetails() {
     setRapportDataLoading(true);
     setpageSection("search");
 
+    console.log("Startt........222222222222...........");
     // handleDateChange(timeFrom, timeTo);
-    fetSearchRapportchVehicleDetails(
-      currentVehicule.deviceID,
-      timeFrom,
-      timeTo
-    );
+    if (dataFusionee && dataFusionee.length > 0) {
+      dataFusionee.forEach((vehicle) => {
+        console.log("Startt.......333333333333............");
+
+        fetSearchRapportchVehicleDetails(vehicle.deviceID, timeFrom, timeTo);
+      });
+    }
+    console.log("Startt..........444444444444.........");
+
+    // fetSearchRapportchVehicleDetails(
+    //   currentVehicule.deviceID,
+    //   timeFrom,
+    //   timeTo
+    // );
 
     setShowDatePicker(false);
     // setLoadingHistoriqueFilter(true);

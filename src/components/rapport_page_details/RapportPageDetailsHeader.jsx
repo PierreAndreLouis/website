@@ -42,34 +42,30 @@ function RapportPageDetailsHeader({
   //     currentVehicule?.vehiculeDetails.length - 1
   //   ]?.timestamp;
 
-  const timestampInSecondsDebut =
-    vehiculeActiveAjourdhui[0]?.vehiculeDetails[
-      vehiculeActiveAjourdhui[0]?.vehiculeDetails.length - 1
-    ]?.timestamp ||
-    vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[
-      vehiculeNotActiveAjourdhui[0]?.vehiculeDetails.length - 1
-    ]?.timestamp ||
-    vehiculeNotActif[0]?.vehiculeDetails[
-      vehiculeNotActif[0]?.vehiculeDetails.length - 1
-    ]?.timestamp;
+  const donneeVehiculeDetails = currentdataFusionnee.find(
+    (vehicule) =>
+      vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
+  )?.vehiculeDetails;
+
+  const premierDetail =
+    donneeVehiculeDetails[donneeVehiculeDetails.length - 1].timestamp;
+  const dernierDetails = donneeVehiculeDetails[0].timestamp;
+
+  const timestampInSecondsDebut = premierDetail;
   const dateObjectDebut = new Date(timestampInSecondsDebut * 1000);
 
   // Récupérer le jour, le mois et l'année séparément
-  const jourDebut = dateObjectDebut.getDate(); // Obtenir le jour
+  const jourDebut = dateObjectDebut.getUTCDate(); // Obtenir le jour
   const moisDebut = dateObjectDebut.toLocaleString("fr-FR", { month: "long" }); // Obtenir le mois en toutes lettres
   const anneeDebut = dateObjectDebut.getFullYear(); // Obtenir l'année
 
   // Trouver la date du rapport
   // const timestampInSecondsFin = currentVehicule?.vehiculeDetails[0]?.timestamp;
-  const timestampInSecondsFin =
-    vehiculeActiveAjourdhui[0]?.vehiculeDetails[0]?.timestamp ||
-    vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[0]?.timestamp ||
-    vehiculeNotActif[0]?.vehiculeDetails[0]?.timestamp;
-
+  const timestampInSecondsFin = dernierDetails;
   const dateObjectFin = new Date(timestampInSecondsFin * 1000);
 
   // Récupérer le jour, le mois et l'année séparément
-  const jourFin = dateObjectFin.getDate(); // Obtenir le jour
+  const jourFin = dateObjectFin.getUTCDate(); // Obtenir le jour
   const moisFin = dateObjectFin.toLocaleString("fr-FR", { month: "long" }); // Obtenir le mois en toutes lettres
   const anneeFin = dateObjectFin.getFullYear(); // Obtenir l'année
 
