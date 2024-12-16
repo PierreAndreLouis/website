@@ -191,8 +191,8 @@ function TrajetVehicule({
                 >
                   <Popup className="">
                     <div className="--w-[70vw] ---max-w-[20rem]">
-                      <p>
-                        <strong>Description :</strong>{" "}
+                      <p className="font-bold text-[1rem]">
+                        <span>Description :</span>{" "}
                         {description || "Non disponible"}
                       </p>
                       <p>

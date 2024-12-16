@@ -242,7 +242,7 @@ function RapportPage({
   const anneeFin = dateObjectFin.getFullYear(); // Obtenir l'année
 
   return (
-    <div className="pb-56 min-h-screen">
+    <div className="pb-56 pt-10 min-h-screen">
       {showRapportPupup && (
         <RapportOptions
           setshowRapportPupup={setshowRapportPupup}

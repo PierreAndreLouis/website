@@ -261,32 +261,32 @@ function RapportPersonnel({
             <div>
               <div className="text-gray-700 font-bold flex flex-col gap-2 dark:text-gray-300">
                 <p>
-                  Date de Recherche :
+                  Date recherchée :
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
                     {
                       // true ||
-                      jourDebut === jourFin &&
-                      moisDebut === moisFin &&
-                      anneeDebut === anneeFin ? (
-                        <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
-                            Le {jourDebut || ""} {moisDebut || ""}{" "}
-                            {anneeDebut || ""}
-                          </span>{" "}
+                      // jourDebut === jourFin &&
+                      // moisDebut === moisFin &&
+                      // anneeDebut === anneeFin ? (
+                      //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                      //     <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
+                      //       Le {jourDebut || ""} {moisDebut || ""}{" "}
+                      //       {anneeDebut || ""}
+                      //     </span>{" "}
+                      //   </span>
+                      // ) : (
+                      <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                        Du{" "}
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
+                          {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
+                          {anneeDebut === anneeFin ? "" : anneeDebut}
+                        </span>{" "}
+                        au{" "}
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
+                          {jourFin} {moisFin} {anneeFin}
                         </span>
-                      ) : (
-                        <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          Du{" "}
-                          <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
-                            {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
-                            {anneeDebut === anneeFin ? "" : anneeDebut}
-                          </span>{" "}
-                          au{" "}
-                          <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
-                            {jourFin} {moisFin} {anneeFin}
-                          </span>
-                        </span>
-                      )
+                      </span>
+                      // )
                     }
                   </span>
                 </p>
@@ -426,7 +426,7 @@ function RapportPersonnel({
             <div>
               <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300">
                 {/* <p>
-                  Date de Recherche :
+                  Date recherchée :
                   <span className="font-semibold dark:text-orange-500 text-gray-700 pl-3">
                     {
                       // true ||
@@ -1026,28 +1026,28 @@ function RapportPersonnel({
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
                     {
                       // true ||
-                      jourDebut === jourFin &&
-                      moisDebut === moisFin &&
-                      anneeDebut === anneeFin ? (
-                        <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                            Le {jourDebut || ""} {moisDebut || ""}{" "}
-                            {anneeDebut || ""}
-                          </span>{" "}
+                      // jourDebut === jourFin &&
+                      // moisDebut === moisFin &&
+                      // anneeDebut === anneeFin ? (
+                      //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                      //     <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                      //       Le {jourDebut || ""} {moisDebut || ""}{" "}
+                      //       {anneeDebut || ""}
+                      //     </span>{" "}
+                      //   </span>
+                      // ) : (
+                      <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                        Du{" "}
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                          {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
+                          {anneeDebut === anneeFin ? "" : anneeDebut}
+                        </span>{" "}
+                        au{" "}
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                          {jourFin} {moisFin} {anneeFin}
                         </span>
-                      ) : (
-                        <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          Du{" "}
-                          <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                            {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
-                            {anneeDebut === anneeFin ? "" : anneeDebut}
-                          </span>{" "}
-                          au{" "}
-                          <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                            {jourFin} {moisFin} {anneeFin}
-                          </span>
-                        </span>
-                      )
+                      </span>
+                      // )
                     }
                   </span>
                 </p>

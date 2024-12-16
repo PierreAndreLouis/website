@@ -271,12 +271,16 @@ function MapComponent() {
           >
             <Popup>
               <div className="w-[70vw] max-w-[20rem]">
-                <p>
-                  <strong>Nom :</strong>{" "}
+                <p className="font-bold text-[1rem]">
+                  <span>Description :</span>{" "}
                   {vehicle.displayName ||
                     vehicle.description ||
                     "Non disponible"}
                 </p>
+                {/* <p className="font-bold text-[1rem]">
+                        <span>Description :</span>{" "}
+                        {description || "Non disponible"}
+                      </p> */}
                 <p>
                   <strong>Adresse :</strong>{" "}
                   {vehicle.address || "Non disponible"}

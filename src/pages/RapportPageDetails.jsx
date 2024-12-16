@@ -1198,7 +1198,7 @@ function RapportPageDetails() {
     setShowDatePicker2(false);
     console.log("okk");
     console.log("vehiculeDate", dataFusionee);
-    setpageSection("search");
+    // setpageSection("search");
 
     const startTime = "00:00:00";
     const endTime = "23:59:59";
@@ -1231,7 +1231,7 @@ function RapportPageDetails() {
     const timeTo = `${endDate} ${endTime}:00`;
     setShowDatePicker2(false);
     setRapportDataLoading(true);
-    setpageSection("search");
+    // setpageSection("search");
 
     console.log("Startt........222222222222...........");
     // handleDateChange(timeFrom, timeTo);
@@ -1301,7 +1301,21 @@ function RapportPageDetails() {
 
         <div className="fixed sm:px-[10vw] z-10 bg-white dark:bg-gray-800  top-[3rem] left-0 right-0">
           {/* Header */}
-          {pageSection != "search" && (
+          {/* {pageSection != "search--" && ( */}
+          <div className="max-w-[60rem]-- mx-auto">
+            <RapportPageDetailsOptions
+              setPersonnelDetails={setPersonnelDetails}
+              personnelDetails={personnelDetails}
+              setShowListOption={setShowListOption}
+              setVehiclueHistoriqueDetails={setVehiclueHistoriqueDetails}
+              currentVehicule={currentVehicule}
+              formatTimestampToTimeWithTimezone={
+                formatTimestampToTimeWithTimezone
+              }
+              formatTimestampToTime={formatTimestampToTime}
+              pageSection={pageSection}
+              setpageSection={setpageSection}
+            />
             <RapportPageDetailsHeader
               setShowOptions={setShowOptions}
               showOptions={showOptions}
@@ -1320,10 +1334,11 @@ function RapportPageDetails() {
               setpageSection={setpageSection}
               setShowChooseDate={setShowChooseDate}
             />
-          )}
+          </div>
+          {/* )} */}
         </div>
       </div>
-      <RapportPageDetailsOptions
+      {/* <RapportPageDetailsOptions
         setPersonnelDetails={setPersonnelDetails}
         personnelDetails={personnelDetails}
         setShowListOption={setShowListOption}
@@ -1333,7 +1348,7 @@ function RapportPageDetails() {
         formatTimestampToTime={formatTimestampToTime}
         pageSection={pageSection}
         setpageSection={setpageSection}
-      />
+      /> */}
       {/* categorie Personnelle , groupe, et options */}
 
       {/* Personnelle */}

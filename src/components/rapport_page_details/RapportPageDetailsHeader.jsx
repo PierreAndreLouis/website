@@ -103,31 +103,33 @@ function RapportPageDetailsHeader({
         onClick={() => {
           setShowOptions(!showOptions);
         }}
-        className="relative pt-5 mx-4 mb-2"
+        className="relative pt-5-- mx-4 mb-2"
       >
-        <div className="flex justify-between cursor-pointer border rounded-md px-3 py-2 bg-orange-50 dark:bg-gray-900/50 dark:border-gray-500 dark:text-gray-300 text-center">
-          <p className="text-start w-[90%] dark:text-gray-200 overflow-hidden whitespace-nowrap text-ellipsis">
-            {personnelDetails &&
-              !currentVehicule?.description &&
-              "Choisissez un véhicule"}
+        {pageSection === "unite" && (
+          <div className="flex justify-between cursor-pointer border rounded-md px-3 py-2 bg-orange-50 dark:bg-gray-900/50 dark:border-gray-500 dark:text-gray-300 text-center">
+            <p className="text-start w-[90%] dark:text-gray-200 overflow-hidden whitespace-nowrap text-ellipsis">
+              {personnelDetails &&
+                !currentVehicule?.description &&
+                "Choisissez un véhicule"}
 
-            {personnelDetails && currentVehicule?.description}
+              {personnelDetails && currentVehicule?.description}
 
-            {!personnelDetails && "Rapport en groupe"}
-          </p>
+              {!personnelDetails && "Rapport en groupe"}
+            </p>
 
-          <div
-            className={`${
-              !showOptions ? "rotate-0" : "rotate-180"
-            } transition-all`}
-          >
-            {!showOptions ? (
-              <FaChevronDown className="mt-1" />
-            ) : (
-              <IoMdClose className="mt-1 text-xl text-red-500 -translate-y-[.2rem] -translate-x-[.1rem]" />
-            )}
+            <div
+              className={`${
+                !showOptions ? "rotate-0" : "rotate-180"
+              } transition-all`}
+            >
+              {!showOptions ? (
+                <FaChevronDown className="mt-1" />
+              ) : (
+                <IoMdClose className="mt-1 text-xl text-red-500 -translate-y-[.2rem] -translate-x-[.1rem]" />
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {showOptions && (
           <div className="absolute p-4 dark:bg-gray-700 dark:border dark:border-gray-500 dark:shadow-lg dark:shadow-gray-950 text-gray-500 top-20 rounded-lg bg-white right-0 left-0 min-h-20 shadow-lg shadow-gray-600/80">
@@ -225,25 +227,26 @@ function RapportPageDetailsHeader({
           </div>
         )}
       </div>
-      {currentdataFusionnee.length > 0 && (
-        <div className="flex gap-3 px-4 ">
-          <div className="sm:flex w-full  gap-10 max-w-[50rem] mx-4-- justify-center items-center ">
-            <div className="flex gap-0 items-center">
-              <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
-              <p className="text-[.9rem]">
-                <span className="font-normal dark:text-orange-400 text-gray-700 pl-3">
-                  {
-                    // true ||
-                    jourDebut === jourFin &&
-                    moisDebut === moisFin &&
-                    anneeDebut === anneeFin ? (
-                      <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                        <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
-                          Le {jourDebut || ""} {moisDebut || ""}{" "}
-                          {anneeDebut || ""}
-                        </span>{" "}
-                      </span>
-                    ) : (
+      {currentdataFusionnee.length > 0 &&
+        (pageSection === "unite" || pageSection === "groupe") && (
+          <div className="flex gap-3 px-4 ">
+            <div className="sm:flex w-full  gap-10 max-w-[50rem] mx-4-- justify-start items-center ">
+              <div className="flex gap-0 items-center">
+                <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
+                <p className="text-[.9rem]">
+                  <span className="font-normal dark:text-orange-400 text-gray-700 pl-3">
+                    {
+                      // true ||
+                      // jourDebut === jourFin &&
+                      // moisDebut === moisFin &&
+                      // anneeDebut === anneeFin ? (
+                      //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                      //     <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
+                      //       Le {jourDebut || ""} {moisDebut || ""}{" "}
+                      //       {anneeDebut || ""}
+                      //     </span>{" "}
+                      //   </span>
+                      // ) : (
                       <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
                         Du{" "}
                         <span className="dark:text-orange-400 dark:font-normal font-semibold text-gray-950">
@@ -255,81 +258,82 @@ function RapportPageDetailsHeader({
                           {jourFin} {moisFin} {anneeFin}
                         </span>
                       </span>
-                    )
-                  }
-                </span>
-              </p>
-            </div>
+                      // )
+                    }
+                  </span>
+                </p>
+              </div>
 
-            <div className="flex gap-0 items-center">
-              <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
+              <div className="flex gap-0 items-center">
+                <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
 
-              <p className="text-[.9rem]">
-                <span className="font-normal dark:text-orange-400 text-gray-700 pl-3">
-                  De{" "}
-                  <span className="dark:text-orange-400 mx-1 dark:font-normal font-semibold text-gray-950">
-                    {selectUTC
-                      ? formatTimestampToTimeWithTimezone(
-                          vehiculeActiveAjourdhui[0]?.vehiculeDetails[
-                            vehiculeActiveAjourdhui[0]?.vehiculeDetails.length -
-                              1
-                          ]?.timestamp ||
-                            vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[
-                              vehiculeNotActiveAjourdhui[0]?.vehiculeDetails
+                <p className="text-[.9rem]">
+                  <span className="font-normal dark:text-orange-400 text-gray-700 pl-3">
+                    De{" "}
+                    <span className="dark:text-orange-400 mx-1 dark:font-normal font-semibold text-gray-950">
+                      {selectUTC
+                        ? formatTimestampToTimeWithTimezone(
+                            vehiculeActiveAjourdhui[0]?.vehiculeDetails[
+                              vehiculeActiveAjourdhui[0]?.vehiculeDetails
                                 .length - 1
                             ]?.timestamp ||
-                            vehiculeNotActif[0]?.vehiculeDetails[
-                              vehiculeNotActif[0]?.vehiculeDetails.length - 1
-                            ]?.timestamp,
-                          selectUTC
-                        )
-                      : formatTimestampToTime(
-                          vehiculeActiveAjourdhui[0]?.vehiculeDetails[
-                            vehiculeActiveAjourdhui[0]?.vehiculeDetails.length -
-                              1
-                          ]?.timestamp ||
-                            vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[
-                              vehiculeNotActiveAjourdhui[0]?.vehiculeDetails
+                              vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[
+                                vehiculeNotActiveAjourdhui[0]?.vehiculeDetails
+                                  .length - 1
+                              ]?.timestamp ||
+                              vehiculeNotActif[0]?.vehiculeDetails[
+                                vehiculeNotActif[0]?.vehiculeDetails.length - 1
+                              ]?.timestamp,
+                            selectUTC
+                          )
+                        : formatTimestampToTime(
+                            vehiculeActiveAjourdhui[0]?.vehiculeDetails[
+                              vehiculeActiveAjourdhui[0]?.vehiculeDetails
                                 .length - 1
                             ]?.timestamp ||
-                            vehiculeNotActif[0]?.vehiculeDetails[
-                              vehiculeNotActif[0]?.vehiculeDetails.length - 1
-                            ]?.timestamp
-                        )}
-                  </span>{" "}
-                  a{" "}
-                  <span className="dark:text-orange-400 ml-1 dark:font-normal font-semibold text-gray-950">
-                    {selectUTC
-                      ? formatTimestampToTimeWithTimezone(
-                          vehiculeActiveAjourdhui[0]?.vehiculeDetails[0]
-                            ?.timestamp ||
-                            vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[0]
+                              vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[
+                                vehiculeNotActiveAjourdhui[0]?.vehiculeDetails
+                                  .length - 1
+                              ]?.timestamp ||
+                              vehiculeNotActif[0]?.vehiculeDetails[
+                                vehiculeNotActif[0]?.vehiculeDetails.length - 1
+                              ]?.timestamp
+                          )}
+                    </span>{" "}
+                    a{" "}
+                    <span className="dark:text-orange-400 ml-1 dark:font-normal font-semibold text-gray-950">
+                      {selectUTC
+                        ? formatTimestampToTimeWithTimezone(
+                            vehiculeActiveAjourdhui[0]?.vehiculeDetails[0]
                               ?.timestamp ||
-                            vehiculeNotActif[0]?.vehiculeDetails[0]?.timestamp,
-                          selectUTC
-                        )
-                      : formatTimestampToTime(
-                          vehiculeActiveAjourdhui[0]?.vehiculeDetails[0]
-                            ?.timestamp ||
-                            vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[0]
+                              vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[0]
+                                ?.timestamp ||
+                              vehiculeNotActif[0]?.vehiculeDetails[0]
+                                ?.timestamp,
+                            selectUTC
+                          )
+                        : formatTimestampToTime(
+                            vehiculeActiveAjourdhui[0]?.vehiculeDetails[0]
                               ?.timestamp ||
-                            vehiculeNotActif[0]?.vehiculeDetails[0]?.timestamp
-                        )}
-                  </span>{" "}
-                </span>
-              </p>
+                              vehiculeNotActiveAjourdhui[0]?.vehiculeDetails[0]
+                                ?.timestamp ||
+                              vehiculeNotActif[0]?.vehiculeDetails[0]?.timestamp
+                          )}
+                    </span>{" "}
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div
+              onClick={() => {
+                setShowChooseDate(true);
+              }}
+              className="flex gap-2 items-center cursor-pointer"
+            >
+              <FaRegCalendarAlt className="text-xl mt-2- text-orange-500" />
             </div>
           </div>
-          <div
-            onClick={() => {
-              setShowChooseDate(true);
-            }}
-            className="flex gap-2 items-center cursor-pointer"
-          >
-            <FaRegCalendarAlt className="text-xl mt-2- text-orange-500" />
-          </div>
-        </div>
-      )}
+        )}
 
       {/*  */}
       {/*  */}

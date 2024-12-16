@@ -1169,6 +1169,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       rapportSearchfusionnerDonnees();
     }
   }, [searchrapportvehicleDetails, vehicleData]);
+
   //
   //
   //
@@ -1371,6 +1372,23 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     searchdonneeFusionneeForRapport,
     donneeFusionneeForRapport,
   ]);
+
+  // Fonction pour mettre à jour le véhicule actuel
+  const updateCurrentVehicule = () => {
+    if (currentdataFusionnee.length > 0) {
+      const updatedVehicule = currentdataFusionnee.find(
+        (vehicule) => vehicule.deviceID === currentVehicule?.deviceID
+      );
+      if (updatedVehicule) {
+        setCurrentVehicule(updatedVehicule);
+      }
+    }
+  };
+
+  // Utilisation d'un effet pour surveiller les mises à jour de data
+  useEffect(() => {
+    updateCurrentVehicule();
+  }, [currentdataFusionnee]);
   //
   //
   //
@@ -1992,6 +2010,24 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     navigate(`/home?tab=${tabName}`);
   };
 
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+  //
+
+  //
+  //
+  //
+  //
+  //
+  //
+  //
   //
   //
   //

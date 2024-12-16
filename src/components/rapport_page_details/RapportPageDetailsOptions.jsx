@@ -19,7 +19,7 @@ function RapportPageDetailsOptions({
 }) {
   return (
     <>
-      <div className="flex px-4 mb-2 w-full gap-2 justify-between max-w-[30rem] mx-auto mt-2">
+      <div className="flex px-4 mb-2 w-full gap-2 justify-between max-w-[40rem]-- mx-auto mt-6">
         <button
           onClick={() => {
             setpageSection("unite");
