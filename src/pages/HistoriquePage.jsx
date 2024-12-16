@@ -38,6 +38,7 @@ function HistoriquePage() {
     donneeFusionneeForRapport,
     setVehiclueHistoriqueDetails,
     selectUTC,
+    fetchHistoriqueVehicleDetails,
   } = useContext(DataContext);
 
   const [checkboxes, setCheckboxes] = useState({
@@ -279,7 +280,7 @@ function HistoriquePage() {
         <div className="z-30">
           <DateTimePicker
             setShowDatePicker={setShowDatePicker}
-            // fetchHistoriqueVehicleDetails ={fetchHistoriqueVehicleDetails}
+            fetchHistoriqueVehicleDetails={fetchHistoriqueVehicleDetails}
             handleApply={handleApply}
             setStartDate={setStartDate}
             setStartTime={setStartTime}
