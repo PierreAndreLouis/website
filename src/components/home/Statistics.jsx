@@ -140,7 +140,7 @@ function Statistics() {
           to="/Statistics_Page"
           className="bg-white dark:bg-gray-800 rounded-lg"
         >
-          <div className="border overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-blue-300/50 dark:bg-blue-700/40 flex justify-between items-start rounded-lg shadow-md p-3">
+          <div className="border relative overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-blue-300/50 dark:bg-blue-700/40 flex justify-between items-start rounded-lg shadow-md p-3">
             {/* <div className="border overflow-hidden dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-blue-300/50 dark:bg-blue-700/30 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-700 dark:text-gray-300 md:font-semibold md:text-xl ">
@@ -150,7 +150,7 @@ function Statistics() {
                 {totalVehicleCount}
               </h2>
             </div>
-            <div>
+            <div className="absolute right-4 bottom-4 xs:relative xs:right-0 xs:bottom-0">
               <img
                 className="dark:hidden w-8 md:w-12 lg:w-14"
                 src="/img/home_icon/total.png"
@@ -176,17 +176,17 @@ function Statistics() {
           to="/Statistics_Page"
           className="bg-white dark:bg-gray-800 rounded-lg"
         >
-          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-green-300/50 dark:bg-green-600/40 flex justify-between items-start rounded-lg shadow-md p-3">
-            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-green-300/50 dark:bg-green-700/30 flex justify-between items-start rounded-lg shadow-md p-3"> */}
+          <div className="border relative dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-green-300/50 dark:bg-green-600/40 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border relative dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-green-300/50 dark:bg-green-700/30 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-700 dark:text-gray-300 md:font-semibold md:text-xl ">
-                Actifs
+                En Mouvement
               </h3>
               <h2 className="text-gray-900 dark:text-gray-200 font-bold text-2xl md:text-3xl lg:text-4xl ">
                 {activeVehicleCount}
               </h2>
             </div>
-            <div>
+            <div className="absolute right-4 bottom-4 xs:relative xs:right-0 xs:bottom-0">
               <img
                 className="dark:hidden w-14 md:w-16 lg:w-20"
                 src="/img/home_icon/active.png"
@@ -211,17 +211,17 @@ function Statistics() {
           to="/Statistics_Page"
           className="bg-white dark:bg-gray-800 rounded-lg"
         >
-          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-red-300/50 dark:bg-red-800/50 flex justify-between items-start rounded-lg shadow-md p-3">
-            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-red-300/50 dark:bg-red-900/40 flex justify-between items-start rounded-lg shadow-md p-3"> */}
+          <div className="border relative dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-red-300/50 dark:bg-red-800/50 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border relative dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-red-300/50 dark:bg-red-900/40 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
               <h3 className="text-gray-700 dark:text-gray-300 md:font-semibold md:text-xl ">
-                Parking
+                En Stationnement
               </h3>
               <h2 className="text-gray-900 dark:text-gray-200 font-bold text-2xl md:text-3xl lg:text-4xl ">
                 {inactiveVehicleCount}
               </h2>
             </div>
-            <div>
+            <div className="absolute right-4 bottom-4 xs:relative xs:right-0 xs:bottom-0">
               <img
                 className="dark:hidden w-8 md:w-12 lg:w-14"
                 src="/img/cars/parking.png"
@@ -246,17 +246,17 @@ function Statistics() {
           to="/Statistics_Page"
           className="bg-white dark:bg-gray-400/10 rounded-lg"
         >
-          <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-purple-300/50 dark:bg-purple-700/30 flex justify-between items-start rounded-lg shadow-md p-3">
-            {/* <div className="border dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-purple-300/50 dark:bg-purple-950/50 flex justify-between items-start rounded-lg shadow-md p-3"> */}
+          <div className="border relative dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-purple-300/50 dark:bg-purple-700/30 flex justify-between items-start rounded-lg shadow-md p-3">
+            {/* <div className="border relative dark:border-gray-800 dark:shadow-gray-900 md:p-[2rem] bg-purple-300/50 dark:bg-purple-950/50 flex justify-between items-start rounded-lg shadow-md p-3"> */}
             <div>
-              <h3 className="text-gray-900 dark:text-gray-300 md:font-semibold md:text-xl ">
-                Inactifs
+              <h3 className="text-gray-900  dark:text-gray-300 md:font-semibold md:text-xl ">
+                Hors Service
               </h3>
               <h2 className="text-gray-900 dark:text-gray-200 font-bold text-2xl md:text-3xl lg:text-4xl ">
                 {notActiveVehicleCount}
               </h2>
             </div>
-            <div>
+            <div className="absolute right-4 bottom-4 xs:relative xs:right-0 xs:bottom-0">
               <img
                 className="dark:hidden w-8 md:w-12 lg:w-14"
                 src="/img/home_icon/payer.png"
