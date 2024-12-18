@@ -294,10 +294,10 @@ function MapComponent() {
                   {vehicle.speedKPH || "Non disponible"} Km/h
                 </p>
 
-                <p>
+                {/* <p>
                   <strong>Date :</strong>{" "}
                   {vehicle.timestamp || "Non disponible"}
-                </p>
+                </p> */}
                 <p>
                   <strong>Date :</strong>{" "}
                   {vehicle.timestamp

@@ -1315,6 +1315,8 @@ function RapportPageDetails() {
               formatTimestampToTime={formatTimestampToTime}
               pageSection={pageSection}
               setpageSection={setpageSection}
+              setShowOptions={setShowOptions}
+              showOptions={showOptions}
             />
             <RapportPageDetailsHeader
               setShowOptions={setShowOptions}

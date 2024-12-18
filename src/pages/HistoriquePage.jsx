@@ -99,6 +99,7 @@ function HistoriquePage() {
     licensePlate: currentVehicule?.licensePlate || "",
     simPhoneNumber: currentVehicule?.simPhoneNumber || "",
     speedKPH: vehicule?.speedKPH || 0, // Ajout de la vitesse
+    timestamp: vehicule?.timestamp || 0, // Ajout de la vitesse
     heading: vehicule?.heading || "",
   }));
 

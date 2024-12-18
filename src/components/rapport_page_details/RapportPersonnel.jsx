@@ -504,7 +504,7 @@ function RapportPersonnel({
                             selectUTC
                           )
                         : formatTimestampToTime(heureActiveDebut.timestamp)
-                      : "---"}{" "}
+                      : "Pas de mouvement"}{" "}
                   </span>
                 </p>
                 <p>
@@ -517,7 +517,7 @@ function RapportPersonnel({
                             selectUTC
                           )
                         : formatTimestampToTime(heureActiveFin.timestamp)
-                      : "---"}{" "}
+                      : "Pas de mouvement"}{" "}
                   </span>
                 </p>
                 {/*  */}

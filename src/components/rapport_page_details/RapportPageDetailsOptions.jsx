@@ -13,6 +13,8 @@ function RapportPageDetailsOptions({
   formatTimestampToTime,
   pageSection,
   setpageSection,
+  setShowOptions,
+  showOptions,
 
   // formatTimestampToTimeWithTimezone,
   // formatTimestampToTime
@@ -35,6 +37,7 @@ function RapportPageDetailsOptions({
         <button
           onClick={() => {
             setpageSection("groupe");
+            setShowOptions(false);
           }}
           className={`${
             pageSection === "groupe"
@@ -47,6 +50,7 @@ function RapportPageDetailsOptions({
         <button
           onClick={() => {
             setpageSection("search");
+            setShowOptions(false);
           }}
           className={`${
             pageSection === "search"

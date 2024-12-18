@@ -132,8 +132,17 @@ function RapportPageDetailsHeader({
         )}
 
         {showOptions && (
-          <div className="absolute p-4 dark:bg-gray-700 dark:border dark:border-gray-500 dark:shadow-lg dark:shadow-gray-950 text-gray-500 top-20 rounded-lg bg-white right-0 left-0 min-h-20 shadow-lg shadow-gray-600/80">
-            {/* <div
+          <div className="absolute  pt-10== p-4 dark:bg-gray-700 dark:border dark:border-gray-500 dark:shadow-lg dark:shadow-gray-950 text-gray-500 top-20 rounded-lg bg-white right-0 left-0 min-h-20 shadow-lg shadow-gray-600/80">
+            <div
+              onClick={() => {
+                setShowOptions(!showOptions);
+              }}
+              className="flex justify-end"
+            >
+              <IoMdClose className="mt-1 text-2xl cursor-pointer text-end text-red-500 -translate-y-[.2rem] -translate-x-[.1rem]" />
+            </div>
+            <div className="overflow-auto h-[40vh]">
+              {/* <div
               onClick={() => {
                 setShowOptions(!showOptions);
                 setPersonnelDetails(false);
@@ -151,86 +160,87 @@ function RapportPageDetailsHeader({
               <h3 className="dark:text-gray-200">Rapport de groupe</h3>
             </div> */}
 
-            {vehiculeActiveAjourdhui &&
-              vehiculeActiveAjourdhui.map((vehicule, index) => {
-                return (
-                  <div
-                    onClick={() => {
-                      setShowOptions(!showOptions);
-                      handleClick(vehicule);
-                    }}
-                    className="border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3"
-                  >
-                    <div className="min-w-[2.5rem]">
-                      <img
-                        className="w-[2.5em]"
-                        src="/img/home_icon/active.png"
-                        alt="Icône actif"
-                      />
-                    </div>
-                    <h3 className="dark:text-gray-200">
-                      {/* {!personnelDetails || "Rapport en groupe"}
+              {vehiculeActiveAjourdhui &&
+                vehiculeActiveAjourdhui.map((vehicule, index) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        setShowOptions(!showOptions);
+                        handleClick(vehicule);
+                      }}
+                      className="border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3"
+                    >
+                      <div className="min-w-[2.5rem]">
+                        <img
+                          className="w-[2.5em]"
+                          src="/img/home_icon/active.png"
+                          alt="Icône actif"
+                        />
+                      </div>
+                      <h3 className="dark:text-gray-200">
+                        {/* {!personnelDetails || "Rapport en groupe"}
                       {(personnelDetails && vehicule.description) || "---"} */}
-                      {vehicule.description || "---"}
-                    </h3>
-                  </div>
-                );
-              })}
-
-            {vehiculeNotActiveAjourdhui &&
-              vehiculeNotActiveAjourdhui.map((vehicule, index) => {
-                return (
-                  <div
-                    onClick={() => {
-                      setShowOptions(!showOptions);
-                      handleClick(vehicule);
-                    }}
-                    className="border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3"
-                  >
-                    <div className="min-w-[2.5rem]">
-                      <img
-                        className="w-[2em] ml-2"
-                        src="/img/cars/parking.png"
-                        alt="Icône parking"
-                      />
+                        {vehicule.description || "---"}
+                      </h3>
                     </div>
-                    <h3 className="dark:text-gray-200">
-                      {vehicule.description || "---"}
-                    </h3>
-                  </div>
-                );
-              })}
+                  );
+                })}
 
-            {vehiculeNotActif &&
-              vehiculeNotActif.map((vehicule, index) => {
-                return (
-                  <div
-                    onClick={() => {
-                      setShowOptions(!showOptions);
-                      handleClick(vehicule);
-                    }}
-                    className="border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3"
-                  >
-                    <div className="min-w-[2.5rem]">
-                      <img
-                        className="w-[1.72em] ml-1"
-                        src="/img/home_icon/payer.png"
-                        alt="Icône paiement"
-                      />
+              {vehiculeNotActiveAjourdhui &&
+                vehiculeNotActiveAjourdhui.map((vehicule, index) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        setShowOptions(!showOptions);
+                        handleClick(vehicule);
+                      }}
+                      className="border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3"
+                    >
+                      <div className="min-w-[2.5rem]">
+                        <img
+                          className="w-[2em] ml-2"
+                          src="/img/cars/parking.png"
+                          alt="Icône parking"
+                        />
+                      </div>
+                      <h3 className="dark:text-gray-200">
+                        {vehicule.description || "---"}
+                      </h3>
                     </div>
-                    <h3 className="dark:text-gray-200">
-                      {vehicule.description || "---"}
-                    </h3>
-                  </div>
-                );
-              })}
+                  );
+                })}
+
+              {vehiculeNotActif &&
+                vehiculeNotActif.map((vehicule, index) => {
+                  return (
+                    <div
+                      onClick={() => {
+                        setShowOptions(!showOptions);
+                        handleClick(vehicule);
+                      }}
+                      className="border-b rounded-lg mt-1 cursor-pointer hover:bg-orange-50 dark:hover:bg-gray-800 flex gap-5 items-center border-gray-300 py-3"
+                    >
+                      <div className="min-w-[2.5rem]">
+                        <img
+                          className="w-[1.72em] ml-1"
+                          src="/img/home_icon/payer.png"
+                          alt="Icône paiement"
+                        />
+                      </div>
+                      <h3 className="dark:text-gray-200">
+                        {vehicule.description || "---"}
+                      </h3>
+                    </div>
+                  );
+                })}
+            </div>
           </div>
         )}
       </div>
       {currentdataFusionnee.length > 0 &&
         (pageSection === "unite" || pageSection === "groupe") && (
-          <div className="flex gap-3 px-4 ">
-            <div className="sm:flex w-full  gap-10 max-w-[50rem] mx-4-- justify-start items-center ">
+          <div className="flex justify-between gap-3 px-4 ">
+            <div className="sm:flex w-full   gap-10 max-w-[50rem] mx-4-- justify-start items-center ">
               <div className="flex gap-0 items-center">
                 <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
                 <p className="text-[.9rem]">
@@ -328,7 +338,7 @@ function RapportPageDetailsHeader({
               onClick={() => {
                 setShowChooseDate(true);
               }}
-              className="flex gap-2 items-center cursor-pointer"
+              className="flex  gap-2 items-center cursor-pointer"
             >
               <FaRegCalendarAlt className="text-xl mt-2- text-orange-500" />
             </div>

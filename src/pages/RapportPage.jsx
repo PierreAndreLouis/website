@@ -299,28 +299,28 @@ function RapportPage({
                 {/* {formatDate(selectedDate)} */}
                 {
                   // true ||
-                  jourDebut === jourFin &&
-                  moisDebut === moisFin &&
-                  anneeDebut === anneeFin ? (
-                    <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                      <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
-                        Le {jourDebut || ""} {moisDebut || ""}{" "}
-                        {anneeDebut || ""}
-                      </span>{" "}
+                  // jourDebut === jourFin &&
+                  // moisDebut === moisFin &&
+                  // anneeDebut === anneeFin ? (
+                  //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                  //     <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                  //       Le {jourDebut || ""} {moisDebut || ""}{" "}
+                  //       {anneeDebut || ""}
+                  //     </span>{" "}
+                  //   </span>
+                  // ) : (
+                  <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                    Du{" "}
+                    <span className="dark:text-gray-50 dark:font-normal font-semibold- text-gray-950">
+                      {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
+                      {anneeDebut === anneeFin ? "" : anneeDebut}
+                    </span>{" "}
+                    au{" "}
+                    <span className="dark:text-gray-50 dark:font-normal font-semibold- text-gray-950">
+                      {jourFin} {moisFin} {anneeFin}
                     </span>
-                  ) : (
-                    <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                      Du{" "}
-                      <span className="dark:text-gray-50 dark:font-normal font-semibold- text-gray-950">
-                        {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
-                        {anneeDebut === anneeFin ? "" : anneeDebut}
-                      </span>{" "}
-                      au{" "}
-                      <span className="dark:text-gray-50 dark:font-normal font-semibold- text-gray-950">
-                        {jourFin} {moisFin} {anneeFin}
-                      </span>
-                    </span>
-                  )
+                  </span>
+                  // )
                 }
               </h1>
 
