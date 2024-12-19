@@ -1081,19 +1081,20 @@ function RapportGroupe({
                 voir
               </p>
             </div>
-            {!voirPlus && (
-              <div>
-                <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
-                <div
-                  onClick={() => {
-                    setvoirPlus(!voirPlus);
-                  }}
-                  className="text-orange-600 cursor-pointer"
-                >
-                  voir Plus
+            {!voirPlus &&
+              vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
+                <div>
+                  <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+                  <div
+                    onClick={() => {
+                      setvoirPlus(!voirPlus);
+                    }}
+                    className="text-orange-600 cursor-pointer"
+                  >
+                    voir Plus
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             {/*  */}
             {/*  */}
             {/*  */}

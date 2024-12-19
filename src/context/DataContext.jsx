@@ -1279,12 +1279,35 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       // );
       // setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
 
-      const now = new Date();
+      // const now = new Date();
+      // const filteredVehicles = currentdataFusionnee?.filter((vehicle) => {
+      //   const lastUpdate = new Date(vehicle.lastUpdateTime);
+      //   const diffHeures = (now - lastUpdate) / (1000 * 60 * 60);
+      //   return diffHeures < 24; // Conserver uniquement les véhicules mis à jour il y a moins de 24 heures
+      // });
+
+      const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
+      const currentTime = Date.now(); // Heure actuelle en millisecondes
+
       const filteredVehicles = currentdataFusionnee?.filter((vehicle) => {
-        const lastUpdate = new Date(vehicle.lastUpdateTime);
-        const diffHeures = (now - lastUpdate) / (1000 * 60 * 60);
-        return diffHeures < 24; // Conserver uniquement les véhicules mis à jour il y a moins de 24 heures
+        // Vérifier si le véhicule n'a pas de détails
+        const noDetails =
+          !vehicle.vehiculeDetails || vehicle.vehiculeDetails.length === 0;
+
+        // Vérifier si le véhicule est inactif
+        const lastUpdateTime = vehicle?.lastUpdateTime;
+        const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
+        const isInactive =
+          lastUpdateTimeMs > 0 &&
+          currentTime - lastUpdateTimeMs >= twentyHoursInMs;
+
+        // Retourne true si l'une des conditions est satisfaite
+        return !noDetails || !isInactive;
       });
+
+      // const vehiculeActiveAjourdhui = filteredVehicles?.filter((vehicle) =>
+      //   vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
+      // );
 
       const vehiculeActiveAjourdhui = filteredVehicles?.filter((vehicle) =>
         vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
@@ -1294,8 +1317,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
 
       // 3. Met à jour l'état avec tous les véhicules n'ayant aucun événement avec `speedKPH >= 1`
 
-      const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
-      const currentTime = Date.now(); // Heure actuelle en millisecondes
+      // const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
+      // const currentTime = Date.now(); // Heure actuelle en millisecondes
 
       // const vehiculeNotActiveAjourdhui = currentdataFusionnee.filter(
       //   (vehicle) => {
