@@ -114,8 +114,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   const [vehiculeNotActif, setVehiculeNotActif] = useState([]);
   const [vehiculeActiveMaintenant, setVehiculeActiveMaintenant] = useState([]);
 
-  // const [searchdonneeFusionneeForRapport, setSearchdonneeFusionneeForRapport] =
-  //   useState([]);
+  const [searchdonneeFusionneeForRapport, setSearchdonneeFusionneeForRapport] =
+    useState([]);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Pupup
@@ -176,11 +176,6 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     return localStorage.getItem("selectTime") || "";
   });
 
-  const [searchdonneeFusionneeForRapport, setSearchdonneeFusionneeForRapport] =
-    useState(() => {
-      return localStorage.getItem("searchdonneeFusionneeForRapport") || "";
-    });
-
   // Charger les fuseaux horaires
   useEffect(() => {
     const zones = moment.tz.names().map((zone) => {
@@ -210,19 +205,7 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     if (selectTime) {
       localStorage.setItem("selectTime", selectTime);
     }
-
-    // if (selectTime) {
-    localStorage.setItem(
-      "searchdonneeFusionneeForRapport",
-      searchdonneeFusionneeForRapport
-    );
-    // }
-  }, [
-    selectedTimeZone,
-    selectUTC,
-    selectTime,
-    searchdonneeFusionneeForRapport,
-  ]);
+  }, [selectedTimeZone, selectUTC, selectTime]);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
