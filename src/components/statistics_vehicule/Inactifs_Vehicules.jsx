@@ -196,7 +196,7 @@ function Inactifs_Vehicules() {
                           <span
                             className={` bg-purple-300/50 ml-1 dark:text-purple-100 text-purple-800 pb-[.2rem] px-2 py-0 text-sm rounded-md `}
                           >
-                            Inactif
+                            Hors service
                           </span>
                         </div>
 

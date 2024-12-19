@@ -45,7 +45,7 @@ function StatisticPage() {
                 {chooseALl && "Tous les véhicules"}
                 {chooseActifs && "Vehicule en déplacement"}
                 {chooseStationnement && "Véhicules en stationnement"}
-                {chooseInactifs && "Véhicules inactifs"}
+                {chooseInactifs && "Véhicules hors service"}
               </p>
 
               <div
@@ -149,7 +149,7 @@ function StatisticPage() {
                       alt=""
                     />
                   </div>
-                  <h3 className="dark:text-gray-200">Véhicules Inactifs</h3>
+                  <h3 className="dark:text-gray-200">Véhicules hors service</h3>
                 </div>
               </div>
             )}
@@ -162,7 +162,7 @@ function StatisticPage() {
             {chooseALl && "Tous les véhicules"}
             {chooseActifs && "Véhicule en déplacement"}
             {chooseStationnement && "Véhicules en stationnement"}
-            {chooseInactifs && "Véhicules inactifs"}
+            {chooseInactifs && "Véhicules hors service"}
           </h1>
           {showListeOption && <Liste_options />}
           {chooseActifs && <Actifs_Vehicule />}

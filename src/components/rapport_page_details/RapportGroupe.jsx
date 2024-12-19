@@ -63,8 +63,8 @@ function RapportGroupe({
   )?.vehiculeDetails;
 
   const premierDetail =
-    donneeVehiculeDetails[donneeVehiculeDetails.length - 1].timestamp;
-  const dernierDetails = donneeVehiculeDetails[0].timestamp;
+    donneeVehiculeDetails[donneeVehiculeDetails.length - 1]?.timestamp;
+  const dernierDetails = donneeVehiculeDetails[0]?.timestamp;
 
   // Trouver la date du rapport
   // Trouver la date du rapport
@@ -93,7 +93,9 @@ function RapportGroupe({
   const [voirVehiculeListePupup, setvoirVehiculeListePupup] = useState(false);
   const [defineVehiculeListePupup, setdefineVehiculeListePupup] =
     useState("tous");
+
   const [nothing, setnothing] = useState(false);
+
   function formatTimestampToDate(timestamp) {
     const date = new Date(timestamp * 1000);
     const day = date.getUTCDate().toString().padStart(2, "0");
@@ -112,6 +114,247 @@ function RapportGroupe({
   const [tableActivite, settableActivite] = useState(false);
   const [tablevitesse, settablevitesse] = useState(false);
   const [tableTrajet, settableTrajet] = useState(false);
+
+  ///////////////////////////////////////////////////////////////////////////
+
+  // Fonction pour calculer la distance entre deux points géographiques en kilomètres
+  const calculateDistance = (lat1, lon1, lat2, lon2) => {
+    const R = 6371; // Rayon de la Terre en kilomètres
+    const dLat = (lat2 - lat1) * (Math.PI / 180); // Conversion des degrés en radians
+    const dLon = (lon2 - lon1) * (Math.PI / 180);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(lat1 * (Math.PI / 180)) *
+        Math.cos(lat2 * (Math.PI / 180)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c; // Distance en kilomètres
+  };
+
+  // Fonction pour calculer la durée entre deux timestamps en secondes
+  const calculateDuration = (timestamp1, timestamp2) => {
+    return Math.abs(parseInt(timestamp2) - parseInt(timestamp1)); // Différence absolue en secondes
+  };
+
+  // Fonction pour convertir une durée en secondes au format heure, minute et seconde
+  const formatDuration = (seconds) => {
+    const hrs = Math.floor(seconds / 3600);
+    const mins = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+    return `${hrs}h ${mins}m ${secs}s`;
+  };
+
+  const processVehicleData = (currentData) => {
+    return currentData.map((item) => {
+      const vehiculeDetails = item.vehiculeDetails;
+
+      // Trouver le premier et le dernier index où speedKPH >= 1
+      const firstValidIndex = vehiculeDetails.findIndex(
+        (detail) => parseFloat(detail.speedKPH) >= 1
+      );
+
+      const lastValidIndex =
+        vehiculeDetails.length -
+        1 -
+        vehiculeDetails
+          .slice()
+          .reverse()
+          .findIndex((detail) => parseFloat(detail.speedKPH) >= 1);
+
+      if (
+        firstValidIndex === -1 ||
+        lastValidIndex === -1 ||
+        firstValidIndex > lastValidIndex
+      ) {
+        return {
+          ...item,
+          vehiculeDetails: [],
+          totalDistance: 0, // Aucune distance calculée si aucun détail valide
+          totalDuration: "0h 0m 0s", // Aucune durée calculée si aucun détail valide
+          totalPauseDuration: "0h 0m 0s", // Aucune durée de pause calculée
+          totalMovingDuration: "0h 0m 0s", // Aucune durée en mouvement calculée
+          minSpeed: 0,
+          maxSpeed: 0,
+          avgSpeed: 0,
+        };
+      }
+
+      const filteredVehiculeDetails = vehiculeDetails.slice(
+        firstValidIndex,
+        lastValidIndex + 1
+      );
+
+      // Calculer la distance totale parcourue, la durée totale, la durée de pause et la durée en mouvement
+      let totalDistance = 0;
+      let totalDuration = 0;
+      let totalPauseDuration = 0;
+      let totalMovingDuration = 0;
+
+      let speeds = [];
+
+      for (let i = 1; i < filteredVehiculeDetails.length; i++) {
+        const lat1 = parseFloat(filteredVehiculeDetails[i - 1].latitude);
+        const lon1 = parseFloat(filteredVehiculeDetails[i - 1].longitude);
+        const lat2 = parseFloat(filteredVehiculeDetails[i].latitude);
+        const lon2 = parseFloat(filteredVehiculeDetails[i].longitude);
+        const time1 = filteredVehiculeDetails[i - 1].timestamp;
+        const time2 = filteredVehiculeDetails[i].timestamp;
+        const speed1 = parseFloat(filteredVehiculeDetails[i - 1].speedKPH);
+
+        speeds.push(speed1);
+        totalDistance += calculateDistance(lat1, lon1, lat2, lon2);
+        totalDuration += calculateDuration(time1, time2);
+
+        if (speed1 <= 0) {
+          totalPauseDuration += calculateDuration(time1, time2);
+        } else {
+          totalMovingDuration += calculateDuration(time1, time2);
+        }
+      }
+
+      const minSpeed = Math.min(...speeds.filter((speed) => speed > 0)) || 0;
+      const maxSpeed = Math.max(...speeds);
+      const avgSpeed =
+        speeds.reduce((sum, speed) => sum + speed, 0) / speeds.length || 0;
+
+      return {
+        ...item,
+        vehiculeDetails: filteredVehiculeDetails,
+        totalDistance: totalDistance, // Ajouter la distance parcourue
+        totalDuration: formatDuration(totalDuration), // Ajouter la durée totale formatée
+        totalPauseDuration: formatDuration(totalPauseDuration), // Ajouter la durée totale des pauses formatée
+        totalMovingDuration: formatDuration(totalMovingDuration), // Ajouter la durée totale en mouvement formatée
+        minSpeed: minSpeed,
+        maxSpeed: maxSpeed,
+        avgSpeed: avgSpeed.toFixed(2),
+      };
+    });
+  };
+
+  const sortVehiclesBySpeed = (filteredData) => {
+    return filteredData
+      .map((item) => {
+        const lastDetail =
+          item.vehiculeDetails[item.vehiculeDetails.length - 1];
+        return {
+          description: item.description,
+          deviceID: item.deviceID,
+          lastSpeedKPH: lastDetail ? parseFloat(lastDetail.speedKPH) : 0,
+          totalDistance: item.totalDistance, // Inclure la distance parcourue
+          totalDuration: item.totalDuration, // Inclure la durée totale
+          totalPauseDuration: item.totalPauseDuration, // Inclure la durée totale des pauses
+          totalMovingDuration: item.totalMovingDuration, // Inclure la durée totale en mouvement
+          minSpeed: item.minSpeed,
+          maxSpeed: item.maxSpeed,
+          avgSpeed: item.avgSpeed,
+          vehiculeDetails: item.vehiculeDetails,
+        };
+      })
+      .sort((a, b) => b.lastSpeedKPH - a.lastSpeedKPH);
+  };
+
+  const sortVehiclesByDistance = (filteredData) => {
+    return filteredData
+      .map((item) => ({
+        description: item.description,
+        deviceID: item.deviceID,
+        totalDistance: item.totalDistance, // Inclure la distance parcourue
+        totalDuration: item.totalDuration, // Inclure la durée totale
+        totalPauseDuration: item.totalPauseDuration, // Inclure la durée totale des pauses
+        totalMovingDuration: item.totalMovingDuration, // Inclure la durée totale en mouvement
+        minSpeed: item.minSpeed,
+        maxSpeed: item.maxSpeed,
+        avgSpeed: item.avgSpeed,
+        vehiculeDetails: item.vehiculeDetails,
+      }))
+      .sort((a, b) => b.totalDistance - a.totalDistance);
+  };
+
+  const sortVehiclesByMovingDuration = (filteredData) => {
+    return filteredData
+      .map((item) => ({
+        description: item.description,
+        deviceID: item.deviceID,
+        totalDistance: item.totalDistance, // Inclure la distance parcourue
+        totalDuration: item.totalDuration, // Inclure la durée totale
+        totalPauseDuration: item.totalPauseDuration, // Inclure la durée totale des pauses
+        totalMovingDuration: item.totalMovingDuration, // Inclure la durée totale en mouvement
+        minSpeed: item.minSpeed,
+        maxSpeed: item.maxSpeed,
+        avgSpeed: item.avgSpeed,
+        vehiculeDetails: item.vehiculeDetails,
+      }))
+      .sort((a, b) => {
+        // Convertir les durées en secondes pour les comparer
+        const [ah, am, as] = a.totalMovingDuration
+          .split(/[hms]/)
+          .filter(Boolean)
+          .map(Number);
+        const [bh, bm, bs] = b.totalMovingDuration
+          .split(/[hms]/)
+          .filter(Boolean)
+          .map(Number);
+
+        const totalA = ah * 3600 + am * 60 + as;
+        const totalB = bh * 3600 + bm * 60 + bs;
+
+        return totalB - totalA;
+      });
+  };
+
+  const sortVehiclesByMaxSpeed = (filteredData) => {
+    return filteredData
+      .map((item) => ({
+        description: item.description,
+        deviceID: item.deviceID,
+        totalDistance: item.totalDistance, // Inclure la distance parcourue
+        totalDuration: item.totalDuration, // Inclure la durée totale
+        totalPauseDuration: item.totalPauseDuration, // Inclure la durée totale des pauses
+        totalMovingDuration: item.totalMovingDuration, // Inclure la durée totale en mouvement
+        minSpeed: item.minSpeed,
+        maxSpeed: item.maxSpeed,
+        avgSpeed: item.avgSpeed,
+        vehiculeDetails: item.vehiculeDetails,
+      }))
+      .sort((a, b) => b.maxSpeed - a.maxSpeed);
+  };
+
+  const filteredData = processVehicleData(currentdataFusionnee);
+  const vehiculeMouvementOrdered = sortVehiclesBySpeed(filteredData);
+
+  const vehiclesByDistance = sortVehiclesByDistance(filteredData);
+  const vehiclesByMovingDuration = sortVehiclesByMovingDuration(filteredData);
+  const vehiclesByMaxSpeed = sortVehiclesByMaxSpeed(filteredData);
+
+  console.log("Vehicles sorted by total distance:", vehiclesByDistance);
+  console.log(
+    "Vehicles sorted by total moving duration:",
+    vehiclesByMovingDuration
+  );
+  console.log("Vehicles sorted by max speed:", vehiclesByMaxSpeed);
+
+  console.log(
+    "Final filtered data with total distances, durations, and pauses:",
+    filteredData
+  );
+  console.log("Vehicles sorted by last speedKPH:", vehiculeMouvementOrdered);
+
+  //////////////////////////////////////////////////////////////////////
+
+  const premierMovementDebut =
+    vehiculeMouvementOrdered[0].vehiculeDetails[
+      vehiculeMouvementOrdered[0].vehiculeDetails.length - 1
+    ]?.timestamp;
+
+  const datePemierMouvementDebut = new Date(premierMovementDebut * 1000);
+
+  // Récupérer le jour, le mois et l'année séparément
+  const jourPemierMouvement = datePemierMouvementDebut.getUTCDate(); // Obtenir le jour
+  const moisPemierMouvement = datePemierMouvementDebut.toLocaleString("fr-FR", {
+    month: "long",
+  }); // Obtenir le mois en toutes lettres
+  const anneePemierMouvement = datePemierMouvementDebut.getFullYear(); // Obtenir l'année
 
   return (
     <>
@@ -259,37 +502,55 @@ function RapportGroupe({
                     </tr>
                   </thead>
                   <tbody>
-                    {currentdataFusionnee?.map((vehicule, index) => (
+                    {vehiculeMouvementOrdered?.map((vehicule, index) => (
                       <tr key={index} className="border dark:border-gray-600">
-                        <td className="border py-3 px-2  bg-gray-50 dark:border-gray-600">
+                        <td className="border py-3 px-2  bg-white dark:border-gray-600">
                           {vehicule?.displayName ||
                             vehicule?.description ||
                             "---"}
                         </td>
+                        <td className="border py-3 px-2   bg-orange-50 dark:border-gray-600">
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehicule?.vehiculeDetails[
+                                    vehicule?.vehiculeDetails.length - 1
+                                  ]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehicule?.vehiculeDetails[
+                                    vehicule?.vehiculeDetails.length - 1
+                                  ]?.timestamp
+                                )
+                            : "Pas de depacement"}{" "}
+                        </td>
                         <td className="border py-3 px-2   bg-white dark:border-gray-600">
-                          {activePeriods[index]?.startTime
-                            ? activePeriods[index].startTime
-                            : "---"}
-
-                          {/* {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleTimeString()
-                        : "---"} */}
-                        </td>
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
-                          {activePeriods[index]?.endTime
-                            ? activePeriods[index].endTime
-                            : "---"}
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehicule?.vehiculeDetails[0]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehicule?.vehiculeDetails[0]?.timestamp
+                                )
+                            : "Pas de depacement"}{" "}
                         </td>
 
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
-                          {vehicule.vehiculeDetails[0]?.backupAddress ||
-                            vehicule.vehiculeDetails[0]?.address ||
-                            "---"}
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule.vehiculeDetails[
+                            vehicule.vehiculeDetails?.length - 1
+                          ]?.backupAddress ||
+                            vehicule.vehiculeDetails[
+                              vehicule.vehiculeDetails?.length - 1
+                            ]?.address ||
+                            "Pas de depacement"}
                         </td>
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
                           {vehicule.vehiculeDetails[0]?.backupAddress ||
                             vehicule.vehiculeDetails[0]?.address ||
-                            "---"}
+                            "Pas de depacement"}
                         </td>
                       </tr>
                     ))}
@@ -338,40 +599,58 @@ function RapportGroupe({
                     </tr>
                   </thead>
                   <tbody>
-                    {currentdataFusionnee?.map((vehicule, index) => (
+                    {vehiclesByDistance?.map((vehicule, index) => (
                       <tr key={index} className="border dark:border-gray-600">
-                        <td className="border py-3 px-2  bg-gray-50 dark:border-gray-600">
+                        <td className="border py-3 px-2  bg-white dark:border-gray-600">
                           {vehicule?.displayName ||
                             vehicule?.description ||
                             "---"}
                         </td>
-                        <td className="border py-3 px-2   bg-orange-50 dark:border-gray-600">
-                          12 Km
+                        <td className="border py-3 px-2  bg-orange-50 dark:border-gray-600">
+                          {vehicule?.totalDistance.toFixed(2) + " Km"}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:border-gray-600">
-                          {activePeriods[index]?.startTime
-                            ? activePeriods[index].startTime
-                            : "---"}
-
-                          {/* {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleTimeString()
-                        : "---"} */}
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehicule?.vehiculeDetails[
+                                    vehicule?.vehiculeDetails.length - 1
+                                  ]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehicule?.vehiculeDetails[
+                                    vehicule?.vehiculeDetails.length - 1
+                                  ]?.timestamp
+                                )
+                            : "Pas de depacement"}{" "}
                         </td>
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
-                          {activePeriods[index]?.endTime
-                            ? activePeriods[index].endTime
-                            : "---"}
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehicule?.vehiculeDetails[0]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehicule?.vehiculeDetails[0]?.timestamp
+                                )
+                            : "Pas de depacement"}{" "}
                         </td>
 
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule.vehiculeDetails[
+                            vehicule.vehiculeDetails?.length - 1
+                          ]?.backupAddress ||
+                            vehicule.vehiculeDetails[
+                              vehicule.vehiculeDetails?.length - 1
+                            ]?.address ||
+                            "Pas de depacement"}
+                        </td>
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
                           {vehicule.vehiculeDetails[0]?.backupAddress ||
                             vehicule.vehiculeDetails[0]?.address ||
-                            "---"}
-                        </td>
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
-                          {vehicule.vehiculeDetails[0]?.backupAddress ||
-                            vehicule.vehiculeDetails[0]?.address ||
-                            "---"}
+                            "Pas de depacement"}
                         </td>
                       </tr>
                     ))}
@@ -420,40 +699,58 @@ function RapportGroupe({
                     </tr>
                   </thead>
                   <tbody>
-                    {currentdataFusionnee?.map((vehicule, index) => (
+                    {vehiclesByMovingDuration?.map((vehicule, index) => (
                       <tr key={index} className="border dark:border-gray-600">
-                        <td className="border py-3 px-2  bg-gray-50 dark:border-gray-600">
+                        <td className="border py-3 px-2  bg-white dark:border-gray-600">
                           {vehicule?.displayName ||
                             vehicule?.description ||
                             "---"}
                         </td>
                         <td className="border py-3 px-2   bg-orange-50 dark:border-gray-600">
-                          1h 30 45s
+                          {vehicule?.totalDuration}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:border-gray-600">
-                          {activePeriods[index]?.startTime
-                            ? activePeriods[index].startTime
-                            : "---"}
-
-                          {/* {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleTimeString()
-                        : "---"} */}
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehicule?.vehiculeDetails[
+                                    vehicule?.vehiculeDetails.length - 1
+                                  ]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehicule?.vehiculeDetails[
+                                    vehicule?.vehiculeDetails.length - 1
+                                  ]?.timestamp
+                                )
+                            : "Pas de depacement"}{" "}
                         </td>
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
-                          {activePeriods[index]?.endTime
-                            ? activePeriods[index].endTime
-                            : "---"}
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehicule?.vehiculeDetails[0]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehicule?.vehiculeDetails[0]?.timestamp
+                                )
+                            : "Pas de depacement"}{" "}
                         </td>
 
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule.vehiculeDetails[
+                            vehicule.vehiculeDetails?.length - 1
+                          ]?.backupAddress ||
+                            vehicule.vehiculeDetails[
+                              vehicule.vehiculeDetails?.length - 1
+                            ]?.address ||
+                            "Pas de depacement"}
+                        </td>
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
                           {vehicule.vehiculeDetails[0]?.backupAddress ||
                             vehicule.vehiculeDetails[0]?.address ||
-                            "---"}
-                        </td>
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
-                          {vehicule.vehiculeDetails[0]?.backupAddress ||
-                            vehicule.vehiculeDetails[0]?.address ||
-                            "---"}
+                            "Pas de depacement"}
                         </td>
                       </tr>
                     ))}
@@ -508,46 +805,67 @@ function RapportGroupe({
                     </tr>
                   </thead>
                   <tbody>
-                    {currentdataFusionnee?.map((vehicule, index) => (
+                    {vehiclesByDistance?.map((vehicule, index) => (
                       <tr key={index} className="border dark:border-gray-600">
-                        <td className="border py-3 px-2  bg-gray-50 dark:border-gray-600">
+                        <td className="border py-3 px-2  bg-white dark:border-gray-600">
                           {vehicule?.displayName ||
                             vehicule?.description ||
                             "---"}
                         </td>
-                        <td className="border py-3 px-2   bg-orange-50 dark:border-gray-600">
-                          10 km/h
+                        <td className="border py-3 px-2  bg-orange-50 dark:border-gray-600">
+                          {vehicule?.minSpeed.toFixed(2) + " Km/h"}
                         </td>
-                        <td className="border py-3 px-2   bg-orange-50 dark:border-gray-600">
-                          42 km/h
+                        <td className="border py-3 px-2  bg-orange-50 dark:border-gray-600">
+                          {vehicule?.maxSpeed.toFixed(2) + " Km/h"}
                         </td>
-                        <td className="border py-3 px-2   bg-orange-50 dark:border-gray-600">
-                          30 km/h
+                        <td className="border py-3 px-2  bg-orange-50 dark:border-gray-600">
+                          {(
+                            (vehicule?.maxSpeed + vehicule?.minSpeed) /
+                            2
+                          ).toFixed(2) + " Km/h"}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:border-gray-600">
-                          {activePeriods[index]?.startTime
-                            ? activePeriods[index].startTime
-                            : "---"}
-
-                          {/* {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleTimeString()
-                        : "---"} */}
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehicule?.vehiculeDetails[
+                                    vehicule?.vehiculeDetails.length - 1
+                                  ]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehicule?.vehiculeDetails[
+                                    vehicule?.vehiculeDetails.length - 1
+                                  ]?.timestamp
+                                )
+                            : "Pas de depacement"}{" "}
                         </td>
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
-                          {activePeriods[index]?.endTime
-                            ? activePeriods[index].endTime
-                            : "---"}
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehicule?.vehiculeDetails[0]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehicule?.vehiculeDetails[0]?.timestamp
+                                )
+                            : "Pas de depacement"}{" "}
                         </td>
 
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule.vehiculeDetails[
+                            vehicule.vehiculeDetails?.length - 1
+                          ]?.backupAddress ||
+                            vehicule.vehiculeDetails[
+                              vehicule.vehiculeDetails?.length - 1
+                            ]?.address ||
+                            "Pas de depacement"}
+                        </td>
+                        <td className="border py-3 px-2   bg-white dark:border-gray-600">
                           {vehicule.vehiculeDetails[0]?.backupAddress ||
                             vehicule.vehiculeDetails[0]?.address ||
-                            "---"}
-                        </td>
-                        <td className="border py-3 px-2   bg-gray-50 dark:border-gray-600">
-                          {vehicule.vehiculeDetails[0]?.backupAddress ||
-                            vehicule.vehiculeDetails[0]?.address ||
-                            "---"}
+                            "Pas de depacement"}
                         </td>
                       </tr>
                     ))}
@@ -796,105 +1114,140 @@ function RapportGroupe({
             voirPlus ? "max-h-[150rem]" : "max-h-[0rem]"
           } transition-all overflow-hidden `}
         >
-          {/* vehicule ayant parcouru la plus grande distance */}
-          <div className="shadow-md mt-10 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex-- items-start gap-4">
-            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-              {/* <IoMdInformationCircleOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " /> */}
-              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                Véhicule en mouvement en 1er
-              </h2>
-            </div>
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/* Vehicule en mouvement en premier */}
+          {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
+            <div className="shadow-md mt-10 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex-- items-start gap-4">
+              <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                  Véhicule en mouvement en 1er
+                </h2>
+              </div>
 
-            <div className="">
-              <div className="py-2-">
-                <div className="sm:flex gap-10 mt-3-- px-2">
-                  <div className="flex gap-0 items-center">
-                    <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
-                    <p className="text-[.9rem]">
-                      <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
-                        {
-                          // true ||
-                          // jourDebut === jourFin &&
-                          // moisDebut === moisFin &&
-                          // anneeDebut === anneeFin ? (
-                          //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          //     <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                          //       Le {jourDebut || ""} {moisDebut || ""}{" "}
-                          //       {anneeDebut || ""}
-                          //     </span>{" "}
-                          //   </span>
-                          // ) : (
-                          <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                            Du{" "}
-                            <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                              {jourDebut}{" "}
-                              {moisDebut === moisFin ? "" : moisDebut}{" "}
-                              {anneeDebut === anneeFin ? "" : anneeDebut}
-                            </span>{" "}
-                            au{" "}
-                            <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                              {jourFin} {moisFin} {anneeFin}
+              <div className="">
+                <div className="py-2-">
+                  <div className="sm:flex gap-10 mt-3-- px-2">
+                    <div className="flex gap-0 items-center">
+                      <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
+                      <p className="text-[.9rem]">
+                        <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
+                          {
+                            <span className="text-[1rem] text-gray-900 font-semibold sm:text-sm md:text-[1rem]  lg:text-lg--">
+                              Le {jourPemierMouvement} {moisPemierMouvement}{" "}
+                              {anneePemierMouvement}
                             </span>
-                          </span>
-                          // )
-                        }
-                      </span>
-                    </p>
+                            // )
+                          }
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                <div className="px-2 mt-">
-                  <div className="flex gap-3 items-center">
-                    <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
-                    <p>
-                      De <span className="font-semibold"> 08:34 AM </span> a{" "}
-                      <span className="font-semibold"> 10:08 PM </span>
-                    </p>
+                  <div className="px-2 mt-">
+                    <div className="flex gap-3 items-center">
+                      <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
+                      <p>
+                        De{" "}
+                        <span className="font-semibold">
+                          {" "}
+                          {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                            vehiculeMouvementOrdered[0]?.vehiculeDetails
+                              .length - 1
+                          ]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                                    vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                      .length - 1
+                                  ]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                                    vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                      .length - 1
+                                  ]?.timestamp
+                                )
+                            : " "}{" "}
+                        </span>{" "}
+                        a{" "}
+                        <span className="font-semibold">
+                          {" "}
+                          {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                            vehiculeMouvementOrdered[0]?.vehiculeDetails
+                              .length - 1
+                          ]?.timestamp
+                            ? selectUTC
+                              ? formatTimestampToTimeWithTimezone(
+                                  vehiculeMouvementOrdered[0]
+                                    ?.vehiculeDetails[0]?.timestamp,
+                                  selectUTC
+                                )
+                              : formatTimestampToTime(
+                                  vehiculeMouvementOrdered[0]
+                                    ?.vehiculeDetails[0]?.timestamp
+                                )
+                            : " "}{" "}
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                </div>
-                {/*  */}
-                {/*  */}
-                {/*  */}
-                <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
-                {/*  */}
-                {/*  */}
-                {/*  */}
-                <p className="font-semibold pl-2">
-                  Nom du vehicule :<br />
-                  <span className="font-normal dark:text-orange-500 text-gray-700 pl-5 pr-2">
-                    {earliestVehicle?.displayName ||
-                      earliestVehicle?.description ||
-                      "Pas de véhicule"}
-                  </span>
-                  {(earliestVehicle?.displayName && " a ") ||
-                    (earliestVehicle?.description && " a ")}
-                  <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
-                    {earliestVehicle?.vehiculeDetails[
-                      earliestVehicle?.vehiculeDetails.length - 1
-                    ].timestamp
-                      ? selectUTC
-                        ? formatTimestampToTimeWithTimezone(
-                            earliestVehicle?.vehiculeDetails[
-                              earliestVehicle?.vehiculeDetails.length - 1
-                            ].timestamp,
-                            selectUTC
-                          )
-                        : formatTimestampToTime(
-                            earliestVehicle?.vehiculeDetails[
-                              earliestVehicle?.vehiculeDetails.length - 1
-                            ].timestamp
-                          )
-                      : " "}{" "}
-                  </span>
-                </p>
-                {/*  */}
-                {/*  */}
-                {/*  */}
-                {/* <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" /> */}
-                {/*  */}
-                {/*  */}
-                {/*  */}
-                {/* <div className="px-2 mt-2">
+                  {/*  */}
+                  {/*  */}
+                  {/*  */}
+                  <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+                  {/*  */}
+                  {/*  */}
+                  {/*  */}
+                  <p className="font-semibold pl-2">
+                    Nom du vehicule :<br />
+                    <span className="font-normal dark:text-orange-500 text-gray-700 pl-5 pr-2">
+                      {vehiculeMouvementOrdered[0]?.description || "---"}
+                    </span>
+                    {(vehiculeMouvementOrdered[0]?.displayName && " a ") ||
+                      (vehiculeMouvementOrdered[0]?.description && " a ")}
+                    <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
+                      {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                        vehiculeMouvementOrdered[0]?.vehiculeDetails.length - 1
+                      ]?.timestamp
+                        ? selectUTC
+                          ? formatTimestampToTimeWithTimezone(
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                                vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                  .length - 1
+                              ]?.timestamp,
+                              selectUTC
+                            )
+                          : formatTimestampToTime(
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                                vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                  .length - 1
+                              ]?.timestamp
+                            )
+                        : " "}{" "}
+                    </span>
+                  </p>
+                  {/*  */}
+                  {/*  */}
+                  {/*  */}
+                  {/* <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" /> */}
+                  {/*  */}
+                  {/*  */}
+                  {/*  */}
+                  {/* <div className="px-2 mt-2">
                   <p className="flex-- gap-3 items-center">
                     <span className="font-semibold mr-6">Address depart:</span>
                     Rue Ogé, Arrondissement de Port-au-Prince, Département de
@@ -908,41 +1261,56 @@ function RapportGroupe({
                     l'Ouest 6140, Ayiti
                   </p>
                 </div> */}
-                {/*  */}
-                {/*  */}
-                {/*  */}
-                <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
-                {/*  */}
-                {/*  */}
-                {/*  */}
-                <div className="flex gap-6">
-                  <button
-                    onClick={() => {
-                      settrajetVehiculePupup(true);
-                    }}
-                    className="mx-l px-4 text-white border border-orange-200 shadow-lg-- shadow-gray-400/20-- py-0.5 rounded-lg mt-3 bg-orange-500"
-                  >
-                    Voir sur la carte
-                  </button>
-                  <button
-                    onClick={() => {
-                      settableDeplacement(true);
-                    }}
-                    className="mx-2-- px-4-- text-orange-600 underline font-semibold shadow-lg-- shadow-gray-400/20-- py-0.5-- rounded-lg-- mt-3 bg-orange-200/50-- border-b- border-b-orange-600"
-                  >
-                    Plus d'info
-                  </button>
-                </div>
+                  {/*  */}
+                  {/*  */}
+                  {/*  */}
+                  <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+                  {/*  */}
+                  {/*  */}
+                  {/*  */}
+                  <div className="flex gap-6">
+                    <button
+                      onClick={() => {
+                        settrajetVehiculePupup(true);
+                      }}
+                      className="mx-l px-4 text-white border border-orange-200 shadow-lg-- shadow-gray-400/20-- py-0.5 rounded-lg mt-3 bg-orange-500"
+                    >
+                      Voir sur la carte
+                    </button>
+                    <button
+                      onClick={() => {
+                        settableDeplacement(true);
+                      }}
+                      className="mx-2-- px-4-- text-orange-600 underline font-semibold shadow-lg-- shadow-gray-400/20-- py-0.5-- rounded-lg-- mt-3 bg-orange-200/50-- border-b- border-b-orange-600"
+                    >
+                      Plus d'info
+                    </button>
+                  </div>
 
-                {/* //////////////////////////////// */}
-                {/*  */}
-                {/*  */}
+                  {/* //////////////////////////////// */}
+                  {/*  */}
+                  {/*  */}
+                </div>
               </div>
+              {/*  */}
+              {/*  */}
+              {/*  */}
             </div>
-            {/*  */}
-            {/*  */}
-            {/*  */}
-          </div>
+          )}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
           {/* vehicule en mouvement en premier */}
           <div className="shadow-md mt-10 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex-- items-start gap-4">
             <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
@@ -1009,28 +1377,32 @@ function RapportGroupe({
                 <p className="font-semibold pl-2">
                   Nom du vehicule :<br />
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-5 pr-2">
-                    {earliestVehicle?.displayName ||
+                    {/* {earliestVehicle?.displayName ||
                       earliestVehicle?.description ||
-                      "Pas de véhicule"}
+                      "Pas de véhicule"} */}
+                    {vehiclesByDistance[0]?.displayName ||
+                      vehiclesByDistance[0]?.description ||
+                      "---"}
                   </span>{" "}
-                  (environ 14 Km)
+                  ( environ{" "}
+                  {vehiclesByDistance[0]?.totalDistance.toFixed(2) + " Km "})
                   {/* {(earliestVehicle?.displayName && " a ") ||
                     (earliestVehicle?.description && " a ")}
                   <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
                     {earliestVehicle?.vehiculeDetails[
                       earliestVehicle?.vehiculeDetails.length - 1
-                    ].timestamp
+                    ]?.timestamp
                       ? selectUTC
                         ? formatTimestampToTimeWithTimezone(
                             earliestVehicle?.vehiculeDetails[
                               earliestVehicle?.vehiculeDetails.length - 1
-                            ].timestamp,
+                            ]?.timestamp,
                             selectUTC
                           )
                         : formatTimestampToTime(
                             earliestVehicle?.vehiculeDetails[
                               earliestVehicle?.vehiculeDetails.length - 1
-                            ].timestamp
+                            ]?.timestamp
                           )
                       : " "}{" "}
                   </span> */}
@@ -1157,27 +1529,31 @@ function RapportGroupe({
                 <p className="font-semibold pl-2">
                   Nom du vehicule :<br />
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-5 pr-2">
-                    {earliestVehicle?.displayName ||
+                    {/* {earliestVehicle?.displayName ||
                       earliestVehicle?.description ||
-                      "Pas de véhicule"}
+                      "Pas de véhicule"} */}
+                    {vehiclesByMovingDuration[0]?.displayName ||
+                      vehiclesByMovingDuration[0]?.description ||
+                      "---"}
                   </span>
+                  ( environ {vehiclesByMovingDuration[0]?.totalDuration} )
                   {/* {(earliestVehicle?.displayName && " a ") ||
                     (earliestVehicle?.description && " a ")}
                   <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
                     {earliestVehicle?.vehiculeDetails[
                       earliestVehicle?.vehiculeDetails.length - 1
-                    ].timestamp
+                    ]?.timestamp
                       ? selectUTC
                         ? formatTimestampToTimeWithTimezone(
                             earliestVehicle?.vehiculeDetails[
                               earliestVehicle?.vehiculeDetails.length - 1
-                            ].timestamp,
+                            ]?.timestamp,
                             selectUTC
                           )
                         : formatTimestampToTime(
                             earliestVehicle?.vehiculeDetails[
                               earliestVehicle?.vehiculeDetails.length - 1
-                            ].timestamp
+                            ]?.timestamp
                           )
                       : " "}{" "}
                   </span> */}
@@ -1304,29 +1680,15 @@ function RapportGroupe({
                 <p className="font-semibold pl-2">
                   Nom du vehicule :<br />
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-5 pr-2">
-                    {earliestVehicle?.displayName ||
+                    {/* {earliestVehicle?.displayName ||
                       earliestVehicle?.description ||
-                      "Pas de véhicule"}
+                      "Pas de véhicule"} */}
+                    {vehiclesByMaxSpeed[0]?.displayName ||
+                      vehiclesByMaxSpeed[0]?.description ||
+                      "---"}
                   </span>
-                  {(earliestVehicle?.displayName && " a ") ||
-                    (earliestVehicle?.description && " a ")}
                   <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
-                    {earliestVehicle?.vehiculeDetails[
-                      earliestVehicle?.vehiculeDetails.length - 1
-                    ].timestamp
-                      ? selectUTC
-                        ? formatTimestampToTimeWithTimezone(
-                            earliestVehicle?.vehiculeDetails[
-                              earliestVehicle?.vehiculeDetails.length - 1
-                            ].timestamp,
-                            selectUTC
-                          )
-                        : formatTimestampToTime(
-                            earliestVehicle?.vehiculeDetails[
-                              earliestVehicle?.vehiculeDetails.length - 1
-                            ].timestamp
-                          )
-                      : " "}{" "}
+                    ( {vehiclesByMaxSpeed[0].maxSpeed.toFixed(2) + " km/h "})
                   </span>
                 </p>
                 {/*  */}

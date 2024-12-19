@@ -114,8 +114,8 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
   const [vehiculeNotActif, setVehiculeNotActif] = useState([]);
   const [vehiculeActiveMaintenant, setVehiculeActiveMaintenant] = useState([]);
 
-  const [searchdonneeFusionneeForRapport, setSearchdonneeFusionneeForRapport] =
-    useState([]);
+  // const [searchdonneeFusionneeForRapport, setSearchdonneeFusionneeForRapport] =
+  //   useState([]);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // Pupup
@@ -176,6 +176,11 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     return localStorage.getItem("selectTime") || "";
   });
 
+  const [searchdonneeFusionneeForRapport, setSearchdonneeFusionneeForRapport] =
+    useState(() => {
+      return localStorage.getItem("searchdonneeFusionneeForRapport") || "";
+    });
+
   // Charger les fuseaux horaires
   useEffect(() => {
     const zones = moment.tz.names().map((zone) => {
@@ -205,7 +210,19 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
     if (selectTime) {
       localStorage.setItem("selectTime", selectTime);
     }
-  }, [selectedTimeZone, selectUTC, selectTime]);
+
+    // if (selectTime) {
+    localStorage.setItem(
+      "searchdonneeFusionneeForRapport",
+      searchdonneeFusionneeForRapport
+    );
+    // }
+  }, [
+    selectedTimeZone,
+    selectUTC,
+    selectTime,
+    searchdonneeFusionneeForRapport,
+  ]);
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1199,23 +1216,23 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       currentdataFusionnee?.length > 0
     ) {
       // 2. Met à jour l'état avec tous les véhicules ayant au moins un événement avec `speedKPH >= 1`
-      // const vehiculeActiveAjourdhui = currentdataFusionnee?.filter((vehicle) =>
-      //   vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
-      // );
-      // setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
-
-      const now = new Date();
-      const filteredVehicles = currentdataFusionnee?.filter((vehicle) => {
-        const lastUpdate = new Date(vehicle.lastUpdateTime);
-        const diffHeures = (now - lastUpdate) / (1000 * 60 * 60);
-        return diffHeures < 24; // Conserver uniquement les véhicules mis à jour il y a moins de 24 heures
-      });
-
-      const vehiculeActiveAjourdhui = filteredVehicles?.filter((vehicle) =>
+      const vehiculeActiveAjourdhui = currentdataFusionnee?.filter((vehicle) =>
         vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
       );
-
       setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
+
+      // const now = new Date();
+      // const filteredVehicles = currentdataFusionnee?.filter((vehicle) => {
+      //   const lastUpdate = new Date(vehicle.lastUpdateTime);
+      //   const diffHeures = (now - lastUpdate) / (1000 * 60 * 60);
+      //   return diffHeures < 24; // Conserver uniquement les véhicules mis à jour il y a moins de 24 heures
+      // });
+
+      // const vehiculeActiveAjourdhui = filteredVehicles?.filter((vehicle) =>
+      //   vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
+      // );
+
+      // setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
       //
       //
       //
@@ -1274,9 +1291,22 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
       // 2. Met à jour l'état avec tous les véhicules ayant au moins un événement avec `speedKPH >= 1`
-      const vehiculeActiveAjourdhui = currentdataFusionnee?.filter((vehicle) =>
+      // const vehiculeActiveAjourdhui = currentdataFusionnee?.filter((vehicle) =>
+      //   vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
+      // );
+      // setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
+
+      const now = new Date();
+      const filteredVehicles = currentdataFusionnee?.filter((vehicle) => {
+        const lastUpdate = new Date(vehicle.lastUpdateTime);
+        const diffHeures = (now - lastUpdate) / (1000 * 60 * 60);
+        return diffHeures < 24; // Conserver uniquement les véhicules mis à jour il y a moins de 24 heures
+      });
+
+      const vehiculeActiveAjourdhui = filteredVehicles?.filter((vehicle) =>
         vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
       );
+
       setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
 
       // 3. Met à jour l'état avec tous les véhicules n'ayant aucun événement avec `speedKPH >= 1`

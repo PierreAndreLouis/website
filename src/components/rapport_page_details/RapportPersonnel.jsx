@@ -860,8 +860,8 @@ function RapportPersonnel({
                 <div className="flex   items-center justify-between gap-2 w-full">
                   <h2 className="font-semibold dark:text-orange-500 text-orange-900">
                     {addressType
-                      ? "Tous les lieux fréquentés"
-                      : "Tous les lieux Stationnés"}{" "}
+                      ? `Tous les lieux fréquentés (${filteredAddresses?.length})`
+                      : `Tous les lieux Stationnés (${filteredAddresses?.length})`}{" "}
                   </h2>
 
                   {lieuxFrequentePupup ? (

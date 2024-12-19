@@ -221,7 +221,7 @@ function Liste() {
           // if (true) {
           if (noDetails || isInactive) {
             main_text_color = "text-purple-900 dark:text-purple-300 hidden";
-            statut = "En Stationnement";
+            statut = "Hors service";
             lite_bg_color =
               "bg-purple-100/40 dark:bg-gray-900/40 dark:shadow-gray-600/50 dark:shadow-lg dark:border-l-[.5rem] dark:border-purple-600/80 shadow-lg shadow-gray-950/20";
             activeTextColor = "text-purple-900 dark:text-purple-200";
