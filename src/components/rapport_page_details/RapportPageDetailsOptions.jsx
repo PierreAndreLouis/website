@@ -25,6 +25,11 @@ function RapportPageDetailsOptions({
         <button
           onClick={() => {
             setpageSection("unite");
+            window.scrollTo({
+              top: 0,
+              behavior: "auto", // Défilement fluide
+              // behavior: "smooth", // Défilement fluide
+            });
           }}
           className={`${
             pageSection == "unite"
@@ -38,6 +43,11 @@ function RapportPageDetailsOptions({
           onClick={() => {
             setpageSection("groupe");
             setShowOptions(false);
+            window.scrollTo({
+              top: 0,
+              behavior: "auto", // Défilement fluide
+              // behavior: "smooth", // Défilement fluide
+            });
           }}
           className={`${
             pageSection === "groupe"
@@ -51,6 +61,11 @@ function RapportPageDetailsOptions({
           onClick={() => {
             setpageSection("search");
             setShowOptions(false);
+            window.scrollTo({
+              top: 0,
+              behavior: "auto", // Défilement fluide
+              // behavior: "smooth", // Défilement fluide
+            });
           }}
           className={`${
             pageSection === "search"

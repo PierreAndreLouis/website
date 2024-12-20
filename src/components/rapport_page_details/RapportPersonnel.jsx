@@ -174,7 +174,7 @@ function RapportPersonnel({
     <>
       {currentVehicule ? (
         <div className=" px-4 min-h-screen-- pb-20 md:max-w-[80vw] w-full">
-          <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
+          <h1 className="text-center mb-16 font-semibold text-xl my-16 dark:text-gray-300">
             Rapport détaillé du véhicule
           </h1>
 
