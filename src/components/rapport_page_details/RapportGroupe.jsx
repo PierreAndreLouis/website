@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { IoTimeOutline } from "react-icons/io5";
 import { GiPathDistance } from "react-icons/gi";
@@ -6,6 +6,7 @@ import { IoMdInformationCircleOutline } from "react-icons/io";
 import { MdLocationPin } from "react-icons/md";
 import { IoMdTime } from "react-icons/io";
 import { FaRegCalendarAlt } from "react-icons/fa";
+import customMarkerIcon from "/img/cars/localisation.png";
 
 import { IoClose } from "react-icons/io5";
 import { MdOutlineFullscreen } from "react-icons/md";
@@ -17,6 +18,7 @@ import { DataContext } from "../../context/DataContext";
 import VehiculeActiveAjourdhuiComponent from "../rapport_vehicule/VehiculeActiveAjourdhuiComponent";
 import VehiculeNotActiveAjourdhuiComponent from "../rapport_vehicule/VehiculeNotActiveAjourdhuiComponent";
 import VehiculeNotActifComponent from "../rapport_vehicule/VehiculeNotActifComponent";
+import TrajetVehicule from "../historique_vehicule/TrajetVehicule";
 
 function RapportGroupe({
   formattedDate, // Date formatée pour l'affichage
@@ -37,16 +39,35 @@ function RapportGroupe({
   setzoomPosition, // Fonctio
   activePeriods,
   movingTimes,
+  typeDeVue,
+  setTypeDeVue,
+  mapType,
+  handleMapTypeChange,
+  // vehicles,
+  mapRef,
+  tileLayers,
+  getMarkerIcon,
+
+  currentLocation,
+  positions,
+  centerOnFirstMarker,
+  showHistoriqueInMap,
+  openGoogleMaps,
+  options,
+  uniqueAddresses,
+  uniqueAddressesZerroSpeed,
+  setShowOptions,
 }) {
   const {
     loadingHistoriqueFilter,
     setShowListOption,
     vehiclueHistoriqueDetails,
     setVehiclueHistoriqueDetails,
-    currentVehicule,
+    // currentVehicule,
   } = useContext(DataContext); // const { currentVehicule } = useContext(DataContext);
 
   const [voirPlus, setvoirPlus] = useState(false);
+  const [voirDansLaCarte, setvoirDansLaCarte] = useState(false);
 
   const formatTime = (hours, minutes, seconds) => {
     if (hours > 0 || minutes > 0 || seconds > 0) {
@@ -57,14 +78,23 @@ function RapportGroupe({
     return "0s";
   };
 
-  const donneeVehiculeDetails = currentdataFusionnee.find(
+  // const donneeVehiculeDetails = currentdataFusionnee.find(
+  //   (vehicule) =>
+  //     vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
+  // )?.vehiculeDetails;
+
+  // const premierDetail =
+  //   donneeVehiculeDetails[donneeVehiculeDetails.length - 1]?.timestamp;
+  // const dernierDetails = donneeVehiculeDetails[0]?.timestamp;
+  const donneeVehiculeDetails = currentdataFusionnee?.find(
     (vehicule) =>
       vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
   )?.vehiculeDetails;
 
   const premierDetail =
-    donneeVehiculeDetails[donneeVehiculeDetails.length - 1]?.timestamp;
-  const dernierDetails = donneeVehiculeDetails[0]?.timestamp;
+    donneeVehiculeDetails?.[donneeVehiculeDetails.length - 1]?.timestamp;
+
+  const dernierDetails = donneeVehiculeDetails?.[0]?.timestamp;
 
   // Trouver la date du rapport
   // Trouver la date du rapport
@@ -339,12 +369,66 @@ function RapportGroupe({
     filteredData
   );
   console.log("Vehicles sorted by last speedKPH:", vehiculeMouvementOrdered);
+  ////////////////////////////////////////////////////////
+  const totalDistanceSum = vehiculeMouvementOrdered.reduce(
+    (sum, vehicle) => sum + vehicle.totalDistance,
+    0
+  );
+  //////////////////////////////////////////////////
 
+  // Fonction pour convertir "Xh Ym Zs" en secondes
+  const durationToSeconds = (duration) => {
+    const [hours, minutes, seconds] = duration
+      .split(" ")
+      .map((part) => parseInt(part));
+    return hours * 3600 + minutes * 60 + seconds;
+  };
+
+  // Fonction pour convertir les secondes en "Xh Ym Zs"
+  const secondsToDuration = (totalSeconds) => {
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+    return `${hours}h ${minutes}m ${seconds}s`;
+  };
+
+  // Calculer la somme des durées en secondes
+  const totalMovingDurationInSeconds = vehiculeMouvementOrdered.reduce(
+    (sum, vehicle) => sum + durationToSeconds(vehicle.totalMovingDuration),
+    0
+  );
+
+  // Convertir le résultat en "Xh Ym Zs"
+  const totalMovingDuration = secondsToDuration(totalMovingDurationInSeconds);
+
+  // Calcul de la vitesse minimale
+  const totalminSpeed = Math.min(
+    ...vehiculeMouvementOrdered.map((vehicle) => vehicle.minSpeed)
+  );
+
+  // Calcul de la vitesse maximale
+  const totalmaxSpeed = Math.max(
+    ...vehiculeMouvementOrdered.map((vehicle) => vehicle.maxSpeed)
+  );
+
+  // Calcul de la vitesse moyenne totale
+  const totalavgSpeed =
+    vehiculeMouvementOrdered.reduce(
+      (sum, vehicle) => sum + vehicle.avgSpeed,
+      0
+    ) / vehiculeMouvementOrdered.length;
+
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////////////
 
   const premierMovementDebut =
-    vehiculeMouvementOrdered[0].vehiculeDetails[
-      vehiculeMouvementOrdered[0].vehiculeDetails.length - 1
+    vehiculeMouvementOrdered[0]?.vehiculeDetails[
+      vehiculeMouvementOrdered[0]?.vehiculeDetails.length - 1
     ]?.timestamp;
 
   const datePemierMouvementDebut = new Date(premierMovementDebut * 1000);
@@ -356,6 +440,173 @@ function RapportGroupe({
   }); // Obtenir le mois en toutes lettres
   const anneePemierMouvement = datePemierMouvementDebut.getFullYear(); // Obtenir l'année
 
+  //
+
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+
+  const premierdistanceDebut =
+    vehiclesByDistance[0]?.vehiculeDetails[
+      vehiclesByDistance[0]?.vehiculeDetails.length - 1
+    ]?.timestamp;
+
+  const datePemierDistanceDebut = new Date(premierdistanceDebut * 1000);
+
+  // Récupérer le jour, le mois et l'année séparément
+  const jourPemierDistance = datePemierDistanceDebut.getUTCDate(); // Obtenir le jour
+  const moisPemierDistance = datePemierDistanceDebut.toLocaleString("fr-FR", {
+    month: "long",
+  }); // Obtenir le mois en toutes lettres
+  const anneePemierDistance = datePemierDistanceDebut.getFullYear(); // Obtenir l'année
+
+  //
+
+  //////////////////////////////////////////////////////////////////////
+
+  const dernierdistanceDebut =
+    vehiclesByDistance[0]?.vehiculeDetails[0]?.timestamp;
+
+  const dateDernierDistanceDebut = new Date(dernierdistanceDebut * 1000);
+
+  // Récupérer le jour, le mois et l'année séparément
+  const jourDernierDistance = dateDernierDistanceDebut.getUTCDate(); // Obtenir le jour
+  const moisDernierDistance = dateDernierDistanceDebut.toLocaleString("fr-FR", {
+    month: "long",
+  }); // Obtenir le mois en toutes lettres
+  const anneeDernierDistance = dateDernierDistanceDebut.getFullYear(); // Obtenir l'année
+
+  //
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+
+  //
+
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+
+  const premierdistanceLontanDebut =
+    vehiclesByMovingDuration[0]?.vehiculeDetails[
+      vehiclesByMovingDuration[0]?.vehiculeDetails.length - 1
+    ]?.timestamp;
+
+  const datePemierDistanceLontanDebut = new Date(
+    premierdistanceLontanDebut * 1000
+  );
+
+  // Récupérer le jour, le mois et l'année séparément
+  const jourPemierDistanceLontan = datePemierDistanceLontanDebut.getUTCDate(); // Obtenir le jour
+  const moisPemierDistanceLontan = datePemierDistanceLontanDebut.toLocaleString(
+    "fr-FR",
+    {
+      month: "long",
+    }
+  ); // Obtenir le mois en toutes lettres
+  const anneePemierDistanceLontan = datePemierDistanceLontanDebut.getFullYear(); // Obtenir l'année
+
+  //
+
+  //////////////////////////////////////////////////////////////////////
+
+  const dernierdistanceLontanDebut =
+    vehiclesByMovingDuration[0]?.vehiculeDetails[0]?.timestamp;
+
+  const dateDernierDistanceLontanDebut = new Date(
+    dernierdistanceLontanDebut * 1000
+  );
+
+  // Récupérer le jour, le mois et l'année séparément
+  const jourDernierDistanceLontan = dateDernierDistanceLontanDebut.getUTCDate(); // Obtenir le jour
+  const moisDernierDistanceLontan =
+    dateDernierDistanceLontanDebut.toLocaleString("fr-FR", {
+      month: "long",
+    }); // Obtenir le mois en toutes lettres
+  const anneeDernierDistanceLontan =
+    dateDernierDistanceLontanDebut.getFullYear(); // Obtenir l'année
+
+  //
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+
+  const [currentVehicule, setcurrentVehiculeChoose] = useState(
+    vehiculeMouvementOrdered[0]
+  );
+
+  useEffect(() => {
+    console.log("currentVehicule", currentVehicule);
+  }, [currentVehicule]);
+  // // Filtrage pour supprimer les doublons et respecter l'intervalle de 10 minutes
+  const filteredVehicles = [];
+  let lastZeroSpeedTimestamp = null;
+
+  currentVehicule?.vehiculeDetails
+    .sort((a, b) => parseInt(b.timestamp) - parseInt(a.timestamp))
+    .forEach((details) => {
+      const timestamp = parseInt(details.timestamp);
+      const speedKPH = parseFloat(details.speedKPH);
+
+      if (speedKPH <= 0) {
+        if (
+          lastZeroSpeedTimestamp === null ||
+          lastZeroSpeedTimestamp - timestamp >= 600
+        ) {
+          filteredVehicles.push(details);
+          lastZeroSpeedTimestamp = timestamp;
+        }
+      } else {
+        filteredVehicles.push(details);
+      }
+    });
+  // const filteredVehicles = vehiclueHistoriqueDetails;
+  // const filteredVehicles = currentVehicule?.vehiculeDetails;
+
+  const historiqueInMap = filteredVehicles
+    ? Object.values(filteredVehicles)
+    : [];
+  const vehicleData = historiqueInMap?.map((vehicule) => ({
+    description: currentVehicule?.description || "Véhicule",
+    lastValidLatitude: vehicule?.latitude || "",
+    lastValidLongitude: vehicule?.longitude || "",
+    address: vehicule?.backupAddress || vehicule?.address || "",
+    imeiNumber: currentVehicule?.imeiNumber || "",
+    isActive: currentVehicule?.isActive || "",
+    licensePlate: currentVehicule?.licensePlate || "",
+    simPhoneNumber: currentVehicule?.simPhoneNumber || "",
+    timestamp: vehicule?.timestamp || "",
+    speedKPH: vehicule?.speedKPH || 0, // Ajout de la vitesse
+    heading: vehicule?.heading || "",
+  }));
+
+  const vehicles = vehicleData;
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////
+
+  const [tableSortBy, settableSortBy] = useState();
+  const [tableSortByColorBg, settableSortByColorBg] = useState("");
+
+  const [showsortfilterpupup, setshowsortfilterpupup] = useState(false);
+
+  useEffect(() => {
+    console.log("tableSortBy:", tableSortBy);
+    console.log("tableSortByColorBg:", tableSortByColorBg);
+  }, [tableSortBy, tableSortByColorBg]);
   return (
     <>
       <div className=" px-4 pb-20 md:max-w-[80vw] w-full">
@@ -445,6 +696,46 @@ function RapportGroupe({
             </div>
           </div>
         )}
+
+        {voirDansLaCarte && (
+          <div className=" fixed inset-0 z-[999999999999999999] bg-black/50">
+            <div className="relative  rounded-lg  mt-3-- h-[100vh]  overflow-hidden w-full">
+              <div className="bg-white p-3 py-6">Trajet du vehicule</div>
+              <button
+                className="absolute z-[999] top-[1rem] right-[1rem]"
+                // onClick={centerOnFirstMarker}
+                onClick={() => {
+                  setvoirDansLaCarte(false);
+                }}
+              >
+                <div className="flex justify-center items-center min-w-10 min-h-10 rounded-full bg-red-600 shadow-xl">
+                  <IoClose className="text-white text-[1.52rem]" />
+                </div>
+              </button>
+              <div className="absolute-- -top-[11rem]-- rounded-lg  w-full ">
+                <div>
+                  <TrajetVehicule
+                    typeDeVue={typeDeVue}
+                    setTypeDeVue={setTypeDeVue}
+                    mapType={mapType}
+                    handleMapTypeChange={handleMapTypeChange}
+                    vehicles={vehicles}
+                    mapRef={mapRef}
+                    tileLayers={tileLayers}
+                    getMarkerIcon={getMarkerIcon}
+                    currentLocation={currentLocation}
+                    customMarkerIcon={customMarkerIcon}
+                    positions={positions}
+                    centerOnFirstMarker={centerOnFirstMarker}
+                    showHistoriqueInMap={showHistoriqueInMap}
+                    openGoogleMaps={openGoogleMaps}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* <RapportOptions /> */}
 
         {trajetVehiculePupup && (
@@ -511,6 +802,13 @@ function RapportGroupe({
                         </td>
                         <td className="border py-3 px-2   bg-orange-50 dark:border-gray-600">
                           {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? formatTimestampToDate(
+                                vehicule?.vehiculeDetails[
+                                  vehicule?.vehiculeDetails.length - 1
+                                ]?.timestamp + " - "
+                              )
+                            : ""}{" "}
+                          {vehicule?.vehiculeDetails[0]?.timestamp
                             ? selectUTC
                               ? formatTimestampToTimeWithTimezone(
                                   vehicule?.vehiculeDetails[
@@ -526,6 +824,11 @@ function RapportGroupe({
                             : "Pas de depacement"}{" "}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? formatTimestampToDate(
+                                vehicule?.vehiculeDetails[0]?.timestamp + " - "
+                              )
+                            : ""}{" "}
                           {vehicule?.vehiculeDetails[0]?.timestamp
                             ? selectUTC
                               ? formatTimestampToTimeWithTimezone(
@@ -610,6 +913,13 @@ function RapportGroupe({
                           {vehicule?.totalDistance.toFixed(2) + " Km"}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? formatTimestampToDate(
+                                vehicule?.vehiculeDetails[
+                                  vehicule?.vehiculeDetails.length - 1
+                                ]?.timestamp + " - "
+                              )
+                            : ""}{" "}
                           {vehicule?.vehiculeDetails[0]?.timestamp
                             ? selectUTC
                               ? formatTimestampToTimeWithTimezone(
@@ -710,6 +1020,13 @@ function RapportGroupe({
                           {vehicule?.totalDuration}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? formatTimestampToDate(
+                                vehicule?.vehiculeDetails[
+                                  vehicule?.vehiculeDetails.length - 1
+                                ]?.timestamp + " - "
+                              )
+                            : ""}{" "}
                           {vehicule?.vehiculeDetails[0]?.timestamp
                             ? selectUTC
                               ? formatTimestampToTimeWithTimezone(
@@ -825,6 +1142,13 @@ function RapportGroupe({
                           ).toFixed(2) + " Km/h"}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                          {vehicule?.vehiculeDetails[0]?.timestamp
+                            ? formatTimestampToDate(
+                                vehicule?.vehiculeDetails[
+                                  vehicule?.vehiculeDetails.length - 1
+                                ]?.timestamp + " - "
+                              )
+                            : ""}{" "}
                           {vehicule?.vehiculeDetails[0]?.timestamp
                             ? selectUTC
                               ? formatTimestampToTimeWithTimezone(
@@ -1081,20 +1405,19 @@ function RapportGroupe({
                 voir
               </p>
             </div>
-            {!voirPlus &&
-              vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
-                <div>
-                  <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
-                  <div
-                    onClick={() => {
-                      setvoirPlus(!voirPlus);
-                    }}
-                    className="text-orange-600 cursor-pointer"
-                  >
-                    voir Plus
-                  </div>
+            {!voirPlus && (
+              <div>
+                <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+                <div
+                  onClick={() => {
+                    setvoirPlus(!voirPlus);
+                  }}
+                  className="text-white rounded-lg text-center bg-orange-500/90 py-1 px-4  font-semibold cursor-pointer"
+                >
+                  voir Plus
                 </div>
-              )}
+              </div>
+            )}
             {/*  */}
             {/*  */}
             {/*  */}
@@ -1130,174 +1453,170 @@ function RapportGroupe({
           {/*  */}
           {/*  */}
           {/* Vehicule en mouvement en premier */}
-          {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
-            <div className="shadow-md mt-10 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex-- items-start gap-4">
-              <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-                <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-                  Véhicule en mouvement en 1er
-                </h2>
-              </div>
+          {/* {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && ( */}
+          <div className="shadow-md mt-10 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex-- items-start gap-4">
+            <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
+              <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+                Véhicule en mouvement en 1er
+              </h2>
+            </div>
 
-              <div className="">
-                <div className="py-2-">
-                  <div className="sm:flex gap-10 mt-3-- px-2">
-                    <div className="flex gap-0 items-center">
-                      <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
-                      <p className="text-[.9rem]">
-                        <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
-                          {
-                            <span className="text-[1rem] text-gray-900 font-semibold sm:text-sm md:text-[1rem]  lg:text-lg--">
-                              Le {jourPemierMouvement} {moisPemierMouvement}{" "}
-                              {anneePemierMouvement}
-                            </span>
-                            // )
-                          }
-                        </span>
-                      </p>
+            <div className="">
+              <div className="py-2-">
+                {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
+                  <div>
+                    <div className="sm:flex gap-10 mt-3-- px-2">
+                      <div className="flex gap-0 items-center">
+                        <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
+                        <p className="text-[.9rem]">
+                          <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
+                            {
+                              <span className="text-[1rem] text-gray-900 font-semibold sm:text-sm md:text-[1rem]  lg:text-lg--">
+                                Le {jourPemierMouvement} {moisPemierMouvement}{" "}
+                                {anneePemierMouvement}
+                              </span>
+                              // )
+                            }
+                          </span>
+                        </p>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="px-2 mt-">
-                    <div className="flex gap-3 items-center">
-                      <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
-                      <p>
-                        De{" "}
-                        <span className="font-semibold">
-                          {" "}
-                          {vehiculeMouvementOrdered[0]?.vehiculeDetails[
-                            vehiculeMouvementOrdered[0]?.vehiculeDetails
-                              .length - 1
-                          ]?.timestamp
-                            ? selectUTC
-                              ? formatTimestampToTimeWithTimezone(
-                                  vehiculeMouvementOrdered[0]?.vehiculeDetails[
-                                    vehiculeMouvementOrdered[0]?.vehiculeDetails
-                                      .length - 1
-                                  ]?.timestamp,
-                                  selectUTC
-                                )
-                              : formatTimestampToTime(
-                                  vehiculeMouvementOrdered[0]?.vehiculeDetails[
-                                    vehiculeMouvementOrdered[0]?.vehiculeDetails
-                                      .length - 1
-                                  ]?.timestamp
-                                )
-                            : " "}{" "}
-                        </span>{" "}
-                        a{" "}
-                        <span className="font-semibold">
-                          {" "}
-                          {vehiculeMouvementOrdered[0]?.vehiculeDetails[
-                            vehiculeMouvementOrdered[0]?.vehiculeDetails
-                              .length - 1
-                          ]?.timestamp
-                            ? selectUTC
-                              ? formatTimestampToTimeWithTimezone(
-                                  vehiculeMouvementOrdered[0]
-                                    ?.vehiculeDetails[0]?.timestamp,
-                                  selectUTC
-                                )
-                              : formatTimestampToTime(
-                                  vehiculeMouvementOrdered[0]
-                                    ?.vehiculeDetails[0]?.timestamp
-                                )
-                            : " "}{" "}
-                        </span>
-                      </p>
+                    <div className="px-2 mt-">
+                      <div className="flex gap-3 items-center">
+                        <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
+                        <p>
+                          De{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp
+                              ? selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    vehiculeMouvementOrdered[0]
+                                      ?.vehiculeDetails[
+                                      vehiculeMouvementOrdered[0]
+                                        ?.vehiculeDetails.length - 1
+                                    ]?.timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(
+                                    vehiculeMouvementOrdered[0]
+                                      ?.vehiculeDetails[
+                                      vehiculeMouvementOrdered[0]
+                                        ?.vehiculeDetails.length - 1
+                                    ]?.timestamp
+                                  )
+                              : " "}{" "}
+                          </span>{" "}
+                          a{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp
+                              ? selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    vehiculeMouvementOrdered[0]
+                                      ?.vehiculeDetails[0]?.timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(
+                                    vehiculeMouvementOrdered[0]
+                                      ?.vehiculeDetails[0]?.timestamp
+                                  )
+                              : " "}{" "}
+                          </span>
+                        </p>
+                      </div>
                     </div>
+
+                    <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
                   </div>
-                  {/*  */}
-                  {/*  */}
-                  {/*  */}
-                  <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
-                  {/*  */}
-                  {/*  */}
-                  {/*  */}
-                  <p className="font-semibold pl-2">
-                    Nom du vehicule :<br />
-                    <span className="font-normal dark:text-orange-500 text-gray-700 pl-5 pr-2">
-                      {vehiculeMouvementOrdered[0]?.description || "---"}
-                    </span>
-                    {(vehiculeMouvementOrdered[0]?.displayName && " a ") ||
-                      (vehiculeMouvementOrdered[0]?.description && " a ")}
-                    <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
-                      {vehiculeMouvementOrdered[0]?.vehiculeDetails[
-                        vehiculeMouvementOrdered[0]?.vehiculeDetails.length - 1
-                      ]?.timestamp
-                        ? selectUTC
-                          ? formatTimestampToTimeWithTimezone(
-                              vehiculeMouvementOrdered[0]?.vehiculeDetails[
-                                vehiculeMouvementOrdered[0]?.vehiculeDetails
-                                  .length - 1
-                              ]?.timestamp,
-                              selectUTC
-                            )
-                          : formatTimestampToTime(
-                              vehiculeMouvementOrdered[0]?.vehiculeDetails[
-                                vehiculeMouvementOrdered[0]?.vehiculeDetails
-                                  .length - 1
-                              ]?.timestamp
-                            )
-                        : " "}{" "}
-                    </span>
-                  </p>
-                  {/*  */}
-                  {/*  */}
-                  {/*  */}
-                  {/* <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" /> */}
-                  {/*  */}
-                  {/*  */}
-                  {/*  */}
-                  {/* <div className="px-2 mt-2">
-                  <p className="flex-- gap-3 items-center">
-                    <span className="font-semibold mr-6">Address depart:</span>
-                    Rue Ogé, Arrondissement de Port-au-Prince, Département de
-                    l'Ouest 6140, Ayiti
-                  </p>
-                </div>
-                <div className="px-2 mt-2">
-                  <p className="flex-- gap-3 items-center">
-                    <span className="font-semibold mr-6">Address arrivee:</span>
-                    Rue Ogé, Arrondissement de Port-au-Prince, Département de
-                    l'Ouest 6140, Ayiti
-                  </p>
-                </div> */}
-                  {/*  */}
-                  {/*  */}
-                  {/*  */}
-                  <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
-                  {/*  */}
-                  {/*  */}
-                  {/*  */}
-                  <div className="flex gap-6">
+                )}
+
+                {/*  */}
+                {/*  */}
+                {/*  */}
+                <p className="font-semibold pl-2">
+                  Nom du vehicule :<br />
+                  <span className="font-normal dark:text-orange-500 text-gray-700 pl-5 pr-2">
+                    {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0
+                      ? vehiculeMouvementOrdered[0]?.description + " a "
+                      : "Pas de vehicule en mouvement"}
+                  </span>
+                  <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
+                    {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                      vehiculeMouvementOrdered[0]?.vehiculeDetails.length - 1
+                    ]?.timestamp
+                      ? selectUTC
+                        ? formatTimestampToTimeWithTimezone(
+                            vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp,
+                            selectUTC
+                          )
+                        : formatTimestampToTime(
+                            vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp
+                          )
+                      : " "}{" "}
+                  </span>
+                </p>
+                {/*  */}
+                {/*  */}
+                {/*  */}
+                {/* <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" /> */}
+                {/*  */}
+                {/*  */}
+                {/*  */}
+
+                {/*  */}
+                {/*  */}
+                {/*  */}
+                <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+                {/*  */}
+                {/*  */}
+                {/*  */}
+                <div className="flex gap-6">
+                  {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
                     <button
                       onClick={() => {
-                        settrajetVehiculePupup(true);
+                        // settrajetVehiculePupup(true);
+                        setcurrentVehiculeChoose(vehiculeMouvementOrdered[0]);
+                        setvoirDansLaCarte(true);
                       }}
                       className="mx-l px-4 text-white border border-orange-200 shadow-lg-- shadow-gray-400/20-- py-0.5 rounded-lg mt-3 bg-orange-500"
                     >
                       Voir sur la carte
                     </button>
-                    <button
-                      onClick={() => {
-                        settableDeplacement(true);
-                      }}
-                      className="mx-2-- px-4-- text-orange-600 underline font-semibold shadow-lg-- shadow-gray-400/20-- py-0.5-- rounded-lg-- mt-3 bg-orange-200/50-- border-b- border-b-orange-600"
-                    >
-                      Plus d'info
-                    </button>
-                  </div>
-
-                  {/* //////////////////////////////// */}
-                  {/*  */}
-                  {/*  */}
+                  )}
+                  <button
+                    onClick={() => {
+                      settableDeplacement(true);
+                    }}
+                    className="mx-2-- px-4-- text-orange-600 underline font-semibold shadow-lg-- shadow-gray-400/20-- py-0.5-- rounded-lg-- mt-3 bg-orange-200/50-- border-b- border-b-orange-600"
+                  >
+                    Plus d'info
+                  </button>
                 </div>
+
+                {/* //////////////////////////////// */}
+                {/*  */}
+                {/*  */}
               </div>
-              {/*  */}
-              {/*  */}
-              {/*  */}
             </div>
-          )}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+          </div>
+          {/* )} */}
           {/*  */}
           {/*  */}
           {/*  */}
@@ -1323,90 +1642,119 @@ function RapportGroupe({
 
             <div className="">
               <div className="py-2-">
-                <div className="sm:flex gap-10 mt-3-- px-2">
-                  <div className="flex gap-0 items-center">
-                    <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
-                    <p className="text-[.9rem]">
-                      <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
-                        {
-                          // true ||
-                          // jourDebut === jourFin &&
-                          // moisDebut === moisFin &&
-                          // anneeDebut === anneeFin ? (
-                          //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          //     <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                          //       Le {jourDebut || ""} {moisDebut || ""}{" "}
-                          //       {anneeDebut || ""}
-                          //     </span>{" "}
-                          //   </span>
-                          // ) : (
-                          <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                            Du{" "}
-                            <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                              {jourDebut}{" "}
-                              {moisDebut === moisFin ? "" : moisDebut}{" "}
-                              {anneeDebut === anneeFin ? "" : anneeDebut}
-                            </span>{" "}
-                            au{" "}
-                            <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                              {jourFin} {moisFin} {anneeFin}
-                            </span>
+                {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
+                  <div>
+                    <div className="sm:flex gap-10 mt-3-- px-2">
+                      <div className="flex gap-0 items-center">
+                        <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
+                        <p className="text-[.9rem]">
+                          <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
+                            {
+                              // true ||
+                              // jourDebut === jourFin &&
+                              // moisDebut === moisFin &&
+                              // anneeDebut === anneeFin ? (
+                              //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                              //     <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                              //       Le {jourDebut || ""} {moisDebut || ""}{" "}
+                              //       {anneeDebut || ""}
+                              //     </span>{" "}
+                              //   </span>
+                              // ) : (
+                              <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                                Du{" "}
+                                <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                                  {jourPemierDistance}{" "}
+                                  {moisPemierDistance === moisDernierDistance
+                                    ? ""
+                                    : moisPemierDistance}{" "}
+                                  {anneePemierDistance === anneeDernierDistance
+                                    ? ""
+                                    : anneePemierDistance}
+                                </span>{" "}
+                                au{" "}
+                                <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                                  {jourDernierDistance} {moisDernierDistance}{" "}
+                                  {anneeDernierDistance}
+                                </span>
+                              </span>
+                              // )
+                            }
                           </span>
-                          // )
-                        }
-                      </span>
-                    </p>
-                  </div>
-                </div>
+                        </p>
+                      </div>
+                    </div>
 
-                <div className="px-2 mt-">
-                  <div className="flex gap-3 items-center">
-                    <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
-                    <p>
-                      De <span className="font-semibold"> 08:34 AM </span> a{" "}
-                      <span className="font-semibold"> 10:08 PM </span>
-                    </p>
+                    <div className="px-2 mt-">
+                      <div className="flex gap-3 items-center">
+                        <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
+                        <p>
+                          De{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp
+                              ? selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    vehiclesByDistance[0]?.vehiculeDetails[
+                                      vehiclesByDistance[0]?.vehiculeDetails
+                                        .length - 1
+                                    ]?.timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(
+                                    vehiclesByDistance[0]?.vehiculeDetails[
+                                      vehiclesByDistance[0]?.vehiculeDetails
+                                        .length - 1
+                                    ]?.timestamp
+                                  )
+                              : " "}{" "}
+                          </span>{" "}
+                          a{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp
+                              ? selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    vehiclesByDistance[0]?.vehiculeDetails[0]
+                                      ?.timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(
+                                    vehiclesByDistance[0]?.vehiculeDetails[0]
+                                      ?.timestamp
+                                  )
+                              : " "}{" "}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    {/*  */}
+                    {/*  */}
+                    {/*  */}
+                    <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
                   </div>
-                </div>
-                {/*  */}
-                {/*  */}
-                {/*  */}
-                <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+                )}
                 {/*  */}
                 {/*  */}
                 {/*  */}
                 <p className="font-semibold pl-2">
                   Nom du vehicule :<br />
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-5 pr-2">
-                    {/* {earliestVehicle?.displayName ||
-                      earliestVehicle?.description ||
-                      "Pas de véhicule"} */}
-                    {vehiclesByDistance[0]?.displayName ||
-                      vehiclesByDistance[0]?.description ||
-                      "---"}
+                    {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0
+                      ? vehiclesByDistance[0]?.displayName ||
+                        vehiclesByDistance[0]?.description + " "
+                      : "Pas de vehicule en mouvement"}
                   </span>{" "}
-                  ( environ{" "}
-                  {vehiclesByDistance[0]?.totalDistance.toFixed(2) + " Km "})
-                  {/* {(earliestVehicle?.displayName && " a ") ||
-                    (earliestVehicle?.description && " a ")}
-                  <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
-                    {earliestVehicle?.vehiculeDetails[
-                      earliestVehicle?.vehiculeDetails.length - 1
-                    ]?.timestamp
-                      ? selectUTC
-                        ? formatTimestampToTimeWithTimezone(
-                            earliestVehicle?.vehiculeDetails[
-                              earliestVehicle?.vehiculeDetails.length - 1
-                            ]?.timestamp,
-                            selectUTC
-                          )
-                        : formatTimestampToTime(
-                            earliestVehicle?.vehiculeDetails[
-                              earliestVehicle?.vehiculeDetails.length - 1
-                            ]?.timestamp
-                          )
-                      : " "}{" "}
-                  </span> */}
+                  {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 &&
+                    "( environ " +
+                      vehiclesByDistance[0]?.totalDistance.toFixed(2) +
+                      " Km )"}
                 </p>
                 {/*  */}
                 {/*  */}
@@ -1415,20 +1763,7 @@ function RapportGroupe({
                 {/*  */}
                 {/*  */}
                 {/*  */}
-                {/* <div className="px-2 mt-2">
-                  <p className="flex-- gap-3 items-center">
-                    <span className="font-semibold mr-6">Address depart:</span>
-                    Rue Ogé, Arrondissement de Port-au-Prince, Département de
-                    l'Ouest 6140, Ayiti
-                  </p>
-                </div>
-                <div className="px-2 mt-2">
-                  <p className="flex-- gap-3 items-center">
-                    <span className="font-semibold mr-6">Address arrivee:</span>
-                    Rue Ogé, Arrondissement de Port-au-Prince, Département de
-                    l'Ouest 6140, Ayiti
-                  </p>
-                </div> */}
+
                 {/*  */}
                 {/*  */}
                 {/*  */}
@@ -1437,14 +1772,19 @@ function RapportGroupe({
                 {/*  */}
                 {/*  */}
                 <div className="flex gap-6">
-                  <button
-                    onClick={() => {
-                      settrajetVehiculePupup(true);
-                    }}
-                    className="mx-l px-4 text-white border border-orange-200 shadow-lg-- shadow-gray-400/20-- py-0.5 rounded-lg mt-3 bg-orange-500"
-                  >
-                    Voir sur la carte
-                  </button>
+                  {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
+                    <button
+                      onClick={() => {
+                        // settrajetVehiculePupup(true);
+                        setcurrentVehiculeChoose(vehiclesByDistance[0]);
+
+                        setvoirDansLaCarte(true);
+                      }}
+                      className="mx-l px-4 text-white border border-orange-200 shadow-lg-- shadow-gray-400/20-- py-0.5 rounded-lg mt-3 bg-orange-500"
+                    >
+                      Voir sur la carte
+                    </button>
+                  )}
                   <button
                     onClick={() => {
                       settableDistance(true);
@@ -1464,6 +1804,22 @@ function RapportGroupe({
             {/*  */}
             {/*  */}
           </div>
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
+          {/*  */}
           {/* vehicule en mouvement plus longtemps */}
           <div className="shadow-md mt-10 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex-- items-start gap-4">
             <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
@@ -1475,89 +1831,125 @@ function RapportGroupe({
 
             <div className="">
               <div className="py-2-">
-                <div className="sm:flex gap-10 mt-3-- px-2">
-                  <div className="flex gap-0 items-center">
-                    <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
-                    <p className="text-[.9rem]">
-                      <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
-                        {
-                          // true ||
-                          // jourDebut === jourFin &&
-                          // moisDebut === moisFin &&
-                          // anneeDebut === anneeFin ? (
-                          //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          //     <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                          //       Le {jourDebut || ""} {moisDebut || ""}{" "}
-                          //       {anneeDebut || ""}
-                          //     </span>{" "}
-                          //   </span>
-                          // ) : (
-                          <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                            Du{" "}
-                            <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                              {jourDebut}{" "}
-                              {moisDebut === moisFin ? "" : moisDebut}{" "}
-                              {anneeDebut === anneeFin ? "" : anneeDebut}
-                            </span>{" "}
-                            au{" "}
-                            <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                              {jourFin} {moisFin} {anneeFin}
-                            </span>
+                {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
+                  <div>
+                    <div className="sm:flex gap-10 mt-3-- px-2">
+                      <div className="flex gap-0 items-center">
+                        <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
+                        <p className="text-[.9rem]">
+                          <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
+                            {
+                              // true ||
+                              // jourDebut === jourFin &&
+                              // moisDebut === moisFin &&
+                              // anneeDebut === anneeFin ? (
+                              //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                              //     <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                              //       Le {jourDebut || ""} {moisDebut || ""}{" "}
+                              //       {anneeDebut || ""}
+                              //     </span>{" "}
+                              //   </span>
+                              // ) : (
+                              <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                                Du{" "}
+                                <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                                  {jourPemierDistanceLontan}{" "}
+                                  {moisPemierDistanceLontan ===
+                                  moisDernierDistanceLontan
+                                    ? ""
+                                    : moisPemierDistanceLontan}{" "}
+                                  {anneePemierDistanceLontan ===
+                                  anneeDernierDistanceLontan
+                                    ? ""
+                                    : anneePemierDistanceLontan}
+                                </span>{" "}
+                                au{" "}
+                                <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                                  {jourDernierDistanceLontan}{" "}
+                                  {moisDernierDistanceLontan}{" "}
+                                  {anneeDernierDistanceLontan}
+                                </span>
+                              </span>
+                              // )
+                            }
                           </span>
-                          // )
-                        }
-                      </span>
-                    </p>
-                  </div>
-                </div>
+                        </p>
+                      </div>
+                    </div>
 
-                <div className="px-2 mt-">
-                  <div className="flex gap-3 items-center">
-                    <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
-                    <p>
-                      De <span className="font-semibold"> 08:34 AM </span> a{" "}
-                      <span className="font-semibold"> 10:08 PM </span>
-                    </p>
+                    <div className="px-2 mt-">
+                      <div className="flex gap-3 items-center">
+                        <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
+                        <p>
+                          De{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp
+                              ? selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    vehiclesByMovingDuration[0]
+                                      ?.vehiculeDetails[
+                                      vehiclesByMovingDuration[0]
+                                        ?.vehiculeDetails.length - 1
+                                    ]?.timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(
+                                    vehiclesByMovingDuration[0]
+                                      ?.vehiculeDetails[
+                                      vehiclesByMovingDuration[0]
+                                        ?.vehiculeDetails.length - 1
+                                    ]?.timestamp
+                                  )
+                              : " "}{" "}
+                          </span>{" "}
+                          a{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp
+                              ? selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    vehiclesByMovingDuration[0]
+                                      ?.vehiculeDetails[0]?.timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(
+                                    vehiclesByMovingDuration[0]
+                                      ?.vehiculeDetails[0]?.timestamp
+                                  )
+                              : " "}{" "}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    {/*  */}
+                    {/*  */}
+                    {/*  */}
+                    <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
                   </div>
-                </div>
-                {/*  */}
-                {/*  */}
-                {/*  */}
-                <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+                )}
+
                 {/*  */}
                 {/*  */}
                 {/*  */}
                 <p className="font-semibold pl-2">
                   Nom du vehicule :<br />
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-5 pr-2">
-                    {/* {earliestVehicle?.displayName ||
-                      earliestVehicle?.description ||
-                      "Pas de véhicule"} */}
-                    {vehiclesByMovingDuration[0]?.displayName ||
-                      vehiclesByMovingDuration[0]?.description ||
-                      "---"}
+                    {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0
+                      ? vehiclesByMovingDuration[0]?.displayName ||
+                        vehiclesByMovingDuration[0]?.description
+                      : "Pas de vehicule en mouvement"}
                   </span>
-                  ( environ {vehiclesByMovingDuration[0]?.totalDuration} )
-                  {/* {(earliestVehicle?.displayName && " a ") ||
-                    (earliestVehicle?.description && " a ")}
-                  <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
-                    {earliestVehicle?.vehiculeDetails[
-                      earliestVehicle?.vehiculeDetails.length - 1
-                    ]?.timestamp
-                      ? selectUTC
-                        ? formatTimestampToTimeWithTimezone(
-                            earliestVehicle?.vehiculeDetails[
-                              earliestVehicle?.vehiculeDetails.length - 1
-                            ]?.timestamp,
-                            selectUTC
-                          )
-                        : formatTimestampToTime(
-                            earliestVehicle?.vehiculeDetails[
-                              earliestVehicle?.vehiculeDetails.length - 1
-                            ]?.timestamp
-                          )
-                      : " "}{" "}
-                  </span> */}
+                  {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 &&
+                    "( environ " +
+                      vehiclesByMovingDuration[0]?.totalDuration +
+                      " )"}
                 </p>
                 {/*  */}
                 {/*  */}
@@ -1566,20 +1958,7 @@ function RapportGroupe({
                 {/*  */}
                 {/*  */}
                 {/*  */}
-                {/* <div className="px-2 mt-2">
-                  <p className="flex-- gap-3 items-center">
-                    <span className="font-semibold mr-6">Address depart:</span>
-                    Rue Ogé, Arrondissement de Port-au-Prince, Département de
-                    l'Ouest 6140, Ayiti
-                  </p>
-                </div>
-                <div className="px-2 mt-2">
-                  <p className="flex-- gap-3 items-center">
-                    <span className="font-semibold mr-6">Address arrivee:</span>
-                    Rue Ogé, Arrondissement de Port-au-Prince, Département de
-                    l'Ouest 6140, Ayiti
-                  </p>
-                </div> */}
+
                 {/*  */}
                 {/*  */}
                 {/*  */}
@@ -1588,14 +1967,19 @@ function RapportGroupe({
                 {/*  */}
                 {/*  */}
                 <div className="flex gap-6">
-                  <button
-                    onClick={() => {
-                      settrajetVehiculePupup(true);
-                    }}
-                    className="mx-l px-4 text-white border border-orange-200 shadow-lg-- shadow-gray-400/20-- py-0.5 rounded-lg mt-3 bg-orange-500"
-                  >
-                    Voir sur la carte
-                  </button>
+                  {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
+                    <button
+                      onClick={() => {
+                        // settrajetVehiculePupup(true);
+                        setcurrentVehiculeChoose(vehiclesByMovingDuration[0]);
+
+                        setvoirDansLaCarte(true);
+                      }}
+                      className="mx-l px-4 text-white border border-orange-200 shadow-lg-- shadow-gray-400/20-- py-0.5 rounded-lg mt-3 bg-orange-500"
+                    >
+                      Voir sur la carte
+                    </button>
+                  )}
                   <button
                     onClick={() => {
                       settableActivite(true);
@@ -1626,93 +2010,132 @@ function RapportGroupe({
 
             <div className="">
               <div className="py-2-">
-                <div className="sm:flex gap-10 mt-3-- px-2">
-                  <div className="flex gap-0 items-center">
-                    <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
-                    <p className="text-[.9rem]">
-                      <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
-                        {
-                          // true ||
-                          // jourDebut === jourFin &&
-                          // moisDebut === moisFin &&
-                          // anneeDebut === anneeFin ? (
-                          //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                          //     <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                          //       Le {jourDebut || ""} {moisDebut || ""}{" "}
-                          //       {anneeDebut || ""}
-                          //     </span>{" "}
-                          //   </span>
-                          // ) : (
-                          <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                            Du{" "}
-                            <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                              {jourDebut}{" "}
-                              {moisDebut === moisFin ? "" : moisDebut}{" "}
-                              {anneeDebut === anneeFin ? "" : anneeDebut}
-                            </span>{" "}
-                            au{" "}
-                            <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
-                              {jourFin} {moisFin} {anneeFin}
-                            </span>
+                {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
+                  <div>
+                    <div className="sm:flex gap-10 mt-3-- px-2">
+                      <div className="flex gap-0 items-center">
+                        <FaRegCalendarAlt className="text-gray-500/80 dark:text-gray-300 text-md mr-1 ml-0.5" />
+                        <p className="text-[.9rem]">
+                          <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
+                            {
+                              // true ||
+                              // jourDebut === jourFin &&
+                              // moisDebut === moisFin &&
+                              // anneeDebut === anneeFin ? (
+                              //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                              //     <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                              //       Le {jourDebut || ""} {moisDebut || ""}{" "}
+                              //       {anneeDebut || ""}
+                              //     </span>{" "}
+                              //   </span>
+                              // ) : (
+                              <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                                Du{" "}
+                                <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                                  {jourPemierDistanceLontan}{" "}
+                                  {moisPemierDistanceLontan ===
+                                  moisDernierDistanceLontan
+                                    ? ""
+                                    : moisPemierDistanceLontan}{" "}
+                                  {anneePemierDistanceLontan ===
+                                  anneeDernierDistanceLontan
+                                    ? ""
+                                    : anneePemierDistanceLontan}
+                                </span>{" "}
+                                au{" "}
+                                <span className="dark:text-orange-500 dark:font-normal font-semibold text-gray-950">
+                                  {jourDernierDistanceLontan}{" "}
+                                  {moisDernierDistanceLontan}{" "}
+                                  {anneeDernierDistanceLontan}
+                                </span>
+                              </span>
+                              // )
+                            }
                           </span>
-                          // )
-                        }
-                      </span>
-                    </p>
-                  </div>
-                </div>
+                        </p>
+                      </div>
+                    </div>
 
-                <div className="px-2 mt-">
-                  <div className="flex gap-3 items-center">
-                    <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
-                    <p>
-                      De <span className="font-semibold"> 08:34 AM </span> a{" "}
-                      <span className="font-semibold"> 10:08 PM </span>
-                    </p>
+                    <div className="px-2 mt-">
+                      <div className="flex gap-3 items-center">
+                        <IoMdTime className="text-gray-500/80 dark:text-gray-300 text-xl mr-4-" />
+                        <p>
+                          De{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp
+                              ? selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    vehiculeMouvementOrdered[0]
+                                      ?.vehiculeDetails[
+                                      vehiculeMouvementOrdered[0]
+                                        ?.vehiculeDetails.length - 1
+                                    ]?.timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(
+                                    vehiculeMouvementOrdered[0]
+                                      ?.vehiculeDetails[
+                                      vehiculeMouvementOrdered[0]
+                                        ?.vehiculeDetails.length - 1
+                                    ]?.timestamp
+                                  )
+                              : " "}{" "}
+                          </span>{" "}
+                          a{" "}
+                          <span className="font-semibold">
+                            {" "}
+                            {vehiculeMouvementOrdered[0]?.vehiculeDetails[
+                              vehiculeMouvementOrdered[0]?.vehiculeDetails
+                                .length - 1
+                            ]?.timestamp
+                              ? selectUTC
+                                ? formatTimestampToTimeWithTimezone(
+                                    vehiculeMouvementOrdered[0]
+                                      ?.vehiculeDetails[0]?.timestamp,
+                                    selectUTC
+                                  )
+                                : formatTimestampToTime(
+                                    vehiculeMouvementOrdered[0]
+                                      ?.vehiculeDetails[0]?.timestamp
+                                  )
+                              : " "}{" "}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                    {/*  */}
+                    {/*  */}
+                    {/*  */}
+                    <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
                   </div>
-                </div>
-                {/*  */}
-                {/*  */}
-                {/*  */}
-                <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" />
+                )}
+
                 {/*  */}
                 {/*  */}
                 {/*  */}
                 <p className="font-semibold pl-2">
                   Nom du vehicule :<br />
                   <span className="font-normal dark:text-orange-500 text-gray-700 pl-5 pr-2">
-                    {/* {earliestVehicle?.displayName ||
-                      earliestVehicle?.description ||
-                      "Pas de véhicule"} */}
-                    {vehiclesByMaxSpeed[0]?.displayName ||
-                      vehiclesByMaxSpeed[0]?.description ||
-                      "---"}
+                    {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0
+                      ? vehiclesByMaxSpeed[0]?.displayName ||
+                        vehiclesByMaxSpeed[0]?.description
+                      : "Pas de vehicule en mouvement"}
                   </span>
                   <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
-                    ( {vehiclesByMaxSpeed[0].maxSpeed.toFixed(2) + " km/h "})
+                    {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 &&
+                      "( " +
+                        vehiclesByMaxSpeed[0].maxSpeed.toFixed(2) +
+                        " km/h )"}{" "}
                   </span>
                 </p>
                 {/*  */}
                 {/*  */}
                 {/*  */}
-                {/* <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" /> */}
-                {/*  */}
-                {/*  */}
-                {/*  */}
-                {/* <div className="px-2 mt-2">
-                  <p className="flex-- gap-3 items-center">
-                    <span className="font-semibold mr-6">Address depart:</span>
-                    Rue Ogé, Arrondissement de Port-au-Prince, Département de
-                    l'Ouest 6140, Ayiti
-                  </p>
-                </div>
-                <div className="px-2 mt-2">
-                  <p className="flex-- gap-3 items-center">
-                    <span className="font-semibold mr-6">Address arrivee:</span>
-                    Rue Ogé, Arrondissement de Port-au-Prince, Département de
-                    l'Ouest 6140, Ayiti
-                  </p>
-                </div> */}
+
                 {/*  */}
                 {/*  */}
                 {/*  */}
@@ -1721,14 +2144,18 @@ function RapportGroupe({
                 {/*  */}
                 {/*  */}
                 <div className="flex gap-6">
-                  <button
-                    onClick={() => {
-                      settrajetVehiculePupup(true);
-                    }}
-                    className="mx-l px-4 text-white border border-orange-200 shadow-lg-- shadow-gray-400/20-- py-0.5 rounded-lg mt-3 bg-orange-500"
-                  >
-                    Voir sur la carte
-                  </button>
+                  {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 && (
+                    <button
+                      onClick={() => {
+                        // settrajetVehiculePupup(true);
+                        setcurrentVehiculeChoose(vehiclesByMaxSpeed[0]);
+                        setvoirDansLaCarte(true);
+                      }}
+                      className="mx-l px-4 text-white border border-orange-200 shadow-lg-- shadow-gray-400/20-- py-0.5 rounded-lg mt-3 bg-orange-500"
+                    >
+                      Voir sur la carte
+                    </button>
+                  )}
                   <button
                     onClick={() => {
                       settablevitesse(true);
@@ -1761,10 +2188,11 @@ function RapportGroupe({
                   // behavior: "smooth", // Défilement fluide
                 });
               }}
-              className="p-4  py-2 my-4 rounded-lg cursor-pointer shadow-lg shadow-gray-400/20 bg-orange-50 mt-8"
+              className="p-4 text-center  py-1 my-4 rounded-lg cursor-pointer shadow-lg shadow-gray-400/20 bg-orange-500/80 mt-8"
             >
-              {/* <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" /> */}
-              <div className="text-orange-600  cursor-pointer">voir moins</div>
+              <p className="text-white font-semibold  cursor-pointer">
+                voir moins
+              </p>
             </div>
           )}
           {/*  */}
@@ -1776,15 +2204,7 @@ function RapportGroupe({
         {/*  */}
         {/*  */}
         {/*  */}
-        {/*  */}
 
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
-        {/*  */}
         {/*  */}
         {/*  */}
         {/*  */}
@@ -1839,46 +2259,17 @@ function RapportGroupe({
               {/*  */}
               {/*  */}
               {/*  */}
-              {/* <p>
-                Heure du Recherche :
-                <span className="font-normal dark:text-orange-500 text-gray-700 pl-3">
-                  De{" "}
-                  <span className="dark:text-orange-500 mx-1 dark:font-normal font-semibold- text-gray-950">
-                    {selectUTC
-                      ? formatTimestampToTimeWithTimezone(
-                          currentVehicule?.vehiculeDetails[
-                            currentVehicule?.vehiculeDetails?.length - 1
-                          ]?.timestamp,
-                          selectUTC
-                        )
-                      : formatTimestampToTime(
-                          currentVehicule?.vehiculeDetails?.[
-                            currentVehicule?.vehiculeDetails?.length - 1
-                          ]?.timestamp
-                        )}
-                  </span>{" "}
-                  a{" "}
-                  <span className="dark:text-orange-500 ml-1 dark:font-normal font-semibold- text-gray-950">
-                    {selectUTC
-                      ? formatTimestampToTimeWithTimezone(
-                          currentVehicule?.vehiculeDetails[0]?.timestamp,
-                          selectUTC
-                        )
-                      : formatTimestampToTime(
-                          currentVehicule?.vehiculeDetails?.[0]?.timestamp
-                        )}
-                  </span>{" "}
-                </span>
-              </p> */}
+
               <div className="flex gap-2 justify-between">
                 <p>
                   Temps d'activité total :
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {formatTime(
+                    {/* {formatTime(
                       result?.totalMovingTime.hours,
                       result?.totalMovingTime.minutes,
                       result?.totalMovingTime.seconds
-                    )}
+                    )} */}
+                    {totalMovingDuration || "Pas de deplacement"}
                   </span>
                 </p>
 
@@ -1886,11 +2277,18 @@ function RapportGroupe({
                   onClick={() => {
                     settableTrajet(true);
                   }}
-                  className="text-orange-400 border-b border-b-orange-400 cursor-pointer"
+                  className="text-orange-400 min-w-[4rem] border-b border-b-orange-400-- underline cursor-pointer"
                 >
                   voir plus
                 </p>
               </div>
+              <p>
+                Distance totale parcourue:
+                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
+                  {/* {result2?.totalDistanceAllVehicles.toFixed(2) || "0"} km{" "} */}
+                  {totalDistanceSum.toFixed(2) + " km" || "Pas de mouvement"}
+                </span>
+              </p>
               <p>
                 Duree des arrêt lors du deplacement :
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
@@ -1903,39 +2301,17 @@ function RapportGroupe({
                   )}
                 </span>
               </p>
-              {/* <p>
-                Duree de L'arrêt le plus long :
-                <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-              
-                  {formatTime(
-                    result?.longestStopTime.hours,
-                    result?.longestStopTime.minutes,
-                    result?.longestStopTime.seconds
-                  )}
-                </span>
-              </p> */}
-              {/*  */}
-              {/*  */}
+
               {/*  */}
               {/* <div className="border-b my-2 border-orange-400/50 dark:border-gray-700" /> */}
               {/*  */}
               {/*  */}
               {/*  */}
-              <div className="flex gap-2 justify-between">
-                <p>
-                  Distance totale parcourue:
-                  <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                    {result2?.totalDistanceAllVehicles.toFixed(2) || "0"} km{" "}
-                  </span>
-                </p>
-                {/* <p className="text-orange-400 border-b border-b-orange-400 cursor-pointer">
-                  voir plus
-                </p> */}
-              </div>
+
               <p>
                 Nombre total d’arrêts :
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {result3.totalStopsAllVehicles}
+                  {result3?.totalStopsAllVehicles}
                 </span>
               </p>
               {/*  */}
@@ -1950,13 +2326,14 @@ function RapportGroupe({
                   Vitesse minimale:
                   <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                     {result5?.globalStats.minSpeed.toFixed(2) || "---"} Km/h
+                    {/* {totalminSpeed || "0 km/h"} */}
                   </span>
                 </p>{" "}
                 <p
                   onClick={() => {
                     settablevitesse(true);
                   }}
-                  className="text-orange-400 border-b border-b-orange-400 cursor-pointer"
+                  className="text-orange-400 min-w-[4rem] border-b border-b-orange-400-- underline cursor-pointer"
                 >
                   voir plus
                 </p>
@@ -1964,54 +2341,20 @@ function RapportGroupe({
               <p>
                 Vitesse maximale:
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
-                  {result5?.globalStats.maxSpeed.toFixed(2) || "---"} Km/h Km/h
+                  {result5?.globalStats.maxSpeed.toFixed(2) || "---"} Km/h
+                  {/* {totalmaxSpeed.toFixed(2) + " km" || "0 km/h"} */}
                 </span>
               </p>
               <p>
                 Vitesse moyenne:
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                   {result5?.globalStats.averageSpeed.toFixed(2) || "---"} Km/h
+                  {/* {totalavgSpeed || "0 km/h"} */}
                 </span>
               </p>
             </div>
           </div>
         </div>
-        {/* <div className="shadow-md mt-4 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-          <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-            <IoTimeOutline className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Temps
-            </h2>
-          </div>
-
-          <div>
-            <div className="text-gray-700 flex flex-col gap-2 dark:text-gray-300"></div>
-          </div>
-        </div>
-        <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-          <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-            <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Distance
-            </h2>
-          </div>
-
-          <div>
-            <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300"></div>
-          </div>
-        </div>
-        <div className="shadow-md mt-4  dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900 py-4  bg-orange-50 p-2 rounded-md flex--- items-start gap-4">
-          <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
-            <SlSpeedometer className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Vitesse
-            </h2>
-          </div>
-
-          <div>
-            <div className="text-gray-600 flex flex-col gap-2 dark:text-gray-300"></div>
-          </div>
-        </div> */}
 
         <div className="shadow-md mt-20  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
           <MdLocationPin className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
@@ -2062,23 +2405,120 @@ function RapportGroupe({
 
         <div className="shadow-md mt-20  py-3 dark:bg-gray-800 dark:shadow-lg dark:shadow-gray-900  bg-orange-50 p-2 rounded-md flex items-center gap-4">
           <BsTable className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
-          <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-            Tableau récapitulatif{" "}
-          </h2>
+          <div className="flex justify-between items-center  w-full">
+            <h2 className="font-semibold dark:text-orange-50 text-orange-900">
+              Tableau récapitulatif{" "}
+            </h2>
+            <div onClick={() => {}} className="cursor-pointer relative">
+              <p
+                onClick={() => {
+                  setshowsortfilterpupup(true);
+                }}
+                className="font-semibold underline text-orange-600"
+              >
+                Filtrer
+              </p>
+              {showsortfilterpupup && (
+                <div className="absolute flex flex-col gap-0 bg-white shadow-lg shadow-gray-500 rounded-md p-3 top-10 -right-2 min-w-[15rem]">
+                  <div className="flex justify-between mb-2 items-center ">
+                    <p className="text-orange-500  font-semibold">
+                      Filtrer par :
+                    </p>
+                    <IoClose
+                      onClick={() => {
+                        setshowsortfilterpupup(false);
+                      }}
+                      className="cursor-pointer text-2xl text-red-500"
+                    />{" "}
+                  </div>
+                  <p
+                    onClick={() => {
+                      settableSortBy(vehiculeMouvementOrdered);
+                      settableSortByColorBg("vehiculeMouvementOrdered");
+                      setshowsortfilterpupup(false);
+
+                      console.log(
+                        "xxxxxxxxxxxxxxxxxxxxxxx",
+                        tableSortByColorBg
+                      );
+                    }}
+                    className={`${
+                      tableSortByColorBg ===
+                        ("vehiculeMouvementOrdered" || "") && "bg-orange-50"
+                    } hover:bg-orange-50 p-2 rounded-lg`}
+                  >
+                    Heure de depart
+                  </p>
+                  <p
+                    onClick={() => {
+                      settableSortBy(vehiclesByDistance);
+                      settableSortByColorBg("vehiclesByDistance");
+                      setshowsortfilterpupup(false);
+
+                      console.log(
+                        "xxxxxxxxxxxxxxxxxxxxxxx",
+                        tableSortByColorBg
+                      );
+                    }}
+                    className={`${
+                      tableSortByColorBg === "vehiclesByDistance" &&
+                      "bg-orange-50"
+                    } hover:bg-orange-50 p-2 rounded-lg`}
+                  >
+                    Distance parcouru
+                  </p>
+                  <p
+                    onClick={() => {
+                      settableSortBy(vehiclesByMovingDuration);
+                      settableSortByColorBg("vehiclesByMovingDuration");
+                      setshowsortfilterpupup(false);
+
+                      console.log("xxxxxxxxxxxxxxxxxxxxxxx", tableSortBy);
+                    }}
+                    className={`${
+                      tableSortByColorBg === "vehiclesByMovingDuration" &&
+                      "bg-orange-50"
+                    } hover:bg-orange-50 p-2 rounded-lg`}
+                  >
+                    Temps en mouvement
+                  </p>
+                  <p
+                    onClick={() => {
+                      settableSortBy(vehiclesByMaxSpeed);
+                      settableSortByColorBg("vehiclesByMaxSpeed");
+                      setshowsortfilterpupup(false);
+
+                      console.log(
+                        "xxxxxxxxxxxxxxxxxxxxxxx",
+                        tableSortByColorBg
+                      );
+                    }}
+                    className={`${
+                      tableSortByColorBg === "vehiclesByMaxSpeed" &&
+                      "bg-orange-50"
+                    } hover:bg-orange-50 p-2 rounded-lg`}
+                  >
+                    Vitesse maximale
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className="w-full mt-4  overflow-auto">
+          {/*  */}
           <table className="overflow-auto w-full text-left dark:bg-gray-800 dark:text-gray-200">
             <thead>
               <tr className="bg-orange-50 text-gray-700 border-- dark:bg-gray-900 dark:text-gray-100">
                 <th className="border dark:border-gray-600 py-3 px-2 min-w-[17rem]">
                   Véhicule
                 </th>
-                <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                  Heure de départ
+                <th className="border dark:border-gray-600 py-3 px-2 min-w-[13rem]">
+                  Date et Heure de départ
                 </th>
-                <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                  Heure d'arrivée
+                <th className="border dark:border-gray-600 py-3 px-2 min-w-[13rem]">
+                  Date et Heure d'arrivée
                 </th>
                 <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
                   Vitesse moyenne
@@ -2092,78 +2532,118 @@ function RapportGroupe({
                 <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
                   Nombre d'arrêts
                 </th>
-                <th className="border dark:border-gray-600 py-3 px-2 min-w-[10rem]">
-                  Temps actif
+                <th className="border dark:border-gray-600 py-3 px-2 min-w-[12rem]">
+                  Temps en mouvement
                 </th>
                 <th className="border dark:border-gray-600 py-3 px-2 min-w-[30rem]">
-                  Derniere Adresse
+                  Adresse de depart
+                </th>
+                <th className="border dark:border-gray-600 py-3 px-2 min-w-[30rem]">
+                  Adresse d'arrivee
                 </th>
               </tr>
             </thead>
             <tbody>
-              {currentdataFusionnee?.map((vehicule, index) => (
-                <tr key={index} className="border dark:border-gray-600">
-                  <td className="border py-3 px-2  bg-gray-50  dark:border-gray-600">
-                    {vehicule?.displayName || vehicule?.description || "---"}
-                  </td>
-                  <td className="border py-3 px-2   bg-white dark:border-gray-600">
-                    {activePeriods[index]?.startTime
-                      ? activePeriods[index].startTime
-                      : "---"}
+              {(tableSortBy || vehiclesByMovingDuration)?.map(
+                (vehicule, index) => (
+                  <tr key={index} className="border dark:border-gray-600">
+                    <td className="border py-3 px-2  bg-gray-50  dark:border-gray-600">
+                      {vehicule?.displayName || vehicule?.description || "---"}
+                    </td>
+                    {/*  */}
+                    <td className="border py-3 px-2   bg-white dark:border-gray-600">
+                      {vehicule?.vehiculeDetails[0]?.timestamp
+                        ? formatTimestampToDate(
+                            vehicule?.vehiculeDetails[
+                              vehicule?.vehiculeDetails.length - 1
+                            ]?.timestamp
+                          )
+                        : ""}{" "}
+                      {vehicule?.vehiculeDetails[0]?.timestamp && (
+                        <span className="px-2">/</span>
+                      )}{" "}
+                      {vehicule?.vehiculeDetails[0]?.timestamp
+                        ? selectUTC
+                          ? formatTimestampToTimeWithTimezone(
+                              vehicule?.vehiculeDetails[
+                                vehicule?.vehiculeDetails.length - 1
+                              ]?.timestamp,
+                              selectUTC
+                            )
+                          : formatTimestampToTime(
+                              vehicule?.vehiculeDetails[
+                                vehicule?.vehiculeDetails.length - 1
+                              ]?.timestamp
+                            )
+                        : "Pas de depacement"}{" "}
+                    </td>
+                    <td className="border py-3 px-2   bg-gray-50  dark:border-gray-600">
+                      {vehicule?.vehiculeDetails[0]?.timestamp
+                        ? formatTimestampToDate(
+                            vehicule?.vehiculeDetails[0]?.timestamp
+                          )
+                        : ""}{" "}
+                      {vehicule?.vehiculeDetails[0]?.timestamp && (
+                        <span className="px-2">/</span>
+                      )}{" "}
+                      {vehicule?.vehiculeDetails[0]?.timestamp
+                        ? selectUTC
+                          ? formatTimestampToTimeWithTimezone(
+                              vehicule?.vehiculeDetails[0]?.timestamp,
+                              selectUTC
+                            )
+                          : formatTimestampToTime(
+                              vehicule?.vehiculeDetails[0]?.timestamp
+                            )
+                        : "Pas de depacement"}{" "}
+                    </td>
 
-                    {/* {activePeriods[index]?.startTime
-                        ? activePeriods[index].startTime.toLocaleTimeString()
-                        : "---"} */}
-                  </td>
-                  <td className="border py-3 px-2   bg-gray-50  dark:border-gray-600">
-                    {activePeriods[index]?.endTime
-                      ? activePeriods[index].endTime
-                      : "---"}
-                  </td>
-                  <td
-                    onClick={() => {
-                      console.log(vehicule.vehiculeDetails[0]?.address);
-                    }}
-                    className="border py-3 px-2 dark:border-gray-600"
-                  >
-                    {Object.entries(result5.statsByVehicle)[
-                      index
-                    ][1].averageSpeed.toFixed(2)}{" "}
-                    km/h
-                  </td>
-                  <td className="border py-3 px-2   bg-gray-50  dark:border-gray-600">
-                    {Object.entries(result5.statsByVehicle)[
-                      index
-                    ][1].maxSpeed.toFixed(2)}{" "}
-                    km/h
-                  </td>
-                  <td className="border py-3 px-2 dark:border-gray-600">
-                    {Object.entries(result2.distancesByVehicle)[
-                      index
-                    ][1].toFixed(2)}{" "}
-                    km
-                  </td>
-                  <td className="border py-3 px-2   bg-gray-50  dark:border-gray-600">
-                    {Object.entries(result3.stopsByVehicle)[index][1]} arrêts
-                  </td>
-                  <td className="border py-3 px-2 dark:border-gray-600">
-                    {/* {movingTimes[index].totalMovingDuration.hours}h{" "}
-                    {movingTimes[index].totalMovingDuration.minutes}m{" "}
-                    {movingTimes[index].totalMovingDuration.seconds}s */}
+                    {/* Vitesse moyenne */}
+                    <td className="border py-3 px-2 dark:border-gray-600">
+                      {((vehicule?.maxSpeed + vehicule?.minSpeed) / 2).toFixed(
+                        2
+                      ) + " Km/h"}
+                    </td>
+                    {/* max speed */}
+                    <td className="border py-3 px-2   bg-gray-50  dark:border-gray-600">
+                      {(vehicule?.maxSpeed).toFixed(2) + " Km/h"}
+                    </td>
 
-                    {formatTime(
-                      movingTimes[index].totalMovingDuration.hours,
-                      movingTimes[index].totalMovingDuration.minutes,
-                      movingTimes[index].totalMovingDuration.seconds
-                    )}
-                  </td>
-                  <td className="border py-3 px-2   bg-gray-50  dark:border-gray-600">
-                    {vehicule.vehiculeDetails[0]?.backupAddress ||
-                      vehicule.vehiculeDetails[0]?.address ||
-                      "---"}
-                  </td>
-                </tr>
-              ))}
+                    {/* Distance totale */}
+                    <td className="border py-3 px-2 dark:border-gray-600">
+                      {vehicule.totalDistance.toFixed(2)} km
+                    </td>
+
+                    {/* Nombre d'arret */}
+                    <td className="border py-3 px-2   bg-gray-50  dark:border-gray-600">
+                      {Object.entries(result3.stopsByVehicle)[index][1]} arrêts
+                    </td>
+
+                    {/* Temps actifs */}
+                    <td className="border py-3 px-2 dark:border-gray-600">
+                      {vehicule?.totalMovingDuration}
+                    </td>
+
+                    {/* Addresse depart */}
+                    <td className="border py-3 px-2   bg-gray-50  dark:border-gray-600">
+                      {vehicule.vehiculeDetails[
+                        vehicule.vehiculeDetails.length - 1
+                      ]?.backupAddress ||
+                        vehicule.vehiculeDetails[
+                          vehicule.vehiculeDetails.length - 1
+                        ]?.address ||
+                        "Pas de deplacement"}
+                    </td>
+
+                    {/* Addresse depart */}
+                    <td className="border py-3 px-2   bg-gray-50  dark:border-gray-600">
+                      {vehicule.vehiculeDetails[0]?.backupAddress ||
+                        vehicule.vehiculeDetails[0]?.address ||
+                        "Pas de deplacement"}
+                    </td>
+                  </tr>
+                )
+              )}
             </tbody>
           </table>
         </div>

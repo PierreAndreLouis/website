@@ -1421,6 +1421,20 @@ function RapportPageDetails() {
           setzoomPosition={setzoomPosition}
           activePeriods={activePeriods}
           movingTimes={movingTimes}
+          typeDeVue={typeDeVue}
+          setTypeDeVue={setTypeDeVue}
+          mapType={mapType}
+          handleMapTypeChange={handleMapTypeChange}
+          vehicles={vehicles}
+          mapRef={mapRef}
+          tileLayers={tileLayers}
+          getMarkerIcon={getMarkerIcon}
+          currentLocation={currentLocation}
+          // customMarkerIcon={customMarkerIcon}
+          positions={positions}
+          centerOnFirstMarker={centerOnFirstMarker}
+          showHistoriqueInMap={showHistoriqueInMap}
+          openGoogleMaps={openGoogleMaps}
         />
       )}
 

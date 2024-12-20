@@ -42,14 +42,24 @@ function RapportPageDetailsHeader({
   //     currentVehicule?.vehiculeDetails.length - 1
   //   ]?.timestamp;
 
-  const donneeVehiculeDetails = currentdataFusionnee.find(
+  // const donneeVehiculeDetails = currentdataFusionnee?.find(
+  //   (vehicule) =>
+  //     vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
+  // )?.vehiculeDetails;
+
+  // const premierDetail =
+  //   donneeVehiculeDetails[donneeVehiculeDetails?.length - 1]?.timestamp;
+  // const dernierDetails = donneeVehiculeDetails[0]?.timestamp;
+
+  const donneeVehiculeDetails = currentdataFusionnee?.find(
     (vehicule) =>
       vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
   )?.vehiculeDetails;
 
   const premierDetail =
-    donneeVehiculeDetails[donneeVehiculeDetails.length - 1].timestamp;
-  const dernierDetails = donneeVehiculeDetails[0].timestamp;
+    donneeVehiculeDetails?.[donneeVehiculeDetails.length - 1]?.timestamp;
+
+  const dernierDetails = donneeVehiculeDetails?.[0]?.timestamp;
 
   const timestampInSecondsDebut = premierDetail;
   const dateObjectDebut = new Date(timestampInSecondsDebut * 1000);
