@@ -1289,29 +1289,35 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
       const currentTime = Date.now(); // Heure actuelle en millisecondes
 
-      const filteredVehicles = currentdataFusionnee?.filter((vehicle) => {
-        // Vérifier si le véhicule n'a pas de détails
-        const noDetails =
-          !vehicle.vehiculeDetails || vehicle.vehiculeDetails.length === 0;
+      const vehiculeActiveAjourdhui = currentdataFusionnee?.filter(
+        (vehicle) => {
+          // Vérifier si le véhicule n'a pas de détails
+          const noDetails =
+            !vehicle.vehiculeDetails || vehicle.vehiculeDetails.length === 0;
 
-        // Vérifier si le véhicule est inactif
-        const lastUpdateTime = vehicle?.lastUpdateTime;
-        const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
-        const isInactive =
-          lastUpdateTimeMs > 0 &&
-          currentTime - lastUpdateTimeMs >= twentyHoursInMs;
+          // Vérifier si le véhicule est inactif
+          const lastUpdateTime = vehicle?.lastUpdateTime;
+          const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
+          const isInactive =
+            lastUpdateTimeMs > 0 &&
+            currentTime - lastUpdateTimeMs >= twentyHoursInMs;
 
-        // Retourne true si l'une des conditions est satisfaite
-        return !noDetails || !isInactive;
-      });
+          const isRunningToday = currentdataFusionnee?.filter((vehicle) =>
+            vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
+          );
+
+          // Retourne true si l'une des conditions est satisfaite
+          return !noDetails && !isInactive && isRunningToday;
+        }
+      );
 
       // const vehiculeActiveAjourdhui = filteredVehicles?.filter((vehicle) =>
       //   vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
       // );
 
-      const vehiculeActiveAjourdhui = filteredVehicles?.filter((vehicle) =>
-        vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
-      );
+      // const vehiculeActiveAjourdhui2 = filteredVehicles?.filter((vehicle) =>
+      //   vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
+      // );
 
       setVehiculeActiveAjourdhui(vehiculeActiveAjourdhui);
 
