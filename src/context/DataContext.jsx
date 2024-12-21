@@ -1289,25 +1289,48 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       const twentyHoursInMs = 24 * 60 * 60 * 1000; // 20 heures en millisecondes
       const currentTime = Date.now(); // Heure actuelle en millisecondes
 
+      // const vehiculeActiveAjourdhui = currentdataFusionnee?.filter(
+      //   (vehicle) => {
+      //     // Vérifier si le véhicule n'a pas de détails
+      //     const noDetails =
+      //       !vehicle.vehiculeDetails || vehicle.vehiculeDetails.length === 0;
+
+      //     // Vérifier si le véhicule est inactif
+      //     const lastUpdateTime = vehicle?.lastUpdateTime;
+      //     const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
+      //     const isInactive =
+      //       lastUpdateTimeMs > 0 &&
+      //       currentTime - lastUpdateTimeMs >= twentyHoursInMs;
+
+      //     const isRunningToday = currentdataFusionnee?.filter((vehicle) =>
+      //       vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
+      //     );
+
+      //     // Retourne true si l'une des conditions est satisfaite
+      //     return !noDetails && !isInactive && isRunningToday;
+      //   }
+      // );
+
       const vehiculeActiveAjourdhui = currentdataFusionnee?.filter(
         (vehicle) => {
-          // Vérifier si le véhicule n'a pas de détails
-          const noDetails =
-            !vehicle.vehiculeDetails || vehicle.vehiculeDetails.length === 0;
+          // Vérifier si le véhicule a des détails
+          const hasDetails =
+            vehicle.vehiculeDetails && vehicle.vehiculeDetails.length > 0;
 
-          // Vérifier si le véhicule est inactif
+          // Vérifier si le véhicule est actif dans les dernières 24h
           const lastUpdateTime = vehicle?.lastUpdateTime;
           const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
-          const isInactive =
+          const isActive =
             lastUpdateTimeMs > 0 &&
-            currentTime - lastUpdateTimeMs >= twentyHoursInMs;
+            currentTime - lastUpdateTimeMs < 24 * 60 * 60 * 1000; // Moins de 24h
 
-          const isRunningToday = currentdataFusionnee?.filter((vehicle) =>
-            vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
+          // Vérifier si le véhicule a au moins un détail avec une vitesse > 0
+          const hasSpeed = vehicle.vehiculeDetails?.some(
+            (detail) => detail.speedKPH > 0
           );
 
-          // Retourne true si l'une des conditions est satisfaite
-          return !noDetails && !isInactive && isRunningToday;
+          // Retourne true si toutes les conditions sont remplies
+          return hasDetails && isActive && hasSpeed;
         }
       );
 
