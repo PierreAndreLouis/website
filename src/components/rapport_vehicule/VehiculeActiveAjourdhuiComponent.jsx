@@ -53,7 +53,7 @@ function VehiculeActiveAjourdhuiComponent({
 
   return (
     <div>
-      <div className="transition-all">
+      <div className="transition-all min-w-[80vw]">
         <div
           onClick={() => {
             setshowActiveVehicule(!showActiveVehicule);

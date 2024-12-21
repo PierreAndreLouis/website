@@ -237,6 +237,7 @@ function Liste_options({}) {
           <Link
             onClick={() => {
               // setAccessCode(true);
+              setShowListOption(false);
               rapportFonction();
             }}
             to="/rapport_page_details"

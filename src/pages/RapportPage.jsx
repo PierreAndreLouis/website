@@ -208,14 +208,34 @@ function RapportPage({
 
   //////////////////////////////////////////////////////////////////
 
-  const donneeVehiculeDetails = currentdataFusionnee.find(
+  // const donneeVehiculeDetails = currentdataFusionnee?.find(
+  //   (vehicule) =>
+  //     vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
+  // )?.vehiculeDetails;
+
+  // const premierDetail =
+  //   donneeVehiculeDetails[donneeVehiculeDetails?.length - 1]?.timestamp;
+  // const dernierDetails = donneeVehiculeDetails[0]?.timestamp;
+
+  const donneeVehiculeDetails = currentdataFusionnee?.find(
     (vehicule) =>
       vehicule.vehiculeDetails && vehicule.vehiculeDetails.length > 0
   )?.vehiculeDetails;
 
-  const premierDetail =
-    donneeVehiculeDetails[donneeVehiculeDetails.length - 1].timestamp;
-  const dernierDetails = donneeVehiculeDetails[0].timestamp;
+  let premierDetail;
+  let dernierDetails;
+  // Vérifier si les détails existent avant d'y accéder
+  if (donneeVehiculeDetails && donneeVehiculeDetails.length > 0) {
+    premierDetail =
+      donneeVehiculeDetails[donneeVehiculeDetails.length - 1]?.timestamp;
+    dernierDetails = donneeVehiculeDetails[0]?.timestamp;
+
+    console.log("Premier détail:", premierDetail);
+    console.log("Dernier détail:", dernierDetails);
+  } else {
+    console.log("Aucun détail de véhicule disponible.");
+  }
+
   // Trouver la date du rapport
   const timestampInSecondsDebut = premierDetail;
 
@@ -298,28 +318,32 @@ function RapportPage({
               <h1 className="font-semibold dark:text-gray-200 text-center mx-4 mb-10 text-xl">
                 {/* {formatDate(selectedDate)} */}
                 {
-                  // true ||
-                  // jourDebut === jourFin &&
-                  // moisDebut === moisFin &&
-                  // anneeDebut === anneeFin ? (
-                  //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                  //     <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
-                  //       Le {jourDebut || ""} {moisDebut || ""}{" "}
-                  //       {anneeDebut || ""}
-                  //     </span>{" "}
-                  //   </span>
-                  // ) : (
-                  <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                    Du{" "}
-                    <span className="dark:text-gray-50 dark:font-normal font-semibold- text-gray-950">
-                      {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
-                      {anneeDebut === anneeFin ? "" : anneeDebut}
-                    </span>{" "}
-                    au{" "}
-                    <span className="dark:text-gray-50 dark:font-normal font-semibold- text-gray-950">
-                      {jourFin} {moisFin} {anneeFin}
+                  jourDebut ? (
+                    // true ||
+                    // jourDebut === jourFin &&
+                    // moisDebut === moisFin &&
+                    // anneeDebut === anneeFin ? (
+                    //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                    //     <span className="dark:text-orange-400 dark:font-normal font-semibold- text-gray-950">
+                    //       Le {jourDebut || ""} {moisDebut || ""}{" "}
+                    //       {anneeDebut || ""}
+                    //     </span>{" "}
+                    //   </span>
+                    // ) : (
+                    <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                      Du{" "}
+                      <span className="dark:text-gray-50 dark:font-normal font-semibold- text-gray-950">
+                        {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
+                        {anneeDebut === anneeFin ? "" : anneeDebut}
+                      </span>{" "}
+                      au{" "}
+                      <span className="dark:text-gray-50 dark:font-normal font-semibold- text-gray-950">
+                        {jourFin} {moisFin} {anneeFin}
+                      </span>
                     </span>
-                  </span>
+                  ) : (
+                    <span>Pas de date disponible</span>
+                  )
                   // )
                 }
               </h1>

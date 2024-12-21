@@ -64,6 +64,7 @@ function RapportGroupe({
     vehiclueHistoriqueDetails,
     setVehiclueHistoriqueDetails,
     // currentVehicule,
+    setdonneeFusionneeForRapport,
   } = useContext(DataContext); // const { currentVehicule } = useContext(DataContext);
 
   const [voirPlus, setvoirPlus] = useState(false);
@@ -312,9 +313,9 @@ function RapportGroupe({
         totalDuration: formatDuration(totalDuration), // Ajouter la durée totale formatée
         totalPauseDuration: formatDuration(totalPauseDuration), // Ajouter la durée totale des pauses formatée
         totalMovingDuration: formatDuration(totalMovingDuration), // Ajouter la durée totale en mouvement formatée
-        minSpeed: minSpeed,
-        maxSpeed: maxSpeed,
-        avgSpeed: avgSpeed,
+        minSpeed: minSpeed || 0,
+        maxSpeed: maxSpeed || 0,
+        avgSpeed: avgSpeed || 0,
         stopCount: stopCount, // Ajouter le nombre d'arrêts
         totalStopDuration: formatDuration(totalStopDuration), // Ajouter la durée totale des arrêts
       };
@@ -334,9 +335,9 @@ function RapportGroupe({
           totalDuration: item.totalDuration, // Inclure la durée totale
           totalPauseDuration: item.totalPauseDuration, // Inclure la durée totale des pauses
           totalMovingDuration: item.totalMovingDuration, // Inclure la durée totale en mouvement
-          minSpeed: item.minSpeed,
-          maxSpeed: item.maxSpeed,
-          avgSpeed: item.avgSpeed,
+          minSpeed: item.minSpeed || 0,
+          maxSpeed: item.maxSpeed || 0,
+          avgSpeed: item.avgSpeed || 0,
           stopCount: item.stopCount, // Ajouter le nombre d'arrêts
           totalStopDuration: item.totalStopDuration, // Ajouter la durée totale des arrêts
           vehiculeDetails: item.vehiculeDetails,
@@ -354,9 +355,9 @@ function RapportGroupe({
         totalDuration: item.totalDuration, // Inclure la durée totale
         totalPauseDuration: item.totalPauseDuration, // Inclure la durée totale des pauses
         totalMovingDuration: item.totalMovingDuration, // Inclure la durée totale en mouvement
-        minSpeed: item.minSpeed,
-        maxSpeed: item.maxSpeed,
-        avgSpeed: item.avgSpeed,
+        minSpeed: item.minSpeed || 0,
+        maxSpeed: item.maxSpeed || 0,
+        avgSpeed: item.avgSpeed || 0,
         stopCount: item.stopCount, // Ajouter le nombre d'arrêts
         totalStopDuration: item.totalStopDuration, // Ajouter la durée totale des arrêts
         vehiculeDetails: item.vehiculeDetails,
@@ -373,9 +374,9 @@ function RapportGroupe({
         totalDuration: item.totalDuration, // Inclure la durée totale
         totalPauseDuration: item.totalPauseDuration, // Inclure la durée totale des pauses
         totalMovingDuration: item.totalMovingDuration, // Inclure la durée totale en mouvement
-        minSpeed: item.minSpeed,
-        maxSpeed: item.maxSpeed,
-        avgSpeed: item.avgSpeed,
+        minSpeed: item.minSpeed || 0,
+        maxSpeed: item.maxSpeed || 0,
+        avgSpeed: item.avgSpeed || 0,
         stopCount: item.stopCount, // Ajouter le nombre d'arrêts
         totalStopDuration: item.totalStopDuration, // Ajouter la durée totale des arrêts
         vehiculeDetails: item.vehiculeDetails,
@@ -407,9 +408,9 @@ function RapportGroupe({
         totalDuration: item.totalDuration, // Inclure la durée totale
         totalPauseDuration: item.totalPauseDuration, // Inclure la durée totale des pauses
         totalMovingDuration: item.totalMovingDuration, // Inclure la durée totale en mouvement
-        minSpeed: item.minSpeed,
-        maxSpeed: item.maxSpeed,
-        avgSpeed: item.avgSpeed,
+        minSpeed: item.minSpeed || 0,
+        maxSpeed: item.maxSpeed || 0,
+        avgSpeed: item.avgSpeed || 0,
         stopCount: item.stopCount, // Ajouter le nombre d'arrêts
         totalStopDuration: item.totalStopDuration, // Ajouter la durée totale des arrêts
         vehiculeDetails: item.vehiculeDetails,
@@ -844,7 +845,7 @@ function RapportGroupe({
 
         {tableDeplacement && (
           <div className="flex hidden-- z-[499999999990] justify-center items-center px-4 fixed inset-0 bg-black/50">
-            <div className="bg-white dark:bg-gray-700 rounded-lg p-3--">
+            <div className="bg-white dark:bg-gray-700 rounded-lg min-h-[60vh] p-3--">
               <div className="flex justify-between px-4 pt-3">
                 <h2 className="text-xl font-bold dark:text-gray-50">
                   Tableau des deplacements
@@ -957,7 +958,7 @@ function RapportGroupe({
 
         {tableDistance && (
           <div className="flex hidden-- z-[499999999990] justify-center items-center px-4 fixed inset-0 bg-black/50">
-            <div className="bg-white dark:bg-gray-700 rounded-lg p-3--">
+            <div className="bg-white dark:bg-gray-700 rounded-lg min-h-[60vh] p-3--">
               <div className="flex justify-between px-4 pt-3">
                 <h2 className="text-xl font-bold dark:text-gray-50">
                   Tableau des Distances
@@ -1066,7 +1067,7 @@ function RapportGroupe({
 
         {tableActivite && (
           <div className="flex hidden-- z-[499999999990] justify-center items-center px-4 fixed inset-0 bg-black/50">
-            <div className="bg-white dark:bg-gray-700 rounded-lg p-3--">
+            <div className="bg-white dark:bg-gray-700 rounded-lg min-h-[60vh] p-3--">
               <div className="flex justify-between px-4 pt-3">
                 <h2 className="text-xl font-bold dark:text-gray-50">
                   Tableau des activites
@@ -1175,7 +1176,7 @@ function RapportGroupe({
 
         {tablevitesse && (
           <div className="flex hidden-- z-[499999999990] justify-center items-center px-4 fixed inset-0 bg-black/50">
-            <div className="bg-white dark:bg-gray-700 rounded-lg p-3--">
+            <div className="bg-white dark:bg-gray-700 rounded-lg min-h-[60vh] p-3--">
               <div className="flex justify-between px-4 pt-3">
                 <h2 className="text-xl font-bold text-gray-50">
                   Tableau des vitesse
@@ -1299,7 +1300,7 @@ function RapportGroupe({
 
         {tableTrajet && (
           <div className="flex hidden-- z-[499999999990] justify-center items-center px-4 fixed inset-0 bg-black/50">
-            <div className="bg-white dark:bg-gray-700 rounded-lg p-3--">
+            <div className="bg-white dark:bg-gray-700 rounded-lg min-h-[60vh] p-3--">
               <div className="flex justify-between px-4 pt-3">
                 <h2 className="text-xl font-bold dark:text-gray-50">
                   Tableau du trajet
@@ -1394,7 +1395,12 @@ function RapportGroupe({
           </div>
         )}
 
-        <h1 className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300">
+        <h1
+          onClick={() => {
+            // setdonneeFusionneeForRapport([]);
+          }}
+          className="text-center mb-10 font-semibold text-xl my-10 dark:text-gray-300"
+        >
           Rapport détaillé en groupe
         </h1>
         <div className="shadow-md dark:bg-gray-800 dark:shadow-gray-lg dark:shadow-gray-700 py-4  bg-orange-50 p-2 rounded-md flex-- items-start gap-4">
@@ -1409,7 +1415,7 @@ function RapportGroupe({
             <p>
               Date de Recherche :
               <span className="font-bold dark:text-orange-500 text-gray-900 pl-3">
-                {
+                {jourDebut ? (
                   // true ||
                   // jourDebut === jourFin &&
                   // moisDebut === moisFin &&
@@ -1422,7 +1428,7 @@ function RapportGroupe({
                   //   </span>
                   // ) : (
                   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                    Du{" "}
+                    Duuu{" "}
                     <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                       {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                       {anneeDebut === anneeFin ? "" : anneeDebut}
@@ -1432,8 +1438,9 @@ function RapportGroupe({
                       {jourFin} {moisFin} {anneeFin}
                     </span>
                   </span>
-                  // )
-                }
+                ) : (
+                  <span>Pas de date disponible</span>
+                )}
               </span>
             </p>
 
@@ -2256,7 +2263,7 @@ function RapportGroupe({
                   <span className="font-bold- dark:text-orange-500 text-gray-700 pl-3">
                     {vehiculeMouvementOrdered[0]?.vehiculeDetails.length > 0 &&
                       "( " +
-                        vehiclesByMaxSpeed[0].maxSpeed.toFixed(2) +
+                        vehiclesByMaxSpeed[0]?.maxSpeed.toFixed(2) +
                         " km/h )"}{" "}
                   </span>
                 </p>
@@ -2354,28 +2361,32 @@ function RapportGroupe({
                 Date de Recherche :{/* <br className="sm:hidden" /> */}
                 <span className="font-bold dark:text-orange-500 text-gray-900 pl-5">
                   {
-                    // true ||
-                    // jourDebut === jourFin &&
-                    // moisDebut === moisFin &&
-                    // anneeDebut === anneeFin ? (
-                    //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                    //     <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
-                    //       Le {jourDebut || ""} {moisDebut || ""}{" "}
-                    //       {anneeDebut || ""}
-                    //     </span>{" "}
-                    //   </span>
-                    // ) : (
-                    <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                      Du{" "}
-                      <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
-                        {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
-                        {anneeDebut === anneeFin ? "" : anneeDebut}
-                      </span>{" "}
-                      au{" "}
-                      <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
-                        {jourFin} {moisFin} {anneeFin}
+                    jourDebut ? (
+                      // true ||
+                      // jourDebut === jourFin &&
+                      // moisDebut === moisFin &&
+                      // anneeDebut === anneeFin ? (
+                      //   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                      //     <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
+                      //       Le {jourDebut || ""} {moisDebut || ""}{" "}
+                      //       {anneeDebut || ""}
+                      //     </span>{" "}
+                      //   </span>
+                      // ) : (
+                      <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
+                        Du{" "}
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
+                          {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
+                          {anneeDebut === anneeFin ? "" : anneeDebut}
+                        </span>{" "}
+                        au{" "}
+                        <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
+                          {jourFin} {moisFin} {anneeFin}
+                        </span>
                       </span>
-                    </span>
+                    ) : (
+                      <span>Pas de date disponible</span>
+                    )
                     // )
                   }
                 </span>
@@ -2474,8 +2485,9 @@ function RapportGroupe({
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                   {/* {result5?.globalStats.maxSpeed.toFixed(2) || "---"} Km/h */}
                   {/* {totalmaxSpeed.toFixed(2) + " km" || "0 km/h"} */}
-                  {vehiclesByMaxSpeed[0].maxSpeed.toFixed(2) + " Km/h" ||
-                    "0 Km/h"}
+                  {vehiclesByMaxSpeed[0]?.maxSpeed
+                    ? vehiclesByMaxSpeed[0]?.maxSpeed.toFixed(2) + " Km/h"
+                    : "0.00 Km/h"}
                 </span>
               </p>
               <p>
@@ -2483,10 +2495,12 @@ function RapportGroupe({
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                   {/* {result5?.globalStats.averageSpeed.toFixed(2) || "---"} Km/h */}
                   {/* {(totalminSpeed + totalmaxSpeed) / 2 + " km/h " || "0 km/h"} */}
-                  {(
-                    (smallestMinSpeed + vehiclesByMaxSpeed[0].maxSpeed) /
-                    2
-                  ).toFixed(2) + " km/h " || " 0 km/h"}
+                  {vehiclesByMaxSpeed[0]?.maxSpeed
+                    ? (
+                        (smallestMinSpeed + vehiclesByMaxSpeed[0]?.maxSpeed) /
+                        2
+                      ).toFixed(2) + " km/h "
+                    : " 0.00 km/h"}
                 </span>
               </p>
             </div>
@@ -2644,7 +2658,7 @@ function RapportGroupe({
           </div>
         </div>
 
-        <div className="w-full mt-4  overflow-auto">
+        <div className="w-full mt-4 mb-20 overflow-auto">
           {/*  */}
           <table className="overflow-auto w-full text-left dark:bg-gray-800 dark:text-gray-200">
             <thead>
