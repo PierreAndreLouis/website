@@ -910,7 +910,7 @@ function RapportGroupe({
                                     vehicule?.vehiculeDetails.length - 1
                                   ]?.timestamp
                                 )
-                            : "Pas de depacement"}{" "}
+                            : "Pas de dépacement"}{" "}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:bg-gray-800 dark:border-gray-600">
                           {vehicule?.vehiculeDetails[0]?.timestamp
@@ -930,7 +930,7 @@ function RapportGroupe({
                               : formatTimestampToTime(
                                   vehicule?.vehiculeDetails[0]?.timestamp
                                 )
-                            : "Pas de depacement"}{" "}
+                            : "Pas de dépacement"}{" "}
                         </td>
 
                         <td className="border py-3 px-2   bg-white dark:bg-gray-800 dark:border-gray-600">
@@ -940,12 +940,12 @@ function RapportGroupe({
                             vehicule.vehiculeDetails[
                               vehicule.vehiculeDetails?.length - 1
                             ]?.address ||
-                            "Pas de depacement"}
+                            "Pas de dépacement"}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:bg-gray-800 dark:border-gray-600">
                           {vehicule.vehiculeDetails[0]?.backupAddress ||
                             vehicule.vehiculeDetails[0]?.address ||
-                            "Pas de depacement"}
+                            "Pas de dépacement"}
                         </td>
                       </tr>
                     ))}
@@ -1027,7 +1027,7 @@ function RapportGroupe({
                                     vehicule?.vehiculeDetails.length - 1
                                   ]?.timestamp
                                 )
-                            : "Pas de depacement"}{" "}
+                            : "Pas de dépacement"}{" "}
                         </td>
                         <td className="border py-3 px-2    dark:bg-gray-800  dark:border-gray-600">
                           {vehicule?.vehiculeDetails[0]?.timestamp
@@ -1039,7 +1039,7 @@ function RapportGroupe({
                               : formatTimestampToTime(
                                   vehicule?.vehiculeDetails[0]?.timestamp
                                 )
-                            : "Pas de depacement"}{" "}
+                            : "Pas de dépacement"}{" "}
                         </td>
 
                         <td className="border py-3 px-2    dark:bg-gray-800  dark:border-gray-600">
@@ -1049,12 +1049,12 @@ function RapportGroupe({
                             vehicule.vehiculeDetails[
                               vehicule.vehiculeDetails?.length - 1
                             ]?.address ||
-                            "Pas de depacement"}
+                            "Pas de dépacement"}
                         </td>
                         <td className="border py-3 px-2    dark:bg-gray-800 dark:border-gray-600">
                           {vehicule.vehiculeDetails[0]?.backupAddress ||
                             vehicule.vehiculeDetails[0]?.address ||
-                            "Pas de depacement"}
+                            "Pas de dépacement"}
                         </td>
                       </tr>
                     ))}
@@ -1136,7 +1136,7 @@ function RapportGroupe({
                                     vehicule?.vehiculeDetails.length - 1
                                   ]?.timestamp
                                 )
-                            : "Pas de depacement"}{" "}
+                            : "Pas de dépacement"}{" "}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:bg-gray-800 dark:border-gray-600">
                           {vehicule?.vehiculeDetails[0]?.timestamp
@@ -1148,7 +1148,7 @@ function RapportGroupe({
                               : formatTimestampToTime(
                                   vehicule?.vehiculeDetails[0]?.timestamp
                                 )
-                            : "Pas de depacement"}{" "}
+                            : "Pas de dépacement"}{" "}
                         </td>
 
                         <td className="border py-3 px-2   bg-white dark:bg-gray-800 dark:border-gray-600">
@@ -1158,12 +1158,12 @@ function RapportGroupe({
                             vehicule.vehiculeDetails[
                               vehicule.vehiculeDetails?.length - 1
                             ]?.address ||
-                            "Pas de depacement"}
+                            "Pas de dépacement"}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:bg-gray-800 dark:border-gray-600">
                           {vehicule.vehiculeDetails[0]?.backupAddress ||
                             vehicule.vehiculeDetails[0]?.address ||
-                            "Pas de depacement"}
+                            "Pas de dépacement"}
                         </td>
                       </tr>
                     ))}
@@ -1260,7 +1260,7 @@ function RapportGroupe({
                                     vehicule?.vehiculeDetails.length - 1
                                   ]?.timestamp
                                 )
-                            : "Pas de depacement"}{" "}
+                            : "Pas de dépacement"}{" "}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:bg-gray-800 dark:border-gray-600">
                           {vehicule?.vehiculeDetails[0]?.timestamp
@@ -1272,7 +1272,7 @@ function RapportGroupe({
                               : formatTimestampToTime(
                                   vehicule?.vehiculeDetails[0]?.timestamp
                                 )
-                            : "Pas de depacement"}{" "}
+                            : "Pas de dépacement"}{" "}
                         </td>
 
                         <td className="border py-3 px-2   bg-white dark:bg-gray-800 dark:border-gray-600">
@@ -1282,12 +1282,12 @@ function RapportGroupe({
                             vehicule.vehiculeDetails[
                               vehicule.vehiculeDetails?.length - 1
                             ]?.address ||
-                            "Pas de depacement"}
+                            "Pas de dépacement"}
                         </td>
                         <td className="border py-3 px-2   bg-white dark:bg-gray-800 dark:border-gray-600">
                           {vehicule.vehiculeDetails[0]?.backupAddress ||
                             vehicule.vehiculeDetails[0]?.address ||
-                            "Pas de depacement"}
+                            "Pas de dépacement"}
                         </td>
                       </tr>
                     ))}
@@ -1335,7 +1335,7 @@ function RapportGroupe({
                         distance parcourue
                       </th>
                       <th className="border dark:border-gray-600 py-3 px-2 min-w-[15rem]">
-                        nombre d'arret
+                        nombre d'arrêt
                       </th>
 
                       <th className="border dark:border-gray-600 py-3 px-2 min-w-[20rem]">
@@ -1372,8 +1372,8 @@ function RapportGroupe({
                         </td>
                         <td className="border py-3 px-2   bg-gray-50 dark:bg-gray-800 dark:border-gray-600">
                           {vehicule?.stopCount > 0
-                            ? vehicule?.stopCount + " arrets"
-                            : "0 arret"}
+                            ? vehicule?.stopCount + " arrêts"
+                            : "0 arrêt"}
                         </td>
 
                         <td className="border py-3 px-2   bg-gray-50 dark:bg-gray-800 dark:border-gray-600">
@@ -1428,7 +1428,7 @@ function RapportGroupe({
                   //   </span>
                   // ) : (
                   <span className="text-[.85rem]-- sm:text-sm md:text-[1rem]  lg:text-lg--">
-                    Duuu{" "}
+                    Du{" "}
                     <span className="dark:text-orange-500 dark:font-normal font-semibold- text-gray-950">
                       {jourDebut} {moisDebut === moisFin ? "" : moisDebut}{" "}
                       {anneeDebut === anneeFin ? "" : anneeDebut}
@@ -2351,7 +2351,7 @@ function RapportGroupe({
           <div className="flex gap-4 items-center border-b border-orange-600/30 dark:border-gray-600 pb-2 mb-3">
             <RiPinDistanceLine className="min-w-[2rem] text-[1.82rem] text-orange-400 " />
             <h2 className="font-semibold dark:text-orange-50 text-orange-900">
-              Informations sur le trajet des vehicules
+              Informations sur le trajet des véhicules
             </h2>
           </div>
 
@@ -2451,8 +2451,8 @@ function RapportGroupe({
                 <span className="font-bold dark:text-orange-500 text-gray-700 pl-3">
                   {/* {result3?.totalStopsAllVehicles} */}
                   {nombreTotaleArret > 0
-                    ? nombreTotaleArret + "arrets"
-                    : "0 arret"}
+                    ? nombreTotaleArret + "arrêts"
+                    : "0 arrêt"}
                 </span>
               </p>
               {/*  */}
@@ -2599,7 +2599,7 @@ function RapportGroupe({
                       "bg-orange-50 dark:bg-gray-800"
                     } hover:bg-orange-50 p-2 rounded-lg dark:text-gray-100 dark:hover:bg-gray-800 `}
                   >
-                    Heure de depart
+                    Heure de départ
                   </p>
                   <p
                     onClick={() => {
@@ -2688,10 +2688,10 @@ function RapportGroupe({
                   Temps en mouvement
                 </th>
                 <th className="border dark:border-gray-600 py-3 px-2 min-w-[30rem]">
-                  Adresse de depart
+                  Adresse de départ
                 </th>
                 <th className="border dark:border-gray-600 py-3 px-2 min-w-[30rem]">
-                  Adresse d'arrivee
+                  Adresse d'arrivée
                 </th>
               </tr>
             </thead>
@@ -2727,7 +2727,7 @@ function RapportGroupe({
                                 vehicule?.vehiculeDetails.length - 1
                               ]?.timestamp
                             )
-                        : "Pas de depacement"}{" "}
+                        : "Pas de dépacement"}{" "}
                     </td>
                     <td className="border py-3 px-2   bg-gray-50 dark:bg-gray-900/70  dark:border-gray-600">
                       {vehicule?.vehiculeDetails[0]?.timestamp
@@ -2747,7 +2747,7 @@ function RapportGroupe({
                           : formatTimestampToTime(
                               vehicule?.vehiculeDetails[0]?.timestamp
                             )
-                        : "Pas de depacement"}{" "}
+                        : "Pas de dépacement"}{" "}
                     </td>
 
                     {/* Vitesse moyenne */}
@@ -2769,7 +2769,7 @@ function RapportGroupe({
                     {/* Nombre d'arret */}
                     <td className="border py-3 px-2   bg-gray-50 dark:bg-gray-900/70  dark:border-gray-600">
                       {/* {Object.entries(result3.stopsByVehicle)[index][1]} arrêts */}
-                      {vehicule.stopCount + " arrets"}
+                      {vehicule.stopCount + " arrêts"}
                     </td>
 
                     {/* Temps actifs */}
@@ -2777,7 +2777,7 @@ function RapportGroupe({
                       {vehicule?.totalMovingDuration}
                     </td>
 
-                    {/* Addresse depart */}
+                    {/* Addresse départ */}
                     <td className="border py-3 px-2   bg-gray-50 dark:bg-gray-900/70  dark:border-gray-600">
                       {vehicule.vehiculeDetails[
                         vehicule.vehiculeDetails.length - 1
@@ -2788,7 +2788,7 @@ function RapportGroupe({
                         "Pas de deplacement"}
                     </td>
 
-                    {/* Addresse depart */}
+                    {/* Addresse départ */}
                     <td className="border py-3 px-2     dark:border-gray-600">
                       {vehicule.vehiculeDetails[0]?.backupAddress ||
                         vehicule.vehiculeDetails[0]?.address ||

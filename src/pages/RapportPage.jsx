@@ -313,7 +313,7 @@ function RapportPage({
                 }}
                 className=" dark:text-orange-400 text-center mx-4 text-lg text-orange-600"
               >
-                Resultat de recherche
+                Résultat de recherche
               </h1>
               <h1 className="font-semibold dark:text-gray-200 text-center mx-4 mb-10 text-xl">
                 {/* {formatDate(selectedDate)} */}
