@@ -1311,27 +1311,31 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       //   }
       // );
 
-      const vehiculeActiveAjourdhui = currentdataFusionnee?.filter(
-        (vehicle) => {
-          // Vérifier si le véhicule a des détails
-          const hasDetails =
-            vehicle.vehiculeDetails && vehicle.vehiculeDetails.length > 0;
+      // const vehiculeActiveAjourdhui = currentdataFusionnee?.filter(
+      //   (vehicle) => {
+      //     // Vérifier si le véhicule a des détails
+      //     const hasDetails =
+      //       vehicle.vehiculeDetails && vehicle.vehiculeDetails.length > 0;
 
-          // Vérifier si le véhicule est actif dans les dernières 24h
-          const lastUpdateTime = vehicle?.lastUpdateTime;
-          const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
-          const isActive =
-            lastUpdateTimeMs > 0 &&
-            currentTime - lastUpdateTimeMs < 24 * 60 * 60 * 1000; // Moins de 24h
+      //     // Vérifier si le véhicule est actif dans les dernières 24h
+      //     const lastUpdateTime = vehicle?.lastUpdateTime;
+      //     const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
+      //     const isActive =
+      //       lastUpdateTimeMs > 0 &&
+      //       currentTime - lastUpdateTimeMs < 24 * 60 * 60 * 1000; // Moins de 24h
 
-          // Vérifier si le véhicule a au moins un détail avec une vitesse > 0
-          const hasSpeed = vehicle.vehiculeDetails?.some(
-            (detail) => detail.speedKPH > 0
-          );
+      //     // Vérifier si le véhicule a au moins un détail avec une vitesse > 0
+      //     const hasSpeed = vehicle.vehiculeDetails?.some(
+      //       (detail) => detail.speedKPH > 0
+      //     );
 
-          // Retourne true si toutes les conditions sont remplies
-          return hasDetails && isActive && hasSpeed;
-        }
+      //     // Retourne true si toutes les conditions sont remplies
+      //     return hasDetails && isActive && hasSpeed;
+      //   }
+      // );
+
+      const vehiculeActiveAjourdhui = currentdataFusionnee?.filter((vehicle) =>
+        vehicle.vehiculeDetails?.some((detail) => detail.speedKPH >= 1)
       );
 
       // const vehiculeActiveAjourdhui = filteredVehicles?.filter((vehicle) =>
@@ -1427,6 +1431,29 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
       // 5. Met à jour l'état avec tous les véhicules dont `lastUpdateTime` est supérieur à 24h par rapport à l'heure actuelle
 
       // Filtrer les véhicules sans détails ou inactifs
+      // const vehiculeNotActif = currentdataFusionnee?.filter((vehicle) => {
+      //   // Vérifier si le véhicule n'a pas de détails
+      //   const noDetails =
+      //     !vehicle.vehiculeDetails || vehicle.vehiculeDetails.length === 0;
+
+      //   // Vérifier si le véhicule est inactif
+      //   const lastUpdateTime = vehicle?.lastUpdateTime;
+      //   const lastUpdateTimeMs = lastUpdateTime ? lastUpdateTime * 1000 : 0; // Conversion en millisecondes
+      //   const isInactive =
+      //     lastUpdateTimeMs > 0 &&
+      //     currentTime - lastUpdateTimeMs >= twentyHoursInMs;
+
+      //   const isActif = vehicle.vehiculeDetails?.some(
+      //     (detail) => detail.speedKPH >= 1
+      //   );
+
+      //   // Retourne true si l'une des conditions est satisfaite
+      //   return (noDetails || isInactive) && !isActif;
+      // });
+
+      // setVehiculeNotActif(vehiculeNotActif);
+
+      // Filtrer les véhicules sans détails ou inactifs
       const vehiculeNotActif = currentdataFusionnee?.filter((vehicle) => {
         // Vérifier si le véhicule n'a pas de détails
         const noDetails =
@@ -1439,8 +1466,13 @@ const DataContextProvider = ({ children, centerOnFirstMarker }) => {
           lastUpdateTimeMs > 0 &&
           currentTime - lastUpdateTimeMs >= twentyHoursInMs;
 
-        // Retourne true si l'une des conditions est satisfaite
-        return noDetails || isInactive;
+        // Vérifier si le véhicule est actif
+        const isActif = vehicle.vehiculeDetails?.some(
+          (detail) => detail.speedKPH >= 1
+        );
+
+        // Retourner true pour les véhicules sans détails ou inactifs, mais pas actifs
+        return (noDetails || isInactive) && !isActif;
       });
 
       setVehiculeNotActif(vehiculeNotActif);
