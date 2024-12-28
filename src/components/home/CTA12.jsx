@@ -14,9 +14,9 @@ export default function CTA12() {
     <div
       style={{
         backgroundImage: "url(/assets/partenaire.png)",
-        backgroundPosition: "right",
+        backgroundPosition: "center",
       }}
-      className="object-right   relative py-[15rem] bg-fixed bg-cover bg-center"
+      className="object-center   relative py-[15rem] bg-fixed bg-cover bg-center"
     >
       <div
         className="absolute inset-0 z-[2]"

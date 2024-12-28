@@ -56,7 +56,7 @@ const Footer5 = () => {
       <div className="absolute  inset-0 bg-gray-900">
         <div className="w-full relative h-full">
           <img
-            className="w-full-- h-[47%] md:h-full absolute bottom-0 left-0 right-0  object-cover object-bottom"
+            className="w-full-- h-[20%] sm:h-[47%] md:h-full absolute bottom-0 left-0 right-0  object-cover object-bottom"
             src="/assets/footer-pattern2.jpg"
             alt=""
           />
