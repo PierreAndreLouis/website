@@ -28,6 +28,11 @@ const assets = [
   'pin/*.png',
 
 
+  'img/assets/*.png',
+  'img/assets/*.jpg',
+  'img/assets/*.jpeg',
+
+
 
   // '/public/img/*.png',
   // '/public/img/cars/*.png',
