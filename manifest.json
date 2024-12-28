@@ -1,7 +1,7 @@
 {
   "name": "Pierre-Andre",
   "short_name": "Pierre-Andre",
-  "start_url": "/login",
+  "start_url": "/home",
   "display": "standalone",
   "background_color": "#FFE9D2",
   "theme_color": "#FFE1C4",
