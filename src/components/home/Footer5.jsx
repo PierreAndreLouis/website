@@ -50,13 +50,22 @@ const scrollToTop = () => {
 const Footer5 = () => {
   return (
     <div
-      style={BannerImg}
-      className="text-gray-400 w-full  flex justify-center overflow-hidden"
+      // style={BannerImg}
+      className="text-gray-400 w-full relative  flex justify-center overflow-hidden"
     >
+      <div className="absolute  inset-0 bg-gray-900">
+        <div className="w-full relative h-full">
+          <img
+            className="w-full-- h-[47%] md:h-full absolute bottom-0 left-0 right-0  object-cover object-bottom"
+            src="/assets/footer-pattern2.jpg"
+            alt=""
+          />
+        </div>
+      </div>
       {/* <div className="container border w-full border-red-500"> */}
       <div
         data-aos="zoom-in"
-        className="grid  grid-cols-1 lg:grid-cols-3 pb-[12rem] md:pb-[7rem] pt-5 px-4 md:px-10 w-full"
+        className="grid relative grid-cols-1 lg:grid-cols-3 pb-[12rem] md:pb-[7rem] pt-5 px-4 md:px-10 w-full"
       >
         {/* company details */}
         <div className="py-8  w-full px-4">
