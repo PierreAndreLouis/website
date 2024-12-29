@@ -40,9 +40,13 @@ function Projet() {
                   attrayant.
                 </p> */}
                 <div className="flex justify-center ">
-                  <button className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white">
+                  <a
+                    href="https://pierre-andre-louis-photography.onrender.com/"
+                    target="_blank"
+                    className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white"
+                  >
                     Visiter
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -75,9 +79,13 @@ function Projet() {
                   attrayant.
                 </p> */}
                 <div className="flex justify-center ">
-                  <button className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white">
+                  <a
+                    href="https://pierre-andre-louis-nettoyage.onrender.com/"
+                    target="_blank"
+                    className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white"
+                  >
                     Visiter
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -110,9 +118,13 @@ function Projet() {
                   attrayant.
                 </p> */}
                 <div className="flex justify-center ">
-                  <button className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white">
+                  <a
+                    href="https://pierre-andre-louis-marketing.onrender.com/"
+                    target="_blank"
+                    className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white"
+                  >
                     Visiter
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -145,12 +157,50 @@ function Projet() {
                   attrayant.
                 </p> */}
                 <div className="flex justify-center ">
-                  <button className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white">
+                  <a
+                    href="https://pierre-andre-louis-coaching.onrender.com/"
+                    target="_blank"
+                    className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white"
+                  >
                     Visiter
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/*  */}
+            {/* <div className="bg-white/70 shadow-lg dark:bg-slate-800 rounded-xl p-4">
+              <div className="w-full md:h-52 lg:h-auto-- md:min-h-52 bg-gray-600 rounded-md overflow-hidden object-cover">
+                <img
+                  className="object-cover object-top-- w-full h-full border-"
+                  src="assets/hotel.png"
+                  alt="Création de sites web sur mesure"
+                />
+              </div>
+              <div>
+                <h3 className="my-3 text-center font-bold text-xl font-display  text-slate-900 dark:text-slate-200">
+                  Service de réservation d'hôtel
+                </h3>
+               
+                <div className="flex justify-center ">
+                  <a
+                    href="#"
+                    target="_blank"
+                    className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white"
+                  >
+                    Visiter
+                  </a>
+                </div>
+              </div>
+            </div> */}
             {/*  */}
             {/*  */}
             {/*  */}
@@ -165,13 +215,13 @@ function Projet() {
               <div className="w-full md:h-52 lg:h-auto-- md:min-h-52 bg-gray-600 rounded-md overflow-hidden object-cover">
                 <img
                   className="object-cover object-top-- w-full h-full border-"
-                  src="assets/hotel.png"
+                  src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/movieApp.png"
                   alt="Création de sites web sur mesure"
                 />
               </div>
               <div>
                 <h3 className="my-3 text-center font-bold text-xl font-display  text-slate-900 dark:text-slate-200">
-                  Service de réservation d'hôtel
+                  Bande annonce film
                 </h3>
                 {/* <p className="mt-1.5 text-center text-md text-slate-600 leading-6 text-secondary-500  dark:text-gray-300">
                   Je conçois des sites web uniques et adaptés à vos besoins, en
@@ -180,44 +230,13 @@ function Projet() {
                   attrayant.
                 </p> */}
                 <div className="flex justify-center ">
-                  <button className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white">
+                  <a
+                    href="https://louispierre-andre.github.io/movie-trailer/"
+                    target="_blank"
+                    className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white"
+                  >
                     Visiter
-                  </button>
-                </div>
-              </div>
-            </div>
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            {/*  */}
-            <div className="bg-white/70 shadow-lg dark:bg-slate-800 rounded-xl p-4">
-              <div className="w-full md:h-52 lg:h-auto-- md:min-h-52 bg-gray-600 rounded-md overflow-hidden object-cover">
-                <img
-                  className="object-cover object-top-- w-full h-full border-"
-                  src="assets/hotel.png"
-                  alt="Création de sites web sur mesure"
-                />
-              </div>
-              <div>
-                <h3 className="my-3 text-center font-bold text-xl font-display  text-slate-900 dark:text-slate-200">
-                  Service de réservation d'hôtel
-                </h3>
-                {/* <p className="mt-1.5 text-center text-md text-slate-600 leading-6 text-secondary-500  dark:text-gray-300">
-                  Je conçois des sites web uniques et adaptés à vos besoins, en
-                  tenant compte de votre identité, de vos objectifs et de
-                  l'expérience utilisateur pour offrir un site performant et
-                  attrayant.
-                </p> */}
-                <div className="flex justify-center ">
-                  <button className="py-1 px-4 mx-auto max-w-[10rem] w-full mt-4-- rounded-lg text-center bg-orange-500 text-white">
-                    Visiter
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>

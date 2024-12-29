@@ -195,52 +195,75 @@ const Footer5 = () => {
           {/* social links */}
 
           <div className=" grid gap-2 grid-cols-2 w-full  lg:min-w-[18rem]-- pt-10">
-            <div className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer">
+            <a
+              href="https://pierre-andre-louis-photography.onrender.com/"
+              target="_blank"
+              className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer"
+            >
               <img
                 className="w-full-- h-full object-containt cursor-pointern rounded-lg hover:scale-105 transition-all"
                 src="/assets/photography.png"
                 alt=""
               />
-            </div>
-            <div className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer">
+            </a>
+            <a
+              href="https://pierre-andre-louis-nettoyage.onrender.com/"
+              target="_blank"
+              className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer"
+            >
               <img
                 className="w-full-- h-full object-containt cursor-pointern rounded-lg hover:scale-105 transition-all"
                 src="/assets/nettoyage.png"
                 // src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/photography_portfolio.jpg"
                 alt=""
               />
-            </div>
-            <div className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer">
+            </a>
+            <a
+              href="https://pierre-andre-louis-marketing.onrender.com/"
+              target="_blank"
+              className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer"
+            >
               <img
                 className="w-full-- h-full object-containt cursor-pointern rounded-lg hover:scale-105 transition-all"
                 src="/assets/marketing.png"
                 // src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/photography_portfolio.jpg"
                 alt=""
               />
-            </div>
-            <div className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer">
+            </a>
+            <a
+              href="https://pierre-andre-louis-coaching.onrender.com/"
+              target="_blank"
+              className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer"
+            >
               <img
                 className="w-full-- h-full object-containt cursor-pointern rounded-lg hover:scale-105 transition-all"
                 src="/assets/coaching.png"
                 // src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/photography_portfolio.jpg"
                 alt=""
               />
-            </div>
-            <div className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer">
+            </a>
+            <a
+              href="https://pierre-andre-louis-photography.onrender.com/"
+              target="_blank"
+              className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer"
+            >
               <img
                 className="w-full-- h-full object-containt cursor-pointern rounded-lg hover:scale-105 transition-all"
-                src="assets/hotel.png"
-                // src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/photography_portfolio.jpg"
+                src="/assets/photography.png"
                 alt=""
               />
-            </div>
-            <div className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer">
+            </a>
+            <a
+              href="https://louispierre-andre.github.io/movie-trailer/"
+              target="_blank"
+              className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer"
+            >
               <img
                 className="w-full-- h-full object-containt cursor-pointern rounded-lg hover:scale-105 transition-all"
-                src="assets/hotel.png"
+                src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/movieApp.png"
                 alt=""
               />
-            </div>
+            </a>
           </div>
         </div>
       </div>

@@ -9,7 +9,11 @@ function Portfolio() {
           Mes Dernière Réalisation de Projet
         </h1>
         <div className="grid items-center-- gap-4 justify-center grid-cols-1 md:grid-cols-2  mt-10">
-          <div className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2 border-white rounded-2xl">
+          <a
+            href="https://pierre-andre-louis-photography.onrender.com/"
+            target="_blank"
+            className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2 border-white rounded-2xl"
+          >
             <div>
               <img
                 className="object-cover w-full h-full hover:scale-105 transition-all"
@@ -20,7 +24,7 @@ function Portfolio() {
             <p className="bg-sky-700 flex justify-center py-5 h-full px-3 text-center items-center text-white font-bold border-t-[.4rem]--- border-white md:text-[1.7rem]">
               Service de photographie
             </p>
-          </div>
+          </a>
           {/*  */}
           {/*  */}
           {/*  */}
@@ -32,7 +36,11 @@ function Portfolio() {
             {/*  */}
             {/*  */}
 
-            <div className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2  border-white rounded-2xl">
+            <a
+              href="https://pierre-andre-louis-nettoyage.onrender.com/"
+              target="_blank"
+              className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2  border-white rounded-2xl"
+            >
               <div>
                 <img
                   className="object-cover w-full h-full hover:scale-105 transition-all"
@@ -43,12 +51,16 @@ function Portfolio() {
               <p className="bg-yellow-600 flex justify-center py-5 h-full px-3 text-center items-center text-white font-bold border-t-[.4rem]--- border-white">
                 Service de nettoyage
               </p>
-            </div>
+            </a>
             {/*  */}
             {/*  */}
             {/*  */}
             {/*  */}
-            <div className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2  border-white rounded-2xl">
+            <a
+              href="https://pierre-andre-louis-marketing.onrender.com/"
+              target="_blank"
+              className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2  border-white rounded-2xl"
+            >
               <div>
                 <img
                   className="object-cover w-full h-full hover:scale-105 transition-all"
@@ -60,12 +72,16 @@ function Portfolio() {
               <p className="bg-purple-900 flex justify-center py-5 h-full px-3 text-center items-center text-white font-bold border-t-[.4rem]--- border-white">
                 Service de marketing
               </p>
-            </div>
+            </a>
             {/*  */}
             {/*  */}
             {/*  */}
             {/*  */}
-            <div className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2  border-white rounded-2xl">
+            <a
+              href="https://pierre-andre-louis-coaching.onrender.com/"
+              target="_blank"
+              className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2  border-white rounded-2xl"
+            >
               <div>
                 <img
                   className="object-cover w-full h-full hover:scale-105 transition-all"
@@ -77,25 +93,29 @@ function Portfolio() {
               <p className="bg-sky-800 flex justify-center py-5 h-full px-3 text-center items-center text-white font-bold border-t-[.4rem]--- border-white">
                 Service de coaching
               </p>
-            </div>
+            </a>
             {/*  */}
             {/*  */}
             {/*  */}
             {/*  */}
             {/*  */}
-            <div className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2  border-white rounded-2xl">
+            <a
+              href="https://louispierre-andre.github.io/movie-trailer/"
+              target="_blank"
+              className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2  border-white rounded-2xl"
+            >
               <div>
                 <img
                   className="object-cover w-full h-full hover:scale-105 transition-all"
-                  src="assets/hotel.png"
+                  src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/movieApp.png"
                   // src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/photography_portfolio.jpg"
                   alt="portfolio"
                 />
               </div>
-              <p className="bg-blue-800 flex justify-center py-5 h-full px-3 text-center items-center text-white font-bold border-t-[.4rem]--- border-white">
-                Service de réservation d'hôtel
+              <p className="bg-gray-800 flex justify-center py-5 h-full px-3 text-center items-center text-white font-bold border-t-[.4rem]--- border-white">
+                Bande annonce film
               </p>
-            </div>
+            </a>
           </div>
         </div>
       </div>
