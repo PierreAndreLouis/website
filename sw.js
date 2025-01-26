@@ -31,8 +31,12 @@ const assets = [
 
   'assets/*.png',
   'assets/*.jpg',
+  'assets/*.webp',
   'assets/*.jpeg',
   'img/icons/*.png',
+
+
+  
 
 
 

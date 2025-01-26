@@ -32,10 +32,17 @@ export default defineConfig({
         'img/cars/*.png',
         'img/carte/*.png',
         'img/icons/*.png',
+
+
+       
+
         'assets/*.png',
         'assets/*.jpg',
+        'assets/*.webp',
         'assets/*.jpeg',
         'img/icons/*.png',
+
+
         'img/logo/*.png',
         'img/home_icon/*.png',
         'pin/*.png',
@@ -43,6 +50,11 @@ export default defineConfig({
         'favicon.png',
         'favicon.ico',
         'robots.txt',
+
+
+  
+
+
         'apple-touch-icon.png'],
       
       
