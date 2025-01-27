@@ -4,7 +4,8 @@ import App from "./App.jsx";
 import "./index.css";
 import "./db.js"; // Assurez-vous que le chemin d'accès est correct selon votre structure de dossier
 import "./firebaseConfig.js";
-import { BrowserRouter as Router } from "react-router-dom";
+import { HashRouter as Router } from "react-router-dom";
+// import { BrowserRouter as Router } from "react-router-dom";
 import DataContextProvider from "./context/DataContext.jsx";
 import ThemeProvider from "./theme/ThemeProvider.jsx";
 import { Provider } from "react-redux";
@@ -29,18 +30,18 @@ createRoot(document.getElementById("root")).render(
   </StrictMode>
 );
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker
-      .register("/sw.js")
-      .then((registration) => {
-        console.log(
-          "Service Worker registered with scope:",
-          registration.scope
-        );
-      })
-      .catch((error) => {
-        console.error("Service Worker registration failed:", error);
-      });
-  });
-}
+// if ("serviceWorker" in navigator) {
+//   window.addEventListener("load", () => {
+//     navigator.serviceWorker
+//       .register("/sw.js")
+//       .then((registration) => {
+//         console.log(
+//           "Service Worker registered with scope:",
+//           registration.scope
+//         );
+//       })
+//       .catch((error) => {
+//         console.error("Service Worker registration failed:", error);
+//       });
+//   });
+// }
