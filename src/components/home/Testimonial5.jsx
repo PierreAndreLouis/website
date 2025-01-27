@@ -5,7 +5,7 @@ const testimonialsData = [
   {
     image: "/assets/paolo.jpg",
     name: "Andre Paul Louis",
-    position: "GostWriter",
+    position: "GhostWriter Pro",
     text: "“ Travailler avec Pierre-Ander a été une expérience incroyable ! Il a su écouter mes besoins et créer un site web qui reflète parfaitement mon entreprise.  Je recommande vivement ses services à quiconque cherche à créer un site web unique et performant.”",
   },
   // {
@@ -61,7 +61,7 @@ export default function Testimonial5() {
 
             <div className="w-full p-6 bg-orange-500 md:flex md:items-center rounded-2xl md:bg-transparent md:p-0 lg:px-12 md:justify-evenly">
               <div
-                className="h-24 w-24 border md:mx-6 rounded-full object-cover shadow-md md:h-[32rem] md:min-w-80 md:max-w-80 lg:min-w-[25rem] lg:max-w-[25rem] lg:h-[36rem] lg:w-[26rem] md:rounded-2xl"
+                className="h-24 w-24 border md:mx-6 rounded-full object-cover shadow-md md:h-[27rem] md:min-w-80 md:max-w-80 lg:min-w-[25rem] lg:max-w-[25rem] lg:h-[36rem]-- lg:w-[26rem] md:rounded-2xl"
                 style={{
                   backgroundImage: `url(${image})`,
                   backgroundSize: "cover",
@@ -75,15 +75,18 @@ export default function Testimonial5() {
                   transition: "opacity 0.5s",
                 }}
               >
-                <div>
+                <a
+                  href="https://www.linkedin.com/in/andrepaullouis/"
+                  target="_blank"
+                >
                   <p className="text-xl font-medium tracking-tight text-white">
                     {name}
                   </p>
                   <div className="flex items-center gap-4 mt-3">
                     <p className="text-orange-50 font-semibold">{position}</p>
-                    <FaLinkedin className="text-2xl cursor-pointer text-white" />
+                    <FaLinkedin className="text-2xl cursor-pointer text-blue-600 bg-white rounded-sm" />
                   </div>
-                </div>
+                </a>
                 <p className="mt-4 text-lg leading-relaxed text-orange-950  font-semibold md:text-xl">
                   {text}
                 </p>
