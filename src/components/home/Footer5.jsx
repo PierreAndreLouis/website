@@ -86,13 +86,16 @@ const Footer5 = () => {
           </p>
           <div className="px-4--  w-full min-w-64-- md:min-w-0--">
             <div className="flex text-white items-center gap-3 mt-6">
-              <a href="#">
+              {/* <a href="#">
                 <FaInstagram className="text-3xl" />
               </a>
               <a href="#">
                 <FaFacebook className="text-3xl" />
-              </a>
-              <a href="#">
+              </a> */}
+              <a
+                href="www.linkedin.com/in/pierre-andré-louis-3a64a6279"
+                target="_blank"
+              >
                 <FaLinkedin className="text-3xl" />
               </a>
             </div>
@@ -201,7 +204,7 @@ const Footer5 = () => {
               className="border rounded-lg min-h-[6rem] overflow-hidden cursor-pointer"
             >
               <img
-                className="w-full-- h-full object-containt cursor-pointern rounded-lg hover:scale-105 transition-all"
+                className="w-full-- h-full object-ltaint cursor-pointern rounded-lg hover:scale-105 transition-all"
                 src="/assets/photography.png"
                 alt=""
               />

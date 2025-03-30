@@ -32,6 +32,27 @@ function Portfolio() {
           {/*  */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/*  */}
+            <a
+              href="https://octagono-plus-gps.onrender.com/"
+              target="_blank"
+              // href="https://louispierre-andre.github.io/movie-trailer/"
+
+              // target="_blank"
+              className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2  border-white rounded-2xl"
+            >
+              <div>
+                <img
+                  className="object-cover w-full h-full hover:scale-105 transition-all"
+                  src="public/assets/octagonoplusHome.png"
+                  // src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/movieApp.png"
+                  // src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/photography_portfolio.jpg"
+                  alt="portfolio"
+                />
+              </div>
+              <p className="bg-orange-700 flex justify-center py-5 h-full px-3 text-center items-center text-white font-bold border-t-[.4rem]--- border-white">
+                Service de suivi de véhicule
+              </p>
+            </a>
             {/*  */}
             {/*  */}
             {/*  */}
@@ -99,23 +120,6 @@ function Portfolio() {
             {/*  */}
             {/*  */}
             {/*  */}
-            <a
-              href="https://louispierre-andre.github.io/movie-trailer/"
-              target="_blank"
-              className="border-[.4rem] min-h-[14rem]-- shadow-lg overflow-hidden cursor-pointer shadow-black/70 flex flex-col --md:grid md:grid-rows-2  border-white rounded-2xl"
-            >
-              <div>
-                <img
-                  className="object-cover w-full h-full hover:scale-105 transition-all"
-                  src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/movieApp.png"
-                  // src="https://raw.githubusercontent.com/PierreAndreLouis/images/main/image_portfolio_my_website/photography_portfolio.jpg"
-                  alt="portfolio"
-                />
-              </div>
-              <p className="bg-gray-800 flex justify-center py-5 h-full px-3 text-center items-center text-white font-bold border-t-[.4rem]--- border-white">
-                Bande annonce film
-              </p>
-            </a>
           </div>
         </div>
       </div>

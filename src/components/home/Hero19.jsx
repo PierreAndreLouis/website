@@ -44,6 +44,15 @@ export const Hero19 = () => {
           <p className="inline-block px-5 py-2 mb-4 text-sm font-bold tracking-wider text-black uppercase rounded-lg bg-orange-400 dark:bg-orange-700 dark:text-orange-300">
             Developpeur de site web
           </p>
+          <p
+            onClick={() =>
+              window.open("public/CV Pierre-Andre LOUIS.pdf", "_blank")
+            } // Remplace "/cv.pdf" par le bon chemin
+            className="inline-block px-5 py-1.5 mb-4 text-sm font-bold tracking-wider text-black  cursor-pointer rounded-lg ml-3 border-2 border-orange-300
+           bg-orange-400/0 dark:bg-orange-700 dark:text-orange-300"
+          >
+            Mon CV
+          </p>
 
           {/* Titre principal */}
           <h2 className="mb-5 text-3xl xs:text-4xl max-w-[45rem] leading-10 lg:text-5xl font-bold tracking-tight text-gray-900 dark:text-gray-100 sm:text-4xl sm:leading-none">
@@ -57,8 +66,10 @@ export const Hero19 = () => {
 
           {/* Description */}
           <p className="pr-5 max-w-xl mb-5 text-lg text-gray-700 dark:text-gray-300 md:text-xl">
-            Je t'aide à créer un site web personnalisé, pensé pour répondre à
-            tes besoins spécifiques et atteindre tes objectifs.
+            Un design unique, une performance optimisée, une expérience fluide
+            pour tes visiteurs.
+            {/* Je t'aide à créer un site web personnalisé, pensé pour répondre à
+            tes besoins spécifiques et atteindre tes objectifs. */}
             {/* Vous voulez offrir à vos gestionnaires ou à vos employés les
             meilleures conditions pour se développer, résoudre des défis
             complexes et contribuer au succès de votre organisation ? */}

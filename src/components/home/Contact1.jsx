@@ -69,7 +69,7 @@ export default function Contact1() {
             <form className="mb-12 w-full shrink-0 grow-0 basis-auto md:px-3 lg:mb-0 lg:w-5/12 lg:px-6">
               <div className="mb-5 w-full">
                 <label
-                  className="block font-medium mb-[.51rem] text-orange-400 dark:text-orange-300"
+                  className="block font-medium mb-[.51rem] text-orange-600 dark:text-orange-300"
                   htmlFor="exampleInput90"
                 >
                   Nom
@@ -84,7 +84,7 @@ export default function Contact1() {
 
               <div className="mb-5 w-full">
                 <label
-                  className="block font-medium mb-[.51rem] text-orange-400 dark:text-orange-300"
+                  className="block font-medium mb-[.51rem] text-orange-600 dark:text-orange-300"
                   htmlFor="exampleInput90"
                 >
                   Email
@@ -99,7 +99,7 @@ export default function Contact1() {
 
               <div className="mb-5 w-full">
                 <label
-                  className="block font-medium mb-[.51rem] text-orange-400 dark:text-orange-300"
+                  className="block font-medium mb-[.51rem] text-orange-600 dark:text-orange-300"
                   htmlFor="exampleInput90"
                 >
                   Message
@@ -134,7 +134,7 @@ export default function Contact1() {
                     <div className="ml-6 grow">
                       <p className="mb-2 font-bold dark:text-white">Email</p>
                       <p className="text-neutral-500 dark:text-neutral-400">
-                        webdev3030@gmail.com
+                        webdeveloper3030@gmail.com
                       </p>
                       {/* <p className="text-neutral-500 dark:text-neutral-400">
                         +1 234-567-89
