@@ -14,6 +14,13 @@ export const Hero19 = () => {
       // behavior: "smooth", // Défilement fluide
     });
   };
+
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = "public/CV Pierre-Andre LOUIS.pdf"; // Assure-toi que le chemin du fichier PDF est correct
+    link.download = "CV Pierre-Andre LOUIS.pdf"; // Le nom du fichier lors du téléchargement
+    link.click(); // Simule un clic pour télécharger le fichier
+  };
   return (
     <div className="relative pt-32 flex flex-col-reverse py-16 lg:pt-0 lg:flex-col lg:pb-0 bg-orange-50 dark:bg-gray-900">
       {/* Image en arrière-plan avec un effet SVG */}
@@ -45,8 +52,9 @@ export const Hero19 = () => {
             Developpeur de site web
           </p>
           <p
-            onClick={() =>
-              window.open("public/CV Pierre-Andre LOUIS.pdf", "_blank")
+            onClick={
+              () => handleDownload()
+              // window.open("public/CV Pierre-Andre LOUIS.pdf", "_blank")
             } // Remplace "/cv.pdf" par le bon chemin
             className="inline-block px-5 py-1.5 mb-4 text-sm font-bold tracking-wider text-black  cursor-pointer rounded-lg ml-3 border-2 border-orange-300
            bg-orange-400/0 dark:bg-orange-700 dark:text-orange-300"
