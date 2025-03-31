@@ -49,9 +49,9 @@ export const Hero19 = () => {
           {/* <div className="mb-16 lg:my-36-- lg:flex lg:flex-col lg:justify-center lg:min-h-screen lg:max-w-2xl lg:pr-5"> */}
 
           {/* Étiquette de marque */}
-          <p className="inline-block mr-3 px-5 py-2 mb-4 text-sm font-bold tracking-wider text-black uppercase rounded-lg bg-orange-400 dark:bg-orange-700 dark:text-orange-300">
+          {/* <p className="inline-block mr-3 px-5 py-2 mb-4 text-sm font-bold tracking-wider text-black uppercase rounded-lg bg-orange-400 dark:bg-orange-700 dark:text-orange-300">
             Developpeur de site web
-          </p>
+          </p> */}
           <p
             onClick={() => {
               // handleDownload();
@@ -61,10 +61,11 @@ export const Hero19 = () => {
               link.click(); // Simule un clic pour télécharger le fichier
               window.open("public/cv_pierre_andre_louis.pdf", "_blank");
             }} // Remplace "/cv.pdf" par le bon chemin
-            className="inline-block px-5 py-1.5 mb-4 text-sm font-bold tracking-wider text-black  cursor-pointer rounded-lg  border-2 border-orange-300
-           bg-orange-400/0 dark:bg-orange-700 dark:text-orange-300"
+            //   className="inline-block px-5 py-1.5 mb-4 text-sm font-bold tracking-wider text-black  cursor-pointer rounded-lg  border-2 border-orange-300
+            //  bg-orange-400/0 dark:bg-orange-700 dark:text-orange-300"
+            className="inline-block mr-3 px-5 py-2 mb-4 text-sm-- cursor-pointer font-bold tracking-wider text-black uppercase-- rounded-lg bg-orange-400 dark:bg-orange-700 dark:text-orange-300"
           >
-            Mon CV
+            Télécharger mon CV
           </p>
 
           {/* Titre principal */}
