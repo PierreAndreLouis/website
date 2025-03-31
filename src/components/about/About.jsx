@@ -26,12 +26,32 @@ export default function About() {
                     t’aider à donner vie à tes idées avec des solutions simples,
                     efficaces et sur mesure.
                   </p>
-                  <a
-                    href="#"
-                    className="max-w-52 rounded-md bg-orange-500 px-3 py-2 text-center font-semibold text-white dark:bg-gray-800 dark:hover:bg-gray-700"
-                  >
-                    Contactez-moi
-                  </a>
+                  <div className="flex   gap-4 items-center ">
+                    {" "}
+                    <a
+                      href="#"
+                      className="max-w-52 rounded-md bg-orange-500 px-3 py-2 text-center font-semibold text-white dark:bg-gray-800 dark:hover:bg-gray-700"
+                    >
+                      Contactez-moi
+                    </a>
+                    <p
+                      onClick={() => {
+                        // handleDownload();
+                        const link = document.createElement("a");
+                        link.href = "public/cv_pierre_andre_louis.pdf"; // Assure-toi que le chemin du fichier PDF est correct
+                        link.download = "CV Pierre-Andre LOUIS.pdf"; // Le nom du fichier lors du téléchargement
+                        link.click(); // Simule un clic pour télécharger le fichier
+                        window.open(
+                          "public/cv_pierre_andre_louis.pdf",
+                          "_blank"
+                        );
+                      }} // Remplace "/cv.pdf" par le bon chemin
+                      className=" px-5 py-2  text-sm font-bold  text-black  cursor-pointer rounded-lg border-2 border-orange-300
+           bg-orange-400/0 dark:bg-orange-700 dark:text-orange-300"
+                    >
+                      Mon CV
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="my-8 h-px w-full bg-black dark:bg-gray-600"></div>

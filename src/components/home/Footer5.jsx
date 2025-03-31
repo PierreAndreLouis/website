@@ -98,6 +98,20 @@ const Footer5 = () => {
               >
                 <FaLinkedin className="text-3xl" />
               </a>
+              <p
+                onClick={() => {
+                  // handleDownload();
+                  const link = document.createElement("a");
+                  link.href = "public/cv_pierre_andre_louis.pdf"; // Assure-toi que le chemin du fichier PDF est correct
+                  link.download = "CV Pierre-Andre LOUIS.pdf"; // Le nom du fichier lors du téléchargement
+                  link.click(); // Simule un clic pour télécharger le fichier
+                  window.open("public/cv_pierre_andre_louis.pdf", "_blank");
+                }} // Remplace "/cv.pdf" par le bon chemin
+                className=" px-5 py-1 ml-2  text-sm font-bold  text-orange-400  cursor-pointer rounded-lg border-2 border-orange-300
+           bg-orange-400/0 dark:bg-orange-700 dark:text-orange-300"
+              >
+                Mon CV
+              </p>
             </div>
             <div className="mt-6 ">
               <div className="flex items-center gap-3">

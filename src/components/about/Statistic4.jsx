@@ -44,22 +44,22 @@ export default function Statistic4() {
               <div className="grid grid-rows-2  gap-6">
                 <li className="dark:text-gray-100 lg:min-w-[10rem]">
                   <h4 className="text-4xl text-orange-600 dark:text-orange-400 font-bold">
-                    50+
+                    30+
                   </h4>
-                  <p className="mt-3- font-medium">Clients</p>
+                  <p className="mt-3- font-medium">Clients satisfaits</p>
                 </li>
                 <li className="dark:text-gray-100 lg:min-w-[10rem]">
                   <h4 className="text-4xl text-orange-600 dark:text-orange-400 font-bold">
-                    80+
+                    50+
                   </h4>
-                  <p className="mt-3- font-medium">Projets</p>
+                  <p className="mt-3- font-medium">Projets réalisés</p>
                 </li>
               </div>
 
               <div className="grid grid-rows-2  gap-6">
                 <li className="dark:text-gray-100 lg:min-w-[10rem]">
                   <h4 className="text-4xl text-orange-600 dark:text-orange-400 font-bold">
-                    5 ans+
+                    3 ans+
                   </h4>
                   <p className="mt-3- font-medium">Experience</p>
                 </li>

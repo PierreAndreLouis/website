@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
  * Section Hero de la page d'accueil
  * Affiche une image avec un texte d'accroche et des boutons d'action.
  */
+
 export const Hero19 = () => {
   // Fonction pour défiler vers le haut
   const scrollToTop = () => {
@@ -15,12 +16,12 @@ export const Hero19 = () => {
     });
   };
 
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = "public/CV Pierre-Andre LOUIS.pdf"; // Assure-toi que le chemin du fichier PDF est correct
-    link.download = "CV Pierre-Andre LOUIS.pdf"; // Le nom du fichier lors du téléchargement
-    link.click(); // Simule un clic pour télécharger le fichier
-  };
+  // const handleDownload = () => {
+  //   const link = document.createElement("a");
+  //   link.href = "public/cv_pierre_andre_louis.pdf"; // Assure-toi que le chemin du fichier PDF est correct
+  //   link.download = "CV Pierre-Andre LOUIS.pdf"; // Le nom du fichier lors du téléchargement
+  //   link.click(); // Simule un clic pour télécharger le fichier
+  // };
   return (
     <div className="relative pt-32 flex flex-col-reverse py-16 lg:pt-0 lg:flex-col lg:pb-0 bg-orange-50 dark:bg-gray-900">
       {/* Image en arrière-plan avec un effet SVG */}
@@ -48,15 +49,19 @@ export const Hero19 = () => {
           {/* <div className="mb-16 lg:my-36-- lg:flex lg:flex-col lg:justify-center lg:min-h-screen lg:max-w-2xl lg:pr-5"> */}
 
           {/* Étiquette de marque */}
-          <p className="inline-block px-5 py-2 mb-4 text-sm font-bold tracking-wider text-black uppercase rounded-lg bg-orange-400 dark:bg-orange-700 dark:text-orange-300">
+          <p className="inline-block mr-3 px-5 py-2 mb-4 text-sm font-bold tracking-wider text-black uppercase rounded-lg bg-orange-400 dark:bg-orange-700 dark:text-orange-300">
             Developpeur de site web
           </p>
           <p
-            onClick={
-              () => handleDownload()
-              // window.open("public/CV Pierre-Andre LOUIS.pdf", "_blank")
-            } // Remplace "/cv.pdf" par le bon chemin
-            className="inline-block px-5 py-1.5 mb-4 text-sm font-bold tracking-wider text-black  cursor-pointer rounded-lg ml-3 border-2 border-orange-300
+            onClick={() => {
+              // handleDownload();
+              const link = document.createElement("a");
+              link.href = "public/cv_pierre_andre_louis.pdf"; // Assure-toi que le chemin du fichier PDF est correct
+              link.download = "CV Pierre-Andre LOUIS.pdf"; // Le nom du fichier lors du téléchargement
+              link.click(); // Simule un clic pour télécharger le fichier
+              window.open("public/cv_pierre_andre_louis.pdf", "_blank");
+            }} // Remplace "/cv.pdf" par le bon chemin
+            className="inline-block px-5 py-1.5 mb-4 text-sm font-bold tracking-wider text-black  cursor-pointer rounded-lg  border-2 border-orange-300
            bg-orange-400/0 dark:bg-orange-700 dark:text-orange-300"
           >
             Mon CV
